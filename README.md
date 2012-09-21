@@ -1,4 +1,3 @@
 SevereLobster
 =============
-
-secret project
+See projectSpecifications/* for details.
