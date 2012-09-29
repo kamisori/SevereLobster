@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>SevereLobster</groupId>
+    <artifactId>SevereLobster</artifactId>
+    <description>SevereLobster ist ein Projekt zur Erstellung eines Sternenhimmel-Puzzzlespiels</description>
+    <version>0.1</version>
+    <scm>
+        <connection>scm:git:git@github.com:kamisori/SevereLobster.git</connection>
+        <url>https://github.com:kamisori/SevereLobster.git</url>
+        <developerConnection>scm:git:git@github.com:kamisori/SevereLobster.git</developerConnection>
+    </scm>
+    <!-- Teammitglieder-Blog: Wer ist an dem Projekt beteiligt und/oder entwickelt daran? -->
+    <contributors>
+        <contributor>
+            <name>Frau Rollins</name>
+            <email>schulefant@googlemail.com</email>
+            <roles>
+                <role>Customer</role>
+                <role>Teacher</role>
+            </roles>
+        </contributor>
+    </contributors>
+    <developers>
+        <developer>
+            <name>Paul Brüll</name>
+            <email>paul.bruell@gmail.com</email>
+            <roles>
+                <role>Project Manager</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Lars Schlegelmilch</name>
+            <email>lars.schlegelmilch@zweifall-online.de</email>
+            <roles>
+                <role>Site Manager</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Christian Lobach</name>
+            <email>christian.lobach@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Stefan Frings</name>
+            <email>stefan-frings@arcor.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Jean-Fabian Wenisch</name>
+            <email>fabian.wenisch@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Lutz Kleiber</name>
+            <!--email></email-->
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+<!-- Ende Teammitglieder-Blog -->
+<!-- Dependency-Blog: Hier kommen Abhängigkeiten (Dependencies) zu externen Libraries rein -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+        </dependency>
+    </dependencies>
+<!-- Ende Dependency-Blog -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>StartApplication</mainClass>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <generateSitemap>true</generateSitemap>
+                    <skipDeploy>true</skipDeploy>
+                <siteDirectory>${basedir}\site</siteDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>site-deploy</phase>
+                        <configuration>
+                            <message>Deployment of Project-Site Severe Lobster</message>
+                            <path>${project.version}</path>
+                            <merge>true</merge>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>
