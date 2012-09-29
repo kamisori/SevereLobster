@@ -7,3 +7,6 @@
 .~*
 ~*
 .*.swp
+*.idea*
+*/target/*
+*.iml
