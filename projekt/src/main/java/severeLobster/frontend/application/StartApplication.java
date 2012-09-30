@@ -1,3 +1,5 @@
+package severeLobster.frontend.application;
+
 /**
  * Test-Main
  *
