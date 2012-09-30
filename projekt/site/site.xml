@@ -18,6 +18,10 @@
         <links>
             <item name="Projekt-Wiki" href="https://github.com/kamisori/SevereLobster/wiki"/>
         </links>
-        <menu name="Component" ref="reports" inherit="top"/>
+        <menu name="Project" ref="reports" inherit="top"/>
+        
+        <menu name="Model">
+            <item name="Classdiagram" href="http://kamisori.github.com/SevereLobster/classDiagram"/>
+        </menu>
     </body>
 </project>
