@@ -87,7 +87,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>StartApplication</mainClass>
+                            <mainClass>severeLobster.frontend.application.StartApplication</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>

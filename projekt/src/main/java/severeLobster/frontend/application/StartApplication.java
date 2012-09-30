@@ -3,7 +3,7 @@ package severeLobster.frontend.application;
 /**
  * Test-Main
  *
- * @author scla
+ * @author Lars Schlegelmilch
  */
 public class StartApplication {
 
