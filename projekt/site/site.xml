@@ -21,7 +21,7 @@
         <menu name="Project" ref="reports" inherit="top"/>
         
         <menu name="Model">
-            <item name="Classdiagram" href="http://kamisori.github.com/SevereLobster/classDiagram"/>
+            <item name="Classdiagram" href="http://kamisori.github.com/SevereLobster/klassendiagramm"/>
         </menu>
     </body>
 </project>
