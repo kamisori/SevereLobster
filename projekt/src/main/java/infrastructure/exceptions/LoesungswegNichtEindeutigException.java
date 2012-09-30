@@ -7,7 +7,7 @@ package infrastructure.exceptions;
  */
 public class LoesungswegNichtEindeutigException extends Exception {
 
-    public LoesungswegNichtEindeutigException(String message) {
+    public LoesungswegNichtEindeutigException() {
         super("Der Lösungsweg ist nicht eindeutig.");
     }
 }
