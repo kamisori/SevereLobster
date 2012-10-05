@@ -1,4 +1,7 @@
 infrastructure.constants
 infrastructure.constants.enums
 infrastructure.exceptions
+severeLobster.backend.command
+severeLobster.backend.spiel
+severeLobster.backend.spieler
 severeLobster.frontend.application
