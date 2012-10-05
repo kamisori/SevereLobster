@@ -25,6 +25,11 @@
         <url>https://github.com:kamisori/SevereLobster.git</url>
         <developerConnection>scm:git:git@github.com:kamisori/SevereLobster.git</developerConnection>
     </scm>
+
+    <ciManagement>
+        <system>Jenkins</system>
+        <url>http://nirako-it.dyndns-server.com:8080/</url>
+    </ciManagement>
     <!-- Teammitglieder-Blog: Wer ist an dem Projekt beteiligt und/oder entwickelt daran? -->
     <contributors>
         <contributor>
