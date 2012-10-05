@@ -156,7 +156,7 @@
                         <configuration>
                             <message>Deployment of Project-Site Severe Lobster</message>
                             <path>${project.version}</path>
-                            <merge>false</merge>
+                            <merge>true</merge>
                         </configuration>
                     </execution>
                 </executions>
