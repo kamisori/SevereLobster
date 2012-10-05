@@ -14,10 +14,10 @@
         <maven.site.github.plugin.version>0.5</maven.site.github.plugin.version>
         <maven.javadoc.plugin.version>2.9</maven.javadoc.plugin.version>
         <maven.surefire.report.plugin.version>2.12.2</maven.surefire.report.plugin.version>
-        <maven.checkstyle.plugin.version>2.9.1</maven.checkstyle.plugin.version>
-        <maven.jxr.plugin.version>2.3</maven.jxr.plugin.version>
+        <maven.project.info.reports.plugin.version>2.5.1</maven.project.info.reports.plugin.version>
         <!-- 3-Party Versions -->
         <junit.version>4.10</junit.version>
+        <google.collections.version>0.8</google.collections.version>
     </properties>
 
     <scm>
@@ -95,6 +95,11 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.collections</groupId>
+            <artifactId>google-collections</artifactId>
+            <version>${google.collections.version}</version>
+        </dependency>
     </dependencies>
 <!-- Ende Dependency-Blog -->
     <build>
@@ -119,6 +124,23 @@
                     <generateSitemap>true</generateSitemap>
                     <skipDeploy>true</skipDeploy>
                 <siteDirectory>${basedir}\site</siteDirectory>
+                    <reportPlugins>
+                        <plugin>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <version>${maven.project.info.reports.plugin.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>${maven.javadoc.plugin.version}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-report-plugin</artifactId>
+                            <version>${maven.surefire.report.plugin.version}</version>
+                        </plugin>
+                    </reportPlugins>
                 </configuration>
             </plugin>
             <plugin>
@@ -141,28 +163,4 @@
             </plugin>
         </plugins>
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven.javadoc.plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>${maven.surefire.report.plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${maven.checkstyle.plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>${maven.jxr.plugin.version}</version>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>
