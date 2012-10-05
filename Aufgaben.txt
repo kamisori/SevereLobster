@@ -1,0 +1,18 @@
+Grobgliederung Aufgaben SevereLobster
+
+Algorithmen:
+- Prüfung ob ein gegebenes Spielfeld gültig (und eindeutig) ist
+- Erstellung eines (eindeutigen) Spielfeldes
+- Schrittweises Lösen eines Rätsels ("menschlich", Effizienz variabel)
+
+Persistenz:
+Welches Format ist am besten für das Speichern von:
+- Spielständen
+- selber erstellten Spielen
+
+Grafische Benutzeroberfläche:
+GUI (Darstellung, welche Bedienelemente wo) entwerfen für:
+- Spielen
+- Rätsel erstellen
+
+Beachten dass Fenstergröße und Spielfeldgröße variabel sind
