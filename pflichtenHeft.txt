@@ -4,19 +4,20 @@ Team Brüll, Frings, Kleiber, Lobach, Schlegelmilch, Wenisch
 
  1  Zielbestimmung und Produkteinsatz
   1.1  Ziel und Anwendungsgebiet
-    Beim Produkt handelt es sich um eine Computerimplementation des Puzzlespiels "Sternenhimmel".
-    In diesem Spiel hat der Anwender die Aufgabe auf einem Spielraster unter Zuhilfenahme von
-    Hinweisen Sterne zu finden.
+    Beim Produkt handelt es sich um eine Computerimplementation des Puzzlespiels
+    "Sternenhimmel". In diesem Spiel hat der Anwender die Aufgabe auf einem
+    Spielraster unter Zuhilfenahme von Hinweisen Sterne zu finden.
 
   1.2  Zielgruppe
-    Der Anwender sollte im Umgang mit der Maus und der Tastatur an einem der verbreiteten
-    Betriebssysteme vertraut sein. Der Umgang mit dem Spielinterface sollte so intuitiv
-    wie möglich sein, sodass kaum Einarbeitung oder Schulung von Nöten ist.
+    Der Anwender sollte im Umgang mit der Maus und der Tastatur an einem der
+    verbreiteten Betriebssysteme vertraut sein. Der Umgang mit dem Spiel-
+    interface sollte so intuitiv wie möglich sein, sodass kaum Einarbeitung oder
+    Schulung von Nöten ist.
 
   1.3  Betriebsbedingungen
-    Die Anwendung soll in einer aktuellen Java Umgebung laufen, dadurch kann sie unter jedem
-    Betriebssystem laufen. Ferner sollten mindestens ein Einzelkern Prozessor mit 1GHz,
-    1GB RAM und 50MB freiem Festplattenplatz vorhanden sein.
+    Die Anwendung soll in einer aktuellen Java Umgebung laufen, dadurch kann sie
+    unter jedem Betriebssystem laufen. Ferner sollten mindestens ein Einzelkern
+    Prozessor mit 1GHz, 1GB RAM und 50MB freiem Festplattenplatz vorhanden sein.
 
 
  2  Produktfunktionen
@@ -26,97 +27,122 @@ Team Brüll, Frings, Kleiber, Lobach, Schlegelmilch, Wenisch
       * Aufzeichnen der Spielzüge und Möglichkeit diese komplett wiederzugeben
       * Erkennen eines falschen Zuges des Spielers, Speichern des Zustands
       * Möglichkeit einzelne Spielstände zu speichern
-      * Wiederherstellen eines Zustandes (entweder manuell gespeichert oder Fehler-Zustand)
+      * Wiederherstellen eines Zustandes (entweder manuell gespeichert oder
+        Fehlerfreier-Zustand)
 
       * Erstellen von Rätseln durch den Benutzer
-      * Überprüfung, ob ein erstelltes Spielfeld gültig ist, und ob es eine eindeutige Lösung gibt
+      * Überprüfung, ob ein erstelltes Spielfeld gültig ist, und ob es eine
+        eindeutige Lösung gibt
       * Anzeigen der Fehler bei ungültigem Spielfeld
       * Speichern von Entwürfen und fertig erstellten Spielfeldern
       * Möglichkeit die Dimensionen des Spielfeldes zu ändern
       * Bestimmung eines Schwierigkeitsgrades für ein Rätsel
-      * Selbsterstellte Rätsel spielen wenn diese gültig und eindeutig lösbar sind
+      * Selbsterstellte Rätsel spielen wenn diese gültig und eindeutig lösbar
+        sind
 
   2.2  Erweiterungsmöglichkeiten
-    Wenn schon eine Bewertung der Schwierigkeitsstufe für benutzerdefinierte Rätsel existiert,
-    könnte das Programm auch Rätsel nach einer vorgegebenen Schwierigkeitsstufe erzeugen, die der
-    Spieler dann lösen muss.
+    Wenn schon eine Bewertung der Schwierigkeitsstufe für benutzerdefinierte
+    Rätsel existiert, könnte das Programm auch Rätsel nach einer vorgegebenen
+    Schwierigkeitsstufe erzeugen, die der Spieler dann lösen muss.
 
 
  3  Produktdaten
   3.1  Benutzerschnittstelle (Ein- und Ausgabedaten)
-    Der Benutzer kann über eine Menüleiste das Programm verwalten. Er kann neue Spiele starten,
-    laden/fortsetzen oder ein aktuelles Spiel speichern, sowie das Programm beenden. Dies geschieht
-    über den Menüreiter "Spiel". Wählt man ein neues Spiel so öffnet sich eine Auswahl der erstellten
-    Puzzle mit Anzeige des Schwierigkeitsgrades. Bei der Auswahl von "Spiel fortsetzen" öffnet sich
-    eine Auswahl von gesicherten Spielen.
+    Der Benutzer kann über eine Menüleiste das Programm verwalten. Er kann neue
+    Spiele starten, laden/fortsetzen oder ein aktuelles Spiel speichern, sowie
+    das Programm beenden. Dies geschieht über den Menüreiter "Spiel". Wählt man
+    ein neues Spiel so öffnet sich eine Auswahl der erstellten Puzzle mit
+    Anzeige des Schwierigkeitsgrades. Bei der Auswahl von "Spiel fortsetzen"
+    öffnet sich eine Auswahl von gesicherten Spielen.
 
-    Über einen weiteren Menüreiter "Bearbeiten" lassen sich neue Puzzle erstellen, laden, oder ein
-    aktuell editiertes Puzzle sichern. Über einen Menüpunkt "Puzzle freigeben" wird das Puzzle zum
-    Spielen freigegeben. Erstellt man ein neues Puzzle so erscheint ein Dialog, indem man die Größe des
-    Spielfeldes angeben kann. Diese ist nachträglich über einen weiteren Menüpunkt "Größe ändern"
-    editierbar. Beim Erstellen eines Puzzles werden die Sterne und Pfeile per Mausklick (oder Drag-
-    and Drop) in das Feld eingetragen - sobald ein Fehler / Regelbruch auftritt wird dieser im
-    Spielfeld angezeigt und der Menüpunkt "Puzzle freigeben" wird ausgegraut. Puzzle lassen sich
-    mit Eingabe eines Namens sichern - und mit einer Auswahl der gesicherten Puzzles wieder laden.
+    Über einen weiteren Menüreiter "Editor" lassen sich neue Puzzle
+    erstellen, laden, oder ein aktuell editiertes Puzzle sichern. Über einen
+    Menüpunkt "Puzzle freigeben" wird das Puzzle zum Spielen freigegeben.
+    Erstellt man ein neues Puzzle so erscheint ein Dialog, indem man die Größe
+    des Spielfeldes angeben kann. Diese ist nachträglich über einen weiteren
+    Menüpunkt "Größe ändern" editierbar. Beim Erstellen eines Puzzles werden die
+    Sterne und Pfeile per Mausklick (oder Drag-and-Drop) in das Feld eingetragen
+    - sobald ein Fehler / Regelbruch auftritt wird dieser im Spielfeld angezeigt
+    und der Menüpunkt "Puzzle freigeben" wird ausgegraut. Puzzle lassen sich mit
+    Eingabe eines Namens sichern - und mit einer Auswahl der gesicherten Puzzles
+    wieder laden.
 
-    Des Weiteren gibt es einen Menüpunkt "Lösungsweg überprüfen" welcher die eindeutige Lösbarkeit des
-    Puzzles überprüft. Über einen Dialog bekommt der Benutzer eine Rückmeldung über die Lösbarkeit,
-    sobald das Puzzle lösbar ist wird der Menüpunkt "Puzzle freigegeben" aktiviert (entgraut). Sollte
-    der Benutzer anschließend Änderungen vornehmen, muss die Lösbarkeit erneut überprüft werden,
-    bevor das Puzzle freigegeben werden kann.
+    Des Weiteren gibt es einen Menüpunkt "Lösungsweg überprüfen" welcher die
+    eindeutige Lösbarkeit des Puzzles überprüft. Über einen Dialog bekommt der
+    Benutzer eine Rückmeldung über die Lösbarkeit, sobald das Puzzle lösbar ist
+    wird der Menüpunkt "Puzzle freigegeben" aktiviert (entgraut). Sollte der
+    Benutzer anschließend Änderungen vornehmen, muss die Lösbarkeit erneut
+    überprüft werden, bevor das Puzzle freigegeben werden kann.
 
-    Das Spiel lässt sich per Maus bedienen (als Feature auch per Tastatur mit Shortcuts und Pfeiltasten
-    über dem Spielfeld). Mit Linksklick lässt sich ein vermuteter Stern eintragen, per Rechtsklick kann
-    der Benutzer Felder ohne Sterne ausschließen. Macht der Benutzer nun einen Fehler, kann er über einen
-    "Zurück zum Fehler"-Button zum letzten Korrekten Spielzug zurückkehren. Per Klick des Buttons wird
-    der Fehler zurückgesetzt. Hat der Benutzer das Spiel gelöst, so bekommt er eine Rückmeldung (Feature:
-    Mit Anzahl der gebrauchten Züge). Der Benutzer kann mit einem Button Tracking Zwischenspielstände
-    erstellen. Bei Aktivierung des Tracking schalten sich weitere Buttons "Markierung setzen" und
-    "Zu Markierung zurückkehren" frei, welcher Schritte zwischenspeichert. Werden nun Schritte
-    zwischengespeichert, so erscheint in einer Statusleiste die Info das an Schritt X zwischengespeichert
-    wurde. Der Benutzer kann in diese Modus frei ausprobieren, ohne das ein "Zurück zum Fehler" Button
-    aktiviert ist. Möchte er zurück zum letzten Marker so muss der Benutzer den Button
-    "Zu Markierung zurückkehren" auswählen, welcher nicht ausgegraut ist, wenn ein Marker gesetzt wurde.
-    Über eine Sicherheitsabfrage (Dialog) muss der Benutzer nun bestätigen, dass er zum Marker zurückkehren
-    möchte. Bei Deaktivierung des Trackings werden die Buttons wieder ausgeblendet und der Benutzer
-    befindet sich wieder im normalen Modus. Die Deaktivierung erfolgt über einen weiteren Bestätigungsdialog.
+    Das Spiel lässt sich per Maus bedienen . Mit Linksklick lässt sich ein
+    vermuteter Stern eintragen, per Rechtsklick kann der Benutzer Felder ohne
+    Sterne ausschließen. Macht der Benutzer nun einen Fehler, kann er über einen
+    "Zurück zum Fehler"-Button zum letzten Korrekten Spielzug zurückkehren. Per
+    Klick des Buttons wird der Fehler zurückgesetzt. Hat der Benutzer das Spiel
+    gelöst, so bekommt er eine Rückmeldung (Feature: Mit Anzahl der gebrauchten
+    Züge). Der Benutzer kann mit einem Button Tracking Zwischenspielstände
+    erstellen. Bei Aktivierung des Tracking schalten sich weitere Buttons
+    "Markierung setzen" und "Zu Markierung zurückkehren" frei, welcher Schritte
+    zwischenspeichert. Werden nun Schritte zwischengespeichert, so erscheint in
+    einer Statusleiste die Info das an Schritt X zwischengespeichert wurde. Der
+    Benutzer kann in diese Modus frei ausprobieren, ohne das ein
+    "Zurück zum Fehler" Button aktiviert ist. Möchte er zurück zum letzten
+    Marker so muss der Benutzer den Button "Zu Markierung zurückkehren"
+    auswählen, welcher nicht ausgegraut ist, wenn ein Marker gesetzt wurde. Über
+    eine Sicherheitsabfrage (Dialog) muss der Benutzer nun bestätigen, dass er
+    zum Marker zurückkehren möchte. Bei Deaktivierung des Trackings werden die
+    Buttons wieder ausgeblendet und der Benutzer befindet sich wieder im
+    normalen Modus. Die Deaktivierung erfolgt über einen weiteren
+    Bestätigungsdialog.
 
   3.2  Persistente Daten
-    Erstellte Puzzles werden serialisiert und somit lokal im Spieleverzeichnis unter /Puzzles als
-    .puz-Dateien abgelegt. Sind Puzzle für das Spielen freigegeben, so werden sie als .spuz-Dateien
-    serialisiert. Aktuelle Spielstände werden als .sav-Dateien in einem /save Verzeichnis abgelegt.
+    Erstellte Puzzles werden serialisiert und somit lokal im Spieleverzeichnis
+    unter /Puzzles als .puz-Dateien abgelegt. Sind Puzzle für das Spielen
+    freigegeben, so werden sie als .spuz-Dateien serialisiert. Aktuelle
+    Spielstände werden als .sav-Dateien in einem /save Verzeichnis abgelegt.
 
 
  4  Qualitätsmaßstäbe und Testverfahren
   4.1  Ergonomie: Kriterium
-    * Programm ist gut sichtbar: es startet im Fenstermodus zentriert auf dem Hauptmonitor
+    * Programm ist gut sichtbar: es startet im Fenstermodus zentriert auf dem
+      Hauptmonitor
     * einfache Bedienung: die Bedienung erfolgt mit möglichst wenigen Klicks
-    * Bedienungsschritte: der nächste Bedienungsschritt ist der, den ein Benutzer als nächsten
-      Bedienschritt erwarten würde
-    * Speicherung von Spielständen/Spielerstellungsfortschritt: regelmäßige automatische Speicherung
-      des aktuellen Fortschritts, Ein-Klick-Speicherung durch Benutzer
+    * Bedienungsschritte: der nächste Bedienungsschritt ist der, den ein
+      Benutzer als nächsten Bedienschritt erwarten würde. Hierbei wird der
+      Tester vom Entwicklungsteam beobachtet und beim Test befragt.
+    * Speicherung von Spielständen/Spielerstellungsfortschritt: Ein-Klick-
+      Speicherung durch Benutzer
     * Spielentwurf: Ein-Klick-Überprüfung auf Einhaltung der Spielregeln
-    * Spielentwurf: stets aktuelle Anzeige, ob der Spielentwurf bereits ein vollwertiges Spiel darstellt
-    * Gesamtbedienung: in max. 4 Spielen sollen die Regeln des Spiels ohne lesen des Handbuches einem
-      Spieler klar sein. Danach soll ein eigener Spielentwurf durch den Spieler möglich sein
+    * Spielentwurf: Ein-Klick-Überprüfung, ob der Spielentwurf bereits ein
+      vollwertiges Spiel darstellt
+    * Gesamtbedienung: in max. 4 Spielen sollen die Regeln des Spiels ohne lesen
+      des Handbuches einem Spieler klar sein. Danach soll ein eigener
+      Spielentwurf durch den Spieler möglich sein
 
   4.2  Testverfahren
     4.2.1  White-Box
-      Test des Programm und parallele Durchsicht des Quellcodes Kommentierung auf korrekten internen
-      Ablauf (gleichzeitig Kommentierung beachten)
+      Test des Programm und parallele Durchsicht des Quellcodes Kommentierung
+      auf korrekten internen Ablauf (gleichzeitig Kommentierung beachten)
 
     4.2.2  Black-Box
-      Test des Programms aus Bedienersicht (währenddessen Überprüfung des Handbuches)
+      Test des Programms aus Bedienersicht (währenddessen Überprüfung des
+      Handbuches) Hierzu werden Tester hinzugezogen die nicht dem Entwickler-
+      team angehören.
 
     4.2.3  Testfälle
-      * möglichst wenige, spezielle Spielentwürfe testen jeden zur Lösung führenden Algorithmus
-      * unfertige Spielentwürfe dürfen nicht geladen werden (Hinweis an Benutzer)
-      * Programmoberfläche stellt sich so dar, dass beim Spiel und Spielentwurf der Benutzer möglichst
-        ohne Handbuch sich zurecht findet
+      * möglichst wenige, spezielle Spielentwürfe testen jeden zur Lösung
+        führenden Algorithmus
+      * unfertige Spielentwürfe dürfen nicht geladen werden (Hinweis an
+        Benutzer)
+      * Programmoberfläche stellt sich so dar, dass beim Spiel und Spielentwurf
+        der Benutzer möglichst ohne Handbuch sich zurecht findet
 
     4.2.4  Tester
-      * bis zur ersten vollständigen Version testet das Projektteam als möglichst ahnungsloser Benutzer
-      * es folgen Tests durch Tester, die das Spiel nicht kennen, ein Projektmitglied sitzt dem Test
-        notizführend bei, um eine holprige Bedienung oder Fehler eindeutig zu identifizieren
-      * finale Tests ("Spiel fertig zur Auslieferung") werden von Personen durchgeführt, die selten
-        einen PC bedienen (ebenfalls sitzt ein Projektmitglied notizführend bei)
+      * bis zur ersten vollständigen Version testet das Projektteam als
+        möglichst ahnungsloser Benutzer
+      * es folgen Tests durch Tester, die das Spiel nicht kennen, ein
+        Projektmitglied sitzt dem Test notizführend bei, um eine holprige
+        Bedienung oder Fehler eindeutig zu identifizieren
+      * finale Tests ("Spiel fertig zur Auslieferung") werden von Personen
+        durchgeführt, die selten einen PC bedienen (ebenfalls sitzt ein
+        Projektmitglied notizführend bei)
