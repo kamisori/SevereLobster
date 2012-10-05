@@ -33,6 +33,9 @@ Windows 2000/XP
     Open a new command prompt (Winkey + R then type cmd) and run mvn --version to verify that
     it is correctly installed.
 
+    Change directory in cmd to project-folder (D:\GitHub\SevereLobster\projekt), where pom.xml is located
+    Use command "mvn clean install" without quotes to install
+
 Unix-based Operating Systems (Linux, Solaris and Mac OS X)
 
     Extract the distribution archive, i.e. apache-maven-3.0.4-bin.tar.gz to the directory you
@@ -47,3 +50,6 @@ Unix-based Operating Systems (Linux, Solaris and Mac OS X)
     Add M2 environment variable to your path, e.g. export PATH=$M2:$PATH.
     Make sure that JAVA_HOME is set to the location of your JDK, e.g. export JAVA_HOME=/usr/java/jdk1.5.0_02 and that $JAVA_HOME/bin is in your PATH environment variable.
     Run mvn --version to verify that it is correctly installed.
+
+    Change directory in cmd to project-folder (D:\GitHub\SevereLobster\projekt), where pom.xml is located
+    Use command "mvn clean install" without quotes to install
