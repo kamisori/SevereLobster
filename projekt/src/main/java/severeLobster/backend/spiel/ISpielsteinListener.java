@@ -9,6 +9,6 @@ import java.util.EventListener;
  * @author Lutz Kleiber
  * 
  */
-public interface ISpielfeldListener extends EventListener {
+public interface ISpielsteinListener extends EventListener {
 	void spielsteinStateChanged(Spielstein spielstein, SpielsteinState newState);
 }

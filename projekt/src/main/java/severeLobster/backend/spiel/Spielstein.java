@@ -74,8 +74,8 @@ public class Spielstein implements Serializable {
 		 * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
 		 */
 		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-			if (currentListeners[i] == ISpielfeldListener.class) {
-				((ISpielfeldListener) currentListeners[i + 1])
+			if (currentListeners[i] == ISpielsteinListener.class) {
+				((ISpielsteinListener) currentListeners[i + 1])
 						.spielsteinStateChanged(this, newState);
 			}
 		}
@@ -87,8 +87,8 @@ public class Spielstein implements Serializable {
 	 * @param listener
 	 */
 	public void addAvailableFilesystemsListener(
-			final ISpielfeldListener listener) {
-		listeners.add(ISpielfeldListener.class, listener);
+			final ISpielsteinListener listener) {
+		listeners.add(ISpielsteinListener.class, listener);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class Spielstein implements Serializable {
 	 * @param listener
 	 */
 	public void removeAvailableFilesystemsListener(
-			final ISpielfeldListener listener) {
-		listeners.remove(ISpielfeldListener.class, listener);
+			final ISpielsteinListener listener) {
+		listeners.remove(ISpielsteinListener.class, listener);
 	}
 }
