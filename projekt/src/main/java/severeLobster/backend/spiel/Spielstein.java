@@ -14,18 +14,10 @@ import java.util.List;
  */
 public class Spielstein implements Serializable {
 
-	private EventListenerList listeners = new EventListenerList();
+	private static final long serialVersionUID = -8849754506328607439L;
+	private final EventListenerList listeners = new EventListenerList();
 	private SpielsteinState visibleState;
 	private SpielsteinState realState;
-
-	public EventListenerList getListeners() {
-
-		return listeners;
-	}
-
-	public void setListeners(EventListenerList listeners) {
-		this.listeners = listeners;
-	}
 
 	public SpielsteinState getVisibleState() {
 		return visibleState;
@@ -86,8 +78,7 @@ public class Spielstein implements Serializable {
 	 * 
 	 * @param listener
 	 */
-	public void addAvailableFilesystemsListener(
-			final ISpielsteinListener listener) {
+	public void addSpielsteinListener(final ISpielsteinListener listener) {
 		listeners.add(ISpielsteinListener.class, listener);
 	}
 
@@ -96,8 +87,7 @@ public class Spielstein implements Serializable {
 	 * 
 	 * @param listener
 	 */
-	public void removeAvailableFilesystemsListener(
-			final ISpielsteinListener listener) {
+	public void removeSpielsteinListener(final ISpielsteinListener listener) {
 		listeners.remove(ISpielsteinListener.class, listener);
 	}
 }
