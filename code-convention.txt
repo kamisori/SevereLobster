@@ -1,0 +1,20 @@
+Code-Konvention
+
+1. Kommentare
+
+  werden gem. JavaDocs gesetzt
+  /**
+  *
+  * @author Autorname
+  */
+
+2. Tabulatorsprünge
+
+  Der Standard bei Eclipse sind 4 Zeichen, die als Leerzeichen gesetzt.
+  Der Einsatz von Leerzeichen als Tabersatz dient der Kompatibilität zu
+  anderen Editoren.
+
+3. Funktionsklammern
+
+  Die Funktionsklammern werden in der Standardeinstellung von Eclipse
+  belassen.
