@@ -5,9 +5,5 @@ package severeLobster.backend.spiel;
  *
  * @author Lars Schlegelmilch
  */
-public class Ausschluss extends Spielstein {
-
-    public Ausschluss(boolean sichtbar) {
-        super(sichtbar);
-    }
+public class Ausschluss extends SpielsteinState {
 }

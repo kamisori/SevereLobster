@@ -1,25 +1,21 @@
 package severeLobster.backend.spiel;
 
-import com.google.common.base.Preconditions;
+import infrastructure.constants.enums.PfeilrichtungEnumeration;
 
 /**
  * Pfeilspielstein - Zeigt immer auf mindestens einen Pfeil
  *
  * @author Lars Schlegelmilch
  */
-public class Pfeil extends Spielstein {
+public class Pfeil extends SpielsteinState {
 
-    public Pfeil(boolean sichtbar) {
-        super(sichtbar);
+    private PfeilrichtungEnumeration pfeilrichtung;
+
+    public PfeilrichtungEnumeration getPfeilrichtung() {
+        return pfeilrichtung;
     }
 
-    @Override
-    public boolean isSichtbar() {
-        return true;
-    }
-
-    @Override
-    public void setSichtbar(boolean sichtbar) {
-        Preconditions.checkState(sichtbar);
+    public void setPfeilrichtung(PfeilrichtungEnumeration pfeilrichtung) {
+        this.pfeilrichtung = pfeilrichtung;
     }
 }

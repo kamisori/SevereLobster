@@ -1,9 +1,9 @@
 package severeLobster.backend.spiel;
 
 /**
- * Sternenspielstein
+ * TODO Beschreibung angeben
  *
  * @author Lars Schlegelmilch
  */
-public class Stern extends SpielsteinState {
+public class SpielsteinState {
 }
