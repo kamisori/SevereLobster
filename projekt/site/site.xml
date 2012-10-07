@@ -20,8 +20,10 @@
         </links>
         <menu name="Project" ref="reports" inherit="top"/>
         
-        <menu name="Model">
+        <menu name="Other">
             <item name="Classdiagram" href="http://kamisori.github.com/SevereLobster/klassendiagramm"/>
+            <item name="IceScrum" href="http://christian-lobach.de:8080/icescrum"/>
+            <item name="TeamSpeak Sever" href="teamspeak://nirako-it.dyndns-server.com"/>
         </menu>
     </body>
 </project>

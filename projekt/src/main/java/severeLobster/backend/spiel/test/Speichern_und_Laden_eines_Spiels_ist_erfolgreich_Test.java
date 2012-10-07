@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Überprüft, ob ein Spiel gespeichert wird
+ * Überprüft, ob ein Spiel korrekt gespeichert wird und anschließend wieder ausgelesen werden kann.
  *
  * @author Lars Schlegelmilch
  */
@@ -65,12 +65,11 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     public void tearDown() {
         File file = new File("testSpiel01.sav");
         boolean success = true;
-        if(file.exists()){
-          success = file.delete();
+        if (file.exists()) {
+            success = file.delete();
         }
         if (!success) {
             System.out.println("Fehler beim tearDown des Tests.");
         }
-
     }
 }
