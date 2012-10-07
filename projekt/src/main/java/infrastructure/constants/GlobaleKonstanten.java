@@ -6,4 +6,6 @@ package infrastructure.constants;
  * @author Lars Schlegelmilch
  */
 public class GlobaleKonstanten {
+
+    public static final String SPIELSTAND_DATEITYP = ".sav";
 }

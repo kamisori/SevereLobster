@@ -1,13 +1,14 @@
 package severeLobster.backend.spiel;
 
 import javax.swing.event.EventListenerList;
+import java.io.Serializable;
 
 /**
  * Abstrakter Spielstein eines Spielfeldes - Kann Sichtbar sein, oder auch nicht.
  *
  * @author Lars Schlegelmilch
  */
-public class Spielstein {
+public class Spielstein implements Serializable {
 
     private EventListenerList listeners;
     private SpielsteinState visibleState;

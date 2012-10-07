@@ -1,7 +1,5 @@
 package severeLobster.backend.command;
 
-import infrastructure.constants.enums.SpielmodusEnumeration;
-import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.Spiel;
 
 /**
@@ -19,11 +17,6 @@ public class SekundaerAktion implements Aktion {
 
     @Override
     public void execute(int x, int y) {
-        if (SpielmodusEnumeration.SPIELEN.equals(spiel.getSpielmodus())) {
-            spiel.spielsteinTippen(x, y, new Ausschluss(true));
-        } else if (SpielmodusEnumeration.EDITIEREN.equals(spiel.getSpielmodus())) {
-            //TODO: Hier käme die Spielstein setzen für das Erstellen eines Puzzles hin - Später!!!
-        }
     }
 
     @Override

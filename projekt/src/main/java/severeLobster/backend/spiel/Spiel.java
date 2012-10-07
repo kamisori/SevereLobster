@@ -1,7 +1,16 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 
 /**
@@ -13,13 +22,16 @@ public class Spiel implements Serializable {
 
     private Spielfeld spielfeld;
     private SpielmodusEnumeration spielmodus;
+    private int anzahlZuege;
 
     /**
      * Ein Spiel hat ein Spielfeld und einen Modus
-     * @param spielfeld Spielfeld des Spiels
+     *
+     * @param spielfeld  Spielfeld des Spiels
      * @param spielmodus Spielmodus des Spiels - Wird das Spiel gerade erstellt oder gespielt?
      */
     public Spiel(Spielfeld spielfeld, SpielmodusEnumeration spielmodus) {
+        anzahlZuege = 0;
         this.spielfeld = spielfeld;
         this.spielmodus = spielmodus;
     }
@@ -44,5 +56,50 @@ public class Spiel implements Serializable {
 
     public SpielmodusEnumeration getSpielmodus() {
         return spielmodus;
+    }
+
+    public void save(String spielname) {
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(spielname + GlobaleKonstanten.SPIELSTAND_DATEITYP);
+            ObjectOutputStream o = new ObjectOutputStream(outputStream);
+            o.writeObject(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (outputStream != null) {
+                outputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static Spiel load(String spielname) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(spielname + GlobaleKonstanten.SPIELSTAND_DATEITYP);
+            ObjectInputStream o = new ObjectInputStream(inputStream);
+            return (Spiel) o.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (inputStream != null) {
+                inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

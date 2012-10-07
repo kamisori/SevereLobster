@@ -1,9 +1,11 @@
 package severeLobster.backend.spiel;
 
+import java.io.Serializable;
+
 /**
  * TODO Beschreibung angeben
  *
  * @author Lars Schlegelmilch
  */
-public class SpielsteinState {
+public abstract class SpielsteinState implements Serializable {
 }

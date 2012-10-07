@@ -1,8 +1,6 @@
 package severeLobster.backend.command;
 
-import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.backend.spiel.Stern;
 
 /**
  * Primäraktion - Primäre Aktion die vom Spieler aus gesteuert wird. (Z.B. Mauslinksklick)
@@ -28,11 +26,6 @@ public class PrimaerAktion implements Aktion {
      */
     @Override
     public void execute(int x, int y) {
-        if (SpielmodusEnumeration.SPIELEN.equals(spiel.getSpielmodus())) {
-            spiel.spielsteinTippen(x, y, new Stern(true));
-        } else if (SpielmodusEnumeration.EDITIEREN.equals(spiel.getSpielmodus())) {
-            //TODO: Hier käme die Spielstein setzen für das Erstellen eines Puzzles hin - Später!!!
-        }
     }
 
     @Override
