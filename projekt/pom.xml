@@ -31,6 +31,16 @@
         <system>Jenkins</system>
         <url>http://nirako-it.dyndns-server.com:8080/</url>
     </ciManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>SevereLobster</name>
+            <post>severelobster@domeus.de</post>
+            <subscribe>severelobster-subscribe@domeus.de</subscribe>
+            <unsubscribe>severelobster-unsubscribe@domeus.de</unsubscribe>
+        </mailingList>
+    </mailingLists>
+
     <!-- Teammitglieder-Blog: Wer ist an dem Projekt beteiligt und/oder entwickelt daran? -->
     <contributors>
         <contributor>

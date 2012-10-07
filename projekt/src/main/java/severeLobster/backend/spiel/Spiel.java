@@ -22,6 +22,11 @@ public class Spiel implements Serializable {
 
     private Spielfeld spielfeld;
     private SpielmodusEnumeration spielmodus;
+
+    public int getAnzahlZuege() {
+        return anzahlZuege;
+    }
+
     private int anzahlZuege;
 
     /**
@@ -58,6 +63,11 @@ public class Spiel implements Serializable {
         return spielmodus;
     }
 
+    /**
+     * Speichert das aktuelle Spiel als .sav-Datei
+     *
+     * @param spielname Name der Datei (ohne .sav-Endung)
+     */
     public void save(String spielname) {
         OutputStream outputStream = null;
         try {
@@ -66,11 +76,10 @@ public class Spiel implements Serializable {
             o.writeObject(this);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 if (outputStream != null) {
-                outputStream.close();
+                    outputStream.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -78,11 +87,17 @@ public class Spiel implements Serializable {
         }
     }
 
+    /**
+     * Läd ein Spiel aus .sav-Dateien
+     *
+     * @param spielname Name der Datei (ohne .sav-Endung)
+     */
     public static Spiel load(String spielname) {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(spielname + GlobaleKonstanten.SPIELSTAND_DATEITYP);
             ObjectInputStream o = new ObjectInputStream(inputStream);
+
             return (Spiel) o.readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -90,11 +105,10 @@ public class Spiel implements Serializable {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 if (inputStream != null) {
-                inputStream.close();
+                    inputStream.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
