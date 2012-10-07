@@ -1,40 +1,103 @@
 package severeLobster.backend.spiel;
 
 import javax.swing.event.EventListenerList;
+
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * Abstrakter Spielstein eines Spielfeldes - Kann Sichtbar sein, oder auch nicht.
- *
- * @author Lars Schlegelmilch
+ * Abstrakter Spielstein eines Spielfeldes - Kann Sichtbar sein, oder auch
+ * nicht.
+ * 
+ * @author Lars Schlegelmilch, Lutz Kleiber
  */
 public class Spielstein implements Serializable {
 
-    private EventListenerList listeners;
-    private SpielsteinState visibleState;
-    private SpielsteinState realState;
+	private EventListenerList listeners = new EventListenerList();
+	private SpielsteinState visibleState;
+	private SpielsteinState realState;
 
-    public EventListenerList getListeners() {
-        return listeners;
-    }
+	public EventListenerList getListeners() {
 
-    public void setListeners(EventListenerList listeners) {
-        this.listeners = listeners;
-    }
+		return listeners;
+	}
 
-    public SpielsteinState getVisibleState() {
-        return visibleState;
-    }
+	public void setListeners(EventListenerList listeners) {
+		this.listeners = listeners;
+	}
 
-    public void setVisibleState(SpielsteinState visibleState) {
-        this.visibleState = visibleState;
-    }
+	public SpielsteinState getVisibleState() {
+		return visibleState;
+	}
 
-    public SpielsteinState getRealState() {
-        return realState;
-    }
+	public void setVisibleState(SpielsteinState visibleState) {
+		this.visibleState = visibleState;
+	}
 
-    public void setRealState(SpielsteinState realState) {
-        this.realState = realState;
-    }
+	public SpielsteinState getRealState() {
+		return realState;
+	}
+
+	public void setRealState(SpielsteinState realState) {
+		this.realState = realState;
+	}
+
+	/**
+	 * Gibt eine Liste mit den für diesen Spielstein aktuell auswählbaren/
+	 * möglichen Stati zurück. Der Status kann dann über {@link setVisibleState}
+	 * geändert werden.
+	 * 
+	 * @return Eine Liste mit den für diesen Spielstein aktuell auswählbaren
+	 *         Stati.
+	 */
+	public List<SpielsteinState> listAvailableStates() {
+		final List<SpielsteinState> defaultTestResult = new LinkedList<SpielsteinState>();
+		defaultTestResult.add(new Ausschluss());
+		defaultTestResult.add(new Stern());
+		return defaultTestResult;
+
+	}
+
+	/**
+	 * Benachrichtigt alle Listener dieses Spielsteins über einen neuen Wert von
+	 * "visibleState". Implementation ist glaube ich aus JComponent oder
+	 * Component kopiert.
+	 * 
+	 * @param newState
+	 *            - Der neue Status, der an die Listener mitgeteilt wird.
+	 */
+	protected void fireSpielsteinStateChanged(final SpielsteinState newState) {
+		/** Gibt ein Array zurück, das nicht null ist */
+		final Object[] currentListeners = listeners.getListenerList();
+		/**
+		 * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
+		 */
+		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+			if (currentListeners[i] == ISpielfeldListener.class) {
+				((ISpielfeldListener) currentListeners[i + 1])
+						.spielsteinStateChanged(this, newState);
+			}
+		}
+	}
+
+	/**
+	 * Fügt listener zu der Liste hinzu.
+	 * 
+	 * @param listener
+	 */
+	public void addAvailableFilesystemsListener(
+			final ISpielfeldListener listener) {
+		listeners.add(ISpielfeldListener.class, listener);
+	}
+
+	/**
+	 * Entfernt listener von der Liste.
+	 * 
+	 * @param listener
+	 */
+	public void removeAvailableFilesystemsListener(
+			final ISpielfeldListener listener) {
+		listeners.remove(ISpielfeldListener.class, listener);
+	}
 }
