@@ -1,9 +1,18 @@
 package infrastructure.constants.enums;
 
 /**
- * TODO Beschreibung angeben
+ * Pfeilrichtung eines Pfeiles
  *
  * @author Lars Schlegelmilch
  */
-public class PfeilrichtungEnumeration {
+public enum PfeilrichtungEnumeration {
+
+    NORD,
+    NORDOST,
+    OST,
+    SUEDOST,
+    SUED,
+    SUEDWEST,
+    WEST,
+    NORDWEST
 }
