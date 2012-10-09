@@ -19,12 +19,21 @@ public class Spielstein implements Serializable {
 	private SpielsteinState visibleState;
 	private SpielsteinState realState;
 
+	/**
+	 * Initialisiert beide state variablen mit NullState (Blank).
+	 */
+	public Spielstein() {
+		visibleState = new NullState();
+		realState = new NullState();
+	}
+
 	public SpielsteinState getVisibleState() {
 		return visibleState;
 	}
 
 	public void setVisibleState(SpielsteinState visibleState) {
 		this.visibleState = visibleState;
+		fireSpielsteinStateChanged(visibleState);
 	}
 
 	public SpielsteinState getRealState() {
@@ -45,8 +54,10 @@ public class Spielstein implements Serializable {
 	 */
 	public List<SpielsteinState> listAvailableStates() {
 		final List<SpielsteinState> defaultTestResult = new LinkedList<SpielsteinState>();
+		defaultTestResult.add(new NullState());
 		defaultTestResult.add(new Ausschluss());
 		defaultTestResult.add(new Stern());
+		defaultTestResult.add(new Pfeil());
 		return defaultTestResult;
 
 	}
