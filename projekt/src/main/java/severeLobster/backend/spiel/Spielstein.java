@@ -57,7 +57,7 @@ public class Spielstein implements Serializable {
 		defaultTestResult.add(new NullState());
 		defaultTestResult.add(new Ausschluss());
 		defaultTestResult.add(new Stern());
-		defaultTestResult.add(new Pfeil());
+		defaultTestResult.add(Pfeil.getNordPfeil());
 		return defaultTestResult;
 
 	}

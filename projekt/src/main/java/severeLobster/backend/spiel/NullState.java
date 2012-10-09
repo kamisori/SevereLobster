@@ -9,4 +9,9 @@ package severeLobster.backend.spiel;
  */
 public class NullState extends SpielsteinState {
 
+	private static final NullState INSTANCE = new NullState();
+
+	public static NullState getInstance() {
+		return INSTANCE;
+	}
 }
