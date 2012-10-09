@@ -26,12 +26,11 @@ public class SpielsteinViewTestOhneJUnit {
 		/**
 		 * Ändere die Stati in spielstein.
 		 */
-		final List<SpielsteinState> allowedStates = spielstein
+		final List<? extends SpielsteinState> allowedStates = spielstein
 				.listAvailableStates();
 		for (SpielsteinState currentState : allowedStates) {
 			spielstein.setVisibleState(currentState);
-			System.out.println("Status geändert in:"
-					+ currentState.getClass().getName());
+			System.out.println("Status geändert in:" + currentState);
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {

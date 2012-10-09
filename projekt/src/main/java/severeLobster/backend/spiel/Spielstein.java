@@ -52,12 +52,12 @@ public class Spielstein implements Serializable {
 	 * @return Eine Liste mit den für diesen Spielstein aktuell auswählbaren
 	 *         Stati.
 	 */
-	public List<SpielsteinState> listAvailableStates() {
+	public List<? extends SpielsteinState> listAvailableStates() {
 		final List<SpielsteinState> defaultTestResult = new LinkedList<SpielsteinState>();
 		defaultTestResult.add(new NullState());
 		defaultTestResult.add(new Ausschluss());
 		defaultTestResult.add(new Stern());
-		defaultTestResult.add(Pfeil.getNordPfeil());
+		defaultTestResult.addAll(Pfeil.listAlleMoeglichenPfeile());
 		return defaultTestResult;
 
 	}
