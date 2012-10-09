@@ -38,6 +38,16 @@ public class SpielsteinController {
 		spielsteinModel.setVisibleState(spielsteinState);
 	}
 
+	/**
+	 * Wird vom View aufgerufen. Holt den aktuellen wert von visibleState vom
+	 * Spielstein.
+	 * 
+	 * @param spielsteinState
+	 */
+	public SpielsteinState getState() {
+		return spielsteinModel.getVisibleState();
+	}
+
 	private class InnerSpielsteinListener implements ISpielsteinListener {
 
 		public void spielsteinStateChanged(final Spielstein spielstein,
@@ -57,4 +67,5 @@ public class SpielsteinController {
 		}
 
 	}
+
 }
