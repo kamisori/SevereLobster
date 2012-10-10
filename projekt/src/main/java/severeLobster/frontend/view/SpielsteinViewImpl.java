@@ -4,6 +4,7 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+import severeLobster.backend.spiel.NullState;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SpielsteinState;
 import severeLobster.frontend.controller.SpielsteinController;
@@ -15,7 +16,8 @@ public class SpielsteinViewImpl extends JLabel implements
 	private SpielsteinController spielsteinController;
 
 	public SpielsteinViewImpl() {
-		final Icon newIcon = ICON_FACTORY.getIconForState(null);
+		final Icon newIcon = ICON_FACTORY.getIconForState(NullState
+				.getInstance());
 		this.setIcon(newIcon);
 	}
 

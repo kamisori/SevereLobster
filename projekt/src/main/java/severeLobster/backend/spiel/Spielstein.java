@@ -23,8 +23,8 @@ public class Spielstein implements Serializable {
 	 * Initialisiert beide state variablen mit NullState (Blank).
 	 */
 	public Spielstein() {
-		visibleState = new NullState();
-		realState = new NullState();
+		visibleState = NullState.getInstance();
+		realState = NullState.getInstance();
 	}
 
 	public SpielsteinState getVisibleState() {
