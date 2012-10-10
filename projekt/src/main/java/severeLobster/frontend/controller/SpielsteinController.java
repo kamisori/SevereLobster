@@ -7,9 +7,9 @@ import severeLobster.frontend.view.IControllableSpielsteinView;
 
 /**
  * Der Vermittler zwischen dem Spielstein und der darstellenden Komponente. Alle
- * im View angestoßenen Aktionen werden an den entsprechenden
+ * im View angestoï¿½enen Aktionen werden an den entsprechenden
  * SpielsteinController weitergeleitet. Umgekehrt leitet der
- * SpielsteinController Änderungen beim Spielstein an den View weiter.
+ * SpielsteinController ï¿½nderungen beim Spielstein an den View weiter.
  * 
  * @author Lutz Kleiber
  * 
@@ -29,7 +29,7 @@ public class SpielsteinController {
 	}
 
 	/**
-	 * Wird vom View aufgerufen. Verändert den wert von visibleState des
+	 * Wird vom View aufgerufen. Verï¿½ndert den wert von visibleState des
 	 * zugrundeliegenden Spielsteins.
 	 * 
 	 * @param spielsteinState
@@ -42,7 +42,7 @@ public class SpielsteinController {
 	 * Wird vom View aufgerufen. Holt den aktuellen wert von visibleState vom
 	 * Spielstein.
 	 * 
-	 * @param spielsteinState
+	 * @return  spielsteinState
 	 */
 	public SpielsteinState getState() {
 		return spielsteinModel.getVisibleState();
@@ -54,12 +54,12 @@ public class SpielsteinController {
 				final SpielsteinState newState) {
 
 			/**
-			 * Überprüfe ob der benachrichtigende Spielstein auch der ist, den
+			 * ï¿½berprï¿½fe ob der benachrichtigende Spielstein auch der ist, den
 			 * man gerade beobachtet.
 			 */
 			if (spielstein == spielsteinModel) {
 				/**
-				 * Leite Änderung an view weiter.
+				 * Leite ï¿½nderung an view weiter.
 				 */
 				spielsteinView.setDisplayedState(newState);
 			}
