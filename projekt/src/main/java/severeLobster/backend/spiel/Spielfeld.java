@@ -16,10 +16,6 @@ import java.io.Serializable;
  */
 public class Spielfeld implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4673868060555706754L;
 	// private Spielstein[][] koordinaten;
 	private final Spielstein[][] koordinaten;
 
@@ -61,6 +57,14 @@ public class Spielfeld implements Serializable {
 
 	public Spielstein getSpielstein(int x, int y) {
 		return koordinaten[x][y];
+	}
+
+	public int getBreite() {
+		return koordinaten.length;
+	}
+
+	public int getLaenge() {
+		return koordinaten[0].length;
 	}
 
 	// public void setSpielstein(int x, int y, Spielstein spielstein) {
