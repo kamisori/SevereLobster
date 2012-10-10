@@ -5,7 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import severeLobster.backend.spiel.NullState;
-import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SpielsteinState;
 import severeLobster.frontend.controller.SpielsteinController;
 
