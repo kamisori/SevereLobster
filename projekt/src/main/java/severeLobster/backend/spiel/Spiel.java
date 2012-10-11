@@ -130,8 +130,8 @@ public class Spiel implements Serializable {
     				//System.out.println("kein Stern, Stern getippt");
     				return false;
     			}
-    			else if( ( currentItem.getVisibleState() instanceof Blank || currentItem.getVisibleState() instanceof Ausschluss ) &&
-    					!( currentItem.getRealState() instanceof Blank ) ){
+    			else if( ( currentItem.getVisibleState() instanceof NullState || currentItem.getVisibleState() instanceof Ausschluss ) &&
+    					!( currentItem.getRealState() instanceof NullState ) ){
     				//System.out.println("nicht Blank, Ausschluss oder nichts getippt");
     				return false;
     			}
@@ -153,7 +153,7 @@ public class Spiel implements Serializable {
 	    			if(currentItem.getVisibleState() instanceof Ausschluss && currentItem.getRealState() instanceof Stern){
 	    				return true;
 	    			}
-	    			else if(currentItem.getVisibleState() instanceof Stern && currentItem.getRealState() instanceof Blank){
+	    			else if(currentItem.getVisibleState() instanceof Stern && currentItem.getRealState() instanceof NullState){
 	    				return true;
 	    			}
 	    			

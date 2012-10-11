@@ -36,11 +36,11 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
 		a.setVisibleState(new Stern());
 		
 		// kein Stern, nichts getippt
-		b.setRealState(new Blank());
-		b.setVisibleState(new Blank());
+		b.setRealState(new NullState());
+		b.setVisibleState(new NullState());
 
 		// kein Stern, getippt dass dort keiner ist
-		c.setRealState(new Blank());
+		c.setRealState(new NullState());
 		c.setVisibleState(new Ausschluss());
 		
 		// Pfeil, Pfeil muss auch angezeigt werden
@@ -68,11 +68,11 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
 		a.setVisibleState(new Stern());
 		
 		// kein Stern, nichts getippt
-		b.setRealState(new Blank());
+		b.setRealState(new NullState());
 		b.setVisibleState(new Ausschluss());
 
 		// kein Stern, getippt dass dort keiner ist
-		c.setRealState(new Blank());
+		c.setRealState(new NullState());
 		c.setVisibleState(new Ausschluss());
 		
 		// Pfeil, Pfeil muss auch angezeigt werden
@@ -98,14 +98,14 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
 		// Stern da, kein Stern getippt 
 		// (hier darf kein Fehler auftreten, da noch nicht ausgeschlossen wurde, dass hier ein Stern liegt)
 		a.setRealState(new Stern());
-		a.setVisibleState(new Blank());
+		a.setVisibleState(new NullState());
 		
 		// kein Stern, nichts getippt
-		b.setRealState(new Blank());
-		b.setVisibleState(new Blank());
+		b.setRealState(new NullState());
+		b.setVisibleState(new NullState());
 
 		// kein Stern, getippt dass dort keiner ist
-		c.setRealState(new Blank());
+		c.setRealState(new NullState());
 		c.setVisibleState(new Ausschluss());
 		
 		// Pfeil, Pfeil muss auch angezeigt werden
@@ -132,11 +132,11 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
 		a.setVisibleState(new Stern());
 		
 		// kein Stern, Stern getippt (hier tritt der Fehler auf)
-		b.setRealState(new Blank());
+		b.setRealState(new NullState());
 		b.setVisibleState(new Stern());
 
 		// kein Stern, getippt dass dort keiner ist
-		c.setRealState(new Blank());
+		c.setRealState(new NullState());
 		c.setVisibleState(new Ausschluss());
 		
 		// Pfeil, Pfeil muss auch angezeigt werden
