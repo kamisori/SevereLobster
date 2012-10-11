@@ -10,6 +10,12 @@ public class Ausschluss extends SpielsteinState {
 
 	private static final Ausschluss INSTANCE = new Ausschluss();
 
+	/**
+	 * Liefert immer dieselbe Instanz. Da sich die Instanzen nicht in ihren
+	 * Zuständen unterscheiden, kann man immer die selbe Instanz nehmen.
+	 * 
+	 * @return
+	 */
 	public static Ausschluss getInstance() {
 		return INSTANCE;
 	}

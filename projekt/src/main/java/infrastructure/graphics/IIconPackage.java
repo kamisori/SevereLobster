@@ -3,7 +3,8 @@ package infrastructure.graphics;
 import javax.swing.Icon;
 
 /**
- * TODO Kommentar
+ * Schnittstelle um verschiedene Iconpakete bereitzustellen, so dass zwischen
+ * "Themes" gewechselt werden kann.
  * 
  * @author LKleiber
  * 

@@ -11,6 +11,12 @@ public class NullState extends SpielsteinState {
 
 	private static final NullState INSTANCE = new NullState();
 
+	/**
+	 * Liefert immer dieselbe Instanz. Da sich die Instanzen nicht in ihren
+	 * Zuständen unterscheiden, kann man immer die selbe Instanz nehmen.
+	 * 
+	 * @return
+	 */
 	public static NullState getInstance() {
 		return INSTANCE;
 	}

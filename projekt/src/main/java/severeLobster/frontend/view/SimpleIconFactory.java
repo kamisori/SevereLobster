@@ -3,7 +3,7 @@ package severeLobster.frontend.view;
 import infrastructure.graphics.simpleIcons.SimpleIconPackage;
 
 /**
- * TODO Kommentar
+ * Factory Implementation für das Simple Icon Paket
  * 
  * @author LKleiber
  * 

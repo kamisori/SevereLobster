@@ -10,9 +10,10 @@ import severeLobster.backend.spiel.SpielsteinState;
 import severeLobster.backend.spiel.Stern;
 
 /**
- * TODO Kommentar
+ * Abstract Factory zur Anforderung Icons.
+ * 
  * @author LKleiber
- *
+ * 
  */
 public abstract class IconFactory {
 

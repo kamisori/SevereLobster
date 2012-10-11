@@ -3,7 +3,7 @@ package severeLobster.backend.spiel;
 /**
  * Sternenspielstein
  * 
- * @author Lars Schlegelmilch
+ * @author Lars Schlegelmilch, Lutz Kleiber
  */
 public class Stern extends SpielsteinState {
 
@@ -17,6 +17,7 @@ public class Stern extends SpielsteinState {
 	public String toString() {
 		return "Stern";
 	}
+
 	@Override
 	public boolean equals(final Object obj) {
 		return (null != obj && obj instanceof Stern);

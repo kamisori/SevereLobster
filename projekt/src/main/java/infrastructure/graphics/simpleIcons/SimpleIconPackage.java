@@ -6,9 +6,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
- * TODO Kommentar
+ * Icon Paket mit doofen Icons.
  * 
- * @author LKleiber
+ * @author Lutz Kleiber
  * 
  */
 public class SimpleIconPackage implements IIconPackage {

@@ -82,6 +82,14 @@ public class SpielsteinController {
 
 	}
 
+	/**
+	 * Methode behandelt komplette Logik für Mausklicks: Im Spielmodus:
+	 * Linksklick: Stern setzen; Rechtsklick: Ausschluss setzen.
+	 * 
+	 * Im Editiermodus: Linksklick: Feld auf NullState resetten; Rechtsklick:
+	 * Editiermenu anzeigen.
+	 * 
+	 */
 	public void clickAction(MouseEvent mouseEvent) {
 
 		if (isSpielModus()) {

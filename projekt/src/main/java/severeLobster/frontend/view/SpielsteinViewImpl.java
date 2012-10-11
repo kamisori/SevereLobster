@@ -2,7 +2,6 @@ package severeLobster.frontend.view;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -13,7 +12,7 @@ import severeLobster.backend.spiel.SpielsteinState;
 import severeLobster.frontend.controller.SpielsteinController;
 
 /**
- * TODO Kommentar
+ * Darstellung eines einzelnen Spielsteins.
  * 
  * @author LKleiber
  * 

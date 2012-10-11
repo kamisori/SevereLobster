@@ -23,7 +23,6 @@ public class Pfeil extends SpielsteinState {
 			PfeilrichtungEnumeration.SUEDOST);
 	private static final Pfeil SUED_PFEIL = new Pfeil(
 			PfeilrichtungEnumeration.SUED);
-
 	private static final Pfeil SUED_WEST_PFEIL = new Pfeil(
 			PfeilrichtungEnumeration.SUEDWEST);
 	private static final Pfeil WEST_PFEIL = new Pfeil(
@@ -52,6 +51,12 @@ public class Pfeil extends SpielsteinState {
 
 	private final PfeilrichtungEnumeration pfeilrichtung;
 
+	/**
+	 * Statt des Konstruktors lieber die statischen Factory Methoden nehmen, da
+	 * spart man sich das setzen von pfeilrichtung.
+	 * 
+	 * @param pfeilrichtung
+	 */
 	public Pfeil(final PfeilrichtungEnumeration pfeilrichtung) {
 		if (null == pfeilrichtung) {
 			throw new NullPointerException("Pfeilrichtung is null");
