@@ -101,4 +101,5 @@ public class Spielstein implements Serializable {
 	public void removeSpielsteinListener(final ISpielsteinListener listener) {
 		listeners.remove(ISpielsteinListener.class, listener);
 	}
+
 }

@@ -14,4 +14,14 @@ public class NullState extends SpielsteinState {
 	public static NullState getInstance() {
 		return INSTANCE;
 	}
+
+	@Override
+	public String toString() {
+		return "NullState";
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		return (null != obj && obj instanceof NullState);
+	}
 }

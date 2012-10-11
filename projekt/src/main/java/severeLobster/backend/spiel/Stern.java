@@ -12,4 +12,13 @@ public class Stern extends SpielsteinState {
 	public static Stern getInstance() {
 		return INSTANCE;
 	}
+
+	@Override
+	public String toString() {
+		return "Stern";
+	}
+	@Override
+	public boolean equals(final Object obj) {
+		return (null != obj && obj instanceof Stern);
+	}
 }

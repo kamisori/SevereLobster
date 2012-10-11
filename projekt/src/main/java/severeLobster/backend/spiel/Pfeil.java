@@ -108,6 +108,20 @@ public class Pfeil extends SpielsteinState {
 	@Override
 	public String toString() {
 		return "Pfeil:" + getPfeilrichtung().toString();
-
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		if (null != obj && obj instanceof Pfeil) {
+			/**
+			 * Vergleiche die fremde und die eigene Pfeilrichtung.
+			 */
+			if (((Pfeil) obj).pfeilrichtung.equals(this.pfeilrichtung)) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
 }
