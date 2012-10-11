@@ -116,4 +116,51 @@ public class Spiel implements Serializable {
         }
         return null;
     }
+    
+    /**
+	 * Überprüft ob das Spielfeld gelöst wurde (Sieg)
+	 * @return sieg
+	 */
+    public boolean isSolved(){
+    	for (int i = 0; i < spielfeld.getBreite(); i++){
+    		
+    		for(int k = 0; k < spielfeld.getLaenge(); k++){
+    			Spielstein currentItem = spielfeld.getSpielstein(i,k); 
+    			if(currentItem.getVisibleState() instanceof Stern && !( currentItem.getRealState() instanceof Stern ) ){
+    				//System.out.println("kein Stern, Stern getippt");
+    				return false;
+    			}
+    			else if( ( currentItem.getVisibleState() instanceof Blank || currentItem.getVisibleState() instanceof Ausschluss ) &&
+    					!( currentItem.getRealState() instanceof Blank ) ){
+    				//System.out.println("nicht Blank, Ausschluss oder nichts getippt");
+    				return false;
+    			}
+    		}
+    	}
+    	return true;
+    }
+    
+    /**
+     * Überprüft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps abgegeben wurden,
+     * die nicht der Lösung entsprechen
+     * @return fehler vorhanden
+     */
+    public boolean hasErrors(){
+		for (int i = 0; i < spielfeld.getBreite(); i++){
+	    		
+	    		for(int k = 0; k < spielfeld.getLaenge(); k++){
+	    			Spielstein currentItem = spielfeld.getSpielstein(i,k);
+	    			if(currentItem.getVisibleState() instanceof Ausschluss && currentItem.getRealState() instanceof Stern){
+	    				return true;
+	    			}
+	    			else if(currentItem.getVisibleState() instanceof Stern && currentItem.getRealState() instanceof Blank){
+	    				return true;
+	    			}
+	    			
+	    		}
+		}
+    	return false;
+    }
+    
+
 }
