@@ -8,6 +8,12 @@ import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielsteinController;
 
+/**
+ * TODO Kommentar
+ * 
+ * @author LKleiber
+ * 
+ */
 public class SpielfeldView extends JPanel {
 
 	public SpielfeldView(final Spielfeld spielfeld) {

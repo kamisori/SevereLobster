@@ -8,10 +8,17 @@ import severeLobster.backend.spiel.NullState;
 import severeLobster.backend.spiel.SpielsteinState;
 import severeLobster.frontend.controller.SpielsteinController;
 
+/**
+ * TODO Kommentar
+ * 
+ * @author LKleiber
+ * 
+ */
 public class SpielsteinViewImpl extends JLabel implements
 		IControllableSpielsteinView {
 
-	private static final IconFactory ICON_FACTORY = IconFactory.getInstance();
+	private static final IconFactory ICON_FACTORY = SimpleIconFactory
+			.getInstance();
 	private SpielsteinController spielsteinController;
 
 	public SpielsteinViewImpl() {
