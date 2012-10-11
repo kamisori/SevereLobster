@@ -69,7 +69,7 @@ public class Spielfeld implements Serializable {
     /**
      * Setzt einen Spielstein fuer ein Spielfeld an eine bestimmte Koordinate
      * @param x X-Achsen Koordinatenwert
-     * @param y Ý-Achsen Koordinatenwert
+     * @param y Y-Achsen Koordinatenwert
      * @param spielstein Spielstein der gesetzt werden soll
      */
     public void setSpielstein(int x, int y, Spielstein spielstein) {

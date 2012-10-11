@@ -1,14 +1,13 @@
 package severeLobster.frontend.view;
 
-import java.awt.BorderLayout;
-import java.util.List;
-import java.util.Random;
-
-import javax.swing.JFrame;
-
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SpielsteinState;
+
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import java.util.List;
+import java.util.Random;
 
 public class SpielfeldViewTestOhneJUnit {
 
@@ -24,7 +23,7 @@ public class SpielfeldViewTestOhneJUnit {
 		frame.setVisible(true);
 
 		/**
-		 * Ändere die Stati in spielstein.
+		 * Aendere die Stati in spielstein.
 		 */
 		Random random = new Random();
 		int randomX = 0;
