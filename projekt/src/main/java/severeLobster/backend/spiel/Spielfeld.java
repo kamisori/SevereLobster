@@ -69,6 +69,16 @@ public class Spielfeld implements Serializable {
     }
 
     /**
+     * Neuer Workaround: Die ursprüngliche Methode hätte sich mit dem Konzept,
+     * dass das Spielfeld nach dem Erstellen konstant ist, nicht vertragen. Wenn
+     * ein vorhandener Spielstein überschrieben würde, wären hierfür ja keine
+     * Listener mehr registriert. Da die Methode von einigen benötigt wird, nun
+     * folgender Workaround: Es wird nicht der übergebene Spielstein an die
+     * Stelle im Spielfeld gesetzt, sondern der Spielstein an dieser Stelle wird
+     * nur mit dem SpielsteinState des übergebenen Spielsteins
+     * aktualisiert/ueberschrieben. So verhält sich das Spielfeld nach außen wie
+     * gehabt und die Tests sollten weiterhin funktionieren .
+     * 
      * Setzt einen Spielstein fuer ein Spielfeld an eine bestimmte Koordinate
      * 
      * @param x
@@ -79,6 +89,8 @@ public class Spielfeld implements Serializable {
      *            Spielstein der gesetzt werden soll
      */
     public void setSpielstein(int x, int y, Spielstein spielstein) {
-        koordinaten[x][y] = spielstein;
+        // koordinaten[x][y] = spielstein;
+        koordinaten[x][y].setRealState(spielstein.getRealState());
+        koordinaten[x][y].setVisibleState(spielstein.getVisibleState());
     }
 }
