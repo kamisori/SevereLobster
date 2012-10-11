@@ -6,16 +6,20 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import severeLobster.backend.spiel.Spielfeld;
 
 public class MainView extends JPanel {
 
     public MainView() {
         // TODO: Layout wird zwecks Platzhalter auf null gesetzt -> Layout!
-        setLayout(null);
-        JPanel spielfeld = new SpielfeldView_fwenisch();
-        spielfeld.setBounds(50, 50, 500, 500);
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        //JPanel spielfeld = new SpielfeldView_fwenisch();
+        //spielfeld.setBounds(50, 50, 500, 500);
+        SpielfeldView spielfeld = new SpielfeldView(new Spielfeld(20, 15));
         JPanel spielinfo = new SpielinfoView();
         spielinfo.setBounds(550, 50, 200, 500);
         add(spielfeld);
