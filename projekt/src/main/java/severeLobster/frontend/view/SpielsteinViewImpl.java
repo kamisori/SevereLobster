@@ -1,5 +1,9 @@
 package severeLobster.frontend.view;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -25,6 +29,7 @@ public class SpielsteinViewImpl extends JLabel implements
 		final Icon newIcon = ICON_FACTORY.getIconForState(NullState
 				.getInstance());
 		this.setIcon(newIcon);
+		this.addMouseListener(new InnerMouseListener());
 	}
 
 	public void setDisplayedState(final SpielsteinState newDisplayedState) {
@@ -48,4 +53,10 @@ public class SpielsteinViewImpl extends JLabel implements
 		setDisplayedState(currentState);
 	}
 
+	private class InnerMouseListener extends MouseAdapter {
+
+		public void mouseClicked(MouseEvent arg0) {
+			spielsteinController.clickAction(arg0);
+		}
+	}
 }

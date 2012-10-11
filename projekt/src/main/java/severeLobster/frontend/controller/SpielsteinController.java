@@ -1,9 +1,18 @@
 package severeLobster.frontend.controller;
 
+import infrastructure.constants.enums.SpielmodusEnumeration;
+
+import java.awt.event.MouseEvent;
+import java.util.List;
+
+import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.ISpielsteinListener;
+import severeLobster.backend.spiel.NullState;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SpielsteinState;
+import severeLobster.backend.spiel.Stern;
 import severeLobster.frontend.view.IControllableSpielsteinView;
+import severeLobster.frontend.view.PopupMenuForSpielsteinStateManipulation;
 
 /**
  * Der Vermittler zwischen dem Spielstein und der darstellenden Komponente. Alle
@@ -15,6 +24,11 @@ import severeLobster.frontend.view.IControllableSpielsteinView;
  * 
  */
 public class SpielsteinController {
+
+	/**
+	 * TODO ÄNDERN - Nur zum Testen: Muss später vom Spiel geholt werdens
+	 */
+	public SpielmodusEnumeration spielModus = SpielmodusEnumeration.EDITIEREN;
 
 	private final IControllableSpielsteinView spielsteinView;
 	private final Spielstein spielsteinModel;
@@ -42,7 +56,7 @@ public class SpielsteinController {
 	 * Wird vom View aufgerufen. Holt den aktuellen wert von visibleState vom
 	 * Spielstein.
 	 * 
-	 * @return  spielsteinState
+	 * @return spielsteinState
 	 */
 	public SpielsteinState getState() {
 		return spielsteinModel.getVisibleState();
@@ -54,8 +68,8 @@ public class SpielsteinController {
 				final SpielsteinState newState) {
 
 			/**
-			 * ï¿½berprï¿½fe ob der benachrichtigende Spielstein auch der ist, den
-			 * man gerade beobachtet.
+			 * ï¿½berprï¿½fe ob der benachrichtigende Spielstein auch der ist,
+			 * den man gerade beobachtet.
 			 */
 			if (spielstein == spielsteinModel) {
 				/**
@@ -68,4 +82,83 @@ public class SpielsteinController {
 
 	}
 
+	public void clickAction(MouseEvent mouseEvent) {
+
+		if (isSpielModus()) {
+			if (isLeftClick(mouseEvent)) {
+				guessStern();
+				return;
+			}
+			if (isRightClick(mouseEvent)) {
+				guessAusschluss();
+				return;
+			}
+		}
+		/** Editiermodus: */
+		if (!isSpielModus()) {
+			if (isLeftClick(mouseEvent)) {
+				resetSpielsteinState();
+				return;
+			}
+			if (isRightClick(mouseEvent)) {
+				new PopupMenuForSpielsteinStateManipulation(this,
+						spielsteinModel.listAvailableStates()).show(
+						mouseEvent.getComponent(), mouseEvent.getX(),
+						mouseEvent.getY());
+				return;
+			}
+		}
+
+	}
+
+	private void guessStern() {
+		final SpielsteinState sternState = Stern.getInstance();
+		if (isAllowedState(sternState)) {
+			spielsteinModel.setVisibleState(sternState);
+		}
+	}
+
+	private void guessAusschluss() {
+		final SpielsteinState ausschlussState = Ausschluss.getInstance();
+
+		if (isAllowedState(ausschlussState)) {
+			spielsteinModel.setVisibleState(ausschlussState);
+		}
+	}
+
+	private void resetSpielsteinState() {
+		final SpielsteinState nullState = NullState.getInstance();
+		if (isAllowedState(nullState)) {
+			spielsteinModel.setVisibleState(nullState);
+		}
+	}
+
+	private boolean isAllowedState(final SpielsteinState state) {
+		final List<? extends SpielsteinState> allowedStates = spielsteinModel
+				.listAvailableStates();
+		return allowedStates.contains(state);
+	}
+
+	/**
+	 * TODO Ändern: Vom Spiel holen
+	 * 
+	 * @return
+	 */
+	private SpielmodusEnumeration getSpielmodus() {
+		return this.spielModus;
+	}
+
+	private boolean isSpielModus() {
+		return getSpielmodus().equals(SpielmodusEnumeration.SPIELEN);
+	}
+
+	private boolean isLeftClick(final MouseEvent e) {
+		return e.getButton() == MouseEvent.BUTTON1;
+
+	}
+
+	private boolean isRightClick(final MouseEvent e) {
+		return e.getButton() == MouseEvent.BUTTON3;
+
+	}
 }

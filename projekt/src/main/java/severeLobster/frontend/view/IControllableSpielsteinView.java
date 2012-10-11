@@ -26,4 +26,5 @@ public interface IControllableSpielsteinView {
 	 */
 	public void setSpielsteinController(
 			SpielsteinController spielsteinController);
+
 }
