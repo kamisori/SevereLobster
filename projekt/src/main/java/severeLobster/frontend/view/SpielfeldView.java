@@ -22,6 +22,7 @@ public class SpielfeldView extends JPanel {
             throw new NullPointerException("Spielfeld ist null");
         }
         this.setBackground(Color.black);
+        setOpaque(false);
         final int laenge = spielfeld.getHoehe();
         final int breite = spielfeld.getBreite();
         /**
