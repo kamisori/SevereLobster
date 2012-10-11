@@ -5,6 +5,8 @@ import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielsteinController;
 
 import javax.swing.JPanel;
+
+import java.awt.Color;
 import java.awt.GridLayout;
 
 /**
@@ -19,6 +21,7 @@ public class SpielfeldView extends JPanel {
         if (null == spielfeld) {
             throw new NullPointerException("Spielfeld ist null");
         }
+        this.setBackground(Color.black);
         final int laenge = spielfeld.getHoehe();
         final int breite = spielfeld.getBreite();
         /**
