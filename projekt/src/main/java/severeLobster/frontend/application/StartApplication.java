@@ -7,77 +7,70 @@ import java.awt.Image;
 import java.io.IOException;
 import javax.swing.JFrame;
 
-
-
-
 /**
  * 
  * @author Jean-Fabian Wenisch
  * @version 1.0
  */
-public class StartApplication extends JFrame implements Runnable
-{
-	/**
-	 * Startet das Programm(startet Splaschreen und startet Initialisierung)
-	 * @param args - werden momentan nicht verwendet
-	 * @author fwenisch
-	 * @version	1.0		08.10.2012
-	 */
-	public static void main(String[] args)
-	{
-		Thread Splashscreen = new Thread(new StartApplication());
-		Splashscreen.start();
+public class StartApplication extends JFrame implements Runnable {
+    /**
+     * Startet das Programm(startet Splaschreen und startet Initialisierung)
+     * 
+     * @param args
+     *            - werden momentan nicht verwendet
+     * @author fwenisch
+     * @version 1.0 08.10.2012
+     */
+    public static void main(String[] args) {
+        Thread Splashscreen = new Thread(new StartApplication());
+        Splashscreen.start();
 
-	}
-	/**
-	 * Initialisiert Mainframe & lädt Ressourcen bevor das Mainframe gestartet wird
-	 * @author fwenisch
-	 * @version 1.0		07.10.2012
-	 */
-	public void run()
-	{
-		Thread SC_MAIN = null;
-		setSize(550, 360);
-		setLocationRelativeTo(null);
-		setUndecorated(true);
-		setVisible(true);
+    }
 
-		try 
-		{		
-			//TODO: Bilder & Sonstige Sachen laden
-			SC_MAIN= new Thread(new MainFrame());
-			Thread.sleep(10000);
-		}
-		catch (Exception e)
-		{
-			dispose();
-			e.printStackTrace();
-		}
-		finally
-		{
-			dispose();
-			SC_MAIN.start();
-		}
-	}
-	/**
-	 * Wird überschrieben um Splash anzuzeigen
-	 * @author fwenisch
-	 * @version	1.0		08.10.2012
-	 */
-	public void paint(Graphics g)
-	{
-		Image sImage = getToolkit().getImage(getClass().getResource("Splashscreen.jpg")); 
-		g.drawImage(sImage, 0, 0, this);
-		Font myFont=new Font("Arial", Font.PLAIN, 12);
-		g.setFont( myFont );
-		g.setColor(Color.YELLOW);
-		g.drawString("Sternenkonstellation wird für "+System.getProperty("user.name")+" berechnet...", 5, 280);
-	}
+    /**
+     * Initialisiert Mainframe & lÃ¤dt Ressourcen bevor das Mainframe gestartet
+     * wird
+     * 
+     * @author fwenisch
+     * @version 1.0 07.10.2012
+     */
+    public void run() {
+        Thread SC_MAIN = null;
+        setSize(550, 360);
+        setLocationRelativeTo(null);
+        setUndecorated(true);
+        setVisible(true);
 
+        try {
+            // TODO: Bilder & Sonstige Sachen laden
+            SC_MAIN = new Thread(new MainFrame());
+            Thread.sleep(10000);
+        } catch (Exception e) {
+            dispose();
+            e.printStackTrace();
+        } finally {
+            dispose();
+            SC_MAIN.start();
+        }
+    }
+
+    /**
+     * Wird Ã¼berschrieben um Splash anzuzeigen
+     * 
+     * @author fwenisch
+     * @version 1.0 08.10.2012
+     */
+    public void paint(Graphics g) {
+        Image sImage = getToolkit().getImage(
+                getClass().getResource("Splashscreen.jpg"));
+        g.drawImage(sImage, 0, 0, this);
+        Font myFont = new Font("Arial", Font.PLAIN, 12);
+        g.setFont(myFont);
+        g.setColor(Color.YELLOW);
+        g.drawString(
+                "Sternenkonstellation wird fÃ¼r "
+                        + System.getProperty("user.name") + " berechnet...", 5,
+                280);
+    }
 
 }
-
-
-
-
-

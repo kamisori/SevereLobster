@@ -11,146 +11,148 @@ import org.junit.Test;
 
 public class Erkennung_von_Sieg_und_Fehlern_Test {
 
-	private Spiel testSpiel;
-	private Spielfeld spielfeld;
-	private Spielstein a,b,c,d;
-	
-	@Before
-	public void setUp() throws Exception {
-		testSpiel = new Spiel(new Spielfeld(4, 4),SpielmodusEnumeration.SPIELEN);
-		spielfeld = testSpiel.getSpielfeld();
-		a = new Spielstein();
-		b = new Spielstein();
-		c = new Spielstein();
-		d = new Spielstein();
-	}
+    private Spiel testSpiel;
+    private Spielfeld spielfeld;
+    private Spielstein a, b, c, d;
 
-	/**
-	 * Prüft ob ein Spielfeld gelöst wurde, bei dem das Getippte exakt dem realen Spielfeld entspricht
-	 */
-	@Test
-	public void erfolgreich_beendetes_spiel_erkennen() {
-		
-		// Stern da, Stern getippt
-		a.setRealState(new Stern());
-		a.setVisibleState(new Stern());
-		
-		// kein Stern, nichts getippt
-		b.setRealState(new NullState());
-		b.setVisibleState(new NullState());
+    @Before
+    public void setUp() throws Exception {
+        testSpiel = new Spiel(new Spielfeld(4, 4),
+                SpielmodusEnumeration.SPIELEN);
+        spielfeld = testSpiel.getSpielfeld();
+        a = new Spielstein();
+        b = new Spielstein();
+        c = new Spielstein();
+        d = new Spielstein();
+    }
 
-		// kein Stern, getippt dass dort keiner ist
-		c.setRealState(new NullState());
-		c.setVisibleState(new Ausschluss());
-		
-		// Pfeil, Pfeil muss auch angezeigt werden
-		d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-		d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-		
-		spielfeld.setSpielstein(0, 0, a);
-		spielfeld.setSpielstein(0, 1, b);
-		spielfeld.setSpielstein(1, 0, c);
-		spielfeld.setSpielstein(1, 1, d);
-		
-		assertTrue(testSpiel.isSolved());
-		
-	}
+    /**
+     * Prueft ob ein Spielfeld geloest wurde, bei dem das Getippte exakt dem
+     * realen Spielfeld entspricht
+     */
+    @Test
+    public void erfolgreich_beendetes_spiel_erkennen() {
 
-	/**
-	 * Prüft ob ein Spielfeld gelöst wurde.
-	 * Hier wurde explizit ein Ausschluss verwendet.
-	 */
-	@Test
-	public void erfolgreich_beendetes_spiel_mit_ausschluss_erkennen() {
-		
-		// Stern da, Stern getippt
-		a.setRealState(new Stern());
-		a.setVisibleState(new Stern());
-		
-		// kein Stern, nichts getippt
-		b.setRealState(new NullState());
-		b.setVisibleState(new Ausschluss());
+        // Stern da, Stern getippt
+        a.setRealState(new Stern());
+        a.setVisibleState(new Stern());
 
-		// kein Stern, getippt dass dort keiner ist
-		c.setRealState(new NullState());
-		c.setVisibleState(new Ausschluss());
-		
-		// Pfeil, Pfeil muss auch angezeigt werden
-		d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-		d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-		
-		spielfeld.setSpielstein(0, 0, a);
-		spielfeld.setSpielstein(0, 1, b);
-		spielfeld.setSpielstein(1, 0, c);
-		spielfeld.setSpielstein(1, 1, d);
-		
-		assertTrue(testSpiel.isSolved());
-		
-	}
-	
-	/**
-	 * Prüft ob Fehler vorliegen. Hier wurde ein Stern noch nicht gefunden.
-	 * Die Methode muss false zurückgeben, da noch kein Fehler vorliegt.
-	 */
-	@Test
-	public void stern_noch_nicht_getippt_erkennen() {
-		
-		// Stern da, kein Stern getippt 
-		// (hier darf kein Fehler auftreten, da noch nicht ausgeschlossen wurde, dass hier ein Stern liegt)
-		a.setRealState(new Stern());
-		a.setVisibleState(new NullState());
-		
-		// kein Stern, nichts getippt
-		b.setRealState(new NullState());
-		b.setVisibleState(new NullState());
+        // kein Stern, nichts getippt
+        b.setRealState(new NullState());
+        b.setVisibleState(new NullState());
 
-		// kein Stern, getippt dass dort keiner ist
-		c.setRealState(new NullState());
-		c.setVisibleState(new Ausschluss());
-		
-		// Pfeil, Pfeil muss auch angezeigt werden
-		d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-		d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-		
-		spielfeld.setSpielstein(0, 0, a);
-		spielfeld.setSpielstein(0, 1, b);
-		spielfeld.setSpielstein(1, 0, c);
-		spielfeld.setSpielstein(1, 1, d);
-		
-		assertFalse(testSpiel.hasErrors());
-		
-	}
+        // kein Stern, getippt dass dort keiner ist
+        c.setRealState(new NullState());
+        c.setVisibleState(new Ausschluss());
 
-	/**
-	 * Prüft ob Fehler vorliegen. Hier wurde ein Stern getippt, wo keiner ist.
-	 */
-	@Test
-	public void stern_zuviel_erkennen() {
-		
-		// Stern da, Stern getippt
-		a.setRealState(new Stern());
-		a.setVisibleState(new Stern());
-		
-		// kein Stern, Stern getippt (hier tritt der Fehler auf)
-		b.setRealState(new NullState());
-		b.setVisibleState(new Stern());
+        // Pfeil, Pfeil muss auch angezeigt werden
+        d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
 
-		// kein Stern, getippt dass dort keiner ist
-		c.setRealState(new NullState());
-		c.setVisibleState(new Ausschluss());
-		
-		// Pfeil, Pfeil muss auch angezeigt werden
-		d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-		d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-		
-		spielfeld.setSpielstein(0, 0, a);
-		spielfeld.setSpielstein(0, 1, b);
-		spielfeld.setSpielstein(1, 0, c);
-		spielfeld.setSpielstein(1, 1, d);
-		
-		assertTrue(testSpiel.hasErrors());
-		
-	}
+        spielfeld.setSpielstein(0, 0, a);
+        spielfeld.setSpielstein(0, 1, b);
+        spielfeld.setSpielstein(1, 0, c);
+        spielfeld.setSpielstein(1, 1, d);
 
+        assertTrue(testSpiel.isSolved());
+
+    }
+
+    /**
+     * Prueft ob ein Spielfeld geloest wurde. Hier wurde explizit ein Ausschluss
+     * verwendet.
+     */
+    @Test
+    public void erfolgreich_beendetes_spiel_mit_ausschluss_erkennen() {
+
+        // Stern da, Stern getippt
+        a.setRealState(new Stern());
+        a.setVisibleState(new Stern());
+
+        // kein Stern, nichts getippt
+        b.setRealState(new NullState());
+        b.setVisibleState(new NullState());
+
+        // kein Stern, getippt dass dort keiner ist
+        c.setRealState(new NullState());
+        c.setVisibleState(new Ausschluss());
+
+        // Pfeil, Pfeil muss auch angezeigt werden
+        d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+
+        spielfeld.setSpielstein(0, 0, a);
+        spielfeld.setSpielstein(0, 1, b);
+        spielfeld.setSpielstein(1, 0, c);
+        spielfeld.setSpielstein(1, 1, d);
+
+        assertTrue(testSpiel.isSolved());
+
+    }
+
+    /**
+     * PrÔøΩft ob Fehler vorliegen. Hier wurde ein Stern noch nicht gefunden. Die
+     * Methode muss false zurÔøΩckgeben, da noch kein Fehler vorliegt.
+     */
+    @Test
+    public void stern_noch_nicht_getippt_erkennen() {
+
+        // Stern da, kein Stern getippt
+        // (hier darf kein Fehler auftreten, da noch nicht ausgeschlossen wurde,
+        // dass hier ein Stern liegt)
+        a.setRealState(new Stern());
+        a.setVisibleState(new NullState());
+
+        // kein Stern, nichts getippt
+        b.setRealState(new NullState());
+        b.setVisibleState(new NullState());
+
+        // kein Stern, getippt dass dort keiner ist
+        c.setRealState(new NullState());
+        c.setVisibleState(new Ausschluss());
+
+        // Pfeil, Pfeil muss auch angezeigt werden
+        d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+
+        spielfeld.setSpielstein(0, 0, a);
+        spielfeld.setSpielstein(0, 1, b);
+        spielfeld.setSpielstein(1, 0, c);
+        spielfeld.setSpielstein(1, 1, d);
+
+        assertFalse(testSpiel.hasErrors());
+
+    }
+
+    /**
+     * Prueft ob Fehler vorliegen. Hier wurde ein Stern getippt, wo keiner ist.
+     */
+    @Test
+    public void stern_zuviel_erkennen() {
+
+        // Stern da, Stern getippt
+        a.setRealState(new Stern());
+        a.setVisibleState(new Stern());
+
+        // kein Stern, Stern getippt (hier tritt der Fehler auf)
+        b.setRealState(new NullState());
+        b.setVisibleState(new Stern());
+
+        // kein Stern, getippt dass dort keiner ist
+        c.setRealState(new NullState());
+        c.setVisibleState(new Ausschluss());
+
+        // Pfeil, Pfeil muss auch angezeigt werden
+        d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+
+        spielfeld.setSpielstein(0, 0, a);
+        spielfeld.setSpielstein(0, 1, b);
+        spielfeld.setSpielstein(1, 0, c);
+        spielfeld.setSpielstein(1, 1, d);
+
+        assertTrue(testSpiel.hasErrors());
+
+    }
 
 }

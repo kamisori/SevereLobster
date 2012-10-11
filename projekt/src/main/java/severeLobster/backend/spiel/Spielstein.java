@@ -14,92 +14,92 @@ import java.util.List;
  */
 public class Spielstein implements Serializable {
 
-	private static final long serialVersionUID = -8849754506328607439L;
-	private final EventListenerList listeners = new EventListenerList();
-	private SpielsteinState visibleState;
-	private SpielsteinState realState;
+    private static final long serialVersionUID = -8849754506328607439L;
+    private final EventListenerList listeners = new EventListenerList();
+    private SpielsteinState visibleState;
+    private SpielsteinState realState;
 
-	/**
-	 * Initialisiert beide state variablen mit NullState (Blank).
-	 */
-	public Spielstein() {
-		visibleState = NullState.getInstance();
-		realState = NullState.getInstance();
-	}
+    /**
+     * Initialisiert beide state variablen mit NullState (Blank).
+     */
+    public Spielstein() {
+        visibleState = NullState.getInstance();
+        realState = NullState.getInstance();
+    }
 
-	public SpielsteinState getVisibleState() {
-		return visibleState;
-	}
+    public SpielsteinState getVisibleState() {
+        return visibleState;
+    }
 
-	public void setVisibleState(SpielsteinState visibleState) {
-		this.visibleState = visibleState;
-		fireSpielsteinStateChanged(visibleState);
-	}
+    public void setVisibleState(SpielsteinState visibleState) {
+        this.visibleState = visibleState;
+        fireSpielsteinStateChanged(visibleState);
+    }
 
-	public SpielsteinState getRealState() {
-		return realState;
-	}
+    public SpielsteinState getRealState() {
+        return realState;
+    }
 
-	public void setRealState(SpielsteinState realState) {
-		this.realState = realState;
-	}
+    public void setRealState(SpielsteinState realState) {
+        this.realState = realState;
+    }
 
-	/**
-	 * Gibt eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren/
-	 * moeglichen Stati zurueck. Der Status kann dann ueber {@link setVisibleState}
-	 * geaendert werden.
-	 * 
-	 * @return Eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren
-	 *         Stati.
-	 */
-	public List<? extends SpielsteinState> listAvailableStates() {
-		final List<SpielsteinState> defaultTestResult = new LinkedList<SpielsteinState>();
-		defaultTestResult.add(new NullState());
-		defaultTestResult.add(new Ausschluss());
-		defaultTestResult.add(new Stern());
-		defaultTestResult.addAll(Pfeil.listAlleMoeglichenPfeile());
-		return defaultTestResult;
+    /**
+     * Gibt eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren/
+     * moeglichen Stati zurueck. Der Status kann dann ueber
+     * {@link setVisibleState} geaendert werden.
+     * 
+     * @return Eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren
+     *         Stati.
+     */
+    public List<? extends SpielsteinState> listAvailableStates() {
+        final List<SpielsteinState> defaultTestResult = new LinkedList<SpielsteinState>();
+        defaultTestResult.add(new NullState());
+        defaultTestResult.add(new Ausschluss());
+        defaultTestResult.add(new Stern());
+        defaultTestResult.addAll(Pfeil.listAlleMoeglichenPfeile());
+        return defaultTestResult;
 
-	}
+    }
 
-	/**
-	 * Benachrichtigt alle Listener dieses Spielsteins ueber einen neuen Wert von
-	 * "visibleState". Implementation ist glaube ich aus JComponent oder
-	 * Component kopiert.
-	 * 
-	 * @param newState
-	 *            - Der neue Status, der an die Listener mitgeteilt wird.
-	 */
-	protected void fireSpielsteinStateChanged(final SpielsteinState newState) {
-		/** Gibt ein Array zurueck, das nicht null ist */
-		final Object[] currentListeners = listeners.getListenerList();
-		/**
-		 * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
-		 */
-		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-			if (currentListeners[i] == ISpielsteinListener.class) {
-				((ISpielsteinListener) currentListeners[i + 1])
-						.spielsteinStateChanged(this, newState);
-			}
-		}
-	}
+    /**
+     * Benachrichtigt alle Listener dieses Spielsteins ueber einen neuen Wert
+     * von "visibleState". Implementation ist glaube ich aus JComponent oder
+     * Component kopiert.
+     * 
+     * @param newState
+     *            - Der neue Status, der an die Listener mitgeteilt wird.
+     */
+    protected void fireSpielsteinStateChanged(final SpielsteinState newState) {
+        /** Gibt ein Array zurueck, das nicht null ist */
+        final Object[] currentListeners = listeners.getListenerList();
+        /**
+         * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
+         */
+        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+            if (currentListeners[i] == ISpielsteinListener.class) {
+                ((ISpielsteinListener) currentListeners[i + 1])
+                        .spielsteinStateChanged(this, newState);
+            }
+        }
+    }
 
-	/**
-	 * Fuegt listener zu der Liste hinzu.
-	 * 
-	 * @param listener
-	 */
-	public void addSpielsteinListener(final ISpielsteinListener listener) {
-		listeners.add(ISpielsteinListener.class, listener);
-	}
+    /**
+     * Fuegt listener zu der Liste hinzu.
+     * 
+     * @param listener
+     */
+    public void addSpielsteinListener(final ISpielsteinListener listener) {
+        listeners.add(ISpielsteinListener.class, listener);
+    }
 
-	/**
-	 * Entfernt listener von der Liste.
-	 * 
-	 * @param listener
-	 */
-	public void removeSpielsteinListener(final ISpielsteinListener listener) {
-		listeners.remove(ISpielsteinListener.class, listener);
-	}
+    /**
+     * Entfernt listener von der Liste.
+     * 
+     * @param listener
+     */
+    public void removeSpielsteinListener(final ISpielsteinListener listener) {
+        listeners.remove(ISpielsteinListener.class, listener);
+    }
 
 }

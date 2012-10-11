@@ -3,8 +3,9 @@ package severeLobster.backend.command;
 import severeLobster.backend.spiel.Spiel;
 
 /**
- * Sekundäraktion - Sekundäre Aktion die vom Spieler aus gesteuert wird. (Z.B. Mausrechtsklick)
- *
+ * Sekundäraktion - Sekundäre Aktion die vom Spieler aus gesteuert wird. (Z.B.
+ * Mausrechtsklick)
+ * 
  * @author Lars Schlegelmilch
  */
 public class SekundaerAktion implements Aktion {

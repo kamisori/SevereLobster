@@ -9,15 +9,15 @@ import java.io.Serializable;
  */
 public abstract class SpielsteinState implements Serializable {
 
-	/**
-	 * Abgeleitete Klassen sollen eigene toString Methode implementieren.
-	 */
-	@Override
-	public abstract String toString();
+    /**
+     * Abgeleitete Klassen sollen eigene toString Methode implementieren.
+     */
+    @Override
+    public abstract String toString();
 
-	/**
-	 * Abgeleitete Klassen sollen eigene equals Methode implementieren.
-	 */
-	@Override
-	public abstract boolean equals(Object obj);
+    /**
+     * Abgeleitete Klassen sollen eigene equals Methode implementieren.
+     */
+    @Override
+    public abstract boolean equals(Object obj);
 }

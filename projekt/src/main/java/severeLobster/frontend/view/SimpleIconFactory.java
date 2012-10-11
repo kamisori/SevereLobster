@@ -10,15 +10,15 @@ import infrastructure.graphics.simpleIcons.SimpleIconPackage;
  */
 public class SimpleIconFactory extends IconFactory {
 
-	private static final SimpleIconFactory INSTANCE = new SimpleIconFactory();
+    private static final SimpleIconFactory INSTANCE = new SimpleIconFactory();
 
-	private SimpleIconFactory() {
-		super(SimpleIconPackage.getInstance());
-	}
+    private SimpleIconFactory() {
+        super(SimpleIconPackage.getInstance());
+    }
 
-	public static SimpleIconFactory getInstance() {
-		return INSTANCE;
+    public static SimpleIconFactory getInstance() {
+        return INSTANCE;
 
-	}
+    }
 
 }

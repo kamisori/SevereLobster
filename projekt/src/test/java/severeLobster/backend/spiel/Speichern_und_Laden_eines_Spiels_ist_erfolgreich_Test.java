@@ -20,57 +20,57 @@ import static org.junit.Assert.assertThat;
  */
 public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
 
-	private Spiel spiel;
-	private Spielfeld spielfeld;
-	private Spielstein spielstein;
-	private SpielsteinState spielsteinStateStern;
-	private SpielsteinState spielsteinStateAusschluss;
+    private Spiel spiel;
+    private Spielfeld spielfeld;
+    private Spielstein spielstein;
+    private SpielsteinState spielsteinStateStern;
+    private SpielsteinState spielsteinStateAusschluss;
 
-	@Before
-	public void setUp() {
-		spielsteinStateStern = new Stern();
-		spielsteinStateAusschluss = new Ausschluss();
-		spielstein = new Spielstein();
-		spielstein.setRealState(spielsteinStateStern);
-		spielstein.setVisibleState(spielsteinStateAusschluss);
-		spielfeld = new Spielfeld(10, 9);
-		/** War nicht mehr n�tig nach API �nderung: */
-		spielfeld.setSpielstein(0, 0, spielstein);
-		spiel = new Spiel(spielfeld, SpielmodusEnumeration.SPIELEN);
-	}
+    @Before
+    public void setUp() {
+        spielsteinStateStern = new Stern();
+        spielsteinStateAusschluss = new Ausschluss();
+        spielstein = new Spielstein();
+        spielstein.setRealState(spielsteinStateStern);
+        spielstein.setVisibleState(spielsteinStateAusschluss);
+        spielfeld = new Spielfeld(10, 9);
+        /** War nicht mehr noetig nach API Aenderung: */
+        spielfeld.setSpielstein(0, 0, spielstein);
+        spiel = new Spiel(spielfeld, SpielmodusEnumeration.SPIELEN);
+    }
 
-	@Test
-	public void ein_gespeichertes_Spiel_speichert_seine_Attribute_mit() {
-		spiel.save("testSpiel01");
-		Spiel geladenesSpiel = Spiel.load("testSpiel01");
+    @Test
+    public void ein_gespeichertes_Spiel_speichert_seine_Attribute_mit() {
+        spiel.save("testSpiel01");
+        Spiel geladenesSpiel = Spiel.load("testSpiel01");
 
-		assertThat(geladenesSpiel.getSpielmodus(), is(spiel.getSpielmodus()));
-		assertThat(geladenesSpiel.getSpielfeld().getSchwierigkeitsgrad(),
-				is(spielfeld.getSchwierigkeitsgrad()));
-		assertThat(geladenesSpiel.getSpielfeld().getSpielstein(0, 0)
-				.getRealState(), instanceOf(spielstein.getRealState()
-				.getClass()));
-		assertThat(geladenesSpiel.getSpielfeld().getSpielstein(0, 0)
-				.getVisibleState(), instanceOf(spielstein.getVisibleState()
-				.getClass()));
-	}
+        assertThat(geladenesSpiel.getSpielmodus(), is(spiel.getSpielmodus()));
+        assertThat(geladenesSpiel.getSpielfeld().getSchwierigkeitsgrad(),
+                is(spielfeld.getSchwierigkeitsgrad()));
+        assertThat(geladenesSpiel.getSpielfeld().getSpielstein(0, 0)
+                .getRealState(), instanceOf(spielstein.getRealState()
+                .getClass()));
+        assertThat(geladenesSpiel.getSpielfeld().getSpielstein(0, 0)
+                .getVisibleState(), instanceOf(spielstein.getVisibleState()
+                .getClass()));
+    }
 
-	@Test
-	public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_gibt_NULL_zurueck() {
-		Spiel geladenesSpiel = Spiel.load("testSpiel02");
+    @Test
+    public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_gibt_NULL_zurueck() {
+        Spiel geladenesSpiel = Spiel.load("testSpiel02");
 
-		assertThat(geladenesSpiel, nullValue());
-	}
+        assertThat(geladenesSpiel, nullValue());
+    }
 
-	@After
-	public void tearDown() {
-		File file = new File("testSpiel01.sav");
-		boolean success = true;
-		if (file.exists()) {
-			success = file.delete();
-		}
-		if (!success) {
-			System.out.println("Fehler beim tearDown des Tests.");
-		}
-	}
+    @After
+    public void tearDown() {
+        File file = new File("testSpiel01.sav");
+        boolean success = true;
+        if (file.exists()) {
+            success = file.delete();
+        }
+        if (!success) {
+            System.out.println("Fehler beim tearDown des Tests.");
+        }
+    }
 }

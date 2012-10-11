@@ -7,20 +7,14 @@ import java.awt.Image;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class  SpielfeldView_fwenisch extends JPanel
-{
+public class SpielfeldView_fwenisch extends JPanel {
 
+    public SpielfeldView_fwenisch() {
 
-		public SpielfeldView_fwenisch()
-		{	
-		
-			add(new JLabel("Main"));
-			setBackground(Color.WHITE);
-			
-			
-			setVisible(true);
-		}
+        add(new JLabel("Main"));
+        setBackground(Color.WHITE);
 
-		
-	
+        setVisible(true);
+    }
+
 }

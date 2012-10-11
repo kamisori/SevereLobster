@@ -10,5 +10,6 @@ import java.util.EventListener;
  * 
  */
 public interface ISpielsteinListener extends EventListener {
-	public void spielsteinStateChanged(Spielstein spielstein, SpielsteinState newState);
+    public void spielsteinStateChanged(Spielstein spielstein,
+            SpielsteinState newState);
 }

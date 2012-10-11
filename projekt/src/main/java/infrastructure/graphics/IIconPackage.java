@@ -11,11 +11,11 @@ import javax.swing.Icon;
  */
 public interface IIconPackage {
 
-	public Icon sternIcon();
+    public Icon sternIcon();
 
-	public Icon pfeilIcon();
+    public Icon pfeilIcon();
 
-	public Icon ausschlussIcon();
+    public Icon ausschlussIcon();
 
-	public Icon blankIcon();
+    public Icon blankIcon();
 }

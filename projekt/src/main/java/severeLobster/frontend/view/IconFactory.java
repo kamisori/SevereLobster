@@ -17,25 +17,25 @@ import severeLobster.backend.spiel.Stern;
  */
 public abstract class IconFactory {
 
-	private final IIconPackage iconPackage;
+    private final IIconPackage iconPackage;
 
-	public IconFactory(final IIconPackage iconPackage) {
-		this.iconPackage = iconPackage;
-	}
+    public IconFactory(final IIconPackage iconPackage) {
+        this.iconPackage = iconPackage;
+    }
 
-	public final Icon getIconForState(final SpielsteinState state) {
-		if (null == state) {
-			return iconPackage.blankIcon();
-		}
-		if (state instanceof Stern) {
-			return iconPackage.sternIcon();
-		}
-		if (state instanceof Ausschluss) {
-			return iconPackage.ausschlussIcon();
-		}
-		if (state instanceof Pfeil) {
-			return iconPackage.pfeilIcon();
-		}
-		return iconPackage.blankIcon();
-	}
+    public final Icon getIconForState(final SpielsteinState state) {
+        if (null == state) {
+            return iconPackage.blankIcon();
+        }
+        if (state instanceof Stern) {
+            return iconPackage.sternIcon();
+        }
+        if (state instanceof Ausschluss) {
+            return iconPackage.ausschlussIcon();
+        }
+        if (state instanceof Pfeil) {
+            return iconPackage.pfeilIcon();
+        }
+        return iconPackage.blankIcon();
+    }
 }

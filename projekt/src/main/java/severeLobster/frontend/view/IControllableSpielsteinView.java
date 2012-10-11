@@ -11,20 +11,20 @@ import severeLobster.frontend.controller.SpielsteinController;
  */
 public interface IControllableSpielsteinView {
 
-	/**
-	 * Veraendert den aktuell dargestellten SpielsteinState dieser View.
-	 * 
-	 * @param newDisplayedState
-	 */
-	public void setDisplayedState(SpielsteinState newDisplayedState);
+    /**
+     * Veraendert den aktuell dargestellten SpielsteinState dieser View.
+     * 
+     * @param newDisplayedState
+     */
+    public void setDisplayedState(SpielsteinState newDisplayedState);
 
-	/**
-	 * Wird nur vom Controller selbst aufgerufen. ueberschreibt den eventuell
-	 * zuvor gesetzten Controller.
-	 * 
-	 * @param spielsteinController
-	 */
-	public void setSpielsteinController(
-			SpielsteinController spielsteinController);
+    /**
+     * Wird nur vom Controller selbst aufgerufen. ueberschreibt den eventuell
+     * zuvor gesetzten Controller.
+     * 
+     * @param spielsteinController
+     */
+    public void setSpielsteinController(
+            SpielsteinController spielsteinController);
 
 }
