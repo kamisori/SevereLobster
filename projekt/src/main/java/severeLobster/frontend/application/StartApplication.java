@@ -1,17 +1,83 @@
 package severeLobster.frontend.application;
 
-/**
- * Test-Main
- *
- * @author Lars Schlegelmilch
- */
-public class StartApplication {
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.IOException;
+import javax.swing.JFrame;
 
-    /**
-     * Main Methode
-     * @param args Argumente
-     */
-    public static void main(String[] args){
-        System.out.println("Ausgabe aus der main()-Methode");
-    }
+
+
+
+/**
+ * 
+ * @author Jean-Fabian Wenisch
+ * @version 1.0
+ */
+public class StartApplication extends JFrame implements Runnable
+{
+	/**
+	 * Startet das Programm(startet Splaschreen und startet Initialisierung)
+	 * @param args - werden momentan nicht verwendet
+	 * @author fwenisch
+	 * @version	1.0		08.10.2012
+	 */
+	public static void main(String[] args)
+	{
+		Thread Splashscreen = new Thread(new StartApplication());
+		Splashscreen.start();
+
+	}
+	/**
+	 * Initialisiert Mainframe & lädt Ressourcen bevor das Mainframe gestartet wird
+	 * @author fwenisch
+	 * @version 1.0		07.10.2012
+	 */
+	public void run()
+	{
+		Thread SC_MAIN = null;
+		setSize(550, 360);
+		setLocationRelativeTo(null);
+		setUndecorated(true);
+		setVisible(true);
+
+		try 
+		{		
+			//TODO: Bilder & Sonstige Sachen laden
+			SC_MAIN= new Thread(new MainFrame());
+			Thread.sleep(10000);
+		}
+		catch (Exception e)
+		{
+			dispose();
+			e.printStackTrace();
+		}
+		finally
+		{
+			dispose();
+			SC_MAIN.start();
+		}
+	}
+	/**
+	 * Wird überschrieben um Splash anzuzeigen
+	 * @author fwenisch
+	 * @version	1.0		08.10.2012
+	 */
+	public void paint(Graphics g)
+	{
+		Image sImage = getToolkit().getImage(getClass().getResource("Splashscreen.jpg")); 
+		g.drawImage(sImage, 0, 0, this);
+		Font myFont=new Font("Arial", Font.PLAIN, 12);
+		g.setFont( myFont );
+		g.setColor(Color.YELLOW);
+		g.drawString("Sternenkonstellation wird für "+System.getProperty("user.name")+" berechnet...", 5, 280);
+	}
+
+
 }
+
+
+
+
+
