@@ -1,8 +1,8 @@
 package severeLobster.backend.spiel;
 
 /**
- * Wenn bisher noch kein anderer Status für das Feld gesetzt wurde oder hier
- * einfach nichts ist. Hieß vorher BlankState.
+ * Wenn bisher noch kein anderer Status fuer das Feld gesetzt wurde oder hier
+ * einfach nichts ist. Hiess vorher BlankState.
  * 
  * @author Lutz Kleiber
  * 
@@ -13,7 +13,7 @@ public class NullState extends SpielsteinState {
 
 	/**
 	 * Liefert immer dieselbe Instanz. Da sich die Instanzen nicht in ihren
-	 * Zuständen unterscheiden, kann man immer die selbe Instanz nehmen.
+	 * Zustaenden unterscheiden, kann man immer die selbe Instanz nehmen.
 	 * 
 	 * @return
 	 */

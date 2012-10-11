@@ -34,8 +34,8 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
 		spielstein.setRealState(spielsteinStateStern);
 		spielstein.setVisibleState(spielsteinStateAusschluss);
 		spielfeld = new Spielfeld(10, 9);
-		/** War nicht mehr nötig nach API Änderung: */
-		// spielfeld.setSpielstein(0, 0, spielstein);
+		/** War nicht mehr nï¿½tig nach API ï¿½nderung: */
+		spielfeld.setSpielstein(0, 0, spielstein);
 		spiel = new Spiel(spielfeld, SpielmodusEnumeration.SPIELEN);
 	}
 

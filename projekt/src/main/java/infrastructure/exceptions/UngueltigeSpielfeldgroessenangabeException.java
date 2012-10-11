@@ -1,9 +1,13 @@
 package infrastructure.exceptions;
 
 /**
- * TODO Beschreibung angeben
+ * Exception fuer eine ungueltige Groessenangabe eines Spielfeldes.
  *
- * @author scla
+ * @author Lars Schlegelmilch
  */
-public class UngueltigeSpielfeldgroessenangabeException {
+public class UngueltigeSpielfeldgroessenangabeException extends IllegalArgumentException {
+
+    public UngueltigeSpielfeldgroessenangabeException() {
+        super("Die Groessenangabe des Spielfeldes ist ungueltig!");
+    }
 }

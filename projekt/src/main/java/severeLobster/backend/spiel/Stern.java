@@ -15,7 +15,7 @@ public class Stern extends SpielsteinState {
 
 	@Override
 	public String toString() {
-		return "Stern";
+        return "Stern";
 	}
 
 	@Override

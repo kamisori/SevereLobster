@@ -12,7 +12,7 @@ public class Ausschluss extends SpielsteinState {
 
 	/**
 	 * Liefert immer dieselbe Instanz. Da sich die Instanzen nicht in ihren
-	 * Zuständen unterscheiden, kann man immer die selbe Instanz nehmen.
+	 * Zustaenden unterscheiden, kann man immer die selbe Instanz nehmen.
 	 * 
 	 * @return
 	 */

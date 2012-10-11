@@ -1,10 +1,10 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.constants.enums.PfeilrichtungEnumeration;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import infrastructure.constants.enums.PfeilrichtungEnumeration;
 
 /**
  * Pfeilspielstein - Zeigt immer auf mindestens einen Pfeil
@@ -31,7 +31,7 @@ public class Pfeil extends SpielsteinState {
 			PfeilrichtungEnumeration.NORDWEST);
 
 	/**
-	 * Es wird immer dieselbst Liste zurückgegeben, daher muss sie unveränderbar
+	 * Es wird immer dieselbst Liste zurueckgegeben, daher muss sie unveraenderbar
 	 * sein.
 	 */
 	private static final List<Pfeil> ALLE_MOEGLICHEN_PFEIL_INSTANZEN;
@@ -101,7 +101,7 @@ public class Pfeil extends SpielsteinState {
 	}
 
 	/**
-	 * Liste ist unveränderbar. Änderungsversuche führen zu einer
+	 * Liste ist unveraenderbar. Aenderungsversuche fuehren zu einer
 	 * UnsupportedOperationException.
 	 * 
 	 * @return

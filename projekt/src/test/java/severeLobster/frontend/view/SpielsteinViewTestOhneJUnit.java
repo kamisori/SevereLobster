@@ -1,13 +1,12 @@
 package severeLobster.frontend.view;
 
-import java.awt.BorderLayout;
-import java.util.List;
-
-import javax.swing.JFrame;
-
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SpielsteinState;
 import severeLobster.frontend.controller.SpielsteinController;
+
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import java.util.List;
 
 public class SpielsteinViewTestOhneJUnit {
 
@@ -24,13 +23,13 @@ public class SpielsteinViewTestOhneJUnit {
 		frame.setVisible(true);
 
 		/**
-		 * Ändere die Stati in spielstein.
+		 * ï¿½ndere die Stati in spielstein.
 		 */
 		final List<? extends SpielsteinState> allowedStates = spielstein
 				.listAvailableStates();
 		for (SpielsteinState currentState : allowedStates) {
 			spielstein.setVisibleState(currentState);
-			System.out.println("Status geändert in:" + currentState);
+			System.out.println("Status geaendert in:" + currentState);
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {

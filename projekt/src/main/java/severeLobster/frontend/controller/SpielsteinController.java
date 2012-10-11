@@ -1,10 +1,6 @@
 package severeLobster.frontend.controller;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
-
-import java.awt.event.MouseEvent;
-import java.util.List;
-
 import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.ISpielsteinListener;
 import severeLobster.backend.spiel.NullState;
@@ -13,6 +9,9 @@ import severeLobster.backend.spiel.SpielsteinState;
 import severeLobster.backend.spiel.Stern;
 import severeLobster.frontend.view.IControllableSpielsteinView;
 import severeLobster.frontend.view.PopupMenuForSpielsteinStateManipulation;
+
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 /**
  * Der Vermittler zwischen dem Spielstein und der darstellenden Komponente. Alle
@@ -26,7 +25,7 @@ import severeLobster.frontend.view.PopupMenuForSpielsteinStateManipulation;
 public class SpielsteinController {
 
 	/**
-	 * TODO ÄNDERN - Nur zum Testen: Muss später vom Spiel geholt werdens
+	 * TODO AENDERN - Nur zum Testen: Muss spaeter vom Spiel geholt werdens
 	 */
 	public SpielmodusEnumeration spielModus = SpielmodusEnumeration.EDITIEREN;
 
@@ -83,7 +82,7 @@ public class SpielsteinController {
 	}
 
 	/**
-	 * Methode behandelt komplette Logik für Mausklicks: Im Spielmodus:
+	 * Methode behandelt komplette Logik fuer Mausklicks: Im Spielmodus:
 	 * Linksklick: Stern setzen; Rechtsklick: Ausschluss setzen.
 	 * 
 	 * Im Editiermodus: Linksklick: Feld auf NullState resetten; Rechtsklick:
@@ -148,7 +147,7 @@ public class SpielsteinController {
 	}
 
 	/**
-	 * TODO Ändern: Vom Spiel holen
+	 * TODO aendern: Vom Spiel holen
 	 * 
 	 * @return
 	 */

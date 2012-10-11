@@ -45,11 +45,11 @@ public class Spielstein implements Serializable {
 	}
 
 	/**
-	 * Gibt eine Liste mit den für diesen Spielstein aktuell auswählbaren/
-	 * möglichen Stati zurück. Der Status kann dann über {@link setVisibleState}
-	 * geändert werden.
+	 * Gibt eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren/
+	 * moeglichen Stati zurueck. Der Status kann dann ueber {@link setVisibleState}
+	 * geaendert werden.
 	 * 
-	 * @return Eine Liste mit den für diesen Spielstein aktuell auswählbaren
+	 * @return Eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren
 	 *         Stati.
 	 */
 	public List<? extends SpielsteinState> listAvailableStates() {
@@ -63,7 +63,7 @@ public class Spielstein implements Serializable {
 	}
 
 	/**
-	 * Benachrichtigt alle Listener dieses Spielsteins über einen neuen Wert von
+	 * Benachrichtigt alle Listener dieses Spielsteins ueber einen neuen Wert von
 	 * "visibleState". Implementation ist glaube ich aus JComponent oder
 	 * Component kopiert.
 	 * 
@@ -71,7 +71,7 @@ public class Spielstein implements Serializable {
 	 *            - Der neue Status, der an die Listener mitgeteilt wird.
 	 */
 	protected void fireSpielsteinStateChanged(final SpielsteinState newState) {
-		/** Gibt ein Array zurück, das nicht null ist */
+		/** Gibt ein Array zurueck, das nicht null ist */
 		final Object[] currentListeners = listeners.getListenerList();
 		/**
 		 * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
@@ -85,7 +85,7 @@ public class Spielstein implements Serializable {
 	}
 
 	/**
-	 * Fügt listener zu der Liste hinzu.
+	 * Fuegt listener zu der Liste hinzu.
 	 * 
 	 * @param listener
 	 */

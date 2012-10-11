@@ -1,14 +1,13 @@
 package severeLobster.frontend.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
+import severeLobster.backend.spiel.SpielsteinState;
+import severeLobster.frontend.controller.SpielsteinController;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-
-import severeLobster.backend.spiel.SpielsteinState;
-import severeLobster.frontend.controller.SpielsteinController;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * Popup Maus Menu zum Editieren des SpielsteinState im Editier Modus dies
@@ -26,11 +25,11 @@ public class PopupMenuForSpielsteinStateManipulation extends JPopupMenu {
 		JMenuItem menuItem;
 
 		/**
-		 * Durchlaufe die für diesen Spielstein möglichen Stati und stelle jeden
+		 * Durchlaufe die fuer diesen Spielstein moeglichen Stati und stelle jeden
 		 * dieser Stati mit einem Icon und Text zur Auswahl dar.
 		 */
 		for (SpielsteinState currentState : choosableStates) {
-			/** Hole Icon und Namen für diesen SpielsteinState: */
+			/** Hole Icon und Namen fuer diesen SpielsteinState: */
 
 			menuItem = new JMenuItem(currentState.toString(), SimpleIconFactory
 					.getInstance().getIconForState(currentState));
@@ -43,7 +42,7 @@ public class PopupMenuForSpielsteinStateManipulation extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					/**
-					 * Bei Klick auf den Status soll eine Statusänderung hierhin
+					 * Bei Klick auf den Status soll eine Statusaenderung hierhin
 					 * gemacht werden.
 					 */
 					spielsteinController.setState(finalCurrentState);
