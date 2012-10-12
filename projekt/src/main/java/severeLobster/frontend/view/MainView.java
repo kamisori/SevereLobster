@@ -1,16 +1,11 @@
 package severeLobster.frontend.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import infrastructure.graphics.GraphicsGetter;
+import severeLobster.backend.spiel.Spielfeld;
+
+import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Image;
-
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import severeLobster.backend.spiel.Spielfeld;
 
 public class MainView extends JPanel {
 
@@ -30,7 +25,7 @@ public class MainView extends JPanel {
 
     public void paintComponent(Graphics g) {
         Image sImage = getToolkit().getImage(
-                getClass().getResource("sternenhimmel.jpg"));
+                GraphicsGetter.getGraphic("sternenhimmel.jpg"));
         g.drawImage(sImage, 0, 0, this);
     }
 }

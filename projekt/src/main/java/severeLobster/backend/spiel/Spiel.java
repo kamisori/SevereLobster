@@ -22,12 +22,15 @@ public class Spiel implements Serializable {
 
     private Spielfeld spielfeld;
     private SpielmodusEnumeration spielmodus;
+    private int anzahlZuege;
 
+    /**
+     * Gibt die Anzahl an bereits versuchten Spielzuegen zurueck
+     * @return Anzahl Spielzuege
+     */
     public int getAnzahlZuege() {
         return anzahlZuege;
     }
-
-    private int anzahlZuege;
 
     /**
      * Ein Spiel hat ein Spielfeld und einen Modus
@@ -80,9 +83,9 @@ public class Spiel implements Serializable {
         try {
             outputStream = new FileOutputStream(spielname
                     + GlobaleKonstanten.SPIELSTAND_DATEITYP);
-            ObjectOutputStream o = new ObjectOutputStream(outputStream);
-            o.writeObject(this);
-            o.close();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(this);
+            objectOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -107,15 +110,15 @@ public class Spiel implements Serializable {
         try {
             inputStream = new FileInputStream(spielname
                     + GlobaleKonstanten.SPIELSTAND_DATEITYP);
-            ObjectInputStream o = new ObjectInputStream(inputStream);
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-            return (Spiel) o.readObject();
+            return (Spiel) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return null;
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         } finally {
             try {
                 if (inputStream != null) {
@@ -125,7 +128,6 @@ public class Spiel implements Serializable {
                 e.printStackTrace();
             }
         }
-        return null;
     }
 
     /**

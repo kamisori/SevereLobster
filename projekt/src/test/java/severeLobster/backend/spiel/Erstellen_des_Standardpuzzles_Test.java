@@ -1,5 +1,6 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import org.junit.Before;
@@ -121,7 +122,7 @@ public class Erstellen_des_Standardpuzzles_Test {
     @Test
     public void sichern_des_standardspiels_ist_erfolgreich() {
         spiel.save("Standardspiel01");
-        File file = new File("Standardspiel01.sav");
+        File file = new File("Standardspiel01" + GlobaleKonstanten.SPIELSTAND_DATEITYP);
 
         assertTrue(file.exists());
     }

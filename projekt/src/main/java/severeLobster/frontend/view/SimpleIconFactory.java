@@ -1,6 +1,6 @@
 package severeLobster.frontend.view;
 
-import infrastructure.graphics.simpleIcons.SimpleIconPackage;
+import infrastructure.graphics.icons.SimpleIconPackage;
 
 /**
  * Factory Implementation fuer das Simple Icon Paket
