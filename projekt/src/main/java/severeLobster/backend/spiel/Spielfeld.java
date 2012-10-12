@@ -19,9 +19,6 @@ public class Spielfeld implements Serializable {
     // private Spielstein[][] koordinaten;
     private final Spielstein[][] koordinaten;
 
-    // public Spielfeld() {
-    // }
-
     /**
      * Im Vergleich zur vorherigen API sind breite und laenge bei parameterliste
      * vertauscht, um Einheitlichkeit mit getSpielstein() zu haben.
@@ -35,7 +32,7 @@ public class Spielfeld implements Serializable {
         }
         this.koordinaten = new Spielstein[breite][hoehe];
 
-        /** Feld mit NullState Spielsteinen f�llen */
+        /** Feld mit NullState Spielsteinen fuellen */
         for (int hoeheIndex = 0; hoeheIndex < hoehe; hoeheIndex++) {
             for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
                 koordinaten[breiteIndex][hoeheIndex] = new Spielstein();
@@ -89,7 +86,6 @@ public class Spielfeld implements Serializable {
      *            Spielstein der gesetzt werden soll
      */
     public void setSpielstein(int x, int y, Spielstein spielstein) {
-        // koordinaten[x][y] = spielstein;
         koordinaten[x][y].setRealState(spielstein.getRealState());
         koordinaten[x][y].setVisibleState(spielstein.getVisibleState());
     }

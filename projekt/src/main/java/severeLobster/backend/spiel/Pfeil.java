@@ -1,5 +1,6 @@
 package severeLobster.backend.spiel;
 
+import com.google.common.base.Preconditions;
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
 
 import java.util.ArrayList;
@@ -55,12 +56,11 @@ public class Pfeil extends SpielsteinState {
      * Statt des Konstruktors lieber die statischen Factory Methoden nehmen, da
      * spart man sich das setzen von pfeilrichtung.
      * 
-     * @param pfeilrichtung
+     * @param pfeilrichtung Richtung des Pfeiles
      */
     public Pfeil(final PfeilrichtungEnumeration pfeilrichtung) {
-        if (null == pfeilrichtung) {
-            throw new NullPointerException("Pfeilrichtung is null");
-        }
+        Preconditions.checkNotNull(pfeilrichtung);
+
         this.pfeilrichtung = pfeilrichtung;
     }
 
@@ -104,7 +104,7 @@ public class Pfeil extends SpielsteinState {
      * Liste ist unveraenderbar. Aenderungsversuche fuehren zu einer
      * UnsupportedOperationException.
      * 
-     * @return
+     * @return Alle moeglichen Pfeilvarianten
      */
     public static List<Pfeil> listAlleMoeglichenPfeile() {
         return ALLE_MOEGLICHEN_PFEIL_INSTANZEN;

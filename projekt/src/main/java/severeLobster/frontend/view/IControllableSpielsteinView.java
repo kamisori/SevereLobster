@@ -14,7 +14,7 @@ public interface IControllableSpielsteinView {
     /**
      * Veraendert den aktuell dargestellten SpielsteinState dieser View.
      * 
-     * @param newDisplayedState
+     * @param newDisplayedState SpielsteinState
      */
     public void setDisplayedState(SpielsteinState newDisplayedState);
 
@@ -22,7 +22,7 @@ public interface IControllableSpielsteinView {
      * Wird nur vom Controller selbst aufgerufen. ueberschreibt den eventuell
      * zuvor gesetzten Controller.
      * 
-     * @param spielsteinController
+     * @param spielsteinController SpielsteinController
      */
     public void setSpielsteinController(
             SpielsteinController spielsteinController);

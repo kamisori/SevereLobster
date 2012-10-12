@@ -11,6 +11,8 @@ public class GraphicsGetter {
 
     private static final GraphicsGetter instance = new GraphicsGetter();
 
+    private GraphicsGetter() {}
+
     /**
      * Gibt die URL einer Grafik im Package src/main/resources/graphics
      * zurueck

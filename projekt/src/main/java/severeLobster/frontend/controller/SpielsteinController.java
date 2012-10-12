@@ -45,7 +45,7 @@ public class SpielsteinController {
      * Wird vom View aufgerufen. Ver�ndert den wert von visibleState des
      * zugrundeliegenden Spielsteins.
      * 
-     * @param spielsteinState
+     * @param spielsteinState SpielsteinState
      */
     public void setState(final SpielsteinState spielsteinState) {
         spielsteinModel.setVisibleState(spielsteinState);
@@ -63,6 +63,7 @@ public class SpielsteinController {
 
     private class InnerSpielsteinListener implements ISpielsteinListener {
 
+        @Override
         public void spielsteinStateChanged(final Spielstein spielstein,
                 final SpielsteinState newState) {
 
@@ -149,7 +150,7 @@ public class SpielsteinController {
     /**
      * TODO aendern: Vom Spiel holen
      * 
-     * @return
+     * @return Spielmodus
      */
     private SpielmodusEnumeration getSpielmodus() {
         return this.spielModus;

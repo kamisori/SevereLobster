@@ -1,4 +1,4 @@
-package infrastructure.graphics;
+package infrastructure.graphics.icons;
 
 import javax.swing.Icon;
 

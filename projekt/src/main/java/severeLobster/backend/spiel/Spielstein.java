@@ -47,7 +47,7 @@ public class Spielstein implements Serializable {
     /**
      * Gibt eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren/
      * moeglichen Stati zurueck. Der Status kann dann ueber
-     * {@link setVisibleState} geaendert werden.
+     * {@see setVisibleState} geaendert werden.
      * 
      * @return Eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren
      *         Stati.
@@ -87,7 +87,7 @@ public class Spielstein implements Serializable {
     /**
      * Fuegt listener zu der Liste hinzu.
      * 
-     * @param listener
+     * @param listener ISpielsteinListener
      */
     public void addSpielsteinListener(final ISpielsteinListener listener) {
         listeners.add(ISpielsteinListener.class, listener);
@@ -96,7 +96,7 @@ public class Spielstein implements Serializable {
     /**
      * Entfernt listener von der Liste.
      * 
-     * @param listener
+     * @param listener ISpielsteinListener
      */
     public void removeSpielsteinListener(final ISpielsteinListener listener) {
         listeners.remove(ISpielsteinListener.class, listener);

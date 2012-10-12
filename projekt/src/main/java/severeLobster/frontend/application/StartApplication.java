@@ -36,6 +36,7 @@ public class StartApplication extends JFrame implements Runnable {
      * @author fwenisch
      * @version 1.0 07.10.2012
      */
+    @Override
     public void run() {
         Thread SC_MAIN = null;
         setSize(550, 360);

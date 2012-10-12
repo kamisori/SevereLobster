@@ -6,50 +6,36 @@
 
 package severeLobster.frontend.application;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import severeLobster.frontend.view.MainView;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import java.awt.Rectangle;
-import javax.swing.JLabel;
-import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 /**
  *Initialisiert Grafiken
  *@author Jean-Fabian Wenisch
  */
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
-import severeLobster.frontend.view.MainView;
 
 public class MainFrame extends JMenuBar implements Runnable {
-    JMenu jm_Spiel;
-    JMenu jm_Grafik;
-    JMenu jm_Eigenschaften;
-    static JFrame frame;
+    public JMenu jm_Spiel;
+    public JMenu jm_Grafik;
+    public JMenu jm_Eigenschaften;
+    public static JFrame frame;
     private static MainView MainPanel;
     private static Point m_Windowlocation;
 
     /**
-     * Initialisiert das Men�
-     * 
+     * Initialisiert das Menue
+     *
      * @author Jean-Fabian Wenisch
      * @version 1.0 06.12.2010
      */
@@ -83,8 +69,8 @@ public class MainFrame extends JMenuBar implements Runnable {
 
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         /*
-         * JMen� wird mit allen Eintr�gen erzeugt Actionlistener f�r die
-         * Men�eintr�ge wird hinzugef�gt
+         * JMenue wird mit allen Eintraegen erzeugt Actionlistener fuer die
+         * Menueeintraege wird hinzugefuegt
          */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         jm_Spiel = new JMenu("Spiel");
@@ -96,6 +82,9 @@ public class MainFrame extends JMenuBar implements Runnable {
             public void actionPerformed(ActionEvent event) {
 
                 if (event.getActionCommand().equals("�berblick")) {
+
+                }
+                if (event.getActionCommand().equals("Laden")) {
 
                 }
                 if (event.getActionCommand().equals("Hardware Informationen")) {
@@ -145,12 +134,14 @@ public class MainFrame extends JMenuBar implements Runnable {
                 "                                                            Sternenhimmel - Gruppe 3");
         oMenu.setEnabled(false);
         oMenu.addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 m_Windowlocation.x = e.getX();
                 m_Windowlocation.y = e.getY();
             }
         });
         oMenu.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
             public void mouseDragged(MouseEvent e) {
                 Point p = frame.getLocation();
                 frame.setLocation(p.x + e.getX() - m_Windowlocation.x,
@@ -159,12 +150,14 @@ public class MainFrame extends JMenuBar implements Runnable {
         });
         add(oMenu);
         addMouseListener(new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 m_Windowlocation.x = e.getX();
                 m_Windowlocation.y = e.getY();
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
             public void mouseDragged(MouseEvent e) {
                 Point p = frame.getLocation();
                 frame.setLocation(p.x + e.getX() - m_Windowlocation.x,
@@ -177,7 +170,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     /**
      * Frame wird initialisiert & Hauptpanel wird hinzugef�gt Au�erdem werden
      * Mouselistener hinzugef�gt mit denen sich das Frame verschieben l�sst
-     * 
+     *
      * @author fwenisch
      * @version 1.0 08.10.2012
      */
@@ -188,10 +181,11 @@ public class MainFrame extends JMenuBar implements Runnable {
     /**
      * Beim starten des Hauptthreads wird die Methode <init()> Aufgerufen in der
      * die Gesamte GUI aufgebaut werden muss
-     * 
+     *
      * @author fwenisch
      * @version 08.10.2012
      */
+    @Override
     public void run() {
         frame.setVisible(true);
         init();

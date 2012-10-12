@@ -1,15 +1,14 @@
 package severeLobster.frontend.view;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import severeLobster.backend.spiel.NullState;
+import severeLobster.backend.spiel.SpielsteinState;
+import severeLobster.frontend.controller.SpielsteinController;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-
-import severeLobster.backend.spiel.NullState;
-import severeLobster.backend.spiel.SpielsteinState;
-import severeLobster.frontend.controller.SpielsteinController;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Darstellung eines einzelnen Spielsteins.
@@ -31,6 +30,7 @@ public class SpielsteinViewImpl extends JLabel implements
         this.addMouseListener(new InnerMouseListener());
     }
 
+    @Override
     public void setDisplayedState(final SpielsteinState newDisplayedState) {
         final Icon newIcon = ICON_FACTORY.getIconForState(newDisplayedState);
         SwingUtilities.invokeLater(new Runnable() {
@@ -41,6 +41,7 @@ public class SpielsteinViewImpl extends JLabel implements
         });
     }
 
+    @Override
     public void setSpielsteinController(
             SpielsteinController spielsteinController) {
         this.spielsteinController = spielsteinController;
@@ -54,6 +55,7 @@ public class SpielsteinViewImpl extends JLabel implements
 
     private class InnerMouseListener extends MouseAdapter {
 
+        @Override
         public void mouseClicked(MouseEvent arg0) {
             spielsteinController.clickAction(arg0);
         }

@@ -3,7 +3,8 @@ package severeLobster.backend.spiel;
 import java.io.Serializable;
 
 /**
- * TODO Beschreibung angeben
+ * Abstrakter SpielsteinState - Spiegelt den Status eines Spielsteines
+ * wieder
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */

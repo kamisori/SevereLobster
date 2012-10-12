@@ -23,6 +23,7 @@ public class MainView extends JPanel {
         setVisible(true);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         Image sImage = getToolkit().getImage(
                 GraphicsGetter.getGraphic("sternenhimmel.jpg"));

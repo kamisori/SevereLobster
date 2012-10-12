@@ -1,7 +1,6 @@
 package infrastructure.graphics.icons;
 
 import infrastructure.graphics.GraphicsGetter;
-import infrastructure.graphics.IIconPackage;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

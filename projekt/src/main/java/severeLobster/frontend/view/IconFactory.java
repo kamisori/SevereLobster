@@ -1,6 +1,6 @@
 package severeLobster.frontend.view;
 
-import infrastructure.graphics.IIconPackage;
+import infrastructure.graphics.icons.IIconPackage;
 
 import javax.swing.Icon;
 

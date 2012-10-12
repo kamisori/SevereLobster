@@ -61,7 +61,7 @@ public class Spiel implements Serializable {
     public boolean spielsteinTippen(int x, int y, Spielstein spielsteinTipp) {
         Spielstein spielfeldSpielstein = spielfeld.getSpielstein(x, y);
 
-        return true; // TODO Tipp �berpr�fen
+        return true; // TODO Tipp ueberpruefen
     }
 
     public Spielfeld getSpielfeld() {
