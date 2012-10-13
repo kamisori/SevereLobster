@@ -16,7 +16,11 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
+<<<<<<< HEAD
  * Ueberprueft, ob ein Spiel korrekt gespeichert wird und anschliessend wieder
+=======
+ * ueberprueft, ob ein Spiel korrekt gespeichert wird und anschliessend wieder
+>>>>>>> origin/master
  * ausgelesen werden kann.
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber

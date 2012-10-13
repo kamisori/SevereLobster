@@ -170,8 +170,8 @@ public class MainFrame extends JMenuBar implements Runnable {
     }
 
     /**
-     * Frame wird initialisiert & Hauptpanel wird hinzugef�gt Au�erdem werden
-     * Mouselistener hinzugef�gt mit denen sich das Frame verschieben l�sst
+     * Frame wird initialisiert & Hauptpanel wird hinzugefuegt Ausserdem werden
+     * Mouselistener hinzugefuegt mit denen sich das Frame verschieben laesst
      * 
      * @author fwenisch
      * @version 1.0 08.10.2012

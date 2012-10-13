@@ -3,7 +3,7 @@ package severeLobster.backend.command;
 import severeLobster.backend.spiel.Spiel;
 
 /**
- * Primäraktion - Primäre Aktion die vom Spieler aus gesteuert wird. (Z.B.
+ * Primaeraktion - Primaere Aktion die vom Spieler aus gesteuert wird. (Z.B.
  * Mauslinksklick)
  * 
  * @author Lars Schlegelmilch
