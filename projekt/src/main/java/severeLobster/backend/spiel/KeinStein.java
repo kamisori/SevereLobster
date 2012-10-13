@@ -15,7 +15,7 @@ public class KeinStein extends Spielstein {
      * Liefert immer dieselbe Instanz. Da sich die Instanzen nicht in ihren
      * Zustaenden unterscheiden, kann man immer die selbe Instanz nehmen.
      * 
-     * @return NullState Instanz
+     * @return KeinStern Instanz
      */
     public static KeinStein getInstance() {
         return INSTANCE;

@@ -79,10 +79,11 @@ public class Spielfeld implements Serializable {
     }
 
     /**
-     * Liefert den Spielstein an der angegebenen Position im Spielfeld.
-     * Verhalten unterscheidet sich bei den unterschiedlichen Spielmodi. Beim
-     * Modus Spielen wird der sichtbare Stein zurückgegeben. Beim Modus
-     * Editieren wird der reale Stein zurückgegeben.*
+     * <<<<<<< HEAD Liefert den Spielstein an der angegebenen Position im
+     * Spielfeld. Verhalten unterscheidet sich bei den unterschiedlichen
+     * Spielmodi. Beim Modus Spielen wird der sichtbare Stein zurückgegeben.
+     * Beim Modus Editieren wird der reale Stein zurückgegeben.*
+     * 
      * 
      * @param x
      *            X-Achsen Koordinatenwert
@@ -154,9 +155,9 @@ public class Spielfeld implements Serializable {
     }
 
     /**
-     * Benachrichtigt alle Listener dieses Spielsfelds ueber einen neuen Wert an den
-     * übergeben Koordinaten. Implementation ist glaube ich aus JComponent oder
-     * Component kopiert.
+     * Benachrichtigt alle Listener dieses Spielsfelds ueber einen neuen Wert an
+     * den übergeben Koordinaten. Implementation ist glaube ich aus JComponent
+     * oder Component kopiert.
      * 
      * @param newState
      *            - Der neue Status, der an die Listener mitgeteilt wird.

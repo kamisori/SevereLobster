@@ -20,4 +20,5 @@ public abstract class Spielstein implements Serializable {
      */
     @Override
     public abstract boolean equals(Object obj);
+
 }

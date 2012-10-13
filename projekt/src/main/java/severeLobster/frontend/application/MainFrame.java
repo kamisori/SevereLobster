@@ -22,8 +22,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 /**
- *Initialisiert Grafiken
- *@author Jean-Fabian Wenisch
+ * Initialisiert Grafiken
+ * 
+ * @author Jean-Fabian Wenisch
  */
 
 public class MainFrame extends JMenuBar implements Runnable {
@@ -36,7 +37,7 @@ public class MainFrame extends JMenuBar implements Runnable {
 
     /**
      * Initialisiert das Menue
-     *
+     * 
      * @author Jean-Fabian Wenisch
      * @version 1.0 06.12.2010
      */
@@ -171,7 +172,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     /**
      * Frame wird initialisiert & Hauptpanel wird hinzugef�gt Au�erdem werden
      * Mouselistener hinzugef�gt mit denen sich das Frame verschieben l�sst
-     *
+     * 
      * @author fwenisch
      * @version 1.0 08.10.2012
      */
@@ -182,7 +183,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     /**
      * Beim starten des Hauptthreads wird die Methode <init()> Aufgerufen in der
      * die Gesamte GUI aufgebaut werden muss
-     *
+     * 
      * @author fwenisch
      * @version 08.10.2012
      */

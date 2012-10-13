@@ -75,7 +75,8 @@ public class Erstellen_des_Standardpuzzles_Test {
     }
 
     @Test
-    public void sichern_des_standardspiels_ist_erfolgreich() throws FileNotFoundException, IOException {
+    public void sichern_des_standardspiels_ist_erfolgreich()
+            throws FileNotFoundException, IOException {
         spiel.save("Standardspiel01");
         File file = new File("Standardspiel01"
                 + GlobaleKonstanten.SPIELSTAND_DATEITYP);

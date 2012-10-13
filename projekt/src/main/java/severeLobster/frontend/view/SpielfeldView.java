@@ -1,13 +1,6 @@
 package severeLobster.frontend.view;
 
-import java.awt.Color;
-import java.awt.GridLayout;
-
 import javax.swing.JPanel;
-
-import severeLobster.backend.spiel.Spielfeld;
-import severeLobster.backend.spiel.Spielstein;
-import severeLobster.frontend.controller.SpielsteinController;
 
 /**
  * TODO An neue Architektur anpassen. Darstellung eines Spielfeldes mit den

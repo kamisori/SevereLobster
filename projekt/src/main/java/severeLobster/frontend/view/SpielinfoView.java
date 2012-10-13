@@ -2,12 +2,13 @@ package severeLobster.frontend.view;
 
 import infrastructure.graphics.GraphicsGetter;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class SpielinfoView extends JPanel {
 
