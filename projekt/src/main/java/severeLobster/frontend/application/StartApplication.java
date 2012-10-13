@@ -30,7 +30,7 @@ public class StartApplication extends JFrame implements Runnable {
     }
 
     /**
-     * Initialisiert Mainframe & lädt Ressourcen bevor das Mainframe gestartet
+     * Initialisiert Mainframe & laedt Ressourcen bevor das Mainframe gestartet
      * wird
      * 
      * @author fwenisch
@@ -59,7 +59,7 @@ public class StartApplication extends JFrame implements Runnable {
     }
 
     /**
-     * Wird überschrieben um Splash anzuzeigen
+     * Wird ueberschrieben um Splash anzuzeigen
      * 
      * @author fwenisch
      * @version 1.0 08.10.2012

@@ -6,7 +6,7 @@ import javax.swing.Icon;
 
 import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.Pfeil;
-import severeLobster.backend.spiel.SpielsteinState;
+import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.Stern;
 
 /**
@@ -23,7 +23,7 @@ public abstract class IconFactory {
         this.iconPackage = iconPackage;
     }
 
-    public final Icon getIconForState(final SpielsteinState state) {
+    public final Icon getIconForState(final Spielstein state) {
         if (null == state) {
             return iconPackage.blankIcon();
         }

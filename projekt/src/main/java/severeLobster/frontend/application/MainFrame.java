@@ -6,6 +6,7 @@
 
 package severeLobster.frontend.application;
 
+import severeLobster.backend.spiel.Spiel;
 import severeLobster.frontend.view.MainView;
 
 import javax.swing.JFrame;
@@ -46,7 +47,7 @@ public class MainFrame extends JMenuBar implements Runnable {
          * Frame wird erzeugt
          */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
-        MainPanel = new MainView();
+        MainPanel = new MainView(new Spiel());
         frame = new JFrame("Sternenhimmel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -169,8 +170,8 @@ public class MainFrame extends JMenuBar implements Runnable {
     }
 
     /**
-     * Frame wird initialisiert & Hauptpanel wird hinzugef�gt Au�erdem werden
-     * Mouselistener hinzugef�gt mit denen sich das Frame verschieben l�sst
+     * Frame wird initialisiert & Hauptpanel wird hinzugefuegt Ausserdem werden
+     * Mouselistener hinzugefuegt mit denen sich das Frame verschieben laesst
      * 
      * @author fwenisch
      * @version 1.0 08.10.2012

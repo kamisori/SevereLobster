@@ -1,6 +1,6 @@
 package severeLobster.frontend.view;
 
-import severeLobster.backend.spiel.SpielsteinState;
+import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielsteinController;
 
 /**
@@ -17,7 +17,7 @@ public interface IControllableSpielsteinView {
      * @param newDisplayedState
      *            SpielsteinState
      */
-    public void setDisplayedState(SpielsteinState newDisplayedState);
+    public void setDisplayedState(Spielstein newDisplayedState);
 
     /**
      * Wird nur vom Controller selbst aufgerufen. ueberschreibt den eventuell

@@ -7,18 +7,18 @@ package infrastructure.constants.enums;
  */
 public enum SchwierigkeitsgradEnumeration {
     /**
-     * Schwierigkeitsgrad Leicht: Das Spielfeld ist der Größe und der Anzahl der
-     * Spielsteine entsprechend als leicht eingestuft.
+     * Schwierigkeitsgrad Leicht: Das Spielfeld ist der Groesse und der Anzahl
+     * der Spielsteine entsprechend als leicht eingestuft.
      */
     LEICHT,
     /**
-     * Schwierigkeitsgrad Mittel: Das Spielfeld ist der Größe und der Anzahl der
-     * Spielsteine entsprechend als mittel eingestuft.
+     * Schwierigkeitsgrad Mittel: Das Spielfeld ist der Groesse und der Anzahl
+     * der Spielsteine entsprechend als mittel eingestuft.
      */
     MITTEL,
     /**
-     * Schwierigkeitsgrad Schwer: Das Spielfeld ist der Größe und der Anzahl der
-     * Spielsteine entsprechend als schwer eingestuft.
+     * Schwierigkeitsgrad Schwer: Das Spielfeld ist der Groesse und der Anzahl
+     * der Spielsteine entsprechend als schwer eingestuft.
      */
     SCHWER,
 }

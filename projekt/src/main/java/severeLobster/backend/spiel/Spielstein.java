@@ -1,107 +1,24 @@
 package severeLobster.backend.spiel;
 
-import javax.swing.event.EventListenerList;
-
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
- * Abstrakter Spielstein eines Spielfeldes - Kann Sichtbar sein, oder auch
- * nicht.
+ * Abstrakter Spielstein.
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
-public class Spielstein implements Serializable {
-
-    private static final long serialVersionUID = -8849754506328607439L;
-    private final EventListenerList listeners = new EventListenerList();
-    private SpielsteinState visibleState;
-    private SpielsteinState realState;
+public abstract class Spielstein implements Serializable {
 
     /**
-     * Initialisiert beide state variablen mit NullState (Blank).
+     * Abgeleitete Klassen sollen eigene toString Methode implementieren.
      */
-    public Spielstein() {
-        visibleState = NullState.getInstance();
-        realState = NullState.getInstance();
-    }
-
-    public SpielsteinState getVisibleState() {
-        return visibleState;
-    }
-
-    public void setVisibleState(SpielsteinState visibleState) {
-        this.visibleState = visibleState;
-        fireSpielsteinStateChanged(visibleState);
-    }
-
-    public SpielsteinState getRealState() {
-        return realState;
-    }
-
-    public void setRealState(SpielsteinState realState) {
-        this.realState = realState;
-    }
+    @Override
+    public abstract String toString();
 
     /**
-     * Gibt eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren/
-     * moeglichen Stati zurueck. Der Status kann dann ueber {@see
-     * setVisibleState} geaendert werden.
-     * 
-     * @return Eine Liste mit den fuer diesen Spielstein aktuell auswaehlbaren
-     *         Stati.
+     * Abgeleitete Klassen sollen eigene equals Methode implementieren.
      */
-    public List<? extends SpielsteinState> listAvailableStates() {
-        final List<SpielsteinState> defaultTestResult = new LinkedList<SpielsteinState>();
-        defaultTestResult.add(new NullState());
-        defaultTestResult.add(new Ausschluss());
-        defaultTestResult.add(new Stern());
-        defaultTestResult.addAll(Pfeil.listAlleMoeglichenPfeile());
-        return defaultTestResult;
-
-    }
-
-    /**
-     * Benachrichtigt alle Listener dieses Spielsteins ueber einen neuen Wert
-     * von "visibleState". Implementation ist glaube ich aus JComponent oder
-     * Component kopiert.
-     * 
-     * @param newState
-     *            - Der neue Status, der an die Listener mitgeteilt wird.
-     */
-    protected void fireSpielsteinStateChanged(final SpielsteinState newState) {
-        /** Gibt ein Array zurueck, das nicht null ist */
-        final Object[] currentListeners = listeners.getListenerList();
-        /**
-         * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
-         */
-        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-            if (currentListeners[i] == ISpielsteinListener.class) {
-                ((ISpielsteinListener) currentListeners[i + 1])
-                        .spielsteinStateChanged(this, newState);
-            }
-        }
-    }
-
-    /**
-     * Fuegt listener zu der Liste hinzu.
-     * 
-     * @param listener
-     *            ISpielsteinListener
-     */
-    public void addSpielsteinListener(final ISpielsteinListener listener) {
-        listeners.add(ISpielsteinListener.class, listener);
-    }
-
-    /**
-     * Entfernt listener von der Liste.
-     * 
-     * @param listener
-     *            ISpielsteinListener
-     */
-    public void removeSpielsteinListener(final ISpielsteinListener listener) {
-        listeners.remove(ISpielsteinListener.class, listener);
-    }
+    @Override
+    public abstract boolean equals(Object obj);
 
 }

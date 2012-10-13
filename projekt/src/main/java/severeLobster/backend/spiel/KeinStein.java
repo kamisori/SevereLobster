@@ -7,17 +7,17 @@ package severeLobster.backend.spiel;
  * @author Lutz Kleiber
  * 
  */
-public class NullState extends SpielsteinState {
+public class KeinStein extends Spielstein {
 
-    private static final NullState INSTANCE = new NullState();
+    private static final KeinStein INSTANCE = new KeinStein();
 
     /**
      * Liefert immer dieselbe Instanz. Da sich die Instanzen nicht in ihren
      * Zustaenden unterscheiden, kann man immer die selbe Instanz nehmen.
      * 
-     * @return NullState Instanz
+     * @return KeinStern Instanz
      */
-    public static NullState getInstance() {
+    public static KeinStein getInstance() {
         return INSTANCE;
     }
 
@@ -28,6 +28,6 @@ public class NullState extends SpielsteinState {
 
     @Override
     public boolean equals(final Object obj) {
-        return (null != obj && obj instanceof NullState);
+        return (null != obj && obj instanceof KeinStein);
     }
 }
