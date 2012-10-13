@@ -2,7 +2,7 @@ infrastructure.constants
 infrastructure.constants.enums
 infrastructure.exceptions
 infrastructure.graphics
-infrastructure.graphics.simpleIcons
+infrastructure.graphics.icons
 severeLobster.backend.command
 severeLobster.backend.spiel
 severeLobster.backend.spieler
