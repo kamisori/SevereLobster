@@ -16,11 +16,42 @@ import java.io.Serializable;
 public class Spielfeld implements Serializable {
 
     private static final long serialVersionUID = -4673868060555706754L;
-    // private Spielstein[][] koordinaten;
     private final Spielstein[][] koordinaten;
 
     /**
-     * Im Vergleich zur vorherigen API sind breite und laenge bei parameterliste
+     * Zaehlt die Pfeile auf dem Spielfeld.
+     * 
+     * @return result Die Anzahl der Pfeile auf dem Spielfeld.
+     */
+    private int countPfeile() {
+        int result = 0;
+        for (Spielstein[] zeile : koordinaten) {
+            for (Spielstein stein : zeile) {
+                if (stein.getRealState() instanceof Pfeil)
+                    result++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Zaehlt die Sterne auf dem Spielfeld.
+     * 
+     * @return result Die Anzahl der Sterne auf dem Spielfeld.
+     */
+    private int countSterne() {
+        int result = 0;
+        for (Spielstein[] zeile : koordinaten) {
+            for (Spielstein stein : zeile) {
+                if (stein.getRealState() instanceof Stern)
+                    result++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Im Vergleich zur vorherigen API sind breite und hoehe bei parameterliste
      * vertauscht, um Einheitlichkeit mit getSpielstein() zu haben.
      * 
      * @param breite
@@ -43,15 +74,27 @@ public class Spielfeld implements Serializable {
     }
 
     /**
-     * Bestimmt Anhang der der Groesse des Spielfeldes und der Anzahl an
-     * Spielsteinen einen Schwierigkeitsgrad
+     * Schaetzt anhand der Groesse des Spielfeldes und den Verhaeltnisen
+     * zwischen Pfeilen und Sternen sowie zwischen belegten und unbelegten
+     * Spielfeldern einen Schwierigkeitsgrad
      * 
      * @return Schwierigkeitsgrad des Spielfeldes
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
-        // TODO Anhand von Groesse und Spielsteinen einen Schwierigkeitsgrad
-        // ermitteln
-        return SchwierigkeitsgradEnumeration.LEICHT;
+        int sterne = countSterne();
+        int pfeile = countPfeile();
+        int spielfeldFlaeche = getBreite() * getHoehe();
+
+        float sterndichte = sterne / spielfeldFlaeche;
+        float pfeildichte = pfeile / spielfeldFlaeche;
+        float schwierigkeit = pfeile / sterne + sterndichte + pfeildichte;
+
+        if (schwierigkeit > 4)
+            return SchwierigkeitsgradEnumeration.LEICHT;
+        else if (schwierigkeit > 2)
+            return SchwierigkeitsgradEnumeration.MITTEL;
+        else
+            return SchwierigkeitsgradEnumeration.SCHWER;
     }
 
     public Spielstein getSpielstein(int x, int y) {
