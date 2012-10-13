@@ -1,6 +1,7 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.constants.GlobaleKonstanten;
+import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
@@ -22,7 +23,7 @@ import javax.swing.event.EventListenerList;
  * geladen werden kann. Instanzen dieser Klasse sind in ihrem Zustand komplett
  * unabhaengig voneinander.
  * 
- * @author Lars Schlegelmilch, Lutz Kleiber
+ * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
 public class Spiel implements Serializable, IGotSpielModus {
 
@@ -64,20 +65,36 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Tippt einen Spielstein in einem Koordinatensystem
+     * Zwischenloesung um eine Primaeraktion auszufuehren.
      * 
      * @param x
-     *            X-Achsenwert auf dem sich der Spielstein befinden soll
      * @param y
-     *            Y-Achsenwert auf dem sich der Spielstein befinden soll
-     * @param spielsteinTipp
-     *            Spielstein, der getippt wird.
-     * @return Ist der Tipp richtig?
      */
-    public boolean spielsteinTippen(int x, int y, Spielstein spielsteinTipp) {
-        Spielstein spielfeldSpielstein = currentSpielfeld.getSpielstein(x, y);
+    public void primaerAktion(int x, int y) {
+        currentSpielfeld.setSpielstein(x, y, new Stern());
+        if (spielmodus == SpielmodusEnumeration.SPIELEN) {
+            if (hasErrors()) {
+                System.out.println("Die Loesung enthaellt Fehler.");
+            }
+        }
+    }
 
-        return true; // TODO Tipp ueberpruefen
+    /**
+     * Zwischenloesung um eine Sekundaeraktion auszufuehren.
+     * 
+     * @param x
+     * @param y
+     */
+    public void sekundaerAktion(int x, int y) {
+        if (spielmodus == SpielmodusEnumeration.SPIELEN) {
+            currentSpielfeld.setSpielstein(x, y, new Ausschluss());
+            if (hasErrors()) {
+                System.out.println("Die Loesung enthaellt Fehler.");
+            }
+        } else {
+            currentSpielfeld.setSpielstein(x, y, new Pfeil(
+                    PfeilrichtungEnumeration.NORD));
+        }
     }
 
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {

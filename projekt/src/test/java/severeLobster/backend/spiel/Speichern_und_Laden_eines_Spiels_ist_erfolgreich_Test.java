@@ -16,8 +16,8 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Ueberprueft, ob ein Spiel korrekt gespeichert wird und
- * anschliessend wieder ausgelesen werden kann.
+ * Ueberprueft, ob ein Spiel korrekt gespeichert wird und anschliessend wieder
+ * ausgelesen werden kann.
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */

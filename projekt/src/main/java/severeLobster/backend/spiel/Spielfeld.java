@@ -1,5 +1,6 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.event.EventListenerList;
+
+import org.hamcrest.core.IsInstanceOf;
 
 /**
  * Spielfeld eines Spiels - Besteht aus einem 2Dimensionalem-Spielstein
@@ -120,7 +123,7 @@ public class Spielfeld implements Serializable {
 
     public int getHoehe() {
         return realSteine[0].length; // TODO Das funktioniert erstmal nur fuer
-                                     // quadratische Spielfelder...
+                                     // rechteckige Spielfelder
     }
 
     /**
@@ -150,13 +153,16 @@ public class Spielfeld implements Serializable {
 
     /**
      * Setzt einen Spielstein an eine bestimmte Koordinate. Verhalten
-     * unterscheidet sich bei den unterschiedlichen Spielmodi. Beim Modus
-     * Spielen wird newStein als sichtbarer Stein gesetzt - der reale Stein wird
-     * davon nicht beeinflusst. Beim Modus Editieren wird der reale Stein
-     * gesetzt und der sichtbare Stein wird nur gesetzt, wenn es sich beim Stein
-     * um einen Pfeil handelt (weil diese ja in beiden Modi dargestellt werden
-     * muessen) - ansonsten wird der sichtbare Stein im Editiermodus nicht
-     * beeinflusst. Bereits angefangene Spielfelder sind immer noch editierbar;
+     * unterscheidet sich bei den unterschiedlichen Spielmodi.
+     * ......................................................................
+     * Beim Modus Spielen wird der sichtbare Stein gesetzt - der reale Stein
+     * wird davon nicht beeinflusst.
+     * ......................................................................
+     * Beim Modus Editieren wird der reale Stein gesetzt - der sichtbare Stein
+     * wird davon nicht beeinflusst. Im Gegenzug muss im Editierenmodus das
+     * reale Spielfeld dargestellt werden. Bereits angefangene Spielfelder sind
+     * immer noch editierbar.
+     * ......................................................................
      * Spielfelder lassen sich zu jedem Zeitpunkt und in jedem Zustand komplett
      * speichern und wieder laden.
      * 
@@ -175,28 +181,67 @@ public class Spielfeld implements Serializable {
         }
         if (isEditierModus()) {
             /**
-             * Im Editiermodus darf jeder Spielstein gesetzt werden - keine
-             * Ueberpruefung.
+             * Im Editiermodus duerfen Pfeil, Stern und KeinStein gesetzt werden
              */
-            realSteine[x][y] = newStein;
-            /** Pfeile werden in jedem Modus immer angezeigt. */
-            if (newStein instanceof Pfeil) {
-                visibleSteine[x][y] = newStein;
+            if (getSpielstein(x, y) instanceof KeinStein) {
+                realSteine[x][y] = newStein;
+            } else {
+                if (getSpielstein(x, y) instanceof Pfeil) {
+                    switch (((Pfeil) getSpielstein(x, y)).getPfeilrichtung()) {
+                    case NORD:
+                        realSteine[x][y] = new Pfeil(
+                                PfeilrichtungEnumeration.NORDOST);
+                        break;
+                    case NORDOST:
+                        realSteine[x][y] = new Pfeil(
+                                PfeilrichtungEnumeration.OST);
+                        break;
+                    case OST:
+                        realSteine[x][y] = new Pfeil(
+                                PfeilrichtungEnumeration.SUEDOST);
+                        break;
+                    case SUEDOST:
+                        realSteine[x][y] = new Pfeil(
+                                PfeilrichtungEnumeration.SUED);
+                        break;
+                    case SUED:
+                        realSteine[x][y] = new Pfeil(
+                                PfeilrichtungEnumeration.SUEDWEST);
+                        break;
+                    case SUEDWEST:
+                        realSteine[x][y] = new Pfeil(
+                                PfeilrichtungEnumeration.WEST);
+                        break;
+                    case WEST:
+                        realSteine[x][y] = new Pfeil(
+                                PfeilrichtungEnumeration.NORDWEST);
+                        break;
+                    default:
+                        realSteine[x][y] = new KeinStein();
+                        break;
+                    }
+                } else {
+                    realSteine[x][y] = new KeinStein();
+                }
             }
-            /** Listener benachrichtigen */
-            fireSpielsteinChanged(x, x, newStein);
-            return;
-        }
-        /** Spielmodus: */
-        if (!isEditierModus()) {
-            /** Ausser Pfeilen darf im Spielmodus alles gesetzt werden */
-            if (!(newStein instanceof Pfeil)) {
-                visibleSteine[x][y] = newStein;
-                /** Listener benachrichtigen */
-                fireSpielsteinChanged(x, y, newStein);
-            }
-        }
 
+            fireSpielsteinChanged(x, x, getSpielstein(x, y));
+        } else {
+            /**
+             * Ausser Pfeilen darf im Spielmodus alles gesetzt werden. Es
+             * duerfen aber auch keine Pfeile ueberschrieben werden.
+             */
+            if (!(getSpielstein(x, y) instanceof Pfeil)
+                    && !(newStein instanceof Pfeil)) {
+                if (getSpielstein(x, y) instanceof KeinStein) {
+                    visibleSteine[x][y] = newStein;
+                } else {
+                    visibleSteine[x][y] = new KeinStein();
+                }
+                /** Listener benachrichtigen */
+                fireSpielsteinChanged(x, y, getSpielstein(x, y));
+            }
+        }
     }
 
     /**
@@ -250,8 +295,8 @@ public class Spielfeld implements Serializable {
     private void throwExceptionIfIndexOutOfBounds(final int x, final int y) {
         if ((x < 0) || (x > getBreite() - 1) || (y < 0) || (y > getHoehe() - 1)) {
             throw new ArrayIndexOutOfBoundsException(
-                    "The passed koordinates X:" + x + " Y:" + y
-                            + " lie outside of the current Spielfeld.");
+                    "Die uebergebenen Koordinaten X:" + x + " Y:" + y
+                            + " sind ausserhalb des Spielfelds.");
         }
     }
 

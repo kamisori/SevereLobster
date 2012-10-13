@@ -1,12 +1,21 @@
 package severeLobster.backend.command;
 
+import infrastructure.constants.enums.SpielmodusEnumeration;
+import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spiel;
+import severeLobster.backend.spiel.Stern;
 
 /**
  * Primaeraktion - Primaere Aktion die vom Spieler aus gesteuert wird. (Z.B.
  * Mauslinksklick)
+ ************************************************************************** 
+ * TODO: Im Spiel Modus wird ein Stern getoggelt.
+ ************************************************************************** 
+ * TODO: Im Editmodus muss mit uebergeben werden welche Steinart (Stern/Pfeil)
+ * gesetzt wird. Um die Richtung zu bestimmen koennte man auch mehrfach angaben
+ * verwenden
  * 
- * @author Lars Schlegelmilch
+ * @author Lars Schlegelmilch, Paul Bruell
  */
 public class PrimaerAktion implements Aktion {
 
@@ -17,7 +26,7 @@ public class PrimaerAktion implements Aktion {
     }
 
     /**
-     * Führt anhand des aktuellem Spielmodus verschieden Methoden aus: Befinden
+     * Fuehrt anhand des aktuellem Spielmodus verschieden Methoden aus: Befinden
      * wir uns im Modus "SPIELEN", so wird ein Spielstein auf einem Feld
      * getippt, im Modus "EDITIEREN" wird ein Spielstein platziert.
      * 
@@ -28,10 +37,10 @@ public class PrimaerAktion implements Aktion {
      */
     @Override
     public void execute(int x, int y) {
+        spiel.primaerAktion(x, y);
     }
 
     @Override
     public void undo() {
-        // TODO ...
     }
 }

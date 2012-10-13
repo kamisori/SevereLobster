@@ -8,7 +8,6 @@ package severeLobster.frontend.view;
  */
 public class SpielsteinViewTestOhneJUnit {
 
-
     // public static void main(String[] args) {
     // final Spielstein spielstein = new Spielstein();
     //
