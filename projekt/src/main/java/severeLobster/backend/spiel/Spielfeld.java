@@ -23,8 +23,10 @@ public class Spielfeld implements Serializable {
      * Im Vergleich zur vorherigen API sind breite und laenge bei parameterliste
      * vertauscht, um Einheitlichkeit mit getSpielstein() zu haben.
      * 
-     * @param breite Breite des Spielfeldes
-     * @param hoehe Hoehe des Spielfeldes
+     * @param breite
+     *            Breite des Spielfeldes
+     * @param hoehe
+     *            Hoehe des Spielfeldes
      */
     public Spielfeld(final int breite, final int hoehe) {
         if (breite < 1 || hoehe < 1) {
@@ -68,13 +70,13 @@ public class Spielfeld implements Serializable {
     /**
      * Neuer Workaround: Die urspruengliche Methode haette sich mit dem Konzept,
      * dass das Spielfeld nach dem Erstellen konstant ist, nicht vertragen. Wenn
-     * ein vorhandener Spielstein ueberschrieben wuerde, waeren hierfuer ja keine
-     * Listener mehr registriert. Da die Methode von einigen benoetigt wird, nun
-     * folgender Workaround: Es wird nicht der uebergebene Spielstein an die
-     * Stelle im Spielfeld gesetzt, sondern der Spielstein an dieser Stelle wird
-     * nur mit dem SpielsteinState des uebergebenen Spielsteins
-     * aktualisiert/ueberschrieben. So verhaelt sich das Spielfeld nach au�en wie
-     * gehabt und die Tests sollten weiterhin funktionieren .
+     * ein vorhandener Spielstein ueberschrieben wuerde, waeren hierfuer ja
+     * keine Listener mehr registriert. Da die Methode von einigen benoetigt
+     * wird, nun folgender Workaround: Es wird nicht der uebergebene Spielstein
+     * an die Stelle im Spielfeld gesetzt, sondern der Spielstein an dieser
+     * Stelle wird nur mit dem SpielsteinState des uebergebenen Spielsteins
+     * aktualisiert/ueberschrieben. So verhaelt sich das Spielfeld nach au�en
+     * wie gehabt und die Tests sollten weiterhin funktionieren .
      * 
      * Setzt einen Spielstein fuer ein Spielfeld an eine bestimmte Koordinate
      * 

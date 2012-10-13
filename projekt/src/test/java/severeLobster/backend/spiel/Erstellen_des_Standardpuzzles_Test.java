@@ -11,8 +11,9 @@ import java.io.File;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Dieser Unittest erstellt ein Standardpuzzle, welches spielbar ist und eine eindeutige Loesung hat.
- *
+ * Dieser Unittest erstellt ein Standardpuzzle, welches spielbar ist und eine
+ * eindeutige Loesung hat.
+ * 
  * @author Lars Schlegelmilch
  */
 public class Erstellen_des_Standardpuzzles_Test {
@@ -23,7 +24,7 @@ public class Erstellen_des_Standardpuzzles_Test {
     private void spielsteineSetzen() {
         Spielstein stern1 = new Spielstein();
         stern1.setRealState(new Stern());
-        spielfeld.setSpielstein(0,1, stern1);
+        spielfeld.setSpielstein(0, 1, stern1);
 
         Spielstein pfeilRunter1 = new Spielstein();
         pfeilRunter1.setRealState(new Pfeil(PfeilrichtungEnumeration.SUED));
@@ -42,7 +43,8 @@ public class Erstellen_des_Standardpuzzles_Test {
 
         Spielstein pfeilNordOst1 = new Spielstein();
         pfeilNordOst1.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDOST));
-        pfeilNordOst1.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDOST));
+        pfeilNordOst1.setVisibleState(new Pfeil(
+                PfeilrichtungEnumeration.NORDOST));
         spielfeld.setSpielstein(1, 0, pfeilNordOst1);
 
         Spielstein stern2 = new Spielstein();
@@ -71,14 +73,17 @@ public class Erstellen_des_Standardpuzzles_Test {
         spielfeld.setSpielstein(2, 1, pfeilOst3);
 
         Spielstein pfeilNordWest1 = new Spielstein();
-        pfeilNordWest1.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-        pfeilNordWest1.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        pfeilNordWest1
+                .setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        pfeilNordWest1.setVisibleState(new Pfeil(
+                PfeilrichtungEnumeration.NORDWEST));
         spielfeld.setSpielstein(2, 2, pfeilNordWest1);
 
-
         Spielstein pfeilNordWest2 = new Spielstein();
-        pfeilNordWest2.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-        pfeilNordWest2.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        pfeilNordWest2
+                .setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        pfeilNordWest2.setVisibleState(new Pfeil(
+                PfeilrichtungEnumeration.NORDWEST));
         spielfeld.setSpielstein(3, 0, pfeilNordWest2);
 
         Spielstein stern7 = new Spielstein();
@@ -90,8 +95,10 @@ public class Erstellen_des_Standardpuzzles_Test {
         spielfeld.setSpielstein(3, 2, stern8);
 
         Spielstein pfeilNordWest3 = new Spielstein();
-        pfeilNordWest3.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-        pfeilNordWest3.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        pfeilNordWest3
+                .setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
+        pfeilNordWest3.setVisibleState(new Pfeil(
+                PfeilrichtungEnumeration.NORDWEST));
         spielfeld.setSpielstein(4, 1, pfeilNordWest3);
 
         Spielstein stern9 = new Spielstein();
@@ -103,8 +110,10 @@ public class Erstellen_des_Standardpuzzles_Test {
         spielfeld.setSpielstein(5, 1, stern10);
 
         Spielstein pfeilSuedWest1 = new Spielstein();
-        pfeilSuedWest1.setRealState(new Pfeil(PfeilrichtungEnumeration.SUEDWEST));
-        pfeilSuedWest1.setVisibleState(new Pfeil(PfeilrichtungEnumeration.SUEDWEST));
+        pfeilSuedWest1
+                .setRealState(new Pfeil(PfeilrichtungEnumeration.SUEDWEST));
+        pfeilSuedWest1.setVisibleState(new Pfeil(
+                PfeilrichtungEnumeration.SUEDWEST));
         spielfeld.setSpielstein(5, 3, pfeilSuedWest1);
 
         Spielstein pfeilSued1 = new Spielstein();
@@ -122,7 +131,8 @@ public class Erstellen_des_Standardpuzzles_Test {
     @Test
     public void sichern_des_standardspiels_ist_erfolgreich() {
         spiel.save("Standardspiel01");
-        File file = new File("Standardspiel01" + GlobaleKonstanten.SPIELSTAND_DATEITYP);
+        File file = new File("Standardspiel01"
+                + GlobaleKonstanten.SPIELSTAND_DATEITYP);
 
         assertTrue(file.exists());
     }

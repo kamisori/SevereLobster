@@ -45,7 +45,8 @@ public class SpielsteinController {
      * Wird vom View aufgerufen. Ver�ndert den wert von visibleState des
      * zugrundeliegenden Spielsteins.
      * 
-     * @param spielsteinState SpielsteinState
+     * @param spielsteinState
+     *            SpielsteinState
      */
     public void setState(final SpielsteinState spielsteinState) {
         spielsteinModel.setVisibleState(spielsteinState);

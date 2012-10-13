@@ -26,6 +26,7 @@ public class Spiel implements Serializable {
 
     /**
      * Gibt die Anzahl an bereits versuchten Spielzuegen zurueck
+     * 
      * @return Anzahl Spielzuege
      */
     public int getAnzahlZuege() {
@@ -83,7 +84,8 @@ public class Spiel implements Serializable {
         try {
             outputStream = new FileOutputStream(spielname
                     + GlobaleKonstanten.SPIELSTAND_DATEITYP);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+                    outputStream);
             objectOutputStream.writeObject(this);
             objectOutputStream.close();
         } catch (IOException e) {
@@ -110,7 +112,8 @@ public class Spiel implements Serializable {
         try {
             inputStream = new FileInputStream(spielname
                     + GlobaleKonstanten.SPIELSTAND_DATEITYP);
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            ObjectInputStream objectInputStream = new ObjectInputStream(
+                    inputStream);
 
             return (Spiel) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {

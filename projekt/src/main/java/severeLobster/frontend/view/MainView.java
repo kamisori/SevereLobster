@@ -12,8 +12,8 @@ public class MainView extends JPanel {
     public MainView() {
         // TODO: Layout wird zwecks Platzhalter auf null gesetzt -> Layout!
         setLayout(null);
-        //JPanel spielfeld = new SpielfeldView_fwenisch();
-        //spielfeld.setBounds(50, 50, 500, 500);
+        // JPanel spielfeld = new SpielfeldView_fwenisch();
+        // spielfeld.setBounds(50, 50, 500, 500);
         SpielfeldView spielfeld = new SpielfeldView(new Spielfeld(20, 15));
         spielfeld.setBounds(50, 50, 500, 500);
         JPanel spielinfo = new SpielinfoView();

@@ -65,7 +65,8 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
 
     @After
     public void tearDown() {
-        File file = new File("testSpiel01"+ GlobaleKonstanten.SPIELSTAND_DATEITYP);
+        File file = new File("testSpiel01"
+                + GlobaleKonstanten.SPIELSTAND_DATEITYP);
         boolean success = true;
         if (file.exists()) {
             success = file.delete();

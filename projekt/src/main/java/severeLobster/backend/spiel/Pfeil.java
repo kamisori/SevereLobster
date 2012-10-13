@@ -56,7 +56,8 @@ public class Pfeil extends SpielsteinState {
      * Statt des Konstruktors lieber die statischen Factory Methoden nehmen, da
      * spart man sich das setzen von pfeilrichtung.
      * 
-     * @param pfeilrichtung Richtung des Pfeiles
+     * @param pfeilrichtung
+     *            Richtung des Pfeiles
      */
     public Pfeil(final PfeilrichtungEnumeration pfeilrichtung) {
         Preconditions.checkNotNull(pfeilrichtung);
