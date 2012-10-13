@@ -12,7 +12,7 @@ import java.util.List;
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
-public class Pfeil extends SpielsteinState {
+public class Pfeil extends Spielstein {
 
     private static final Pfeil NORD_PFEIL = new Pfeil(
             PfeilrichtungEnumeration.NORD);

@@ -5,7 +5,7 @@ package severeLobster.backend.spiel;
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
-public class Stern extends SpielsteinState {
+public class Stern extends Spielstein {
 
     private static final Stern INSTANCE = new Stern();
 

@@ -1,29 +1,27 @@
 package severeLobster.backend.spiel;
 
-import static org.junit.Assert.*;
-
-import infrastructure.constants.enums.PfeilrichtungEnumeration;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * 
+ * @author Ich glaub Christian, Lutz Kleiber
+ * 
+ */
 public class Erkennung_von_Sieg_und_Fehlern_Test {
 
     private Spiel testSpiel;
     private Spielfeld spielfeld;
-    private Spielstein a, b, c, d;
 
     @Before
     public void setUp() throws Exception {
-        testSpiel = new Spiel(new Spielfeld(4, 4),
-                SpielmodusEnumeration.SPIELEN);
+        testSpiel = new Spiel(SpielmodusEnumeration.SPIELEN);
+        testSpiel.initializeNewSpielfeld(4, 4);
         spielfeld = testSpiel.getSpielfeld();
-        a = new Spielstein();
-        b = new Spielstein();
-        c = new Spielstein();
-        d = new Spielstein();
     }
 
     /**
@@ -34,28 +32,39 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
     public void erfolgreich_beendetes_spiel_erkennen() {
 
         // Stern da, Stern getippt
-        a.setRealState(new Stern());
-        a.setVisibleState(new Stern());
+        switchToEditor();
+        spielfeld.setSpielstein(0, 0, Stern.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(0, 0, Stern.getInstance());
 
         // kein Stern, nichts getippt
-        b.setRealState(new NullState());
-        b.setVisibleState(new NullState());
+        switchToEditor();
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
 
         // kein Stern, getippt dass dort keiner ist
-        c.setRealState(new NullState());
-        c.setVisibleState(new Ausschluss());
+        switchToEditor();
+        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
 
         // Pfeil, Pfeil muss auch angezeigt werden
-        d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-        d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-
-        spielfeld.setSpielstein(0, 0, a);
-        spielfeld.setSpielstein(0, 1, b);
-        spielfeld.setSpielstein(1, 0, c);
-        spielfeld.setSpielstein(1, 1, d);
+        switchToEditor();
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
+        switchToSpielen();
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
 
         assertTrue(testSpiel.isSolved());
 
+    }
+
+    private void switchToSpielen() {
+        this.testSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
+    }
+
+    private void switchToEditor() {
+        this.testSpiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
     }
 
     /**
@@ -66,33 +75,36 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
     public void erfolgreich_beendetes_spiel_mit_ausschluss_erkennen() {
 
         // Stern da, Stern getippt
-        a.setRealState(new Stern());
-        a.setVisibleState(new Stern());
+        switchToEditor();
+        spielfeld.setSpielstein(0, 0, Stern.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(0, 0, Stern.getInstance());
 
         // kein Stern, nichts getippt
-        b.setRealState(new NullState());
-        b.setVisibleState(new NullState());
+        switchToEditor();
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
 
         // kein Stern, getippt dass dort keiner ist
-        c.setRealState(new NullState());
-        c.setVisibleState(new Ausschluss());
+        switchToEditor();
+        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
 
         // Pfeil, Pfeil muss auch angezeigt werden
-        d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-        d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-
-        spielfeld.setSpielstein(0, 0, a);
-        spielfeld.setSpielstein(0, 1, b);
-        spielfeld.setSpielstein(1, 0, c);
-        spielfeld.setSpielstein(1, 1, d);
+        switchToEditor();
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
+        switchToSpielen();
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
 
         assertTrue(testSpiel.isSolved());
 
     }
 
     /**
-     * Pr�ft ob Fehler vorliegen. Hier wurde ein Stern noch nicht gefunden. Die
-     * Methode muss false zur�ckgeben, da noch kein Fehler vorliegt.
+     * Pr�ft ob Fehler vorliegen. Hier wurde ein Stern noch nicht gefunden.
+     * Die Methode muss false zur�ckgeben, da noch kein Fehler vorliegt.
      */
     @Test
     public void stern_noch_nicht_getippt_erkennen() {
@@ -100,25 +112,28 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
         // Stern da, kein Stern getippt
         // (hier darf kein Fehler auftreten, da noch nicht ausgeschlossen wurde,
         // dass hier ein Stern liegt)
-        a.setRealState(new Stern());
-        a.setVisibleState(new NullState());
+        switchToEditor();
+        spielfeld.setSpielstein(0, 0, Stern.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(0, 0, KeinStein.getInstance());
 
         // kein Stern, nichts getippt
-        b.setRealState(new NullState());
-        b.setVisibleState(new NullState());
+        switchToEditor();
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
 
         // kein Stern, getippt dass dort keiner ist
-        c.setRealState(new NullState());
-        c.setVisibleState(new Ausschluss());
+        switchToEditor();
+        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
 
         // Pfeil, Pfeil muss auch angezeigt werden
-        d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-        d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-
-        spielfeld.setSpielstein(0, 0, a);
-        spielfeld.setSpielstein(0, 1, b);
-        spielfeld.setSpielstein(1, 0, c);
-        spielfeld.setSpielstein(1, 1, d);
+        switchToEditor();
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
+        switchToSpielen();
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
 
         assertFalse(testSpiel.hasErrors());
 
@@ -131,25 +146,28 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
     public void stern_zuviel_erkennen() {
 
         // Stern da, Stern getippt
-        a.setRealState(new Stern());
-        a.setVisibleState(new Stern());
+        switchToEditor();
+        spielfeld.setSpielstein(0, 0, Stern.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(0, 0, Stern.getInstance());
 
         // kein Stern, Stern getippt (hier tritt der Fehler auf)
-        b.setRealState(new NullState());
-        b.setVisibleState(new Stern());
+        switchToEditor();
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(0, 1, Stern.getInstance());
 
         // kein Stern, getippt dass dort keiner ist
-        c.setRealState(new NullState());
-        c.setVisibleState(new Ausschluss());
+        switchToEditor();
+        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
+        switchToSpielen();
+        spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
 
         // Pfeil, Pfeil muss auch angezeigt werden
-        d.setRealState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-        d.setVisibleState(new Pfeil(PfeilrichtungEnumeration.NORDWEST));
-
-        spielfeld.setSpielstein(0, 0, a);
-        spielfeld.setSpielstein(0, 1, b);
-        spielfeld.setSpielstein(1, 0, c);
-        spielfeld.setSpielstein(1, 1, d);
+        switchToEditor();
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
+        switchToSpielen();
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
 
         assertTrue(testSpiel.hasErrors());
 

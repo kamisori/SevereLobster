@@ -1,6 +1,7 @@
 package severeLobster.frontend.view;
 
 import infrastructure.graphics.GraphicsGetter;
+import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.Spielfeld;
 
 import javax.swing.JPanel;
@@ -9,12 +10,13 @@ import java.awt.Image;
 
 public class MainView extends JPanel {
 
-    public MainView() {
+    public MainView(final Spiel spiel) {
         // TODO: Layout wird zwecks Platzhalter auf null gesetzt -> Layout!
         setLayout(null);
-        //JPanel spielfeld = new SpielfeldView_fwenisch();
-        //spielfeld.setBounds(50, 50, 500, 500);
-        SpielfeldView spielfeld = new SpielfeldView(new Spielfeld(20, 15));
+        JPanel spielfeld = new SpielfeldView_fwenisch();
+        // spielfeld.setBounds(50, 50, 500, 500);
+//        SpielfeldView spielfeld = new SpielfeldView(
+//                new Spielfeld(spiel, 20, 15));
         spielfeld.setBounds(50, 50, 500, 500);
         JPanel spielinfo = new SpielinfoView();
         spielinfo.setBounds(550, 50, 200, 500);

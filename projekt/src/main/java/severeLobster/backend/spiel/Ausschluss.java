@@ -6,7 +6,7 @@ package severeLobster.backend.spiel;
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
-public class Ausschluss extends SpielsteinState {
+public class Ausschluss extends Spielstein {
 
     private static final Ausschluss INSTANCE = new Ausschluss();
 
