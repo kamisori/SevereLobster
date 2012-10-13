@@ -23,7 +23,7 @@ public class SpielsteinViewTestOhneJUnit {
         frame.setVisible(true);
 
         /**
-         * �ndere die Stati in spielstein.
+         * aendere die Stati in spielstein.
          */
         final List<? extends SpielsteinState> allowedStates = spielstein
                 .listAvailableStates();

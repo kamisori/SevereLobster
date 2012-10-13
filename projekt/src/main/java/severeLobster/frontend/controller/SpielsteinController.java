@@ -15,9 +15,9 @@ import java.util.List;
 
 /**
  * Der Vermittler zwischen dem Spielstein und der darstellenden Komponente. Alle
- * im View angesto�enen Aktionen werden an den entsprechenden
+ * im View angestossenen Aktionen werden an den entsprechenden
  * SpielsteinController weitergeleitet. Umgekehrt leitet der
- * SpielsteinController �nderungen beim Spielstein an den View weiter.
+ * SpielsteinController aenderungen beim Spielstein an den View weiter.
  * 
  * @author Lutz Kleiber
  * 
@@ -69,12 +69,12 @@ public class SpielsteinController {
                 final SpielsteinState newState) {
 
             /**
-             * �berpr�fe ob der benachrichtigende Spielstein auch der ist, den
+             * ueberpruefe ob der benachrichtigende Spielstein auch der ist, den
              * man gerade beobachtet.
              */
             if (spielstein == spielsteinModel) {
                 /**
-                 * Leite �nderung an view weiter.
+                 * Leite aenderung an view weiter.
                  */
                 spielsteinView.setDisplayedState(newState);
             }

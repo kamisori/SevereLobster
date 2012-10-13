@@ -1,7 +1,7 @@
 package infrastructure.constants;
 
 /**
- * Globale Konstanten, die für Backend und Frontend gültig sind
+ * Globale Konstanten, die für Backend und Frontend gueltig sind
  * 
  * @author Lars Schlegelmilch
  */
