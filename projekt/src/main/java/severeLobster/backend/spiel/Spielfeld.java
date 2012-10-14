@@ -242,7 +242,7 @@ public class Spielfeld implements Serializable {
                 }
             }
 
-            fireSpielsteinChanged(x, x, getSpielstein(x, y));
+            fireSpielsteinChanged(x, y, getSpielstein(x, y));
         } else {
             //Auch hier ist dein neuer Kommentar schluessig und
             //erg�nzt fehlendes Verhalten im alten Kommentar
