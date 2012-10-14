@@ -1,18 +1,17 @@
 package severeLobster.backend.spiel;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Ueberprueft, ob ein Spiel korrekt gespeichert wird und anschliessend wieder
@@ -34,41 +33,32 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
         spielfeld = spiel.getSpielfeld();
         spielsteinStern = Stern.getInstance();
         spielsteinAusschluss = Ausschluss.getInstance();
-
-        spiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-        spielfeld.setSpielstein(0, 0, spielsteinStern);
         spiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        spielfeld.setSpielstein(0, 0, spielsteinAusschluss);
+        spielfeld.setSpielstein(0, 0, spielsteinStern);
+        spielfeld.setSpielstein(0, 1, spielsteinAusschluss);
 
     }
 
     @Test
     public void ein_gespeichertes_Spiel_speichert_seine_Attribute_mit()
-            throws FileNotFoundException, IOException {
+            throws IOException {
         spiel.save("testSpiel01");
         Spiel geladenesSpiel = Spiel.load("testSpiel01");
 
-        assertThat(geladenesSpiel.getSpielmodus(), is(spiel.getSpielmodus()));
+        assertThat(geladenesSpiel.getSpielmodus(), is(SpielmodusEnumeration.SPIELEN));
         assertThat(geladenesSpiel.getSpielfeld().getSchwierigkeitsgrad(),
                 is(spielfeld.getSchwierigkeitsgrad()));
-        geladenesSpiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
         assertThat(geladenesSpiel.getSpielfeld().getSpielstein(0, 0),
                 instanceOf(spielsteinStern.getClass()));
-        geladenesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        assertThat(geladenesSpiel.getSpielfeld().getSpielstein(0, 0),
+        assertThat(geladenesSpiel.getSpielfeld().getSpielstein(0, 1),
                 instanceOf(spielsteinAusschluss.getClass()));
     }
 
     @Test
+    (expected = IOException.class)
     public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_gibt_NULL_zurueck()
-            throws FileNotFoundException, IOException {
-        IOException ioEx = null;
-        try {
-            Spiel geladenesSpiel = Spiel.load("testSpiel02");
-        } catch (IOException e) {
-            ioEx = e;
-        }
-        assertThat(ioEx, instanceOf(IOException.class));
+            throws IOException {
+        Spiel.load("testSpiel02");
     }
 
     @After

@@ -5,8 +5,8 @@ import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import javax.swing.event.EventListenerList;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
@@ -101,6 +99,10 @@ public class Spiel implements Serializable, IGotSpielModus {
         return getSpielfeld().getSchwierigkeitsgrad();
     }
 
+    public void setSpielfeld(Spielfeld spielfeld) {
+        currentSpielfeld = spielfeld;
+    }
+
     public Spielfeld getSpielfeld() {
         return currentSpielfeld;
     }
@@ -134,11 +136,9 @@ public class Spiel implements Serializable, IGotSpielModus {
      * 
      * @param spielname
      *            Name der Datei (ohne .sav-Endung)
-     * @throws FileNotFoundException
-     *             , IOException
+     * @throws IOException
      */
-    public void save(String spielname) throws FileNotFoundException,
-            IOException {
+    public void save(String spielname) throws IOException {
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(spielname
@@ -148,12 +148,8 @@ public class Spiel implements Serializable, IGotSpielModus {
             objectOutputStream.writeObject(this);
             objectOutputStream.close();
         } finally {
-            try {
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            } catch (IOException e) {
-                throw e;
+            if (outputStream != null) {
+                outputStream.close();
             }
         }
     }
@@ -163,11 +159,9 @@ public class Spiel implements Serializable, IGotSpielModus {
      * 
      * @param spielname
      *            Name der Datei (ohne .sav-Endung)
-     * @throws FileNotFoundException
-     *             , IOException
+     * @throws    IOException
      */
-    public static Spiel load(String spielname) throws FileNotFoundException,
-            IOException {
+    public static Spiel load(String spielname) throws IOException {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(spielname
@@ -179,12 +173,8 @@ public class Spiel implements Serializable, IGotSpielModus {
         } catch (ClassNotFoundException e) {
             throw new IOException("Loaded instance is not of type Spiel");
         } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                throw e;
+            if (inputStream != null) {
+                inputStream.close();
             }
         }
     }
@@ -242,7 +232,7 @@ public class Spiel implements Serializable, IGotSpielModus {
      * uebergeben Koordinaten. Implementation ist glaube ich aus JComponent oder
      * Component kopiert.
      * 
-     * @param newState
+     * @param newSpielfeld
      *            - Der neue Status, der an die Listener mitgeteilt wird.
      */
     private void fireSpielfeldChanged(Spielfeld newSpielfeld) {

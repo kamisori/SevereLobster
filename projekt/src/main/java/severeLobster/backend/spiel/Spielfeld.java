@@ -4,11 +4,10 @@ import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import javax.swing.event.EventListenerList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * Spielfeld eines Spiels - Besteht aus einem 2Dimensionalem-Spielstein
@@ -135,8 +134,6 @@ public class Spielfeld implements Serializable {
      *            X-Achsen Koordinatenwert
      * @param y
      *            Y-Achsen Koordinatenwert
-     * @param spielstein
-     *            Spielstein der gesetzt werden soll
      */
     public Spielstein getSpielstein(final int x, final int y)
             throws IndexOutOfBoundsException {
@@ -173,7 +170,7 @@ public class Spielfeld implements Serializable {
      *            X-Achsen Koordinatenwert
      * @param y
      *            Y-Achsen Koordinatenwert
-     * @param spielstein
+     * @param newStein
      *            Spielstein der gesetzt werden soll
      */
     public void setSpielstein(final int x, final int y, Spielstein newStein)
@@ -277,7 +274,7 @@ public class Spielfeld implements Serializable {
      * den uebergeben Koordinaten. Implementation ist glaube ich aus JComponent
      * oder Component kopiert.
      * 
-     * @param newState
+     * @param newStein
      *            - Der neue Status, der an die Listener mitgeteilt wird.
      */
     private void fireSpielsteinChanged(final int x, final int y,
@@ -410,7 +407,7 @@ public class Spielfeld implements Serializable {
      * Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
      * abgegeben wurden, die nicht der Loesung entsprechen
      * 
-     * @return fehler vorhanden
+     * @return Fehler vorhanden?
      */
     public boolean hasErrors() {
 
