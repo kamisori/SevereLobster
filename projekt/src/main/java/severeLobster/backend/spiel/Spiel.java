@@ -5,8 +5,8 @@ import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
-import javax.swing.event.EventListenerList;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +14,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+
+import javax.swing.event.EventListenerList;
 
 /**
  * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
@@ -136,9 +138,8 @@ public class Spiel implements Serializable, IGotSpielModus {
      * 
      * @param spielname
      *            Name der Datei (ohne .sav-Endung)
-     * @throws IOException
      */
-    public void save(String spielname) throws IOException {
+    public void save(String spielname) {
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(spielname
@@ -147,9 +148,15 @@ public class Spiel implements Serializable, IGotSpielModus {
                     outputStream);
             objectOutputStream.writeObject(this);
             objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             if (outputStream != null) {
-                outputStream.close();
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -159,9 +166,8 @@ public class Spiel implements Serializable, IGotSpielModus {
      * 
      * @param spielname
      *            Name der Datei (ohne .sav-Endung)
-     * @throws IOException
      */
-    public static Spiel load(String spielname) throws IOException {
+    public static Spiel load(String spielname) {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(spielname
@@ -171,10 +177,21 @@ public class Spiel implements Serializable, IGotSpielModus {
 
             return (Spiel) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
-            throw new IOException("Loaded instance is not of type Spiel");
+            e.printStackTrace();
+            return null;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         } finally {
             if (inputStream != null) {
-                inputStream.close();
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

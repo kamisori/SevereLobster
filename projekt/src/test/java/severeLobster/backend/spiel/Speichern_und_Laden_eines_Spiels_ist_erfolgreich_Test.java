@@ -13,6 +13,34 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import infrastructure.constants.enums.SpielmodusEnumeration;
+
+import org.junit.After;
+
+import org.junit.Before;
+
+import org.junit.Test;
+
+import severeLobster.backend.spiel.Ausschluss;
+
+import severeLobster.backend.spiel.Spiel;
+
+import severeLobster.backend.spiel.Spielfeld;
+
+import severeLobster.backend.spiel.Spielstein;
+
+import severeLobster.backend.spiel.Stern;
+
+import java.io.File;
+
+import static org.hamcrest.Matchers.instanceOf;
+
+import static org.hamcrest.Matchers.is;
+
+import static org.hamcrest.Matchers.nullValue;
+
+import static org.junit.Assert.assertThat;
+
 /**
  * Ueberprueft, ob ein Spiel korrekt gespeichert wird und anschliessend wieder
  * ausgelesen werden kann.
@@ -55,10 +83,11 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
                 instanceOf(spielsteinAusschluss.getClass()));
     }
 
-    @Test(expected = IOException.class)
-    public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_gibt_NULL_zurueck()
-            throws IOException {
-        Spiel.load("testSpiel02");
+    @Test
+    public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_gibt_NULL_zurueck() {
+
+        Spiel geladenesSpiel = Spiel.load("testSpiel02");
+        assertThat(geladenesSpiel, nullValue());
     }
 
     @After
