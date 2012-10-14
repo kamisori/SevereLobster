@@ -165,7 +165,7 @@ public class Spielfeld implements Serializable {
      * speichern und wieder laden.
      * 
      * ZENTRALE AUSSAGE AUS ALTEM KOMMENTAR: Beim Modus Editieren wird der reale
-     * Stein gesetzt. Darüber hinaus wird der sichtbare Stein gesetzt, wenn es
+     * Stein gesetzt. Darueber hinaus wird der sichtbare Stein gesetzt, wenn es
      * sich beim neu gesetzten Stein um einen Pfeil handelt (weil diese ja in
      * beiden Modi dargestellt werden muessen).
      * 
@@ -189,16 +189,16 @@ public class Spielfeld implements Serializable {
              * Im Editiermodus duerfen Pfeil, Stern und KeinStein gesetzt werden
              */
             // Den hierunter folgenden Teil versteh ich nicht ganz.
-            // Deinem Kommentar folgend würde ich das eher so verstehen:
+            // Deinem Kommentar folgend wuerde ich das eher so verstehen:
 //            if (newStein instanceof Pfeil || newStein instanceof Stern
 //                    || newStein instanceof KeinStein) {
 //                realSteine[x][y] = newStein;
 //                //Dieser Teil bezogen auf den alten Kommentarteil, den 
-//                //ich oben nochmal hinten eingefügt hab
+//                //ich oben nochmal hinten eingefuegt hab
 //                if(newStein instanceof Pfeil)
 //                {
 //                    //Wenn neuer Stein ein Pfeil, dann auch in visibleSteine einfuegen,
-//                    //weil Pfeile in jedem Modus gleichermaßen sichtbar sind.
+//                    //weil Pfeile in jedem Modus gleichermassen sichtbar sind.
 //                    visibleSteine[x][y] = newStein;
 //                }
 //            }
@@ -248,7 +248,7 @@ public class Spielfeld implements Serializable {
             fireSpielsteinChanged(x, x, getSpielstein(x, y));
         } else {
             //Auch hier ist dein neuer Kommentar schluessig und
-            //ergänzt fehlendes Verhalten im alten Kommentar
+            //ergï¿½nzt fehlendes Verhalten im alten Kommentar
             /**
              * Ausser Pfeilen darf im Spielmodus alles gesetzt werden. Es
              * duerfen aber auch keine Pfeile ueberschrieben werden.
@@ -257,8 +257,8 @@ public class Spielfeld implements Serializable {
             if (!(getSpielstein(x, y) instanceof Pfeil)
                     && !(newStein instanceof Pfeil)) {
                 //Die folgende Implementation versteh ich nicht so ganz:
-                //Deinem Kommentar folgend würde ich das eher so verstehen:
-                //beide Fälle für Pfeil sind ausgeschlossen, von daher einfach nur aktualisieren:
+                //Deinem Kommentar folgend wuerde ich das eher so verstehen:
+                //beide Faelle fuer Pfeil sind ausgeschlossen, von daher einfach nur aktualisieren:
                 //visibleSteine[x][y]= newStein; 
                 
                 if (getSpielstein(x, y) instanceof KeinStein) {
