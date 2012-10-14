@@ -159,7 +159,7 @@ public class Spiel implements Serializable, IGotSpielModus {
      * 
      * @param spielname
      *            Name der Datei (ohne .sav-Endung)
-     * @throws    IOException
+     * @throws IOException
      */
     public static Spiel load(String spielname) throws IOException {
         InputStream inputStream = null;

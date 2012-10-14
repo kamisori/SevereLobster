@@ -45,7 +45,8 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
         spiel.save("testSpiel01");
         Spiel geladenesSpiel = Spiel.load("testSpiel01");
 
-        assertThat(geladenesSpiel.getSpielmodus(), is(SpielmodusEnumeration.SPIELEN));
+        assertThat(geladenesSpiel.getSpielmodus(),
+                is(SpielmodusEnumeration.SPIELEN));
         assertThat(geladenesSpiel.getSpielfeld().getSchwierigkeitsgrad(),
                 is(spielfeld.getSchwierigkeitsgrad()));
         assertThat(geladenesSpiel.getSpielfeld().getSpielstein(0, 0),
@@ -54,8 +55,7 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
                 instanceOf(spielsteinAusschluss.getClass()));
     }
 
-    @Test
-    (expected = IOException.class)
+    @Test(expected = IOException.class)
     public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_gibt_NULL_zurueck()
             throws IOException {
         Spiel.load("testSpiel02");

@@ -1,13 +1,13 @@
 package severeLobster.backend.spiel;
 
-import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
-import javax.swing.event.EventListenerList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.event.EventListenerList;
 
 /**
  * Spielfeld eines Spiels - Besteht aus einem 2Dimensionalem-Spielstein
@@ -98,20 +98,26 @@ public class Spielfeld implements Serializable {
      * @return Schwierigkeitsgrad des Spielfeldes
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
-        int sterne = countSterne();
-        int pfeile = countPfeile();
-        int spielfeldFlaeche = getBreite() * getHoehe();
+        // QUICKFIX
+        try {
+            int sterne = countSterne();
+            int pfeile = countPfeile();
+            int spielfeldFlaeche = getBreite() * getHoehe();
 
-        float sterndichte = sterne / spielfeldFlaeche;
-        float pfeildichte = pfeile / spielfeldFlaeche;
-        float schwierigkeit = pfeile / sterne + sterndichte + pfeildichte;
+            float sterndichte = sterne / spielfeldFlaeche;
+            float pfeildichte = pfeile / spielfeldFlaeche;
+            float schwierigkeit = pfeile / sterne + sterndichte + pfeildichte;
 
-        if (schwierigkeit > 4)
+            if (schwierigkeit > 4)
+                return SchwierigkeitsgradEnumeration.LEICHT;
+            else if (schwierigkeit > 2)
+                return SchwierigkeitsgradEnumeration.MITTEL;
+            else
+                return SchwierigkeitsgradEnumeration.SCHWER;
+        } catch (ArithmeticException e) {
             return SchwierigkeitsgradEnumeration.LEICHT;
-        else if (schwierigkeit > 2)
-            return SchwierigkeitsgradEnumeration.MITTEL;
-        else
-            return SchwierigkeitsgradEnumeration.SCHWER;
+        }
+
     }
 
     public int getBreite() {
@@ -175,94 +181,98 @@ public class Spielfeld implements Serializable {
      */
     public void setSpielstein(final int x, final int y, Spielstein newStein)
             throws IndexOutOfBoundsException {
+
+        // Erstmal deine Variante zum Testen von außen auskommentiert, weil
+        // sich das Verhalten nicht mit den Tests verträgt.
         throwExceptionIfIndexOutOfBounds(x, y);
         if (null == newStein) {
             newStein = KeinStein.getInstance();
         }
         if (isEditierModus()) {
-            //Dein neuer Kommentar an der Stelle ist schluessig.
-            //Das neu definierte Verhalten macht mehr Sinn.
+            // Dein neuer Kommentar an der Stelle ist schluessig.
+            // Das neu definierte Verhalten macht mehr Sinn.
             /**
              * Im Editiermodus duerfen Pfeil, Stern und KeinStein gesetzt werden
              */
             // Den hierunter folgenden Teil versteh ich nicht ganz.
             // Deinem Kommentar folgend wuerde ich das eher so verstehen:
-//            if (newStein instanceof Pfeil || newStein instanceof Stern
-//                    || newStein instanceof KeinStein) {
-//                realSteine[x][y] = newStein;
-//                //Dieser Teil bezogen auf den alten Kommentarteil, den 
-//                //ich oben nochmal hinten eingefuegt hab
-//                if(newStein instanceof Pfeil)
-//                {
-//                    //Wenn neuer Stein ein Pfeil, dann auch in visibleSteine einfuegen,
-//                    //weil Pfeile in jedem Modus gleichermassen sichtbar sind.
-//                    visibleSteine[x][y] = newStein;
-//                }
-//            }
-            
-            if (getSpielstein(x, y) instanceof KeinStein) {
+            if (newStein instanceof Pfeil || newStein instanceof Stern
+                    || newStein instanceof KeinStein) {
                 realSteine[x][y] = newStein;
-            } else {
-                if (getSpielstein(x, y) instanceof Pfeil) {
-                    switch (((Pfeil) getSpielstein(x, y)).getPfeilrichtung()) {
-                    case NORD:
-                        realSteine[x][y] = new Pfeil(
-                                PfeilrichtungEnumeration.NORDOST);
-                        break;
-                    case NORDOST:
-                        realSteine[x][y] = new Pfeil(
-                                PfeilrichtungEnumeration.OST);
-                        break;
-                    case OST:
-                        realSteine[x][y] = new Pfeil(
-                                PfeilrichtungEnumeration.SUEDOST);
-                        break;
-                    case SUEDOST:
-                        realSteine[x][y] = new Pfeil(
-                                PfeilrichtungEnumeration.SUED);
-                        break;
-                    case SUED:
-                        realSteine[x][y] = new Pfeil(
-                                PfeilrichtungEnumeration.SUEDWEST);
-                        break;
-                    case SUEDWEST:
-                        realSteine[x][y] = new Pfeil(
-                                PfeilrichtungEnumeration.WEST);
-                        break;
-                    case WEST:
-                        realSteine[x][y] = new Pfeil(
-                                PfeilrichtungEnumeration.NORDWEST);
-                        break;
-                    default:
-                        realSteine[x][y] = new KeinStein();
-                        break;
-                    }
-                } else {
-                    realSteine[x][y] = new KeinStein();
+                // Dieser Teil bezogen auf den alten Kommentarteil, den
+                // ich oben nochmal hinten eingefuegt hab
+                if (newStein instanceof Pfeil) {
+                    // Wenn neuer Stein ein Pfeil, dann auch in visibleSteine
+                    // einfuegen,
+                    // weil Pfeile in jedem Modus gleichermassen sichtbar sind.
+                    visibleSteine[x][y] = newStein;
                 }
             }
 
+            // if (getSpielstein(x, y) instanceof KeinStein) {
+            // realSteine[x][y] = newStein;
+            // } else {
+            // if (getSpielstein(x, y) instanceof Pfeil) {
+            // switch (((Pfeil) getSpielstein(x, y)).getPfeilrichtung()) {
+            // case NORD:
+            // realSteine[x][y] = new Pfeil(
+            // PfeilrichtungEnumeration.NORDOST);
+            // break;
+            // case NORDOST:
+            // realSteine[x][y] = new Pfeil(
+            // PfeilrichtungEnumeration.OST);
+            // break;
+            // case OST:
+            // realSteine[x][y] = new Pfeil(
+            // PfeilrichtungEnumeration.SUEDOST);
+            // break;
+            // case SUEDOST:
+            // realSteine[x][y] = new Pfeil(
+            // PfeilrichtungEnumeration.SUED);
+            // break;
+            // case SUED:
+            // realSteine[x][y] = new Pfeil(
+            // PfeilrichtungEnumeration.SUEDWEST);
+            // break;
+            // case SUEDWEST:
+            // realSteine[x][y] = new Pfeil(
+            // PfeilrichtungEnumeration.WEST);
+            // break;
+            // case WEST:
+            // realSteine[x][y] = new Pfeil(
+            // PfeilrichtungEnumeration.NORDWEST);
+            // break;
+            // default:
+            // realSteine[x][y] = new KeinStein();
+            // break;
+            // }
+            // } else {
+            // realSteine[x][y] = new KeinStein();
+            // }
+            // }
+
             fireSpielsteinChanged(x, y, getSpielstein(x, y));
         } else {
-            //Auch hier ist dein neuer Kommentar schluessig und
-            //ergï¿½nzt fehlendes Verhalten im alten Kommentar
+            // Auch hier ist dein neuer Kommentar schluessig und
+            // ergï¿½nzt fehlendes Verhalten im alten Kommentar
             /**
              * Ausser Pfeilen darf im Spielmodus alles gesetzt werden. Es
              * duerfen aber auch keine Pfeile ueberschrieben werden.
-             */            
-            
+             */
+
             if (!(getSpielstein(x, y) instanceof Pfeil)
                     && !(newStein instanceof Pfeil)) {
-                //Die folgende Implementation versteh ich nicht so ganz:
-                //Deinem Kommentar folgend wuerde ich das eher so verstehen:
-                //beide Faelle fuer Pfeil sind ausgeschlossen, von daher einfach nur aktualisieren:
-                //visibleSteine[x][y]= newStein; 
-                
-                if (getSpielstein(x, y) instanceof KeinStein) {
-                    visibleSteine[x][y] = newStein;
-                } else {
-                    visibleSteine[x][y] = new KeinStein();
-                }
+                // Die folgende Implementation versteh ich nicht so ganz:
+                // Deinem Kommentar folgend wuerde ich das eher so verstehen:
+                // beide Faelle fuer Pfeil sind ausgeschlossen, von daher
+                // einfach nur aktualisieren:
+                visibleSteine[x][y] = newStein;
+
+                // if (getSpielstein(x, y) instanceof KeinStein) {
+                // visibleSteine[x][y] = newStein;
+                // } else {
+                // visibleSteine[x][y] = new KeinStein();
+                // }
                 /** Listener benachrichtigen */
                 fireSpielsteinChanged(x, y, getSpielstein(x, y));
             }
