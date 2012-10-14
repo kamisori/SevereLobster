@@ -10,8 +10,6 @@ import java.util.List;
 
 import javax.swing.event.EventListenerList;
 
-import org.hamcrest.core.IsInstanceOf;
-
 /**
  * Spielfeld eines Spiels - Besteht aus einem 2Dimensionalem-Spielstein
  * Koordinatensysten. Fuer Groessenaenderunge einfach neue Instanz erzeugen.

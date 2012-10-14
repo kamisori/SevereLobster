@@ -1,12 +1,13 @@
 package severeLobster.frontend.view;
 
 import infrastructure.graphics.GraphicsGetter;
-import severeLobster.backend.spiel.Spiel;
-import severeLobster.backend.spiel.Spielfeld;
 
-import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Image;
+
+import javax.swing.JPanel;
+
+import severeLobster.backend.spiel.Spiel;
 
 public class MainView extends JPanel {
 

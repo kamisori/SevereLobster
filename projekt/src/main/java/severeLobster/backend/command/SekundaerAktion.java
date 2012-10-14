@@ -1,10 +1,6 @@
 package severeLobster.backend.command;
 
-import infrastructure.constants.enums.SpielmodusEnumeration;
-import severeLobster.backend.spiel.Ausschluss;
-import severeLobster.backend.spiel.Pfeil;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.backend.spiel.Stern;
 
 /**
  * Sekundaeraktion - Sekundaere Aktion die vom Spieler aus gesteuert wird. (Z.B.

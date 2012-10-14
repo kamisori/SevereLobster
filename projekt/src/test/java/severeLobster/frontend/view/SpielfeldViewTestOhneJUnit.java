@@ -1,13 +1,5 @@
 package severeLobster.frontend.view;
 
-import java.awt.BorderLayout;
-import java.util.List;
-import java.util.Random;
-
-import javax.swing.JFrame;
-
-import severeLobster.backend.spiel.Spielfeld;
-import severeLobster.backend.spiel.Spielstein;
 
 /**
  * Passt net mehr zu neuen Architektur.

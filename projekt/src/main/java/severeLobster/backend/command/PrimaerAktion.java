@@ -1,9 +1,6 @@
 package severeLobster.backend.command;
 
-import infrastructure.constants.enums.SpielmodusEnumeration;
-import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.backend.spiel.Stern;
 
 /**
  * Primaeraktion - Primaere Aktion die vom Spieler aus gesteuert wird. (Z.B.
