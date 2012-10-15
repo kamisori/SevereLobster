@@ -1,5 +1,6 @@
 package severeLobster.frontend.controller;
 
+
 /**
  * 
  * TODO Passt nicht mehr zur restlichen Architektur. Nicht loeschen, weil Logik
@@ -35,7 +36,8 @@ public class SpielsteinController {
     // * Wird vom View aufgerufen. Veraendert den wert von visibleState des
     // * zugrundeliegenden Spielsteins.
     // *
-    // * @param spielsteinState SpielsteinState
+    // * @param spielsteinState
+    // * SpielsteinState
     // */
     // public void setState(final Spielstein spielsteinState) {
     // spielsteinModel.setVisibleState(spielsteinState);
@@ -65,7 +67,7 @@ public class SpielsteinController {
     // /**
     // * Leite Aenderung an view weiter.
     // */
-    // spielsteinView.setDisplayedState(newState);
+    // spielsteinView.setDisplayedStein(newState);
     // }
     //
     // }
@@ -159,4 +161,5 @@ public class SpielsteinController {
     // return e.getButton() == MouseEvent.BUTTON3;
     //
     // }
+
 }
