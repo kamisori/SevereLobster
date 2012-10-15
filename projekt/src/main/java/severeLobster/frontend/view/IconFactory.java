@@ -1,13 +1,12 @@
 package severeLobster.frontend.view;
 
 import infrastructure.graphics.icons.IIconPackage;
-
-import javax.swing.Icon;
-
 import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.Pfeil;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.Stern;
+
+import javax.swing.Icon;
 
 /**
  * Abstract Factory zur Anforderung Icons.
@@ -34,6 +33,7 @@ public abstract class IconFactory {
             return iconPackage.ausschlussIcon();
         }
         if (state instanceof Pfeil) {
+            //TODO Hier zwischen versch. Richtungen unterscheiden
             return iconPackage.pfeilIcon();
         }
         return iconPackage.blankIcon();

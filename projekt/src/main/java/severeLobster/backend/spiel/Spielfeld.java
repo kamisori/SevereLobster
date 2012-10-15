@@ -3,11 +3,10 @@ package severeLobster.backend.spiel;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import javax.swing.event.EventListenerList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * Spielfeld eines Spiels - Besteht aus einem 2Dimensionalem-Spielstein
@@ -182,8 +181,8 @@ public class Spielfeld implements Serializable {
     public void setSpielstein(final int x, final int y, Spielstein newStein)
             throws IndexOutOfBoundsException {
 
-        // Erstmal deine Variante zum Testen von auﬂen auskommentiert, weil
-        // sich das Verhalten nicht mit den Tests vertr‰gt.
+        // Erstmal deine Variante zum Testen von aussen auskommentiert, weil
+        // sich das Verhalten nicht mit den Tests vertraegt.
         throwExceptionIfIndexOutOfBounds(x, y);
         if (null == newStein) {
             newStein = KeinStein.getInstance();

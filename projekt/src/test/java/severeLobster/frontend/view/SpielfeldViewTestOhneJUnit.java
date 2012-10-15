@@ -1,21 +1,19 @@
 package severeLobster.frontend.view;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
-
-import java.awt.BorderLayout;
-import java.util.List;
-import java.util.Random;
-
-import javax.swing.JFrame;
-
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.controller.SpielfeldController;
 
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import java.util.List;
+import java.util.Random;
+
 /**
- * Test für SpielfeldView und Spielfeld. Es wird zufaellig aus den für das
- * jeweilige Feld für diesen Spielmodus moeglichen Spielsteinen einer getippt.
+ * Test fuer SpielfeldView und Spielfeld. Es wird zufaellig aus den fuer das
+ * jeweilige Feld fuer diesen Spielmodus moeglichen Spielsteinen einer getippt.
  * Dabei wird zyklisch der Spielmodus geaendert, um das Verhalten von
  * Spielfeld.getSpielstein(), Spielfeld.setSpielstein() und der automatischne
  * Aktualisierung von SpielfeldView zu testen.

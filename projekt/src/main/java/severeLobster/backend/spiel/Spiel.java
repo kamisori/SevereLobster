@@ -5,8 +5,8 @@ import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import javax.swing.event.EventListenerList;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
@@ -167,7 +165,7 @@ public class Spiel implements Serializable, IGotSpielModus {
      * @param spielname
      *            Name der Datei (ohne .sav-Endung)
      */
-    public static Spiel load(String spielname) {
+    public static Spiel load(String spielname) throws IOException {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(spielname
@@ -177,21 +175,10 @@ public class Spiel implements Serializable, IGotSpielModus {
 
             return (Spiel) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new IOException();
         } finally {
             if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                inputStream.close();
             }
         }
     }
