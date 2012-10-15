@@ -9,11 +9,13 @@ package severeLobster.frontend.application;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.frontend.view.MainView;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -164,6 +166,19 @@ public class MainFrame extends JMenuBar implements Runnable {
                 Point p = frame.getLocation();
                 frame.setLocation(p.x + e.getX() - m_Windowlocation.x,
                         p.y + e.getY() - m_Windowlocation.y);
+            }
+        });
+        JButton mButton = new JButton("_");
+        mButton.setEnabled(true);
+        mButton.setFocusable(false);
+        mButton.setToolTipText("Minimieren");
+        mButton.setSize(5,5);
+        add(mButton);
+        
+        mButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                frame.setState(Frame.ICONIFIED);
             }
         });
         frame.setJMenuBar(this);
