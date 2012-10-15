@@ -253,7 +253,7 @@ public class Spielfeld implements Serializable {
             fireSpielsteinChanged(x, y, getSpielstein(x, y));
         } else {
             // Auch hier ist dein neuer Kommentar schluessig und
-            // erg�nzt fehlendes Verhalten im alten Kommentar
+            // ergaenzt fehlendes Verhalten im alten Kommentar
             /**
              * Ausser Pfeilen darf im Spielmodus alles gesetzt werden. Es
              * duerfen aber auch keine Pfeile ueberschrieben werden.

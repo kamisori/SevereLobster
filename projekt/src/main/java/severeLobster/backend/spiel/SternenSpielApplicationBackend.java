@@ -2,10 +2,9 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import javax.swing.event.EventListenerList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
@@ -34,7 +33,7 @@ public class SternenSpielApplicationBackend {
 
     public void loadSpielFrom(final String spielname)
             throws FileNotFoundException, IOException {
-        final Spiel loadedSpiel = Spiel.load(spielname);
+        final Spiel loadedSpiel = Spiel.load(spielname, SpielmodusEnumeration.SPIELEN);
         setSpiel(loadedSpiel);
     }
 

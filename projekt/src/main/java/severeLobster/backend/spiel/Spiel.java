@@ -1,7 +1,6 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.constants.GlobaleKonstanten;
-import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
@@ -43,7 +42,7 @@ public class Spiel implements Serializable, IGotSpielModus {
     /**
      * Spielfeld wird mit Standardfeld initialisiert.
      * 
-     * @param spielmodus
+     * @param spielmodus Spielmodus des Spiels
      */
     public Spiel(SpielmodusEnumeration spielmodus) {
 
@@ -65,11 +64,11 @@ public class Spiel implements Serializable, IGotSpielModus {
     /**
      * Zwischenloesung um eine Primaeraktion auszufuehren.
      * 
-     * @param x
-     * @param y
+     * @param x X-Achsenwert
+     * @param y Y-Achsenwert
      */
     public void primaerAktion(int x, int y) {
-        currentSpielfeld.setSpielstein(x, y, new Stern());
+        currentSpielfeld.setSpielstein(x, y, Stern.getInstance());
         if (spielmodus == SpielmodusEnumeration.SPIELEN) {
             if (hasErrors()) {
                 System.out.println("Die Loesung enthaellt Fehler.");
@@ -80,21 +79,24 @@ public class Spiel implements Serializable, IGotSpielModus {
     /**
      * Zwischenloesung um eine Sekundaeraktion auszufuehren.
      * 
-     * @param x
-     * @param y
+     * @param x x-Achsenwert
+     * @param y y-Achsenwer
      */
     public void sekundaerAktion(int x, int y) {
         if (spielmodus == SpielmodusEnumeration.SPIELEN) {
-            currentSpielfeld.setSpielstein(x, y, new Ausschluss());
+            currentSpielfeld.setSpielstein(x, y, Ausschluss.getInstance());
             if (hasErrors()) {
                 System.out.println("Die Loesung enthaellt Fehler.");
             }
         } else {
-            currentSpielfeld.setSpielstein(x, y, new Pfeil(
-                    PfeilrichtungEnumeration.NORD));
+            currentSpielfeld.setSpielstein(x, y, Pfeil.getNordPfeil());
         }
     }
 
+    /**
+     * Gibt den Schwierigkeitsgrad des Spielfeldes zurueck
+     * @return Schwierigkeitsgrad
+     */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
         return getSpielfeld().getSchwierigkeitsgrad();
     }
@@ -111,8 +113,8 @@ public class Spiel implements Serializable, IGotSpielModus {
      * Setzt ein neues, leeres Spielfeld fuer dieses Spiel. Benachrichtigt
      * listener dieser Instanz ueber spielfeldChanged().
      * 
-     * @param x
-     * @param y
+     * @param x Laenge der x-Achse
+     * @param y Laenge der y-Achse
      */
     public void initializeNewSpielfeld(final int x, final int y) {
         final Spielfeld listeningSpielfeld = getSpielfeld();
@@ -132,16 +134,15 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Speichert das aktuelle Spiel als .sav-Datei
-     * 
+     * Speichert das aktuelle Spiel
      * @param spielname
-     *            Name der Datei (ohne .sav-Endung)
+     *            Name der Datei (ohne Datei-Endung)
      */
     public void save(String spielname) {
+        String dateiendung = getDateiendung(getSpielmodus());
         OutputStream outputStream = null;
         try {
-            outputStream = new FileOutputStream(spielname
-                    + GlobaleKonstanten.SPIELSTAND_DATEITYP);
+            outputStream = new FileOutputStream(spielname + dateiendung);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(
                     outputStream);
             objectOutputStream.writeObject(this);
@@ -163,13 +164,13 @@ public class Spiel implements Serializable, IGotSpielModus {
      * Laedt ein Spiel aus .sav-Dateien
      * 
      * @param spielname
-     *            Name der Datei (ohne .sav-Endung)
+     *            Name der Datei (ohne Dateiendung)
      */
-    public static Spiel load(String spielname) throws IOException {
+    public static Spiel load(String spielname, SpielmodusEnumeration spielmodus) throws IOException {
+        String dateiendung = getDateiendung(spielmodus);
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(spielname
-                    + GlobaleKonstanten.SPIELSTAND_DATEITYP);
+            inputStream = new FileInputStream(spielname + dateiendung);
             ObjectInputStream objectInputStream = new ObjectInputStream(
                     inputStream);
 
@@ -281,6 +282,24 @@ public class Spiel implements Serializable, IGotSpielModus {
      */
     public void removeSpielListener(final ISpielListener listener) {
         listeners.remove(ISpielListener.class, listener);
+    }
+
+    /**
+     * Gibt die Dateiendung eines zu ladenen
+     * oder zu sichernden Spiels bzw. Puzzles
+     * anhand des Spielmodus zurück
+     *
+     * @param spielmodus Spielmodus des Spiels
+     * @return Dateiendung (.psav oder .sav)
+     */
+    private static String getDateiendung(SpielmodusEnumeration spielmodus) {
+        switch (spielmodus) {
+            case SPIELEN:
+                return GlobaleKonstanten.SPIELSTAND_DATEITYP;
+            case EDITIEREN:
+                return GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP;
+        }
+        return null;
     }
 
     private class InnerSpielfeldListener implements ISpielfeldListener {
