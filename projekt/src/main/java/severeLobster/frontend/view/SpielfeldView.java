@@ -58,7 +58,7 @@ public class SpielfeldView extends JPanel implements IControllableSpielfeldView 
                 /** Erstelle neue Ansichtskomponente fuer diesen Spielstein */
                 view = new SpielsteinView(spielstein);
                 /**
-                 * Speichere Komponente in Array, für leichteren Zugriff auf
+                 * Speichere Komponente in Array, fuer leichteren Zugriff auf
                  * einzelne SpielsteinViews
                  */
                 spielsteinViews[breiteIndex][laengeIndex] = view;
@@ -127,8 +127,8 @@ public class SpielfeldView extends JPanel implements IControllableSpielfeldView 
                          */
                         view = new SpielsteinView(spielstein);
                         /**
-                         * Speichere Komponente in Array, für leichteren Zugriff
-                         * auf einzelne SpielsteinViews
+                         * Speichere Komponente in Array, fuer leichteren
+                         * Zugriff auf einzelne SpielsteinViews
                          */
                         spielsteinViews[breiteIndex][laengeIndex] = view;
 

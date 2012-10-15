@@ -14,9 +14,9 @@ import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.controller.SpielfeldController;
 
 /**
- * Test für SpielfeldView und Spielfeld. Es wird zufällig aus den für das
- * jeweilige Feld für diesen Spielmodus möglichen Spielsteinen einer getippt.
- * Dabei wird zyklisch der Spielmodus geändert, um das Verhalten von
+ * Test für SpielfeldView und Spielfeld. Es wird zufaellig aus den für das
+ * jeweilige Feld für diesen Spielmodus moeglichen Spielsteinen einer getippt.
+ * Dabei wird zyklisch der Spielmodus geaendert, um das Verhalten von
  * Spielfeld.getSpielstein(), Spielfeld.setSpielstein() und der automatischne
  * Aktualisierung von SpielfeldView zu testen.
  * 
