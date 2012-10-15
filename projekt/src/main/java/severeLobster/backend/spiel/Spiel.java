@@ -1,5 +1,6 @@
 package severeLobster.backend.spiel;
 
+import com.google.common.base.Preconditions;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
@@ -293,6 +294,7 @@ public class Spiel implements Serializable, IGotSpielModus {
      * @return Dateiendung (.psav oder .sav)
      */
     private static String getDateiendung(SpielmodusEnumeration spielmodus) {
+        Preconditions.checkNotNull(spielmodus);
         switch (spielmodus) {
             case SPIELEN:
                 return GlobaleKonstanten.SPIELSTAND_DATEITYP;
