@@ -6,6 +6,7 @@
 
 package severeLobster.frontend.application;
 
+import infrastructure.ResourceManager;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.frontend.view.MainView;
 
@@ -36,6 +37,8 @@ public class MainFrame extends JMenuBar implements Runnable {
     public static JFrame frame;
     private static MainView MainPanel;
     private static Point m_Windowlocation;
+
+    private final ResourceManager resourceManager = ResourceManager.get();
 
     /**
      * Initialisiert das Menue
@@ -81,7 +84,6 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Grafik = new JMenu("Grafik");
         jm_Eigenschaften = new JMenu("Einstellungen");
         m_Windowlocation = new Point();
-
         ActionListener MenuAction = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
@@ -97,7 +99,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                 if (event.getActionCommand().equals("Software Informationen")) {
 
                 }
-                if (event.getActionCommand().equals("Schlie�en")) {
+                if (event.getActionCommand().equals(resourceManager.getText("close.text"))) {
                     frame.dispose();
                 }
             }
@@ -112,7 +114,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         item.addActionListener(MenuAction);
         jm_Spiel.add(item = new JMenuItem("Laden"));
         item.addActionListener(MenuAction);
-        jm_Spiel.add(item = new JMenuItem("Schlie�en"));
+        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("close.text")));
         item.addActionListener(MenuAction);
 
         jm_Grafik.add(item = new JMenuItem("Aufl�sung"));

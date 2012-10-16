@@ -1,6 +1,6 @@
 package infrastructure.graphics.icons;
 
-import infrastructure.graphics.GraphicsGetter;
+import infrastructure.ResourceManager;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 public class SimpleIconPackage implements IIconPackage {
 
     private static final SimpleIconPackage INSTANCE = new SimpleIconPackage();
+
+    private final ResourceManager resourceManager = ResourceManager.get();
 
     /**
      * Quelle:
@@ -42,11 +44,11 @@ public class SimpleIconPackage implements IIconPackage {
 
     private SimpleIconPackage() {
 
-        sternIcon = new ImageIcon(GraphicsGetter.getIcon("SternIcon24.png"));
+        sternIcon = new ImageIcon(resourceManager.getIcon("SternIcon24.png"));
         ausschlussIcon = new ImageIcon(
-                GraphicsGetter.getIcon("AusschlussIcon24.png"));
-        blankIcon = new ImageIcon(GraphicsGetter.getIcon("BlankIcon24.png"));
-        pfeilIcon = new ImageIcon(GraphicsGetter.getIcon("PfeilIcon24.png"));
+                resourceManager.getIcon("AusschlussIcon24.png"));
+        blankIcon = new ImageIcon(resourceManager.getIcon("BlankIcon24.png"));
+        pfeilIcon = new ImageIcon(resourceManager.getIcon("PfeilIcon24.png"));
 
     }
 

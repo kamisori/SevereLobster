@@ -1,6 +1,6 @@
 package severeLobster.frontend.application;
 
-import infrastructure.graphics.GraphicsGetter;
+import infrastructure.ResourceManager;
 
 import javax.swing.JFrame;
 import java.awt.Color;
@@ -14,6 +14,8 @@ import java.awt.Image;
  * @version 1.0
  */
 public class StartApplication extends JFrame implements Runnable {
+
+    private final ResourceManager resourceManager = ResourceManager.get();
 
     /**
      * Startet das Programm(startet Splaschreen und startet Initialisierung)
@@ -66,7 +68,7 @@ public class StartApplication extends JFrame implements Runnable {
      */
     public void paint(Graphics g) {
         Image sImage = getToolkit().getImage(
-                GraphicsGetter.getGraphic("Splashscreen.jpg"));
+                resourceManager.getGraphic("Splashscreen.jpg"));
         g.drawImage(sImage, 0, 0, this);
         Font myFont = new Font("Arial", Font.PLAIN, 12);
         g.setFont(myFont);

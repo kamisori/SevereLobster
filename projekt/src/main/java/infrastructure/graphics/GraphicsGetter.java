@@ -7,6 +7,7 @@ import java.net.URL;
  * 
  * @author Lars Schlegelmilch
  */
+@Deprecated
 public class GraphicsGetter {
 
     private static final GraphicsGetter instance = new GraphicsGetter();
@@ -16,7 +17,7 @@ public class GraphicsGetter {
 
     /**
      * Gibt die URL einer Grafik im Package src/main/resources/graphics zurueck
-     * 
+     *
      * @param graphicName
      *            Dateiname
      * @return URL der Grafik

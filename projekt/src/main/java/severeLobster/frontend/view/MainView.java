@@ -1,6 +1,6 @@
 package severeLobster.frontend.view;
 
-import infrastructure.graphics.GraphicsGetter;
+import infrastructure.ResourceManager;
 import severeLobster.backend.spiel.Spiel;
 
 import javax.swing.JPanel;
@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class MainView extends JPanel {
+
+    private final ResourceManager resourceManager = ResourceManager.get();
 
     public MainView(final Spiel spiel) {
         // TODO: Layout wird zwecks Platzhalter auf null gesetzt -> Layout!
@@ -25,7 +27,7 @@ public class MainView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Image sImage = getToolkit().getImage(
-                GraphicsGetter.getGraphic("sternenhimmel.jpg"));
+                resourceManager.getGraphic("sternenhimmel.jpg"));
         g.drawImage(sImage, 0, 0, this);
     }
 }

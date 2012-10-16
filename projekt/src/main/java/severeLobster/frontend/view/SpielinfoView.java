@@ -1,16 +1,17 @@
 package severeLobster.frontend.view;
 
-import infrastructure.graphics.GraphicsGetter;
+import infrastructure.ResourceManager;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 public class SpielinfoView extends JPanel {
+
+    private final ResourceManager resourceManager = ResourceManager.get();
 
     public SpielinfoView() {
         add(new JLabel("Spielinfo"));
@@ -22,7 +23,7 @@ public class SpielinfoView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Image sImage = getToolkit().getImage(
-                GraphicsGetter.getGraphic("spielinfo.jpg"));
+                resourceManager.getGraphic("spielinfo.jpg"));
         g.drawImage(sImage, 0, 0, this);
 
         Font myFont = new Font("Arial", Font.PLAIN, 22);
