@@ -349,7 +349,6 @@ public class Spielfeld implements Serializable {
             final List<Spielstein> editierModusList = new ArrayList<Spielstein>(
                     11);
             editierModusList.add(new KeinStein());
-            editierModusList.add(new Ausschluss());
             editierModusList.add(new Stern());
             editierModusList.addAll(Pfeil.listAlleMoeglichenPfeile());
             return editierModusList;
