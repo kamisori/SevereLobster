@@ -3,7 +3,6 @@ package infrastructure.graphics.icons;
 import infrastructure.ResourceManager;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 /**
  * Icon Paket mit doofen Icons.
@@ -44,11 +43,10 @@ public class SimpleIconPackage implements IIconPackage {
 
     private SimpleIconPackage() {
 
-        sternIcon = new ImageIcon(resourceManager.getIcon("SternIcon24.png"));
-        ausschlussIcon = new ImageIcon(
-                resourceManager.getIcon("AusschlussIcon24.png"));
-        blankIcon = new ImageIcon(resourceManager.getIcon("BlankIcon24.png"));
-        pfeilIcon = new ImageIcon(resourceManager.getIcon("PfeilIcon24.png"));
+        sternIcon = resourceManager.getImageIcon("SternIcon24.png");
+        ausschlussIcon = resourceManager.getImageIcon("AusschlussIcon24.png");
+        blankIcon = resourceManager.getImageIcon("BlankIcon24.png");
+        pfeilIcon = resourceManager.getImageIcon("PfeilIcon24.png");
 
     }
 

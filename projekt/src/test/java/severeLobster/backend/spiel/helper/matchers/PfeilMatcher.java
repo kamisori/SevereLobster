@@ -8,7 +8,7 @@ import org.hamcrest.TypeSafeMatcher;
 import severeLobster.backend.spiel.Pfeil;
 
 /**
- * Hamcrest Matcher für einen Pfeil,
+ * Hamcrest Matcher fuer einen Pfeil,
  * vergleicht einen Pfeilspielstein und seine Attribute
  *
  * @author Lars Schlegelmilch

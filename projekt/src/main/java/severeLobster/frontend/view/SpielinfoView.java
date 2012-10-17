@@ -23,7 +23,7 @@ public class SpielinfoView extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Image sImage = getToolkit().getImage(
-                resourceManager.getGraphic("spielinfo.jpg"));
+                resourceManager.getGraphicURL("spielinfo.jpg"));
         g.drawImage(sImage, 0, 0, this);
 
         Font myFont = new Font("Arial", Font.PLAIN, 22);

@@ -80,7 +80,7 @@ public class MainFrame extends JMenuBar implements Runnable {
          * Menueeintraege wird hinzugefuegt
          */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
-        jm_Spiel = new JMenu("Spiel");
+        jm_Spiel = new JMenu(resourceManager.getText("spiel.menu.text"));
         jm_Grafik = new JMenu("Grafik");
         jm_Eigenschaften = new JMenu("Einstellungen");
         m_Windowlocation = new Point();
@@ -107,14 +107,14 @@ public class MainFrame extends JMenuBar implements Runnable {
 
         JMenuItem item;
 
-        jm_Spiel.add(item = new JMenuItem("Neues Spiel"));
+        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("neues.spiel.text")));
         item.addActionListener(MenuAction);
         item.addActionListener(MenuAction);
-        jm_Spiel.add(item = new JMenuItem("Speichern"));
+        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("save.text")));
         item.addActionListener(MenuAction);
-        jm_Spiel.add(item = new JMenuItem("Laden"));
+        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("load.text")));
         item.addActionListener(MenuAction);
-        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("close.text")));
+        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("exit.text")));
         item.addActionListener(MenuAction);
 
         jm_Grafik.add(item = new JMenuItem("Aufl�sung"));

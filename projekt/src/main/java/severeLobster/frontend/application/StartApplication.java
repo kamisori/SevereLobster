@@ -68,7 +68,7 @@ public class StartApplication extends JFrame implements Runnable {
      */
     public void paint(Graphics g) {
         Image sImage = getToolkit().getImage(
-                resourceManager.getGraphic("Splashscreen.jpg"));
+                resourceManager.getGraphicURL("Splashscreen.jpg"));
         g.drawImage(sImage, 0, 0, this);
         Font myFont = new Font("Arial", Font.PLAIN, 12);
         g.setFont(myFont);
