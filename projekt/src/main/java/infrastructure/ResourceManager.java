@@ -115,7 +115,7 @@ public class ResourceManager {
      * @return URL des Icons
      */
     public URL getIconURL(String iconName) {
-        return getClass().getResource("grahpics/icons/" + iconName);
+        return getClass().getResource("graphics/icons/" + iconName);
     }
 
     /**
@@ -140,7 +140,7 @@ public class ResourceManager {
      */
     @Deprecated
     public URL getIcon(String iconName) {
-        return getClass().getResource("grahpics/icons/" + iconName);
+        return getClass().getResource("graphics/icons/" + iconName);
     }
 
     /**
