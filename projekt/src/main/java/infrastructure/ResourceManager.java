@@ -127,7 +127,7 @@ public class ResourceManager {
      * @return Icon als ImageIcon
      */
     public ImageIcon getImageIcon(String iconName) {
-        return new ImageIcon(getClass().getResource("grahpics/icons/" + iconName));
+        return new ImageIcon(getClass().getResource("graphics/icons/" + iconName));
     }
 
     /**
