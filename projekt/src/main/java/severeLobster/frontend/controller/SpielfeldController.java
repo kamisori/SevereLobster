@@ -76,4 +76,12 @@ public class SpielfeldController {
         return this.currentSpielfeld;
     }
 
+    public SpielmodusEnumeration getSpielmodus() {
+        return backend.getSpiel().getSpielmodus();
+    }
+
+    public void setSpielstein(Spielstein spielstein, int x, int y) {
+        this.currentSpielfeld.setSpielstein(x, y, spielstein);
+    }
+
 }

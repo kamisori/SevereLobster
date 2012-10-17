@@ -56,7 +56,8 @@ public class SpielfeldView extends JPanel implements IControllableSpielfeldView 
                 /** Hole naechsten Spielstein */
                 spielstein = spielfeld.getSpielstein(breiteIndex, laengeIndex);
                 /** Erstelle neue Ansichtskomponente fuer diesen Spielstein */
-                view = new SpielsteinView(spielstein);
+                view = new SpielsteinView(spielstein, breiteIndex, laengeIndex,
+                        spielfeldController);
                 /**
                  * Speichere Komponente in Array, fuer leichteren Zugriff auf
                  * einzelne SpielsteinViews
@@ -125,7 +126,8 @@ public class SpielfeldView extends JPanel implements IControllableSpielfeldView 
                          * Erstelle neue Ansichtskomponente fuer diesen
                          * Spielstein
                          */
-                        view = new SpielsteinView(spielstein);
+                        view = new SpielsteinView(spielstein, breiteIndex,
+                                laengeIndex, spielfeldController);
                         /**
                          * Speichere Komponente in Array, fuer leichteren
                          * Zugriff auf einzelne SpielsteinViews

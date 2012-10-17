@@ -1,6 +1,14 @@
 package severeLobster.frontend.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
+import severeLobster.backend.spiel.Spielstein;
+import severeLobster.frontend.controller.SpielfeldController;
 
 /**
  * TODO An neue Architektur anpassen. Popup Maus Menu zum Editieren des
@@ -9,40 +17,39 @@ import javax.swing.JPopupMenu;
  * @author Lutz Kleiber
  * 
  */
-public class PopupMenuForSpielsteinStateManipulation extends JPopupMenu {
+public class PopupMenuForSpielsteinChoice extends JPopupMenu {
 
-    // public PopupMenuForSpielsteinStateManipulation(
-    // final SpielsteinController spielsteinController,
-    // List<? extends Spielstein> choosableStates) {
-    //
-    // JMenuItem menuItem;
-    //
-    // /**
-    // * Durchlaufe die fuer diesen Spielstein moeglichen Stati und stelle
-    // * jeden dieser Stati mit einem Icon und Text zur Auswahl dar.
-    // */
-    // for (Spielstein currentState : choosableStates) {
-    // /** Hole Icon und Namen fuer diesen SpielsteinState: */
-    //
-    // menuItem = new JMenuItem(currentState.toString(), SimpleIconFactory
-    // .getInstance().getIconForState(currentState));
-    // /**
-    // * Sinn dieser Variable ist es der Anonymen Klasse eine Konstante
-    // * mitzugeben:
-    // */
-    // final Spielstein finalCurrentState = currentState;
-    // menuItem.addActionListener(new ActionListener() {
-    //
-    // public void actionPerformed(ActionEvent e) {
-    // /**
-    // * Bei Klick auf den Status soll eine Statusaenderung
-    // * hierhin gemacht werden.
-    // */
-    // spielsteinController.setState(finalCurrentState);
-    // }
-    // });
-    // this.add(menuItem);
-    // }
-    //
-    // }
+    public PopupMenuForSpielsteinChoice(final SpielfeldController controller,
+            final List<? extends Spielstein> listAvailableStates, final int x, final int y) {
+
+        JMenuItem menuItem;
+
+        /**
+         * Durchlaufe die fuer diesen Spielstein moeglichen Stati und stelle
+         * jeden dieser Stati mit einem Icon und Text zur Auswahl dar.
+         */
+        for (Spielstein currentstein : listAvailableStates) {
+            /** Hole Icon und Namen fuer diesen SpielsteinState: */
+
+            menuItem = new JMenuItem(currentstein.toString(), SimpleIconFactory
+                    .getInstance().getIconForState(currentstein));
+            /**
+             * Sinn dieser Variable ist es der Anonymen Klasse eine Konstante
+             * mitzugeben:
+             */
+            final Spielstein finalCurrentState = currentstein;
+            menuItem.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    /**
+                     * Bei Klick auf den Status soll eine Statusaenderung
+                     * hierhin gemacht werden.
+                     */
+                    controller.setSpielstein(finalCurrentState, x, y);
+                }
+            });
+            this.add(menuItem);
+        }
+
+    }
 }
