@@ -1,11 +1,18 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
+import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Spiel;
+import severeLobster.backend.spiel.SternenSpielApplicationBackend;
+import severeLobster.frontend.controller.SpielfeldController;
+import severeLobster.frontend.controller.SpielmodusController;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class MainView extends JPanel {
 
@@ -14,7 +21,29 @@ public class MainView extends JPanel {
     public MainView(final Spiel spiel) {
         // TODO: Layout wird zwecks Platzhalter auf null gesetzt -> Layout!
         setLayout(null);
-        JPanel spielfeld = new SpielfeldView_fwenisch();
+        // JPanel spielfeld = new SpielfeldView_fwenisch();
+        /**
+         * Nur zum Testen
+         */
+        final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
+        backend.getSpiel().initializeNewSpielfeld(20, 18);
+        backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+        final SpielfeldView view = new SpielfeldView(backend.getSpiel()
+                .getSpielfeld());
+        new SpielfeldController(view, backend);
+
+        final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
+        new SpielmodusController(spielmodusView, backend);
+
+        JPanel spielfeld = new JPanel(false);
+        spielfeld.setOpaque(false);
+        spielfeld.setLayout(new BoxLayout(spielfeld, BoxLayout.Y_AXIS));
+        spielfeld.add(view);
+        spielfeld.add(spielmodusView);
+
+        /**
+         * Ende Test
+         */
 
         spielfeld.setBounds(50, 50, 500, 500);
         JPanel spielinfo = new SpielinfoView();
