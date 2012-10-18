@@ -1,7 +1,6 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
-import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.controller.SpielfeldController;
@@ -11,14 +10,13 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MainView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();
 
-    public MainView(final Spiel spiel) {
+    public MainView(final Spiel spiel) throws IOException {
         // TODO: Layout wird zwecks Platzhalter auf null gesetzt -> Layout!
         setLayout(null);
         // JPanel spielfeld = new SpielfeldView_fwenisch();
@@ -26,8 +24,10 @@ public class MainView extends JPanel {
          * Nur zum Testen
          */
         final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
-        backend.getSpiel().initializeNewSpielfeld(20, 18);
+        backend.loadSpielFrom("Standardspiel01");
+        /*backend.getSpiel().initializeNewSpielfeld(20, 18);
         backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+        */
         final SpielfeldView view = new SpielfeldView(backend.getSpiel()
                 .getSpielfeld());
         new SpielfeldController(view, backend);

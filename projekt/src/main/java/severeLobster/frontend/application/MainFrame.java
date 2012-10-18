@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.IOException;
 
 /**
  * Initialisiert Grafiken
@@ -46,7 +47,7 @@ public class MainFrame extends JMenuBar implements Runnable {
      * @author Jean-Fabian Wenisch
      * @version 1.0 06.12.2010
      */
-    public MainFrame() {
+    public MainFrame() throws IOException {
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         /*
          * Frame wird erzeugt
@@ -99,7 +100,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                 if (event.getActionCommand().equals("Software Informationen")) {
 
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("close.text"))) {
+                if (event.getActionCommand().equals(resourceManager.getText("exit.text"))) {
                     frame.dispose();
                 }
             }
