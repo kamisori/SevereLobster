@@ -30,7 +30,7 @@ public class Spiel implements Serializable, IGotSpielModus {
     private Spielfeld currentSpielfeld;
     private SpielmodusEnumeration spielmodus = SpielmodusEnumeration.SPIELEN;
     private int anzahlZuege;
-    private transient final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
+    private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
@@ -43,7 +43,8 @@ public class Spiel implements Serializable, IGotSpielModus {
     /**
      * Spielfeld wird mit Standardfeld initialisiert.
      * 
-     * @param spielmodus Spielmodus des Spiels
+     * @param spielmodus
+     *            Spielmodus des Spiels
      */
     public Spiel(SpielmodusEnumeration spielmodus) {
 
@@ -65,8 +66,10 @@ public class Spiel implements Serializable, IGotSpielModus {
     /**
      * Zwischenloesung um eine Primaeraktion auszufuehren.
      * 
-     * @param x X-Achsenwert
-     * @param y Y-Achsenwert
+     * @param x
+     *            X-Achsenwert
+     * @param y
+     *            Y-Achsenwert
      */
     public void primaerAktion(int x, int y) {
         currentSpielfeld.setSpielstein(x, y, Stern.getInstance());
@@ -80,8 +83,10 @@ public class Spiel implements Serializable, IGotSpielModus {
     /**
      * Zwischenloesung um eine Sekundaeraktion auszufuehren.
      * 
-     * @param x x-Achsenwert
-     * @param y y-Achsenwer
+     * @param x
+     *            x-Achsenwert
+     * @param y
+     *            y-Achsenwer
      */
     public void sekundaerAktion(int x, int y) {
         if (spielmodus == SpielmodusEnumeration.SPIELEN) {
@@ -96,6 +101,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Gibt den Schwierigkeitsgrad des Spielfeldes zurueck
+     * 
      * @return Schwierigkeitsgrad
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
@@ -114,8 +120,10 @@ public class Spiel implements Serializable, IGotSpielModus {
      * Setzt ein neues, leeres Spielfeld fuer dieses Spiel. Benachrichtigt
      * listener dieser Instanz ueber spielfeldChanged().
      * 
-     * @param x Laenge der x-Achse
-     * @param y Laenge der y-Achse
+     * @param x
+     *            Laenge der x-Achse
+     * @param y
+     *            Laenge der y-Achse
      */
     public void initializeNewSpielfeld(final int x, final int y) {
         final Spielfeld listeningSpielfeld = getSpielfeld();
@@ -136,6 +144,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Speichert das aktuelle Spiel
+     * 
      * @param spielname
      *            Name der Datei (ohne Datei-Endung)
      */
@@ -167,7 +176,8 @@ public class Spiel implements Serializable, IGotSpielModus {
      * @param spielname
      *            Name der Datei (ohne Dateiendung)
      */
-    public static Spiel load(String spielname, SpielmodusEnumeration spielmodus) throws IOException {
+    public static Spiel load(String spielname, SpielmodusEnumeration spielmodus)
+            throws IOException {
         String dateiendung = getDateiendung(spielmodus);
         InputStream inputStream = null;
         try {
@@ -286,25 +296,26 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Gibt die Dateiendung eines zu ladenen
-     * oder zu sichernden Spiels bzw. Puzzles
-     * anhand des Spielmodus zurück
-     *
-     * @param spielmodus Spielmodus des Spiels
+     * Gibt die Dateiendung eines zu ladenen oder zu sichernden Spiels bzw.
+     * Puzzles anhand des Spielmodus zurück
+     * 
+     * @param spielmodus
+     *            Spielmodus des Spiels
      * @return Dateiendung (.psav oder .sav)
      */
     private static String getDateiendung(SpielmodusEnumeration spielmodus) {
         Preconditions.checkNotNull(spielmodus);
         switch (spielmodus) {
-            case SPIELEN:
-                return GlobaleKonstanten.SPIELSTAND_DATEITYP;
-            case EDITIEREN:
-                return GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP;
+        case SPIELEN:
+            return GlobaleKonstanten.SPIELSTAND_DATEITYP;
+        case EDITIEREN:
+            return GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP;
         }
         return null;
     }
 
-    private class InnerSpielfeldListener implements ISpielfeldListener {
+    private class InnerSpielfeldListener implements ISpielfeldListener,
+            Serializable {
 
         @Override
         public void spielsteinChanged(Spielfeld spielfeld, int x, int y,
