@@ -1,7 +1,5 @@
 package infrastructure;
 
-import com.google.common.base.Preconditions;
-
 import javax.swing.ImageIcon;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,8 +81,6 @@ public class ResourceManager {
      * @return Propertiesdatei als InputStream
      */
     private InputStream getProperties(Locale locale) {
-        Preconditions.checkNotNull(locale);
-
         if (locale.getLanguage().equals(Locale.GERMAN.getLanguage())) {
             return getClass().getResourceAsStream("text.properties");
         }

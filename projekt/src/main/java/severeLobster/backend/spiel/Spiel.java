@@ -1,11 +1,11 @@
 package severeLobster.backend.spiel;
 
-import com.google.common.base.Preconditions;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
 import javax.swing.event.EventListenerList;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +25,9 @@ import java.io.Serializable;
  */
 public class Spiel implements Serializable, IGotSpielModus {
 
-    private final EventListenerList listeners = new EventListenerList();
+	private static final long serialVersionUID = 8540110327670856123L;
+	
+	private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
     private SpielmodusEnumeration spielmodus = SpielmodusEnumeration.SPIELEN;
@@ -149,10 +151,11 @@ public class Spiel implements Serializable, IGotSpielModus {
      *            Name der Datei (ohne Datei-Endung)
      */
     public void save(String spielname) {
-        String dateiendung = getDateiendung(getSpielmodus());
         OutputStream outputStream = null;
         try {
-            outputStream = new FileOutputStream(spielname + dateiendung);
+            String dateiendung = getDateiendung(getSpielmodus());
+            File verzeichnis = new File(getVerzeichnis(getSpielmodus()), spielname + dateiendung);
+            outputStream = new FileOutputStream(verzeichnis);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(
                     outputStream);
             objectOutputStream.writeObject(this);
@@ -179,12 +182,12 @@ public class Spiel implements Serializable, IGotSpielModus {
     public static Spiel load(String spielname, SpielmodusEnumeration spielmodus)
             throws IOException {
         String dateiendung = getDateiendung(spielmodus);
+        File verzeichnis = new File(getVerzeichnis(spielmodus), spielname + dateiendung);
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(spielname + dateiendung);
+            inputStream = new FileInputStream(verzeichnis);
             ObjectInputStream objectInputStream = new ObjectInputStream(
                     inputStream);
-
             return (Spiel) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
             throw new IOException();
@@ -304,12 +307,24 @@ public class Spiel implements Serializable, IGotSpielModus {
      * @return Dateiendung (.psav oder .sav)
      */
     private static String getDateiendung(SpielmodusEnumeration spielmodus) {
-        Preconditions.checkNotNull(spielmodus);
+        //Preconditions.checkNotNull(spielmodus);
         switch (spielmodus) {
         case SPIELEN:
             return GlobaleKonstanten.SPIELSTAND_DATEITYP;
         case EDITIEREN:
             return GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP;
+        }
+        return null;
+    }
+
+
+    private static File getVerzeichnis(SpielmodusEnumeration spielmodus) {
+        //Preconditions.checkNotNull(spielmodus);
+        switch (spielmodus) {
+            case SPIELEN:
+                return GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR;
+            case EDITIEREN:
+                return GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR;
         }
         return null;
     }

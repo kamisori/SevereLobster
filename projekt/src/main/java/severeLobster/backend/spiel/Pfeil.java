@@ -1,6 +1,5 @@
 package severeLobster.backend.spiel;
 
-import com.google.common.base.Preconditions;
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
 
 import java.util.ArrayList;
@@ -60,8 +59,6 @@ public class Pfeil extends Spielstein {
      *            Richtung des Pfeiles
      */
     public Pfeil(final PfeilrichtungEnumeration pfeilrichtung) {
-        Preconditions.checkNotNull(pfeilrichtung);
-
         this.pfeilrichtung = pfeilrichtung;
     }
 

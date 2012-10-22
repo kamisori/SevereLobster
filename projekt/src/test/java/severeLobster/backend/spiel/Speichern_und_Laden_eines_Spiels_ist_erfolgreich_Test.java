@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Ueberprueft, ob ein Spiel korrekt gespeichert wird und anschliessend wieder
  * ausgelesen werden kann.
- * 
+ *
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
 public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
@@ -83,13 +83,13 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     }
 
     @Test
-    (expected = IOException.class)
+            (expected = IOException.class)
     public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_gibt_NULL_zurueck() throws IOException {
         Spiel.load("testSpiel02", SpielmodusEnumeration.SPIELEN);
     }
 
     @Test
-    (expected = IOException.class)
+            (expected = IOException.class)
     public void ein_nicht_vorhandenes_Puzzle_kann_nicht_geladen_werden_und_gibt_NULL_zurueck() throws IOException {
         Spiel.load("testSpiel02", SpielmodusEnumeration.EDITIEREN);
     }
@@ -98,9 +98,9 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     public void tearDown() throws SpielNichtLoeschbarException {
         boolean success = true;
 
-        File spieldatei = new File("testSpiel01"
+        File spieldatei = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR, "testSpiel01"
                 + GlobaleKonstanten.SPIELSTAND_DATEITYP);
-        File puzzledatei = new File("testSpiel01"
+        File puzzledatei = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "testSpiel01"
                 + GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP);
 
         if (spieldatei.exists()) {

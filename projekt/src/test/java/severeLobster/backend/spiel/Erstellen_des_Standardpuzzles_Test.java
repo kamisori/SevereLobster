@@ -87,7 +87,7 @@ public class Erstellen_des_Standardpuzzles_Test {
     @Test
     public void sichern_des_editierten_standardspiels_ist_erfolgreich()
             throws IOException {
-        File file = new File("Standardspiel01"
+        File file = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "Standardspiel01"
                 + GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP);
 
         boolean success;
@@ -98,7 +98,7 @@ public class Erstellen_des_Standardpuzzles_Test {
             }
         }
         standardspiel.save("Standardspiel01");
-        file = new File("Standardspiel01"
+        file = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "Standardspiel01"
                 + GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP);
         assertTrue(file.exists());
     }
@@ -155,7 +155,7 @@ public class Erstellen_des_Standardpuzzles_Test {
         geladenesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         geladenesSpiel.save("Standardspiel01");
 
-        File file = new File("Standardspiel01"
+        File file = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR, "Standardspiel01"
                 + GlobaleKonstanten.SPIELSTAND_DATEITYP);
         assertTrue(file.exists());
     }
