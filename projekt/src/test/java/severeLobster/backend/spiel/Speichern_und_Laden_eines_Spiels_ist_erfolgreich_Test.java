@@ -84,13 +84,13 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
 
     @Test
             (expected = IOException.class)
-    public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_gibt_NULL_zurueck() throws IOException {
+    public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_wirft_eine_exception() throws IOException {
         Spiel.load("testSpiel02", SpielmodusEnumeration.SPIELEN);
     }
 
     @Test
             (expected = IOException.class)
-    public void ein_nicht_vorhandenes_Puzzle_kann_nicht_geladen_werden_und_gibt_NULL_zurueck() throws IOException {
+    public void ein_nicht_vorhandenes_Puzzle_kann_nicht_geladen_werden_und_wirft_eine_exception() throws IOException {
         Spiel.load("testSpiel02", SpielmodusEnumeration.EDITIEREN);
     }
 

@@ -7,10 +7,12 @@
 package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
+import infrastructure.constants.GlobaleKonstanten;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.frontend.view.MainView;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -91,8 +93,12 @@ public class MainFrame extends JMenuBar implements Runnable {
                 if (event.getActionCommand().equals("�berblick")) {
 
                 }
-                if (event.getActionCommand().equals("Laden")) {
+                if (event.getActionCommand().equals(resourceManager.getText("load.text"))) {
+                    JFileChooser chooser = new JFileChooser(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
+                    //chooser.setVisible(true);
+                    //chooser.set
 
+                    chooser.showOpenDialog(frame);
                 }
                 if (event.getActionCommand().equals("Hardware Informationen")) {
 
