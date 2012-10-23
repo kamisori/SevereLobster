@@ -9,22 +9,61 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Spielfeld eines Spiels - Besteht aus einem 2Dimensionalem-Spielstein
- * Koordinatensysten. Fuer Groessenaenderunge einfach neue Instanz erzeugen.
- * Wenn einmal erstellt, ist das Feld mit den Spielsteinen konstant. Klasse ist
- * nicht Thread-safe.
+ * Spielfeld eines Spiels - verhaelt sich nach auﬂen wie ein zweidimensionales
+ * Feld. Besteht in wirklichkeit aus je einer zweidimensionalen Schicht pro
+ * Spielmodus (also 2). Nach auﬂen ist jeweils nur die Schicht fuer den
+ * jeweiligen Spielmodus sichtbar. Nach der Erstellung ist die Groesse des
+ * Spielfeldes konstant. Klasse ist nicht Thread-safe.
  * 
- * @author Lars Schlegelmilch, Lutz Kleiber
+ * @author Lars Schlegelmilch, Lutz Kleiber, Christian Lobach, Paul Bruell
  */
 public class Spielfeld implements Serializable {
 
     private static final long serialVersionUID = -4673868060555706754L;
 
     private final EventListenerList listeners = new EventListenerList();
-    /** Groesse ist Konstant, aber Steine koennen ueber setter gesetzt werden */
+    /** Wirklich gesetzte bzw im Editiermodus sichtbare Steine: */
     private final Spielstein[][] realSteine;
+    /** Geratene bzw. im Spielmodus sichtbare Steine: */
     private final Spielstein[][] visibleSteine;
+    /**
+     * Spielmodus ist auﬂen gesetzt, und Spielfeld greift ueber das Interface
+     * immer auf den aktuellen Spielstand zu. Der Spielmodus definiert das
+     * Verhalten von Spielfeld nach auﬂen.
+     */
     private final IGotSpielModus gotSpielModus;
+
+    /**
+     * Erstellt ein neues, leeres Spielfeld der angegebenen Groesse. Alle
+     * Feldelemente sind mit KeinStein Instanzen initialisiert.
+     * 
+     * 
+     * @param breite
+     *            Breite des Spielfeldes
+     * @param hoehe
+     *            Hoehe des Spielfeldes
+     */
+    public Spielfeld(final IGotSpielModus gotSpielModus, final int breite,
+            final int hoehe) {
+        if (breite < 1 || hoehe < 1) {
+            throw new IllegalArgumentException("Nicht erlaubte Breite/Hoehe");
+        }
+        if (null == gotSpielModus) {
+            throw new NullPointerException("Spiel ist null");
+        }
+        this.gotSpielModus = gotSpielModus;
+        this.realSteine = new Spielstein[breite][hoehe];
+        this.visibleSteine = new Spielstein[breite][hoehe];
+
+        /** Beide Feldansichten mit KeinStein Spielsteinen fuellen */
+        for (int hoeheIndex = 0; hoeheIndex < hoehe; hoeheIndex++) {
+            for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
+                realSteine[breiteIndex][hoeheIndex] = KeinStein.getInstance();
+                visibleSteine[breiteIndex][hoeheIndex] = KeinStein
+                        .getInstance();
+            }
+        }
+    }
 
     /**
      * Zaehlt die Pfeile auf dem Spielfeld.
@@ -56,37 +95,6 @@ public class Spielfeld implements Serializable {
             }
         }
         return result;
-    }
-
-    /**
-     * Im Vergleich zur vorherigen API sind breite und hoehe bei parameterliste
-     * vertauscht, um Einheitlichkeit mit getSpielstein() zu haben.
-     * 
-     * @param breite
-     *            Breite des Spielfeldes
-     * @param hoehe
-     *            Hoehe des Spielfeldes
-     */
-    public Spielfeld(final IGotSpielModus gotSpielModus, final int breite,
-            final int hoehe) {
-        if (breite < 1 || hoehe < 1) {
-            throw new IllegalArgumentException("Nicht erlaubte Breite/Hoehe");
-        }
-        if (null == gotSpielModus) {
-            throw new NullPointerException("Spiel ist null");
-        }
-        this.gotSpielModus = gotSpielModus;
-        this.realSteine = new Spielstein[breite][hoehe];
-        this.visibleSteine = new Spielstein[breite][hoehe];
-
-        /** Beide Feldansichten mit Null State Spielsteinen fuellen */
-        for (int hoeheIndex = 0; hoeheIndex < hoehe; hoeheIndex++) {
-            for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-                realSteine[breiteIndex][hoeheIndex] = KeinStein.getInstance();
-                visibleSteine[breiteIndex][hoeheIndex] = KeinStein
-                        .getInstance();
-            }
-        }
     }
 
     /**
@@ -134,7 +142,6 @@ public class Spielfeld implements Serializable {
      * Modus Spielen wird der sichtbare Stein zurueckgegeben. Beim Modus
      * Editieren wird der reale Stein zurueckgegeben.
      * 
-     * 
      * @param x
      *            X-Achsen Koordinatenwert
      * @param y
@@ -158,18 +165,15 @@ public class Spielfeld implements Serializable {
      * Beim Modus Spielen wird der sichtbare Stein gesetzt - der reale Stein
      * wird davon nicht beeinflusst.
      * ......................................................................
-     * Beim Modus Editieren wird der reale Stein gesetzt - der sichtbare Stein
-     * wird davon nicht beeinflusst. Im Gegenzug muss im Editierenmodus das
-     * reale Spielfeld dargestellt werden. Bereits angefangene Spielfelder sind
-     * immer noch editierbar.
+     * Beim Modus Editieren wird der reale Stein gesetzt. Darueber hinaus wird
+     * der sichtbare Stein gesetzt, wenn es sich beim neu gesetzten Stein um
+     * einen Pfeil handelt (weil diese ja in beiden Modi dargestellt werden
+     * muessen).
      * ......................................................................
      * Spielfelder lassen sich zu jedem Zeitpunkt und in jedem Zustand komplett
-     * speichern und wieder laden.
-     * 
-     * ZENTRALE AUSSAGE AUS ALTEM KOMMENTAR: Beim Modus Editieren wird der reale
-     * Stein gesetzt. Darueber hinaus wird der sichtbare Stein gesetzt, wenn es
-     * sich beim neu gesetzten Stein um einen Pfeil handelt (weil diese ja in
-     * beiden Modi dargestellt werden muessen).
+     * speichern und wieder laden. Bereits angefangene Spielfelder sind immer
+     * noch editierbar. Wenn newStein null ist, wird KeinStein als Stein
+     * gesetzt.
      * 
      * @param x
      *            X-Achsen Koordinatenwert
@@ -181,110 +185,60 @@ public class Spielfeld implements Serializable {
     public void setSpielstein(final int x, final int y, Spielstein newStein)
             throws IndexOutOfBoundsException {
 
-        // Erstmal deine Variante zum Testen von aussen auskommentiert, weil
-        // sich das Verhalten nicht mit den Tests vertraegt.
         throwExceptionIfIndexOutOfBounds(x, y);
         if (null == newStein) {
             newStein = KeinStein.getInstance();
         }
         if (isEditierModus()) {
-            // Dein neuer Kommentar an der Stelle ist schluessig.
-            // Das neu definierte Verhalten macht mehr Sinn.
             /**
              * Im Editiermodus duerfen Pfeil, Stern und KeinStein gesetzt werden
              */
-            // Den hierunter folgenden Teil versteh ich nicht ganz.
-            // Deinem Kommentar folgend wuerde ich das eher so verstehen:
             if (newStein instanceof Pfeil || newStein instanceof Stern
                     || newStein instanceof KeinStein) {
+                /** Neuen Stein in der realen Schicht setzen */
                 realSteine[x][y] = newStein;
-                // Dieser Teil bezogen auf den alten Kommentarteil, den
-                // ich oben nochmal hinten eingefuegt hab
                 if (newStein instanceof Pfeil) {
-                    // Wenn neuer Stein ein Pfeil, dann auch in visibleSteine
-                    // einfuegen,
-                    // weil Pfeile in jedem Modus gleichermassen sichtbar sind.
+                    /**
+                     * Wenn neuer Stein ein Pfeil ist, dann auch in der
+                     * sichtbaren Schicht setzen, da Pfeile in jedem Modus
+                     * gleichermassen sichtbar sind.
+                     */
                     visibleSteine[x][y] = newStein;
                 }
             }
-
-            // if (getSpielstein(x, y) instanceof KeinStein) {
-            // realSteine[x][y] = newStein;
-            // } else {
-            // if (getSpielstein(x, y) instanceof Pfeil) {
-            // switch (((Pfeil) getSpielstein(x, y)).getPfeilrichtung()) {
-            // case NORD:
-            // realSteine[x][y] = new Pfeil(
-            // PfeilrichtungEnumeration.NORDOST);
-            // break;
-            // case NORDOST:
-            // realSteine[x][y] = new Pfeil(
-            // PfeilrichtungEnumeration.OST);
-            // break;
-            // case OST:
-            // realSteine[x][y] = new Pfeil(
-            // PfeilrichtungEnumeration.SUEDOST);
-            // break;
-            // case SUEDOST:
-            // realSteine[x][y] = new Pfeil(
-            // PfeilrichtungEnumeration.SUED);
-            // break;
-            // case SUED:
-            // realSteine[x][y] = new Pfeil(
-            // PfeilrichtungEnumeration.SUEDWEST);
-            // break;
-            // case SUEDWEST:
-            // realSteine[x][y] = new Pfeil(
-            // PfeilrichtungEnumeration.WEST);
-            // break;
-            // case WEST:
-            // realSteine[x][y] = new Pfeil(
-            // PfeilrichtungEnumeration.NORDWEST);
-            // break;
-            // default:
-            // realSteine[x][y] = new KeinStein();
-            // break;
-            // }
-            // } else {
-            // realSteine[x][y] = new KeinStein();
-            // }
-            // }
-
-            fireSpielsteinChanged(x, y, getSpielstein(x, y));
+            /**
+             * Listener/Observer ueber Aenderungen im Spielfeld benachrichtigen.
+             * Dabei werden die Koordinaten der Aenderung und der neue
+             * Spielstein an der Stelle mitgegeben.
+             */
+            fireSpielsteinChanged(x, y, newStein);
         } else {
-            // Auch hier ist dein neuer Kommentar schluessig und
-            // ergaenzt fehlendes Verhalten im alten Kommentar
+
             /**
              * Ausser Pfeilen darf im Spielmodus alles gesetzt werden. Es
              * duerfen aber auch keine Pfeile ueberschrieben werden.
              */
-
             if (!(getSpielstein(x, y) instanceof Pfeil)
                     && !(newStein instanceof Pfeil)) {
-                // Die folgende Implementation versteh ich nicht so ganz:
-                // Deinem Kommentar folgend wuerde ich das eher so verstehen:
-                // beide Faelle fuer Pfeil sind ausgeschlossen, von daher
-                // einfach nur aktualisieren:
                 visibleSteine[x][y] = newStein;
 
-                // if (getSpielstein(x, y) instanceof KeinStein) {
-                // visibleSteine[x][y] = newStein;
-                // } else {
-                // visibleSteine[x][y] = new KeinStein();
-                // }
-                /** Listener benachrichtigen */
-                fireSpielsteinChanged(x, y, getSpielstein(x, y));
+                /**
+                 * Listener/Observer ueber Aenderungen im Spielfeld
+                 * benachrichtigen. Dabei werden die Koordinaten der Aenderung
+                 * und der neue Spielstein an der Stelle mitgegeben.
+                 */
+                fireSpielsteinChanged(x, y, newStein);
             }
         }
     }
 
     /**
-     * Benachrichtigt alle Listener dieses Spielsfelds ueber einen neuen Wert an
-     * den uebergeben Koordinaten. Implementation ist glaube ich aus JComponent
-     * oder Component kopiert.
+     * Benachrichtigt alle Listener dieses Spielsfelds ueber den neuen
+     * Spielstein an der angegebenen Koordinate. Implementation ist glaube ich
+     * aus JComponent oder Component kopiert.
      * 
      * @param newStein
-     *            - Der neue Status, der an die Listener mitgeteilt wird.
+     *            - Der neue Stein, der an die Listener mitgeteilt wird.
      */
     private void fireSpielsteinChanged(final int x, final int y,
             Spielstein newStein) {
@@ -303,7 +257,7 @@ public class Spielfeld implements Serializable {
     }
 
     /**
-     * Fuegt listener zu der Liste hinzu.
+     * Fuegt den angegebenen Listener zu der Liste hinzu.
      * 
      * @param listener
      *            ISpielfeldListener
@@ -313,7 +267,7 @@ public class Spielfeld implements Serializable {
     }
 
     /**
-     * Entfernt listener von der Liste.
+     * Entfernt den uebergebenen Listener von der Liste.
      * 
      * @param listener
      *            ISpielsteinListener
@@ -336,8 +290,8 @@ public class Spielfeld implements Serializable {
 
     /**
      * Gibt eine Liste mit den fuer diese Koordinate aktuell setzbaren
-     * Spielsteinen zurueck. Die moeglichen Spielsteine haengen vom SpielModus
-     * ab.
+     * Spielsteinen zurueck. Die fuer dieses Spielfeldelement aktuell setzbaren
+     * Spielsteine haengen vom SpielModus ab.
      * 
      * @return Eine Liste mit den fuer diese Koordinate aktuell auswaehlbaren
      *         Spielsteinen.
@@ -346,6 +300,10 @@ public class Spielfeld implements Serializable {
             final int y) {
 
         if (isEditierModus()) {
+            /**
+             * Im Editiermodus kann KeinStein, Stern und die verschiedenen
+             * Pfeile gesetzt werden.
+             */
             final List<Spielstein> editierModusList = new ArrayList<Spielstein>(
                     11);
             editierModusList.add(new KeinStein());
@@ -359,9 +317,13 @@ public class Spielfeld implements Serializable {
              * man nichts auswaehlen.
              */
             if (getSpielstein(x, y) instanceof Pfeil) {
-
+                /** Gebe leere Liste zurueck */
                 return new ArrayList<Spielstein>();
             } else {
+                /**
+                 * Ansonsten kann man im Spielmodus KeinStein setzen, Ausschluss
+                 * und Stern raten.
+                 */
                 final List<Spielstein> spielModusList = new ArrayList<Spielstein>(
                         3);
                 spielModusList.add(new KeinStein());
@@ -374,8 +336,10 @@ public class Spielfeld implements Serializable {
     }
 
     /**
+     * Convenience Methode. Holt von IGotSpielstein den aktuell eingestellten
+     * Spielmodus. Gibt true zurueck, wenn der Spielmodus EDITIEREN ist.
      * 
-     * @return
+     * @return True, wenn der Spielmodus EDITIEREN ist.
      */
     private boolean isEditierModus() {
         return gotSpielModus.getSpielmodus().equals(
