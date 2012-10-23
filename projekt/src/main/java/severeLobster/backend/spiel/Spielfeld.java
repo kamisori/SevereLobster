@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Spielfeld eines Spiels - verhaelt sich nach auﬂen wie ein zweidimensionales
+ * Spielfeld eines Spiels - verhaelt sich nach aussen wie ein zweidimensionales
  * Feld. Besteht in wirklichkeit aus je einer zweidimensionalen Schicht pro
- * Spielmodus (also 2). Nach auﬂen ist jeweils nur die Schicht fuer den
+ * Spielmodus (also 2). Nach aussen ist jeweils nur die Schicht fuer den
  * jeweiligen Spielmodus sichtbar. Nach der Erstellung ist die Groesse des
  * Spielfeldes konstant. Klasse ist nicht Thread-safe.
  * 
@@ -29,9 +29,9 @@ public class Spielfeld implements Serializable {
     /** Geratene bzw. im Spielmodus sichtbare Steine: */
     private final Spielstein[][] visibleSteine;
     /**
-     * Spielmodus ist auﬂen gesetzt, und Spielfeld greift ueber das Interface
+     * Spielmodus ist aussen gesetzt, und Spielfeld greift ueber das Interface
      * immer auf den aktuellen Spielstand zu. Der Spielmodus definiert das
-     * Verhalten von Spielfeld nach auﬂen.
+     * Verhalten von Spielfeld nach aussen.
      */
     private final IGotSpielModus gotSpielModus;
 
