@@ -3,7 +3,6 @@ package severeLobster.backend.spiel;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
-import javax.swing.event.EventListenerList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +19,11 @@ import java.util.List;
 public class Spielfeld implements Serializable {
 
     private static final long serialVersionUID = -4673868060555706754L;
-
-    private final EventListenerList listeners = new EventListenerList();
+    /**
+     * Liste mit den fuer die Spielfeldinstanz angemeldeten
+     * SpielfeldListenern(Observer).
+     */
+    private final List<ISpielfeldListener> spielfeldListeners = new ArrayList<ISpielfeldListener>();
     /** Wirklich gesetzte bzw im Editiermodus sichtbare Steine: */
     private final Spielstein[][] realSteine;
     /** Geratene bzw. im Spielmodus sichtbare Steine: */
@@ -243,16 +245,11 @@ public class Spielfeld implements Serializable {
     private void fireSpielsteinChanged(final int x, final int y,
             Spielstein newStein) {
 
-        /** Gibt ein Array zurueck, das nicht null ist */
-        final Object[] currentListeners = listeners.getListenerList();
         /**
          * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
          */
-        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-            if (currentListeners[i] == ISpielfeldListener.class) {
-                ((ISpielfeldListener) currentListeners[i + 1])
-                        .spielsteinChanged(this, x, y, newStein);
-            }
+        for (ISpielfeldListener currentListener : spielfeldListeners) {
+            currentListener.spielsteinChanged(this, x, y, newStein);
         }
     }
 
@@ -263,7 +260,7 @@ public class Spielfeld implements Serializable {
      *            ISpielfeldListener
      */
     public void addSpielfeldListener(final ISpielfeldListener listener) {
-        listeners.add(ISpielfeldListener.class, listener);
+        spielfeldListeners.add(listener);
     }
 
     /**
@@ -273,7 +270,7 @@ public class Spielfeld implements Serializable {
      *            ISpielsteinListener
      */
     public void removeSpielfeldListener(final ISpielfeldListener listener) {
-        listeners.remove(ISpielfeldListener.class, listener);
+        spielfeldListeners.remove(listener);
     }
 
     /**
