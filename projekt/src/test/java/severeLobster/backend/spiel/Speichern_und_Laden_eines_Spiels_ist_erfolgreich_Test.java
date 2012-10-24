@@ -98,10 +98,10 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     public void tearDown() throws SpielNichtLoeschbarException {
         boolean success = true;
 
-        File spieldatei = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR, "testSpiel01"
+        File spieldatei = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR, "testSpiel01" + "."
                 + GlobaleKonstanten.SPIELSTAND_DATEITYP);
-        File puzzledatei = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "testSpiel01"
-                + GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP);
+        File puzzledatei = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "testSpiel01" + "."
+                + GlobaleKonstanten.PUZZLE_DATEITYP);
 
         if (spieldatei.exists()) {
             success = spieldatei.delete();

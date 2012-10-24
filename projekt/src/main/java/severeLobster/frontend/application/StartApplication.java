@@ -3,6 +3,8 @@ package severeLobster.frontend.application;
 import infrastructure.ResourceManager;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -40,6 +42,19 @@ public class StartApplication extends JFrame implements Runnable {
      */
     @Override
     public void run() {
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace(); // TODO ...
+        } catch (InstantiationException e) {
+            e.printStackTrace(); // TODO ...
+        } catch (IllegalAccessException e) {
+            e.printStackTrace(); // TODO ...
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace(); // TODO ...
+        }
+
         Thread SC_MAIN = null;
         setSize(550, 360);
         setLocationRelativeTo(null);

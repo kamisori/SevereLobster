@@ -13,7 +13,7 @@ import java.util.List;
  * Spielmodus (also 2). Nach aussen ist jeweils nur die Schicht fuer den
  * jeweiligen Spielmodus sichtbar. Nach der Erstellung ist die Groesse des
  * Spielfeldes konstant. Klasse ist nicht Thread-safe.
- * 
+ *
  * @author Lars Schlegelmilch, Lutz Kleiber, Christian Lobach, Paul Bruell
  */
 public class Spielfeld implements Serializable {
@@ -38,8 +38,8 @@ public class Spielfeld implements Serializable {
     /**
      * Erstellt ein neues, leeres Spielfeld der angegebenen Groesse. Alle
      * Feldelemente sind mit KeinStein Instanzen initialisiert.
-     * 
-     * 
+     *
+     *
      * @param breite
      *            Breite des Spielfeldes
      * @param hoehe
@@ -69,7 +69,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Zaehlt die Pfeile auf dem Spielfeld.
-     * 
+     *
      * @return result Die Anzahl der Pfeile auf dem Spielfeld.
      */
     private int countPfeile() {
@@ -85,7 +85,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Zaehlt die Sterne auf dem Spielfeld.
-     * 
+     *
      * @return result Die Anzahl der Sterne auf dem Spielfeld.
      */
     private int countSterne() {
@@ -103,7 +103,7 @@ public class Spielfeld implements Serializable {
      * Schaetzt anhand der Groesse des Spielfeldes und den Verhaeltnisen
      * zwischen Pfeilen und Sternen sowie zwischen belegten und unbelegten
      * Spielfeldern einen Schwierigkeitsgrad
-     * 
+     *
      * @return Schwierigkeitsgrad des Spielfeldes
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
@@ -143,7 +143,7 @@ public class Spielfeld implements Serializable {
      * Verhalten unterscheidet sich bei den unterschiedlichen Spielmodi. Beim
      * Modus Spielen wird der sichtbare Stein zurueckgegeben. Beim Modus
      * Editieren wird der reale Stein zurueckgegeben.
-     * 
+     *
      * @param x
      *            X-Achsen Koordinatenwert
      * @param y
@@ -176,7 +176,7 @@ public class Spielfeld implements Serializable {
      * speichern und wieder laden. Bereits angefangene Spielfelder sind immer
      * noch editierbar. Wenn newStein null ist, wird KeinStein als Stein
      * gesetzt.
-     * 
+     *
      * @param x
      *            X-Achsen Koordinatenwert
      * @param y
@@ -238,7 +238,7 @@ public class Spielfeld implements Serializable {
      * Benachrichtigt alle Listener dieses Spielsfelds ueber den neuen
      * Spielstein an der angegebenen Koordinate. Implementation ist glaube ich
      * aus JComponent oder Component kopiert.
-     * 
+     *
      * @param newStein
      *            - Der neue Stein, der an die Listener mitgeteilt wird.
      */
@@ -255,7 +255,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Fuegt den angegebenen Listener zu der Liste hinzu.
-     * 
+     *
      * @param listener
      *            ISpielfeldListener
      */
@@ -265,7 +265,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Entfernt den uebergebenen Listener von der Liste.
-     * 
+     *
      * @param listener
      *            ISpielsteinListener
      */
@@ -289,7 +289,7 @@ public class Spielfeld implements Serializable {
      * Gibt eine Liste mit den fuer diese Koordinate aktuell setzbaren
      * Spielsteinen zurueck. Die fuer dieses Spielfeldelement aktuell setzbaren
      * Spielsteine haengen vom SpielModus ab.
-     * 
+     *
      * @return Eine Liste mit den fuer diese Koordinate aktuell auswaehlbaren
      *         Spielsteinen.
      */
@@ -335,7 +335,7 @@ public class Spielfeld implements Serializable {
     /**
      * Convenience Methode. Holt von IGotSpielstein den aktuell eingestellten
      * Spielmodus. Gibt true zurueck, wenn der Spielmodus EDITIEREN ist.
-     * 
+     *
      * @return True, wenn der Spielmodus EDITIEREN ist.
      */
     private boolean isEditierModus() {
@@ -345,7 +345,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Ueberprueft ob das Spielfeld geloest wurde (Sieg).
-     * 
+     *
      * @return sieg
      */
     public boolean isSolved() {
@@ -375,7 +375,7 @@ public class Spielfeld implements Serializable {
     /**
      * Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
      * abgegeben wurden, die nicht der Loesung entsprechen
-     * 
+     *
      * @return Fehler vorhanden?
      */
     public boolean hasErrors() {

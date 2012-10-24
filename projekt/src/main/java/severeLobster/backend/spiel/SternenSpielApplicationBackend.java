@@ -31,6 +31,12 @@ public class SternenSpielApplicationBackend {
         return this.currentlyPlayedSpiel;
     }
 
+    public void startNewSpielFrom(final String spielname)
+            throws FileNotFoundException, IOException {
+        final Spiel newGame = Spiel.newGame(spielname);
+        setSpiel(newGame);
+    }
+
     public void loadSpielFrom(final String spielname)
             throws FileNotFoundException, IOException {
         final Spiel loadedSpiel = Spiel.load(spielname, SpielmodusEnumeration.SPIELEN);

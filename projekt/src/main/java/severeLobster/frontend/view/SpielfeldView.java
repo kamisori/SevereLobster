@@ -1,20 +1,18 @@
 package severeLobster.frontend.view;
 
-import java.awt.GridLayout;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielfeldController;
 
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.GridLayout;
+
 /**
  * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen.
- * 
+ *
  * @author LKleiber
- * 
  */
 public class SpielfeldView extends JPanel implements IControllableSpielfeldView {
 

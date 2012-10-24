@@ -1,0 +1,89 @@
+package severeLobster.frontend.dialogs;
+
+import infrastructure.ResourceManager;
+import infrastructure.constants.GlobaleKonstanten;
+import infrastructure.graphics.GraphicUtils;
+import severeLobster.backend.spiel.Spiel;
+import severeLobster.frontend.view.SpielfeldView;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
+
+/**
+ * @author Lars Schlegelmilch
+ */
+public class NewGamePreview extends JPanel implements PropertyChangeListener {
+
+    private final ResourceManager resourceManager = ResourceManager.get();
+
+    private JLabel schwierigkeitsgradValue = new JLabel();
+    private JLabel schwierigkeitsgradTitle = new JLabel();
+    private JLabel spielfeldPreviewLabel = new JLabel();
+    private Spiel spiel;
+
+
+    public NewGamePreview(JFileChooser chooser) {
+        setLayout(new BorderLayout());
+        chooser.addPropertyChangeListener(this);
+        setBorder(BorderFactory.createEmptyBorder(12, 12, 0, 0));
+        schwierigkeitsgradValue.setFont(schwierigkeitsgradValue.getFont().deriveFont(Font.BOLD));
+        schwierigkeitsgradTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        schwierigkeitsgradTitle.setBorder(BorderFactory.createEmptyBorder(12, 0, 0, 0));
+        schwierigkeitsgradValue.setHorizontalAlignment(SwingConstants.CENTER);
+        spielfeldPreviewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel schwierigkeitsgradPanel = new JPanel(new BorderLayout());
+        schwierigkeitsgradPanel.add(spielfeldPreviewLabel, BorderLayout.NORTH);
+        schwierigkeitsgradPanel.add(schwierigkeitsgradTitle, BorderLayout.CENTER);
+        schwierigkeitsgradPanel.add(schwierigkeitsgradValue, BorderLayout.SOUTH);
+
+        add(schwierigkeitsgradPanel, BorderLayout.NORTH);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent changeEvent) {
+        String changeName = changeEvent.getPropertyName();
+        if (changeName.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
+            File file = (File) changeEvent.getNewValue();
+            if (file != null) {
+                try {
+                    spiel = Spiel.newGame(file.getName().replace("." + GlobaleKonstanten.PUZZLE_DATEITYP, ""));
+                    SpielfeldView spielfeldView = new SpielfeldView(spiel.getSpielfeld());
+                    spielfeldView.setSize(200, 200);
+                    BufferedImage bufferedImage = GraphicUtils.createComponentShot(spielfeldView);
+                    bufferedImage = GraphicUtils.getScaledIconImage(bufferedImage, 100, 100);
+                    spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
+                } catch (IOException e) {
+                    System.out.println("Ungueltiges Spielformat");
+                }
+                if (spiel != null) {
+                    schwierigkeitsgradTitle.setText(resourceManager.getText("new.dialog.difficulty"));
+                    schwierigkeitsgradValue.setText(spiel.getSchwierigkeitsgrad().toString());
+                }
+            } else {
+                schwierigkeitsgradTitle.setText("");
+                schwierigkeitsgradValue.setText("");
+                spielfeldPreviewLabel.setIcon(null);
+            }
+        }
+    }
+
+    /**
+     * Gibt das Spiel, aus dem Preview zurueck
+     * @return Spiel aus Preview
+     */
+    public Spiel getSpiel() {
+        return spiel;
+    }
+}

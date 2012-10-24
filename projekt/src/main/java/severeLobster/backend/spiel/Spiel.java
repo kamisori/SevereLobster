@@ -20,13 +20,13 @@ import java.io.Serializable;
  * Spiel dar und beinhaltet einen aktuellen Spielstand, der gespeichert und
  * geladen werden kann. Instanzen dieser Klasse sind in ihrem Zustand komplett
  * unabhaengig voneinander.
- * 
+ *
  * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
 public class Spiel implements Serializable, IGotSpielModus {
 
 	private static final long serialVersionUID = 8540110327670856123L;
-	
+
 	private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
@@ -44,7 +44,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Spielfeld wird mit Standardfeld initialisiert.
-     * 
+     *
      * @param spielmodus
      *            Spielmodus des Spiels
      */
@@ -58,7 +58,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Gibt die Anzahl an bereits versuchten Spielzuegen zurueck
-     * 
+     *
      * @return Anzahl Spielzuege
      */
     public int getAnzahlZuege() {
@@ -67,7 +67,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Zwischenloesung um eine Primaeraktion auszufuehren.
-     * 
+     *
      * @param x
      *            X-Achsenwert
      * @param y
@@ -84,7 +84,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Zwischenloesung um eine Sekundaeraktion auszufuehren.
-     * 
+     *
      * @param x
      *            x-Achsenwert
      * @param y
@@ -103,7 +103,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Gibt den Schwierigkeitsgrad des Spielfeldes zurueck
-     * 
+     *
      * @return Schwierigkeitsgrad
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
@@ -121,7 +121,7 @@ public class Spiel implements Serializable, IGotSpielModus {
     /***
      * Setzt ein neues, leeres Spielfeld fuer dieses Spiel. Benachrichtigt
      * listener dieser Instanz ueber spielfeldChanged().
-     * 
+     *
      * @param x
      *            Laenge der x-Achse
      * @param y
@@ -146,14 +146,15 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Speichert das aktuelle Spiel
-     * 
+     *
      * @param spielname
      *            Name der Datei (ohne Datei-Endung)
+     * @throws IOException Exception falls Datei nicht vorhanden
      */
     public void save(String spielname) {
         OutputStream outputStream = null;
         try {
-            String dateiendung = getDateiendung(getSpielmodus());
+            String dateiendung = "." + getDateiendung(getSpielmodus());
             File verzeichnis = new File(getVerzeichnis(getSpielmodus()), spielname + dateiendung);
             outputStream = new FileOutputStream(verzeichnis);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(
@@ -174,14 +175,16 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Laedt ein Spiel aus .sav-Dateien
-     * 
+     * Laedt ein Spiel aus Spieldateien
+     *
      * @param spielname
      *            Name der Datei (ohne Dateiendung)
+     * @return Spieldatei
+     * @throws IOException Exception falls Datei nicht vorhanden
      */
     public static Spiel load(String spielname, SpielmodusEnumeration spielmodus)
             throws IOException {
-        String dateiendung = getDateiendung(spielmodus);
+        String dateiendung = "." + getDateiendung(spielmodus);
         File verzeichnis = new File(getVerzeichnis(spielmodus), spielname + dateiendung);
         InputStream inputStream = null;
         try {
@@ -199,8 +202,23 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
+     * Laed ein erstelles Puzzle und aendert den Modus in den Spielmodus.
+     * @param spielname
+     *              Name der Datei (ohne Dateiendung)
+     * @return Erstelltes Spiel im Spielmodus
+     * @throws IOException Wirft Exception, wenn Datei nicht vorhanden
+     */
+    public static Spiel newGame(String spielname) throws IOException {
+        Spiel neuesSpiel = load(spielname, SpielmodusEnumeration.EDITIEREN);
+        neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
+
+        return neuesSpiel;
+    }
+
+
+    /**
      * Ueberprueft ob das Spielfeld geloest wurde (Sieg).
-     * 
+     *
      * @return sieg
      */
     public boolean isSolved() {
@@ -214,7 +232,7 @@ public class Spiel implements Serializable, IGotSpielModus {
     /**
      * Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
      * abgegeben wurden, die nicht der Loesung entsprechen
-     * 
+     *
      * @return fehler vorhanden
      */
     public boolean hasErrors() {
@@ -250,7 +268,7 @@ public class Spiel implements Serializable, IGotSpielModus {
      * Benachrichtigt alle Listener dieses Spiel ueber einen neuen Wert an den
      * uebergeben Koordinaten. Implementation ist glaube ich aus JComponent oder
      * Component kopiert.
-     * 
+     *
      * @param newSpielfeld
      *            - Der neue Status, der an die Listener mitgeteilt wird.
      */
@@ -280,7 +298,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Fuegt listener zu der Liste hinzu.
-     * 
+     *
      * @param listener
      *            ISpielfeldListener
      */
@@ -290,7 +308,7 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Entfernt listener von der Liste.
-     * 
+     *
      * @param listener
      *            ISpielsteinListener
      */
@@ -301,7 +319,7 @@ public class Spiel implements Serializable, IGotSpielModus {
     /**
      * Gibt die Dateiendung eines zu ladenen oder zu sichernden Spiels bzw.
      * Puzzles anhand des Spielmodus zurück
-     * 
+     *
      * @param spielmodus
      *            Spielmodus des Spiels
      * @return Dateiendung (.psav oder .sav)
@@ -312,7 +330,7 @@ public class Spiel implements Serializable, IGotSpielModus {
         case SPIELEN:
             return GlobaleKonstanten.SPIELSTAND_DATEITYP;
         case EDITIEREN:
-            return GlobaleKonstanten.PUZZLE_ERSTELLEN_DATEITYP;
+            return GlobaleKonstanten.PUZZLE_DATEITYP;
         }
         return null;
     }
