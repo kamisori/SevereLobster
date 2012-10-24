@@ -24,7 +24,7 @@ public class MainView extends JPanel {
          * Nur zum Testen
          */
         final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
-        backend.loadSpielFrom("Standardspiel01");
+        backend.startNewSpielFrom("Standardspiel01");
         /*
          * backend.getSpiel().initializeNewSpielfeld(20, 18);
          * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
