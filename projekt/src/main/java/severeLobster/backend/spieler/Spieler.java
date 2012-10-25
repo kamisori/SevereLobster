@@ -6,5 +6,6 @@ package severeLobster.backend.spieler;
  * 
  * @author Lars Schlegelmilch
  */
+@Deprecated
 public class Spieler {
 }

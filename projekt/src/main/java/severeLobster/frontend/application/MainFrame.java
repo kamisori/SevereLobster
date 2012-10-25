@@ -7,8 +7,9 @@
 package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
+import infrastructure.components.PuzzleView;
+import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
-import severeLobster.backend.spiel.Spiel;
 import severeLobster.frontend.dialogs.LoadGamePreview;
 import severeLobster.frontend.dialogs.NewGamePreview;
 import severeLobster.frontend.view.MainView;
@@ -19,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.BorderLayout;
@@ -47,7 +49,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     private JFileChooser newGameChooser;
     private JFileChooser saveGameChooser;
     public static JFrame frame;
-    private static MainView MainPanel;
+    private static MainView mainPanel;
     private static Point m_Windowlocation;
 
     private final ResourceManager resourceManager = ResourceManager.get();
@@ -64,14 +66,14 @@ public class MainFrame extends JMenuBar implements Runnable {
          * Frame wird erzeugt
          */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
-        MainPanel = new MainView(new Spiel());
+        mainPanel = new MainView();
         frame = new JFrame("Sternenhimmel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setUndecorated(true);
         frame.setLocationRelativeTo(null);
         frame.setBackground(Color.white);
-        frame.add(MainPanel);
+        frame.add(mainPanel);
         frame.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 m_Windowlocation.x = e.getX();
@@ -97,29 +99,57 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Editieren = new JMenu(resourceManager.getText("editieren.menu.text"));
         jm_Eigenschaften = new JMenu("Einstellungen");
         m_Windowlocation = new Point();
-        ActionListener MenuAction = new ActionListener() {
+        ActionListener menuAction = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
-                if (event.getActionCommand().equals("�berblick")) {
-
-                }
                 if (event.getActionCommand().equals(resourceManager.getText("neues.spiel.text"))) {
-                    newGameChooser.showOpenDialog(frame);
+                    int result = newGameChooser.showOpenDialog(frame);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        try {
+                            frame.remove(mainPanel);
+                            mainPanel = new MainView(((NewGamePreview)newGameChooser.getAccessory()).getSpiel());
+                            frame.add(mainPanel);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 if (event.getActionCommand().equals(resourceManager.getText("load.text"))) {
-                    loadGameChooser.showOpenDialog(frame);
+                    int result = loadGameChooser.showOpenDialog(frame);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        try {
+                            frame.remove(mainPanel);
+                            mainPanel = new MainView(((LoadGamePreview)loadGameChooser.getAccessory()).getSpiel());
+                            frame.add(mainPanel);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 if (event.getActionCommand().equals(resourceManager.getText("save.text"))) {
-                    saveGameChooser.showSaveDialog(frame);
-                }
-                if (event.getActionCommand().equals("Hardware Informationen")) {
-
-                }
-                if (event.getActionCommand().equals("Software Informationen")) {
-
+                    int result = saveGameChooser.showSaveDialog(frame);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        String filename = saveGameChooser.getSelectedFile().getName().replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
+                        mainPanel.getCurrentSpiel().save(filename);
+                    }
                 }
                 if (event.getActionCommand().equals(resourceManager.getText("exit.text"))) {
                     frame.dispose();
+                }
+                if (event.getActionCommand().equals(resourceManager.getText("puzzle.erstellen"))) {
+                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                }
+                if (event.getActionCommand().equals(resourceManager.getText("load.puzzle"))) {
+                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                }
+                if (event.getActionCommand().equals(resourceManager.getText("save.puzzle"))) {
+                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                }
+                if (event.getActionCommand().equals(resourceManager.getText("puzzle.freigeben"))) {
+                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                }
+                if (event.getActionCommand().equals(resourceManager.getText("check.puzzle"))) {
+                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
             }
         };
@@ -127,38 +157,39 @@ public class MainFrame extends JMenuBar implements Runnable {
         JMenuItem item;
 
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("neues.spiel.text")));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("save.text")));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("load.text")));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("exit.text")));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
 
         jm_Editieren.add(item = new JMenuItem(resourceManager.getText("puzzle.erstellen")));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Editieren.add(item = new JMenuItem(resourceManager.getText("load.puzzle")));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Editieren.add(item = new JMenuItem(resourceManager.getText("save.puzzle")));
-        item.addActionListener(MenuAction);
+        item.setEnabled(false);
+        item.addActionListener(menuAction);
         jm_Editieren.add(item = new JMenuItem(resourceManager.getText("puzzle.freigeben")));
         item.setEnabled(false);
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Editieren.add(item = new JMenuItem(resourceManager.getText("check.puzzle")));
         item.setEnabled(false);
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
 
         jm_Grafik.add(item = new JMenuItem("Aufloesung"));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Grafik.add(item = new JMenuItem("Farbe"));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Grafik.add(item = new JMenuItem("Hintergrund"));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
 
         jm_Eigenschaften.add(item = new JMenuItem("Lizenz"));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
         jm_Eigenschaften.add(item = new JMenuItem("Info"));
-        item.addActionListener(MenuAction);
+        item.addActionListener(menuAction);
 
         jm_Spiel.insertSeparator(1);
         jm_Spiel.insertSeparator(4);
@@ -234,6 +265,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     private void init() {
         // Spiel laden Dialog
         loadGameChooser = new JFileChooser(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
+        loadGameChooser.setFileSystemView(new SpielView());
         loadGameChooser.setAcceptAllFileFilterUsed(false);
         loadGameChooser.setFileFilter(new FileNameExtensionFilter(
                 resourceManager.getText("load.dialog.extension.description"),
@@ -245,6 +277,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         loadGameChooser.setAccessory(new LoadGamePreview(loadGameChooser));
         // Neues Spiel Dialog
         newGameChooser = new JFileChooser(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR);
+        newGameChooser.setFileSystemView(new PuzzleView());
         newGameChooser.setAcceptAllFileFilterUsed(false);
         newGameChooser.setFileFilter(new FileNameExtensionFilter(
                 resourceManager.getText("new.dialog.extension.description"),
@@ -255,11 +288,12 @@ public class MainFrame extends JMenuBar implements Runnable {
         newGameChooser.setMultiSelectionEnabled(false);
         newGameChooser.setAccessory(new NewGamePreview(newGameChooser));
         // Save Spiel Dialog
-        saveGameChooser = new JFileChooser(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR);
+        saveGameChooser = new JFileChooser(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
+        saveGameChooser.setFileSystemView(new SpielView());
         saveGameChooser.setAcceptAllFileFilterUsed(false);
         saveGameChooser.setFileFilter(new FileNameExtensionFilter(
                 resourceManager.getText("save.dialog.extension.description"),
-                GlobaleKonstanten.PUZZLE_DATEITYP));
+                GlobaleKonstanten.SPIELSTAND_DATEITYP));
         saveGameChooser.setApproveButtonText(resourceManager.getText("save.dialog.text"));
         saveGameChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         saveGameChooser.setDialogTitle(resourceManager.getText("save.dialog.title"));

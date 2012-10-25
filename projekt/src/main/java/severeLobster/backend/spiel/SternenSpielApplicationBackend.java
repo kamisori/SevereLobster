@@ -2,6 +2,7 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import javax.swing.JOptionPane;
 import javax.swing.event.EventListenerList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -145,6 +146,19 @@ public class SternenSpielApplicationBackend {
         public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
                 int y, Spielstein newStein) {
             fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
+            if (spiel.hasErrors()) {
+                JOptionPane.showMessageDialog(null, "Sie haben einen Fehler gemacht! " +
+                        " Das Spiel wird neu gestartet.", "Fehler!", JOptionPane.ERROR_MESSAGE);
+                try {
+                    startNewSpielFrom("Standardspiel01");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (spiel.isSolved()) {
+                JOptionPane.showMessageDialog(null, "Sie haben das Puzzle gelöst! " +
+                        " Herzlichen Glückwunsch!", "Puzzle gelöst!", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
 
         @Override
