@@ -106,8 +106,8 @@ public class MainFrame extends JMenuBar implements Runnable {
                     int result = newGameChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         try {
-                            frame.remove(mainPanel);
                             mainPanel = new MainView(((NewGamePreview)newGameChooser.getAccessory()).getSpiel());
+                            frame.remove(mainPanel);
                             frame.add(mainPanel);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -118,8 +118,8 @@ public class MainFrame extends JMenuBar implements Runnable {
                     int result = loadGameChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         try {
-                            frame.remove(mainPanel);
                             mainPanel = new MainView(((LoadGamePreview)loadGameChooser.getAccessory()).getSpiel());
+                            frame.remove(mainPanel);
                             frame.add(mainPanel);
                         } catch (IOException e) {
                             e.printStackTrace();
