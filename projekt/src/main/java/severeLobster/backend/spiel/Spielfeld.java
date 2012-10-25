@@ -7,13 +7,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.event.EventListenerList;
+
 /**
  * Spielfeld eines Spiels - verhaelt sich nach aussen wie ein zweidimensionales
  * Feld. Besteht in wirklichkeit aus je einer zweidimensionalen Schicht pro
  * Spielmodus (also 2). Nach aussen ist jeweils nur die Schicht fuer den
  * jeweiligen Spielmodus sichtbar. Nach der Erstellung ist die Groesse des
  * Spielfeldes konstant. Klasse ist nicht Thread-safe.
- *
+ * 
  * @author Lars Schlegelmilch, Lutz Kleiber, Christian Lobach, Paul Bruell
  */
 public class Spielfeld implements Serializable {
@@ -23,7 +25,7 @@ public class Spielfeld implements Serializable {
      * Liste mit den fuer die Spielfeldinstanz angemeldeten
      * SpielfeldListenern(Observer).
      */
-    private final List<ISpielfeldListener> spielfeldListeners = new ArrayList<ISpielfeldListener>();
+    private final EventListenerList listeners = new EventListenerList();
     /** Wirklich gesetzte bzw im Editiermodus sichtbare Steine: */
     private final Spielstein[][] realSteine;
     /** Geratene bzw. im Spielmodus sichtbare Steine: */
@@ -38,8 +40,8 @@ public class Spielfeld implements Serializable {
     /**
      * Erstellt ein neues, leeres Spielfeld der angegebenen Groesse. Alle
      * Feldelemente sind mit KeinStein Instanzen initialisiert.
-     *
-     *
+     * 
+     * 
      * @param breite
      *            Breite des Spielfeldes
      * @param hoehe
@@ -69,7 +71,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Zaehlt die Pfeile auf dem Spielfeld.
-     *
+     * 
      * @return result Die Anzahl der Pfeile auf dem Spielfeld.
      */
     private int countPfeile() {
@@ -85,7 +87,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Zaehlt die Sterne auf dem Spielfeld.
-     *
+     * 
      * @return result Die Anzahl der Sterne auf dem Spielfeld.
      */
     private int countSterne() {
@@ -103,7 +105,7 @@ public class Spielfeld implements Serializable {
      * Schaetzt anhand der Groesse des Spielfeldes und den Verhaeltnisen
      * zwischen Pfeilen und Sternen sowie zwischen belegten und unbelegten
      * Spielfeldern einen Schwierigkeitsgrad
-     *
+     * 
      * @return Schwierigkeitsgrad des Spielfeldes
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
@@ -143,7 +145,7 @@ public class Spielfeld implements Serializable {
      * Verhalten unterscheidet sich bei den unterschiedlichen Spielmodi. Beim
      * Modus Spielen wird der sichtbare Stein zurueckgegeben. Beim Modus
      * Editieren wird der reale Stein zurueckgegeben.
-     *
+     * 
      * @param x
      *            X-Achsen Koordinatenwert
      * @param y
@@ -176,7 +178,7 @@ public class Spielfeld implements Serializable {
      * speichern und wieder laden. Bereits angefangene Spielfelder sind immer
      * noch editierbar. Wenn newStein null ist, wird KeinStein als Stein
      * gesetzt.
-     *
+     * 
      * @param x
      *            X-Achsen Koordinatenwert
      * @param y
@@ -238,39 +240,44 @@ public class Spielfeld implements Serializable {
      * Benachrichtigt alle Listener dieses Spielsfelds ueber den neuen
      * Spielstein an der angegebenen Koordinate. Implementation ist glaube ich
      * aus JComponent oder Component kopiert.
-     *
+     * 
      * @param newStein
      *            - Der neue Stein, der an die Listener mitgeteilt wird.
      */
     private void fireSpielsteinChanged(final int x, final int y,
             Spielstein newStein) {
 
+        /** Gibt ein Array zurueck, das nicht null ist */
+        final Object[] currentListeners = listeners.getListenerList();
         /**
          * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
          */
-        for (ISpielfeldListener currentListener : spielfeldListeners) {
-            currentListener.spielsteinChanged(this, x, y, newStein);
+        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+            if (currentListeners[i] == ISpielfeldListener.class) {
+                ((ISpielfeldListener) currentListeners[i + 1])
+                        .spielsteinChanged(this, x, y, newStein);
+            }
         }
     }
 
     /**
      * Fuegt den angegebenen Listener zu der Liste hinzu.
-     *
+     * 
      * @param listener
      *            ISpielfeldListener
      */
     public void addSpielfeldListener(final ISpielfeldListener listener) {
-        spielfeldListeners.add(listener);
+        listeners.add(ISpielfeldListener.class, listener);
     }
 
     /**
      * Entfernt den uebergebenen Listener von der Liste.
-     *
+     * 
      * @param listener
      *            ISpielsteinListener
      */
     public void removeSpielfeldListener(final ISpielfeldListener listener) {
-        spielfeldListeners.remove(listener);
+        listeners.remove(ISpielfeldListener.class, listener);
     }
 
     /**
@@ -289,7 +296,7 @@ public class Spielfeld implements Serializable {
      * Gibt eine Liste mit den fuer diese Koordinate aktuell setzbaren
      * Spielsteinen zurueck. Die fuer dieses Spielfeldelement aktuell setzbaren
      * Spielsteine haengen vom SpielModus ab.
-     *
+     * 
      * @return Eine Liste mit den fuer diese Koordinate aktuell auswaehlbaren
      *         Spielsteinen.
      */
@@ -335,7 +342,7 @@ public class Spielfeld implements Serializable {
     /**
      * Convenience Methode. Holt von IGotSpielstein den aktuell eingestellten
      * Spielmodus. Gibt true zurueck, wenn der Spielmodus EDITIEREN ist.
-     *
+     * 
      * @return True, wenn der Spielmodus EDITIEREN ist.
      */
     private boolean isEditierModus() {
@@ -345,7 +352,7 @@ public class Spielfeld implements Serializable {
 
     /**
      * Ueberprueft ob das Spielfeld geloest wurde (Sieg).
-     *
+     * 
      * @return sieg
      */
     public boolean isSolved() {
@@ -375,7 +382,7 @@ public class Spielfeld implements Serializable {
     /**
      * Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
      * abgegeben wurden, die nicht der Loesung entsprechen
-     *
+     * 
      * @return Fehler vorhanden?
      */
     public boolean hasErrors() {
