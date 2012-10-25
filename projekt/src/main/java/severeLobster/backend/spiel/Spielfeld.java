@@ -3,11 +3,10 @@ package severeLobster.backend.spiel;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import javax.swing.event.EventListenerList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * Spielfeld eines Spiels - verhaelt sich nach aussen wie ein zweidimensionales
@@ -20,7 +19,6 @@ import javax.swing.event.EventListenerList;
  */
 public class Spielfeld implements Serializable {
 
-    private static final long serialVersionUID = -4673868060555706754L;
     /**
      * Liste mit den fuer die Spielfeldinstanz angemeldeten
      * SpielfeldListenern(Observer).

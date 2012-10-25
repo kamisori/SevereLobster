@@ -41,7 +41,7 @@ public class MainView extends JPanel {
         spielfeld.setOpaque(false);
         spielfeld.setLayout(new BoxLayout(spielfeld, BoxLayout.Y_AXIS));
         spielfeld.add(view);
-        spielfeld.add(spielmodusView);
+        //spielfeld.add(spielmodusView);
 
         /**
          * Ende Test
@@ -74,6 +74,7 @@ public class MainView extends JPanel {
         new SpielfeldController(view, backend);
 
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
+
         new SpielmodusController(spielmodusView, backend);
 
         JPanel spielfeld = new JPanel(false);

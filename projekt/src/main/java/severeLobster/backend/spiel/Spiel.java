@@ -25,8 +25,6 @@ import java.io.Serializable;
  */
 public class Spiel implements Serializable, IGotSpielModus {
 
-	private static final long serialVersionUID = 8540110327670856123L;
-
 	private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
