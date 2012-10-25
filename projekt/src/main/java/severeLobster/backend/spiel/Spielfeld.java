@@ -109,17 +109,18 @@ public class Spielfeld implements Serializable {
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
         // QUICKFIX
         try {
-            int sterne = countSterne();
-            int pfeile = countPfeile();
-            int spielfeldFlaeche = getBreite() * getHoehe();
+            float sterne = countSterne();
+            float pfeile = countPfeile();
+            float spielfeldFlaeche = getBreite() * getHoehe();
 
             float sterndichte = sterne / spielfeldFlaeche;
             float pfeildichte = pfeile / spielfeldFlaeche;
-            float schwierigkeit = pfeile / sterne + sterndichte + pfeildichte;
+            float pfeilSternVerhaeltnis = pfeile / sterne; 
+            double schwierigkeit = (pfeilSternVerhaeltnis) * (sterndichte + pfeildichte) * 100.0;
 
-            if (schwierigkeit > 4)
+            if (schwierigkeit > 100.0)
                 return SchwierigkeitsgradEnumeration.LEICHT;
-            else if (schwierigkeit > 2)
+            else if (schwierigkeit > 30.0)
                 return SchwierigkeitsgradEnumeration.MITTEL;
             else
                 return SchwierigkeitsgradEnumeration.SCHWER;
