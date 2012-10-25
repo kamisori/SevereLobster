@@ -81,7 +81,7 @@ public class MainView extends JPanel {
         spielfeld.setOpaque(false);
         spielfeld.setLayout(new BoxLayout(spielfeld, BoxLayout.Y_AXIS));
         spielfeld.add(view);
-        spielfeld.add(spielmodusView);
+        //spielfeld.add(spielmodusView);
 
         /**
          * Ende Test
