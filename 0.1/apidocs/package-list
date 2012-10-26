@@ -1,4 +1,5 @@
 infrastructure
+infrastructure.components
 infrastructure.constants
 infrastructure.constants.enums
 infrastructure.exceptions
