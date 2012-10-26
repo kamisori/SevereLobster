@@ -14,18 +14,14 @@ import severeLobster.frontend.dialogs.LoadGamePreview;
 import severeLobster.frontend.dialogs.NewGamePreview;
 import severeLobster.frontend.view.MainView;
 
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Frame;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,10 +63,10 @@ public class MainFrame extends JMenuBar implements Runnable {
          */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         mainPanel = new MainView();
-        frame = new JFrame("Sternenhimmel");
+        frame = new JFrame("Sternenhimmel - Gruppe 3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        frame.setUndecorated(true);
+        //frame.setUndecorated(true);
         frame.setLocationRelativeTo(null);
         frame.setBackground(Color.white);
         frame.add(mainPanel);
@@ -201,26 +197,6 @@ public class MainFrame extends JMenuBar implements Runnable {
         add(jm_Editieren);
         add(jm_Grafik);
         add(jm_Eigenschaften);
-
-        JMenu oMenu = new JMenu(
-                "                                                            Sternenhimmel - Gruppe 3");
-        oMenu.setEnabled(false);
-        oMenu.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                m_Windowlocation.x = e.getX();
-                m_Windowlocation.y = e.getY();
-            }
-        });
-        oMenu.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                Point p = frame.getLocation();
-                frame.setLocation(p.x + e.getX() - m_Windowlocation.x,
-                        p.y + e.getY() - m_Windowlocation.y);
-            }
-        });
-        add(oMenu);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -228,30 +204,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                 m_Windowlocation.y = e.getY();
             }
         });
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                Point p = frame.getLocation();
-                frame.setLocation(p.x + e.getX() - m_Windowlocation.x,
-                        p.y + e.getY() - m_Windowlocation.y);
-            }
-        });
 
-        JPanel control = new JPanel(new BorderLayout());
-        control.setOpaque(false);
-        JButton mButton = new JButton("_");
-        mButton.setEnabled(true);
-        mButton.setFocusable(false);
-        mButton.setToolTipText("Minimieren");
-        mButton.setSize(5,5);
-        control.add(mButton, BorderLayout.EAST);
-        add(control);
-        mButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                frame.setState(Frame.ICONIFIED);
-            }
-        });
         frame.setJMenuBar(this);
     }
 

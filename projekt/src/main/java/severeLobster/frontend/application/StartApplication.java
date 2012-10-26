@@ -65,7 +65,7 @@ public class StartApplication extends JFrame implements Runnable {
             // TODO: Bilder & Sonstige Sachen laden
             SC_MAIN = new Thread(new MainFrame());
             // Zum Testen auskommentiert
-            // Thread.sleep(10000);
+            Thread.sleep(2000);
         } catch (Exception e) {
             dispose();
             e.printStackTrace();
