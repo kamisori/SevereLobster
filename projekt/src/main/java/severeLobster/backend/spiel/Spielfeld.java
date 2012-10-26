@@ -67,6 +67,42 @@ public class Spielfeld implements Serializable {
         }
     }
 
+    private int countPfeileZeile(int y) {
+        int result = 0;
+        for (int i = 0; i < getBreite(); i++) {
+            if (realSteine[i][y] instanceof Pfeil)
+                result++;
+        }
+        return result;
+    }
+
+    private int countPfeileSpalte(int x) {
+        int result = 0;
+        for (int i = 0; i < getBreite(); i++) {
+            if (realSteine[x][i] instanceof Pfeil)
+                result++;
+        }
+        return result;
+    }
+
+    private int countSterneZeile(int y) {
+        int result = 0;
+        for (int i = 0; i < getBreite(); i++) {
+            if (realSteine[i][y] instanceof Stern)
+                result++;
+        }
+        return result;
+    }
+
+    private int countSterneSpalte(int x) {
+        int result = 0;
+        for (int i = 0; i < getBreite(); i++) {
+            if (realSteine[x][i] instanceof Stern)
+                result++;
+        }
+        return result;
+    }
+
     /**
      * Zaehlt die Pfeile auf dem Spielfeld.
      * 
