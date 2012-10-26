@@ -1,17 +1,20 @@
 package severeLobster.frontend.view;
 
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielfeldController;
 
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import java.awt.GridLayout;
-
 /**
  * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen.
- *
+ * 
  * @author LKleiber
  */
 public class SpielfeldView extends JPanel implements IControllableSpielfeldView {
@@ -103,6 +106,7 @@ public class SpielfeldView extends JPanel implements IControllableSpielfeldView 
                  * Panel hinzugefuegten Komponenten.
                  */
                 setLayout(new GridLayout(laenge, breite));
+                setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
                 /**
                  * Erzeuge array mit views:
                  */
@@ -126,6 +130,8 @@ public class SpielfeldView extends JPanel implements IControllableSpielfeldView 
                          */
                         view = new SpielsteinView(spielstein, breiteIndex,
                                 laengeIndex, spielfeldController);
+                        view.setBorder(BorderFactory
+                                .createLineBorder(Color.DARK_GRAY));
                         /**
                          * Speichere Komponente in Array, fuer leichteren
                          * Zugriff auf einzelne SpielsteinViews

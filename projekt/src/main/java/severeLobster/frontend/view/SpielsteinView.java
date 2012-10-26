@@ -31,8 +31,7 @@ public class SpielsteinView extends JLabel {
 
     public SpielsteinView(Spielstein spielstein, int x, int y,
             SpielfeldController controller) {
-        final Icon newIcon = ICON_FACTORY.getIconForState(spielstein);
-        this.setIcon(newIcon);
+        super(ICON_FACTORY.getIconForState(spielstein), JLabel.CENTER);
         this.x = x;
         this.y = y;
         this.controller = controller;
