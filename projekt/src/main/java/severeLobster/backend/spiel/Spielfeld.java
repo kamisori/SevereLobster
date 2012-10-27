@@ -3,10 +3,11 @@ package severeLobster.backend.spiel;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
-import javax.swing.event.EventListenerList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.event.EventListenerList;
 
 /**
  * Spielfeld eines Spiels - verhaelt sich nach aussen wie ein zweidimensionales
@@ -85,7 +86,7 @@ public class Spielfeld implements Serializable {
         return result;
     }
 
-    private int countSterneZeile(int y) {
+    public int countSterneZeile(int y) {
         int result = 0;
         for (int i = 0; i < getBreite(); i++) {
             if (realSteine[i][y] instanceof Stern)
@@ -94,7 +95,7 @@ public class Spielfeld implements Serializable {
         return result;
     }
 
-    private int countSterneSpalte(int x) {
+    public int countSterneSpalte(int x) {
         int result = 0;
         for (int i = 0; i < getBreite(); i++) {
             if (realSteine[x][i] instanceof Stern)
@@ -151,8 +152,9 @@ public class Spielfeld implements Serializable {
 
             float sterndichte = sterne / spielfeldFlaeche;
             float pfeildichte = pfeile / spielfeldFlaeche;
-            float pfeilSternVerhaeltnis = pfeile / sterne; 
-            double schwierigkeit = (pfeilSternVerhaeltnis) * (sterndichte + pfeildichte) * 100.0;
+            float pfeilSternVerhaeltnis = pfeile / sterne;
+            double schwierigkeit = (pfeilSternVerhaeltnis)
+                    * (sterndichte + pfeildichte) * 100.0;
 
             if (schwierigkeit > 100.0)
                 return SchwierigkeitsgradEnumeration.LEICHT;
