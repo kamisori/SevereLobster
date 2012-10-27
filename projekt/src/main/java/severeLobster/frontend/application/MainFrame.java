@@ -10,6 +10,7 @@ import infrastructure.ResourceManager;
 import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
+import severeLobster.backend.spiel.Spiel;
 import severeLobster.frontend.dialogs.LoadGamePreview;
 import severeLobster.frontend.dialogs.NewGamePreview;
 import severeLobster.frontend.view.MainView;
@@ -123,14 +124,19 @@ public class MainFrame extends JMenuBar implements Runnable {
                     }
                 }
                 if (event.getActionCommand().equals(resourceManager.getText("save.text"))) {
-                    int result = saveGameChooser.showSaveDialog(frame);
-                    if (result == JFileChooser.APPROVE_OPTION) {
-                        String filename = saveGameChooser.getSelectedFile().getName().replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
-                        mainPanel.getCurrentSpiel().save(filename);
+                    Spiel spiel = mainPanel.getCurrentSpiel();
+                    if (spiel.getSaveName() == null) {
+                        spielSpeichernUnter();
+                    }
+                    else {
+                        spiel.save(spiel.getSaveName());
                     }
                 }
+                if (event.getActionCommand().equals(resourceManager.getText("save.as.text"))) {
+                    spielSpeichernUnter();
+                }
                 if (event.getActionCommand().equals(resourceManager.getText("exit.text"))) {
-                    frame.dispose();
+                    spielBeenden();
                 }
                 if (event.getActionCommand().equals(resourceManager.getText("puzzle.erstellen"))) {
                     JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
@@ -154,9 +160,11 @@ public class MainFrame extends JMenuBar implements Runnable {
 
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("neues.spiel.text")));
         item.addActionListener(menuAction);
+        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("load.text")));
+        item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("save.text")));
         item.addActionListener(menuAction);
-        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("load.text")));
+        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("save.as.text")));
         item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("exit.text")));
         item.addActionListener(menuAction);
@@ -166,6 +174,9 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Editieren.add(item = new JMenuItem(resourceManager.getText("load.puzzle")));
         item.addActionListener(menuAction);
         jm_Editieren.add(item = new JMenuItem(resourceManager.getText("save.puzzle")));
+        item.setEnabled(false);
+        item.addActionListener(menuAction);
+        jm_Editieren.add(item = new JMenuItem(resourceManager.getText("save.as.puzzle")));
         item.setEnabled(false);
         item.addActionListener(menuAction);
         jm_Editieren.add(item = new JMenuItem(resourceManager.getText("puzzle.freigeben")));
@@ -187,10 +198,8 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Eigenschaften.add(item = new JMenuItem("Info"));
         item.addActionListener(menuAction);
 
-        jm_Spiel.insertSeparator(1);
         jm_Spiel.insertSeparator(4);
 
-        jm_Editieren.insertSeparator(1);
         jm_Editieren.insertSeparator(4);
 
         add(jm_Spiel);
@@ -206,6 +215,30 @@ public class MainFrame extends JMenuBar implements Runnable {
         });
 
         frame.setJMenuBar(this);
+    }
+
+    /**
+     * Oeffnet den FileChooser, um das Spiel unter einem
+     * gewissen Namen abzuspeichern
+     */
+    private void spielSpeichernUnter() {
+        int result = saveGameChooser.showSaveDialog(frame);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            Spiel spiel = mainPanel.getCurrentSpiel();
+            String filename = saveGameChooser.getSelectedFile().getName()
+                    .replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
+            spiel.setSaveName(filename);
+            mainPanel.getCurrentSpiel().save(filename);
+        }
+    }
+
+    private void spielBeenden() {
+        int result = JOptionPane.showInternalConfirmDialog(this, resourceManager.getText("exit.application.question"),
+                resourceManager.getText("exit.application.title"),
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            frame.dispose();
+        }
     }
 
     /**

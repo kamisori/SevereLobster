@@ -6,7 +6,7 @@
     <groupId>SevereLobster</groupId>
     <artifactId>SevereLobster</artifactId>
     <description>SevereLobster ist ein Projekt zur Erstellung eines Sternenhimmel-Puzzzlespiels</description>
-    <version>0.1</version>
+    <version>0.2</version>
 
     <properties>
         <!-- Dirs -->
@@ -208,6 +208,8 @@
                 <version>2.3.2</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
         </plugins>

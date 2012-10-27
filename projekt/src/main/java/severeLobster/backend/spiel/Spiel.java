@@ -31,6 +31,7 @@ public class Spiel implements Serializable, IGotSpielModus {
     private SpielmodusEnumeration spielmodus = SpielmodusEnumeration.SPIELEN;
     private int anzahlZuege;
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
+    private String saveName;
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
@@ -241,11 +242,15 @@ public class Spiel implements Serializable, IGotSpielModus {
         return currentSpielfeld.hasErrors();
     }
 
-    public void setSpielmodus(final SpielmodusEnumeration spielen) {
-        if (null != spielen) {
+    /**
+     * Setzt den Spielmodus des aktuellen Spiels
+     * @param spielmodus Spielmodus des Spiels
+     */
+    public void setSpielmodus(final SpielmodusEnumeration spielmodus) {
+        if (null != spielmodus) {
 
-            this.spielmodus = spielen;
-            fireSpielmodusChanged(spielen);
+            this.spielmodus = spielmodus;
+            fireSpielmodusChanged(spielmodus);
         }
     }
 
@@ -320,7 +325,7 @@ public class Spiel implements Serializable, IGotSpielModus {
      *
      * @param spielmodus
      *            Spielmodus des Spiels
-     * @return Dateiendung (.psav oder .sav)
+     * @return Dateiendung (.puz oder .sav)
      */
     private static String getDateiendung(SpielmodusEnumeration spielmodus) {
         //Preconditions.checkNotNull(spielmodus);
@@ -334,8 +339,12 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
 
+    /**
+     * Gibt das Verzeichnis der puz/sav Dateien je nach Spielmodus zurueck
+     * @param spielmodus Spielmodus des Spiels
+     * @return Verzeichnis fuer puz/sav Dateien
+     */
     private static File getVerzeichnis(SpielmodusEnumeration spielmodus) {
-        //Preconditions.checkNotNull(spielmodus);
         switch (spielmodus) {
             case SPIELEN:
                 return GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR;
@@ -343,6 +352,23 @@ public class Spiel implements Serializable, IGotSpielModus {
                 return GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR;
         }
         return null;
+    }
+
+    /**
+     * Gibt den Namen des SaveGames zum
+     * Spiel zurueck
+     * @return Spielname
+     */
+    public String getSaveName() {
+        return saveName;
+    }
+
+    /**
+     * Setzt den Names des SaveGames
+     * @param saveName Name des SaveGames
+     */
+    public void setSaveName(String saveName) {
+        this.saveName = saveName;
     }
 
     private class InnerSpielfeldListener implements ISpielfeldListener,

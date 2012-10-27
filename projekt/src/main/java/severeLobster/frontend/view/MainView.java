@@ -15,6 +15,11 @@ import java.io.IOException;
 public class MainView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();
+
+    public SternenSpielApplicationBackend getBackend() {
+        return backend;
+    }
+
     private final SternenSpielApplicationBackend backend;
 
     public MainView() throws IOException {
