@@ -15,6 +15,11 @@ import java.io.IOException;
 public class MainView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();
+
+    public SternenSpielApplicationBackend getBackend() {
+        return backend;
+    }
+
     private final SternenSpielApplicationBackend backend;
 
     public MainView() throws IOException {
@@ -22,14 +27,14 @@ public class MainView extends JPanel {
         setLayout(null);
         // JPanel spielfeld = new SpielfeldView_fwenisch();
         /**
-         * Nur zum Testen
-         */
+* Nur zum Testen
+*/
         backend = new SternenSpielApplicationBackend();
         backend.startNewSpielFrom("Standardspiel01");
         /*
-         * backend.getSpiel().initializeNewSpielfeld(20, 18);
-         * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-         */
+* backend.getSpiel().initializeNewSpielfeld(20, 18);
+* backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+*/
         final SpielfeldView view = new SpielfeldView(backend.getSpiel()
                 .getSpielfeld());
         new SpielfeldController(view, backend);
@@ -44,8 +49,8 @@ public class MainView extends JPanel {
         //spielfeld.add(spielmodusView);
 
         /**
-         * Ende Test
-         */
+* Ende Test
+*/
 
         spielfeld.setBounds(50, 50, 500, 500);
         JPanel spielinfo = new SpielinfoView();
@@ -60,15 +65,15 @@ public class MainView extends JPanel {
         setLayout(null);
         // JPanel spielfeld = new SpielfeldView_fwenisch();
         /**
-         * Nur zum Testen
-         */
+* Nur zum Testen
+*/
         backend = new SternenSpielApplicationBackend();
         //backend.startNewSpielFrom("Standardspiel01");
         backend.setSpiel(spiel);
         /*
-         * backend.getSpiel().initializeNewSpielfeld(20, 18);
-         * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-         */
+* backend.getSpiel().initializeNewSpielfeld(20, 18);
+* backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+*/
         final SpielfeldView view = new SpielfeldView(backend.getSpiel()
                 .getSpielfeld());
         new SpielfeldController(view, backend);
@@ -84,8 +89,8 @@ public class MainView extends JPanel {
         //spielfeld.add(spielmodusView);
 
         /**
-         * Ende Test
-         */
+* Ende Test
+*/
 
         spielfeld.setBounds(50, 50, 500, 500);
         JPanel spielinfo = new SpielinfoView();

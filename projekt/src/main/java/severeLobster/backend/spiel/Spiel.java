@@ -16,36 +16,37 @@ import java.io.OutputStream;
 import java.io.Serializable;
 
 /**
- * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
- * Spiel dar und beinhaltet einen aktuellen Spielstand, der gespeichert und
- * geladen werden kann. Instanzen dieser Klasse sind in ihrem Zustand komplett
- * unabhaengig voneinander.
- *
- * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
- */
+* Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
+* Spiel dar und beinhaltet einen aktuellen Spielstand, der gespeichert und
+* geladen werden kann. Instanzen dieser Klasse sind in ihrem Zustand komplett
+* unabhaengig voneinander.
+*
+* @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
+*/
 public class Spiel implements Serializable, IGotSpielModus {
 
-	private final EventListenerList listeners = new EventListenerList();
+private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
     private SpielmodusEnumeration spielmodus = SpielmodusEnumeration.SPIELEN;
     private int anzahlZuege;
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
+    private String saveName;
 
     /**
-     * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
-     * Spielfeld wird mit Standardfeld initialisiert.
-     */
+* Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
+* Spielfeld wird mit Standardfeld initialisiert.
+*/
     public Spiel() {
         this(SpielmodusEnumeration.SPIELEN);
     }
 
     /**
-     * Spielfeld wird mit Standardfeld initialisiert.
-     *
-     * @param spielmodus
-     *            Spielmodus des Spiels
-     */
+* Spielfeld wird mit Standardfeld initialisiert.
+*
+* @param spielmodus
+* Spielmodus des Spiels
+*/
     public Spiel(SpielmodusEnumeration spielmodus) {
 
         this.spielmodus = spielmodus;
@@ -55,22 +56,22 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Gibt die Anzahl an bereits versuchten Spielzuegen zurueck
-     *
-     * @return Anzahl Spielzuege
-     */
+* Gibt die Anzahl an bereits versuchten Spielzuegen zurueck
+*
+* @return Anzahl Spielzuege
+*/
     public int getAnzahlZuege() {
         return anzahlZuege;
     }
 
     /**
-     * Zwischenloesung um eine Primaeraktion auszufuehren.
-     *
-     * @param x
-     *            X-Achsenwert
-     * @param y
-     *            Y-Achsenwert
-     */
+* Zwischenloesung um eine Primaeraktion auszufuehren.
+*
+* @param x
+* X-Achsenwert
+* @param y
+* Y-Achsenwert
+*/
     public void primaerAktion(int x, int y) {
         currentSpielfeld.setSpielstein(x, y, Stern.getInstance());
         if (spielmodus == SpielmodusEnumeration.SPIELEN) {
@@ -81,13 +82,13 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Zwischenloesung um eine Sekundaeraktion auszufuehren.
-     *
-     * @param x
-     *            x-Achsenwert
-     * @param y
-     *            y-Achsenwer
-     */
+* Zwischenloesung um eine Sekundaeraktion auszufuehren.
+*
+* @param x
+* x-Achsenwert
+* @param y
+* y-Achsenwer
+*/
     public void sekundaerAktion(int x, int y) {
         if (spielmodus == SpielmodusEnumeration.SPIELEN) {
             currentSpielfeld.setSpielstein(x, y, Ausschluss.getInstance());
@@ -100,10 +101,10 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Gibt den Schwierigkeitsgrad des Spielfeldes zurueck
-     *
-     * @return Schwierigkeitsgrad
-     */
+* Gibt den Schwierigkeitsgrad des Spielfeldes zurueck
+*
+* @return Schwierigkeitsgrad
+*/
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
         return getSpielfeld().getSchwierigkeitsgrad();
     }
@@ -117,14 +118,14 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /***
-     * Setzt ein neues, leeres Spielfeld fuer dieses Spiel. Benachrichtigt
-     * listener dieser Instanz ueber spielfeldChanged().
-     *
-     * @param x
-     *            Laenge der x-Achse
-     * @param y
-     *            Laenge der y-Achse
-     */
+* Setzt ein neues, leeres Spielfeld fuer dieses Spiel. Benachrichtigt
+* listener dieser Instanz ueber spielfeldChanged().
+*
+* @param x
+* Laenge der x-Achse
+* @param y
+* Laenge der y-Achse
+*/
     public void initializeNewSpielfeld(final int x, final int y) {
         final Spielfeld listeningSpielfeld = getSpielfeld();
         if (null != listeningSpielfeld) {
@@ -143,12 +144,12 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Speichert das aktuelle Spiel
-     *
-     * @param spielname
-     *            Name der Datei (ohne Datei-Endung)
-     * @throws IOException Exception falls Datei nicht vorhanden
-     */
+* Speichert das aktuelle Spiel
+*
+* @param spielname
+* Name der Datei (ohne Datei-Endung)
+* @throws IOException Exception falls Datei nicht vorhanden
+*/
     public void save(String spielname) {
         OutputStream outputStream = null;
         try {
@@ -173,13 +174,13 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Laedt ein Spiel aus Spieldateien
-     *
-     * @param spielname
-     *            Name der Datei (ohne Dateiendung)
-     * @return Spieldatei
-     * @throws IOException Exception falls Datei nicht vorhanden
-     */
+* Laedt ein Spiel aus Spieldateien
+*
+* @param spielname
+* Name der Datei (ohne Dateiendung)
+* @return Spieldatei
+* @throws IOException Exception falls Datei nicht vorhanden
+*/
     public static Spiel load(String spielname, SpielmodusEnumeration spielmodus)
             throws IOException {
         String dateiendung = "." + getDateiendung(spielmodus);
@@ -200,12 +201,12 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Laed ein erstelles Puzzle und aendert den Modus in den Spielmodus.
-     * @param spielname
-     *              Name der Datei (ohne Dateiendung)
-     * @return Erstelltes Spiel im Spielmodus
-     * @throws IOException Wirft Exception, wenn Datei nicht vorhanden
-     */
+* Laed ein erstelles Puzzle und aendert den Modus in den Spielmodus.
+* @param spielname
+* Name der Datei (ohne Dateiendung)
+* @return Erstelltes Spiel im Spielmodus
+* @throws IOException Wirft Exception, wenn Datei nicht vorhanden
+*/
     public static Spiel newGame(String spielname) throws IOException {
         Spiel neuesSpiel = load(spielname, SpielmodusEnumeration.EDITIEREN);
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
@@ -215,37 +216,41 @@ public class Spiel implements Serializable, IGotSpielModus {
 
 
     /**
-     * Ueberprueft ob das Spielfeld geloest wurde (Sieg).
-     *
-     * @return sieg
-     */
+* Ueberprueft ob das Spielfeld geloest wurde (Sieg).
+*
+* @return sieg
+*/
     public boolean isSolved() {
         /***
-         * Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
-         * koennen.
-         */
+* Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
+* koennen.
+*/
         return currentSpielfeld.isSolved();
     }
 
     /**
-     * Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
-     * abgegeben wurden, die nicht der Loesung entsprechen
-     *
-     * @return fehler vorhanden
-     */
+* Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
+* abgegeben wurden, die nicht der Loesung entsprechen
+*
+* @return fehler vorhanden
+*/
     public boolean hasErrors() {
         /**
-         * Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
-         * koennen.
-         */
+* Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
+* koennen.
+*/
         return currentSpielfeld.hasErrors();
     }
 
-    public void setSpielmodus(final SpielmodusEnumeration spielen) {
-        if (null != spielen) {
+    /**
+* Setzt den Spielmodus des aktuellen Spiels
+* @param spielmodus Spielmodus des Spiels
+*/
+    public void setSpielmodus(final SpielmodusEnumeration spielmodus) {
+        if (null != spielmodus) {
 
-            this.spielmodus = spielen;
-            fireSpielmodusChanged(spielen);
+            this.spielmodus = spielmodus;
+            fireSpielmodusChanged(spielmodus);
         }
     }
 
@@ -263,13 +268,13 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Benachrichtigt alle Listener dieses Spiel ueber einen neuen Wert an den
-     * uebergeben Koordinaten. Implementation ist glaube ich aus JComponent oder
-     * Component kopiert.
-     *
-     * @param newSpielfeld
-     *            - Der neue Status, der an die Listener mitgeteilt wird.
-     */
+* Benachrichtigt alle Listener dieses Spiel ueber einen neuen Wert an den
+* uebergeben Koordinaten. Implementation ist glaube ich aus JComponent oder
+* Component kopiert.
+*
+* @param newSpielfeld
+* - Der neue Status, der an die Listener mitgeteilt wird.
+*/
     private void fireSpielfeldChanged(Spielfeld newSpielfeld) {
 
         /** Gibt ein Array zurueck, das nicht null ist */
@@ -295,33 +300,33 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Fuegt listener zu der Liste hinzu.
-     *
-     * @param listener
-     *            ISpielfeldListener
-     */
+* Fuegt listener zu der Liste hinzu.
+*
+* @param listener
+* ISpielfeldListener
+*/
     public void addSpielListener(final ISpielListener listener) {
         listeners.add(ISpielListener.class, listener);
     }
 
     /**
-     * Entfernt listener von der Liste.
-     *
-     * @param listener
-     *            ISpielsteinListener
-     */
+* Entfernt listener von der Liste.
+*
+* @param listener
+* ISpielsteinListener
+*/
     public void removeSpielListener(final ISpielListener listener) {
         listeners.remove(ISpielListener.class, listener);
     }
 
     /**
-     * Gibt die Dateiendung eines zu ladenen oder zu sichernden Spiels bzw.
-     * Puzzles anhand des Spielmodus zurück
-     *
-     * @param spielmodus
-     *            Spielmodus des Spiels
-     * @return Dateiendung (.psav oder .sav)
-     */
+* Gibt die Dateiendung eines zu ladenen oder zu sichernden Spiels bzw.
+* Puzzles anhand des Spielmodus zurück
+*
+* @param spielmodus
+* Spielmodus des Spiels
+* @return Dateiendung (.puz oder .sav)
+*/
     private static String getDateiendung(SpielmodusEnumeration spielmodus) {
         //Preconditions.checkNotNull(spielmodus);
         switch (spielmodus) {
@@ -334,8 +339,12 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
 
+    /**
+* Gibt das Verzeichnis der puz/sav Dateien je nach Spielmodus zurueck
+* @param spielmodus Spielmodus des Spiels
+* @return Verzeichnis fuer puz/sav Dateien
+*/
     private static File getVerzeichnis(SpielmodusEnumeration spielmodus) {
-        //Preconditions.checkNotNull(spielmodus);
         switch (spielmodus) {
             case SPIELEN:
                 return GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR;
@@ -343,6 +352,23 @@ public class Spiel implements Serializable, IGotSpielModus {
                 return GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR;
         }
         return null;
+    }
+
+    /**
+* Gibt den Namen des SaveGames zum
+* Spiel zurueck
+* @return Spielname
+*/
+    public String getSaveName() {
+        return saveName;
+    }
+
+    /**
+* Setzt den Names des SaveGames
+* @param saveName Name des SaveGames
+*/
+    public void setSaveName(String saveName) {
+        this.saveName = saveName;
     }
 
     private class InnerSpielfeldListener implements ISpielfeldListener,
