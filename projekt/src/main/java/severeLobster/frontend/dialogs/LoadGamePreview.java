@@ -30,21 +30,24 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
     private JLabel spielfeldPreviewLabel = new JLabel();
     private Spiel spiel;
 
-
     public LoadGamePreview(JFileChooser chooser) {
         setLayout(new BorderLayout());
         chooser.addPropertyChangeListener(this);
         setBorder(BorderFactory.createEmptyBorder(12, 12, 0, 0));
-        schwierigkeitsgradValue.setFont(schwierigkeitsgradValue.getFont().deriveFont(Font.BOLD));
+        schwierigkeitsgradValue.setFont(schwierigkeitsgradValue.getFont()
+                .deriveFont(Font.BOLD));
         schwierigkeitsgradTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        schwierigkeitsgradTitle.setBorder(BorderFactory.createEmptyBorder(12, 0, 0, 0));
+        schwierigkeitsgradTitle.setBorder(BorderFactory.createEmptyBorder(12,
+                0, 0, 0));
         schwierigkeitsgradValue.setHorizontalAlignment(SwingConstants.CENTER);
         spielfeldPreviewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel schwierigkeitsgradPanel = new JPanel(new BorderLayout());
         schwierigkeitsgradPanel.add(spielfeldPreviewLabel, BorderLayout.NORTH);
-        schwierigkeitsgradPanel.add(schwierigkeitsgradTitle, BorderLayout.CENTER);
-        schwierigkeitsgradPanel.add(schwierigkeitsgradValue, BorderLayout.SOUTH);
+        schwierigkeitsgradPanel.add(schwierigkeitsgradTitle,
+                BorderLayout.CENTER);
+        schwierigkeitsgradPanel
+                .add(schwierigkeitsgradValue, BorderLayout.SOUTH);
 
         add(schwierigkeitsgradPanel, BorderLayout.NORTH);
     }
@@ -56,19 +59,29 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
             File file = (File) changeEvent.getNewValue();
             if (file != null) {
                 try {
-                    spiel = Spiel.load(file.getName().replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, ""),
-                            SpielmodusEnumeration.SPIELEN);
-                    SpielfeldView spielfeldView = new SpielfeldView(spiel.getSpielfeld());
+                    spiel = Spiel
+                            .load(file
+                                    .getName()
+                                    .replace(
+                                            "."
+                                                    + GlobaleKonstanten.SPIELSTAND_DATEITYP,
+                                            ""), SpielmodusEnumeration.SPIELEN);
+                    SpielfeldView spielfeldView = new SpielfeldView(
+                            spiel.getSpielfeld());
                     spielfeldView.setSize(200, 200);
-                    BufferedImage bufferedImage = GraphicUtils.createComponentShot(spielfeldView);
-                    bufferedImage = GraphicUtils.getScaledIconImage(bufferedImage, 100, 100);
+                    BufferedImage bufferedImage = GraphicUtils
+                            .createComponentShot(spielfeldView);
+                    bufferedImage = GraphicUtils.getScaledIconImage(
+                            bufferedImage, 100, 100);
                     spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
                 } catch (IOException e) {
                     System.out.println("Ungueltiges Spielformat");
                 }
                 if (spiel != null) {
-                    schwierigkeitsgradTitle.setText(resourceManager.getText("load.dialog.difficulty"));
-                    schwierigkeitsgradValue.setText(spiel.getSchwierigkeitsgrad().toString());
+                    schwierigkeitsgradTitle.setText(resourceManager
+                            .getText("load.dialog.difficulty"));
+                    schwierigkeitsgradValue.setText(spiel
+                            .getSchwierigkeitsgrad().toString());
                 }
             } else {
                 schwierigkeitsgradTitle.setText("");
@@ -80,6 +93,7 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
 
     /**
      * Gibt das Spiel, aus dem Preview zurueck
+     * 
      * @return Spiel aus Preview
      */
     public Spiel getSpiel() {

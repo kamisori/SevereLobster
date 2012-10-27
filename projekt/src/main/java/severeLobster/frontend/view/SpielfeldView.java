@@ -61,7 +61,7 @@ public class SpielfeldView extends JPanel implements IControllableSpielfeldView 
         add(new JLabel("", JLabel.CENTER));
         JLabel pfeilAnzahlView;
         spaltenPfeilAnzahlenViews = new JLabel[breite];
-        // Erstelle oberen Balken für Anzahl der Pfeile in den Spalten:
+        // Erstelle oberen Balken fuer Anzahl der Pfeile in den Spalten:
         for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
 
             int anzahlSterne = spielfeld.countSterneSpalte(breiteIndex);
@@ -174,7 +174,7 @@ public class SpielfeldView extends JPanel implements IControllableSpielfeldView 
                 add(dummyObenLinks);
                 JLabel pfeilAnzahlView;
                 spaltenPfeilAnzahlenViews = new JLabel[breite];
-                // Erstelle oberen Balken für Anzahl der Pfeile in den Spalten:
+                // Erstelle oberen Balken fuer Anzahl der Pfeile in den Spalten:
                 for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
                     int anzahlSterne = spielfeld.countSterneSpalte(breiteIndex);
                     pfeilAnzahlView = new JLabel(String.valueOf(anzahlSterne),

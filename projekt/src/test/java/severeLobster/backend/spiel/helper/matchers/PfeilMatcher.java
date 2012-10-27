@@ -8,15 +8,14 @@ import org.hamcrest.TypeSafeMatcher;
 import severeLobster.backend.spiel.Pfeil;
 
 /**
- * Hamcrest Matcher fuer einen Pfeil,
- * vergleicht einen Pfeilspielstein und seine Attribute
- *
+ * Hamcrest Matcher fuer einen Pfeil, vergleicht einen Pfeilspielstein und seine
+ * Attribute
+ * 
  * @author Lars Schlegelmilch
  */
 public class PfeilMatcher extends TypeSafeMatcher<Pfeil> {
 
     private final Matcher<PfeilrichtungEnumeration> pfeilrichtung;
-
 
     public PfeilMatcher(Matcher<PfeilrichtungEnumeration> pfeilrichtung) {
         this.pfeilrichtung = pfeilrichtung;
@@ -33,7 +32,8 @@ public class PfeilMatcher extends TypeSafeMatcher<Pfeil> {
     }
 
     @Factory
-    public static PfeilMatcher pfeil(Matcher<PfeilrichtungEnumeration> pfeilrichtung) {
+    public static PfeilMatcher pfeil(
+            Matcher<PfeilrichtungEnumeration> pfeilrichtung) {
         return new PfeilMatcher(pfeilrichtung);
     }
 }

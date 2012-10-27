@@ -8,17 +8,15 @@ import java.io.IOException;
 
 /**
  * TODO Beschreibung angeben
- *
+ * 
  * @author Lars Schlegelmilch
  */
 public class SpielView extends FileSystemView {
-
 
     @Override
     public File createNewFolder(File containingDir) throws IOException {
         return null;
     }
-
 
     @Override
     public Boolean isTraversable(File f) {
@@ -27,7 +25,7 @@ public class SpielView extends FileSystemView {
 
     @Override
     public File[] getRoots() {
-        return new File[] {GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR};
+        return new File[] { GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR };
     }
 
     @Override

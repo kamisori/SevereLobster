@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Ueberprueft, ob ein Spiel korrekt gespeichert wird und anschliessend wieder
  * ausgelesen werden kann.
- *
+ * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
 public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
@@ -53,7 +53,8 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     public void ein_gespeichertes_Spiel_speichert_seine_Attribute_mit()
             throws IOException {
         spiel.save("testSpiel01");
-        Spiel geladenesSpiel = Spiel.load("testSpiel01", SpielmodusEnumeration.SPIELEN);
+        Spiel geladenesSpiel = Spiel.load("testSpiel01",
+                SpielmodusEnumeration.SPIELEN);
 
         assertThat(geladenesSpiel.getSpielmodus(),
                 is(SpielmodusEnumeration.SPIELEN));
@@ -65,12 +66,12 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
                 instanceOf(spielsteinAusschluss.getClass()));
     }
 
-
     @Test
     public void ein_gespeichertes_Puzzle_speichert_seine_Attribute_mit()
             throws IOException {
         erstelles_puzzle.save("testSpiel01");
-        Spiel geladenesSpiel = Spiel.load("testSpiel01", SpielmodusEnumeration.EDITIEREN);
+        Spiel geladenesSpiel = Spiel.load("testSpiel01",
+                SpielmodusEnumeration.EDITIEREN);
 
         assertThat(geladenesSpiel.getSpielmodus(),
                 is(SpielmodusEnumeration.EDITIEREN));
@@ -82,15 +83,15 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
                 instanceOf(spielsteinKeinStern.getClass()));
     }
 
-    @Test
-            (expected = IOException.class)
-    public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_wirft_eine_exception() throws IOException {
+    @Test(expected = IOException.class)
+    public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_wirft_eine_exception()
+            throws IOException {
         Spiel.load("testSpiel02", SpielmodusEnumeration.SPIELEN);
     }
 
-    @Test
-            (expected = IOException.class)
-    public void ein_nicht_vorhandenes_Puzzle_kann_nicht_geladen_werden_und_wirft_eine_exception() throws IOException {
+    @Test(expected = IOException.class)
+    public void ein_nicht_vorhandenes_Puzzle_kann_nicht_geladen_werden_und_wirft_eine_exception()
+            throws IOException {
         Spiel.load("testSpiel02", SpielmodusEnumeration.EDITIEREN);
     }
 
@@ -98,10 +99,10 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     public void tearDown() throws SpielNichtLoeschbarException {
         boolean success = true;
 
-        File spieldatei = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR, "testSpiel01" + "."
-                + GlobaleKonstanten.SPIELSTAND_DATEITYP);
-        File puzzledatei = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "testSpiel01" + "."
-                + GlobaleKonstanten.PUZZLE_DATEITYP);
+        File spieldatei = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR,
+                "testSpiel01" + "." + GlobaleKonstanten.SPIELSTAND_DATEITYP);
+        File puzzledatei = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
+                "testSpiel01" + "." + GlobaleKonstanten.PUZZLE_DATEITYP);
 
         if (spieldatei.exists()) {
             success = spieldatei.delete();

@@ -1,8 +1,8 @@
 /*
-* SC_MAIN.java
-*
-* Created on 17.10.2010, 20:21:14
-*/
+ * SC_MAIN.java
+ *
+ * Created on 17.10.2010, 20:21:14
+ */
 
 package severeLobster.frontend.application;
 
@@ -32,10 +32,10 @@ import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 
 /**
-* Initialisiert Grafiken
-*
-* @author Jean-Fabian Wenisch, Lars Schlegelmilch
-*/
+ * Initialisiert Grafiken
+ * 
+ * @author Jean-Fabian Wenisch, Lars Schlegelmilch
+ */
 
 public class MainFrame extends JMenuBar implements Runnable {
     public JMenu jm_Spiel;
@@ -52,22 +52,22 @@ public class MainFrame extends JMenuBar implements Runnable {
     private final ResourceManager resourceManager = ResourceManager.get();
 
     /**
-* Initialisiert das Menue
-*
-* @author Jean-Fabian Wenisch
-* @version 1.0 06.12.2010
-*/
+     * Initialisiert das Menue
+     * 
+     * @author Jean-Fabian Wenisch
+     * @version 1.0 06.12.2010
+     */
     public MainFrame() throws IOException {
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         /*
-* Frame wird erzeugt
-*/
+         * Frame wird erzeugt
+         */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         mainPanel = new MainView();
         frame = new JFrame("Sternenhimmel - Gruppe 3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        //frame.setUndecorated(true);
+        // frame.setUndecorated(true);
         frame.setLocationRelativeTo(null);
         frame.setBackground(Color.white);
         frame.add(mainPanel);
@@ -87,9 +87,9 @@ public class MainFrame extends JMenuBar implements Runnable {
 
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         /*
-* JMenue wird mit allen Eintraegen erzeugt Actionlistener fuer die
-* Menueeintraege wird hinzugefuegt
-*/
+         * JMenue wird mit allen Eintraegen erzeugt Actionlistener fuer die
+         * Menueeintraege wird hinzugefuegt
+         */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         jm_Spiel = new JMenu(resourceManager.getText("spiel.menu.text"));
         jm_Grafik = new JMenu("Grafik");
@@ -99,11 +99,14 @@ public class MainFrame extends JMenuBar implements Runnable {
         ActionListener menuAction = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
-                if (event.getActionCommand().equals(resourceManager.getText("neues.spiel.text"))) {
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("neues.spiel.text"))) {
                     int result = newGameChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         try {
-                            mainPanel = new MainView(((NewGamePreview)newGameChooser.getAccessory()).getSpiel());
+                            mainPanel = new MainView(
+                                    ((NewGamePreview) newGameChooser
+                                            .getAccessory()).getSpiel());
                             frame.remove(mainPanel);
                             frame.add(mainPanel);
                         } catch (IOException e) {
@@ -111,11 +114,14 @@ public class MainFrame extends JMenuBar implements Runnable {
                         }
                     }
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("load.text"))) {
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("load.text"))) {
                     int result = loadGameChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         try {
-                            mainPanel = new MainView(((LoadGamePreview)loadGameChooser.getAccessory()).getSpiel());
+                            mainPanel = new MainView(
+                                    ((LoadGamePreview) loadGameChooser
+                                            .getAccessory()).getSpiel());
                             frame.remove(mainPanel);
                             frame.add(mainPanel);
                         } catch (IOException e) {
@@ -123,66 +129,91 @@ public class MainFrame extends JMenuBar implements Runnable {
                         }
                     }
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("save.text"))) {
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("save.text"))) {
                     Spiel spiel = mainPanel.getCurrentSpiel();
                     if (spiel.getSaveName() == null) {
                         spielSpeichernUnter();
-                    }
-                    else {
+                    } else {
                         spiel.save(spiel.getSaveName());
                     }
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("save.as.text"))) {
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("save.as.text"))) {
                     spielSpeichernUnter();
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("exit.text"))) {
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("exit.text"))) {
                     spielBeenden();
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("puzzle.erstellen"))) {
-                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("puzzle.erstellen"))) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("load.puzzle"))) {
-                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("load.puzzle"))) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("save.puzzle"))) {
-                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("save.puzzle"))) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("puzzle.freigeben"))) {
-                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("puzzle.freigeben"))) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
-                if (event.getActionCommand().equals(resourceManager.getText("check.puzzle"))) {
-                    JOptionPane.showMessageDialog(frame, "Diese Funktion ist zurzeit nicht verfügbar!", "Under Construction", JOptionPane.WARNING_MESSAGE);
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("check.puzzle"))) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
             }
         };
 
         JMenuItem item;
 
-        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("neues.spiel.text")));
+        jm_Spiel.add(item = new JMenuItem(resourceManager
+                .getText("neues.spiel.text")));
         item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("load.text")));
         item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("save.text")));
         item.addActionListener(menuAction);
-        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("save.as.text")));
+        jm_Spiel.add(item = new JMenuItem(resourceManager
+                .getText("save.as.text")));
         item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("exit.text")));
         item.addActionListener(menuAction);
 
-        jm_Editieren.add(item = new JMenuItem(resourceManager.getText("puzzle.erstellen")));
+        jm_Editieren.add(item = new JMenuItem(resourceManager
+                .getText("puzzle.erstellen")));
         item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager.getText("load.puzzle")));
+        jm_Editieren.add(item = new JMenuItem(resourceManager
+                .getText("load.puzzle")));
         item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager.getText("save.puzzle")));
+        jm_Editieren.add(item = new JMenuItem(resourceManager
+                .getText("save.puzzle")));
         item.setEnabled(false);
         item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager.getText("save.as.puzzle")));
+        jm_Editieren.add(item = new JMenuItem(resourceManager
+                .getText("save.as.puzzle")));
         item.setEnabled(false);
         item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager.getText("puzzle.freigeben")));
+        jm_Editieren.add(item = new JMenuItem(resourceManager
+                .getText("puzzle.freigeben")));
         item.setEnabled(false);
         item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager.getText("check.puzzle")));
+        jm_Editieren.add(item = new JMenuItem(resourceManager
+                .getText("check.puzzle")));
         item.setEnabled(false);
         item.addActionListener(menuAction);
 
@@ -218,9 +249,9 @@ public class MainFrame extends JMenuBar implements Runnable {
     }
 
     /**
-* Oeffnet den FileChooser, um das Spiel unter einem
-* gewissen Namen abzuspeichern
-*/
+     * Oeffnet den FileChooser, um das Spiel unter einem gewissen Namen
+     * abzuspeichern
+     */
     private void spielSpeichernUnter() {
         int result = saveGameChooser.showSaveDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
@@ -233,7 +264,8 @@ public class MainFrame extends JMenuBar implements Runnable {
     }
 
     private void spielBeenden() {
-        int result = JOptionPane.showInternalConfirmDialog(this, resourceManager.getText("exit.application.question"),
+        int result = JOptionPane.showInternalConfirmDialog(this,
+                resourceManager.getText("exit.application.question"),
                 resourceManager.getText("exit.application.title"),
                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
@@ -242,57 +274,66 @@ public class MainFrame extends JMenuBar implements Runnable {
     }
 
     /**
-* Frame wird initialisiert & Hauptpanel wird hinzugefuegt Ausserdem werden
-* Mouselistener hinzugefuegt mit denen sich das Frame verschieben laesst
-*
-* @author fwenisch
-* @version 1.0 08.10.2012
-*/
+     * Frame wird initialisiert & Hauptpanel wird hinzugefuegt Ausserdem werden
+     * Mouselistener hinzugefuegt mit denen sich das Frame verschieben laesst
+     * 
+     * @author fwenisch
+     * @version 1.0 08.10.2012
+     */
     private void init() {
         // Spiel laden Dialog
-        loadGameChooser = new JFileChooser(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
+        loadGameChooser = new JFileChooser(
+                GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
         loadGameChooser.setFileSystemView(new SpielView());
         loadGameChooser.setAcceptAllFileFilterUsed(false);
         loadGameChooser.setFileFilter(new FileNameExtensionFilter(
                 resourceManager.getText("load.dialog.extension.description"),
                 GlobaleKonstanten.SPIELSTAND_DATEITYP));
-        loadGameChooser.setApproveButtonText(resourceManager.getText("load.dialog.text"));
+        loadGameChooser.setApproveButtonText(resourceManager
+                .getText("load.dialog.text"));
         loadGameChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        loadGameChooser.setDialogTitle(resourceManager.getText("load.dialog.title"));
+        loadGameChooser.setDialogTitle(resourceManager
+                .getText("load.dialog.title"));
         loadGameChooser.setMultiSelectionEnabled(false);
         loadGameChooser.setAccessory(new LoadGamePreview(loadGameChooser));
         // Neues Spiel Dialog
-        newGameChooser = new JFileChooser(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR);
+        newGameChooser = new JFileChooser(
+                GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR);
         newGameChooser.setFileSystemView(new PuzzleView());
         newGameChooser.setAcceptAllFileFilterUsed(false);
         newGameChooser.setFileFilter(new FileNameExtensionFilter(
                 resourceManager.getText("new.dialog.extension.description"),
                 GlobaleKonstanten.PUZZLE_DATEITYP));
-        newGameChooser.setApproveButtonText(resourceManager.getText("new.dialog.text"));
+        newGameChooser.setApproveButtonText(resourceManager
+                .getText("new.dialog.text"));
         newGameChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        newGameChooser.setDialogTitle(resourceManager.getText("new.dialog.title"));
+        newGameChooser.setDialogTitle(resourceManager
+                .getText("new.dialog.title"));
         newGameChooser.setMultiSelectionEnabled(false);
         newGameChooser.setAccessory(new NewGamePreview(newGameChooser));
         // Save Spiel Dialog
-        saveGameChooser = new JFileChooser(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
+        saveGameChooser = new JFileChooser(
+                GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
         saveGameChooser.setFileSystemView(new SpielView());
         saveGameChooser.setAcceptAllFileFilterUsed(false);
         saveGameChooser.setFileFilter(new FileNameExtensionFilter(
                 resourceManager.getText("save.dialog.extension.description"),
                 GlobaleKonstanten.SPIELSTAND_DATEITYP));
-        saveGameChooser.setApproveButtonText(resourceManager.getText("save.dialog.text"));
+        saveGameChooser.setApproveButtonText(resourceManager
+                .getText("save.dialog.text"));
         saveGameChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        saveGameChooser.setDialogTitle(resourceManager.getText("save.dialog.title"));
+        saveGameChooser.setDialogTitle(resourceManager
+                .getText("save.dialog.title"));
         saveGameChooser.setMultiSelectionEnabled(false);
     }
 
     /**
-* Beim starten des Hauptthreads wird die Methode <init()> Aufgerufen in der
-* die Gesamte GUI aufgebaut werden muss
-*
-* @author fwenisch
-* @version 08.10.2012
-*/
+     * Beim starten des Hauptthreads wird die Methode <init()> Aufgerufen in der
+     * die Gesamte GUI aufgebaut werden muss
+     * 
+     * @author fwenisch
+     * @version 08.10.2012
+     */
     @Override
     public void run() {
         frame.setVisible(true);

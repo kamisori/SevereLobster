@@ -4,7 +4,7 @@ import java.io.File;
 
 /**
  * Globale Konstanten, die für Backend und Frontend gueltig sind
- *
+ * 
  * @author Lars Schlegelmilch
  */
 public abstract class GlobaleKonstanten {
@@ -23,7 +23,7 @@ public abstract class GlobaleKonstanten {
      * Dateiendung .puz - Dateiendung fuer gespeicherte erstelle Puzzles
      */
     public static final String PUZZLE_DATEITYP = "puz";
-    
+
     /**
      * Standardverzeichnis fuer gespeicherte Spiele
      */
@@ -35,9 +35,9 @@ public abstract class GlobaleKonstanten {
     public static final File DEFAULT_PUZZLE_SAVE_DIR = getDefaultPuzzleSaveDir();
 
     /**
-     * Gibt das Standardverzeichnis fuer gespeicherte Spiele zurueck
-     * - wenn es nicht existiert, wird es angelegt
-     *
+     * Gibt das Standardverzeichnis fuer gespeicherte Spiele zurueck - wenn es
+     * nicht existiert, wird es angelegt
+     * 
      * @return Standardverzeichnis fuer gespeicherte Spiele
      */
     private static File getDefaultSpielSaveDir() {
@@ -54,9 +54,9 @@ public abstract class GlobaleKonstanten {
     }
 
     /**
-     * Gibt das Standardverzeichnis fuer gespeicherte erstellte Puzzle
-     * zurueck - wenn es nicht existiert, wird es angelegt
-     *
+     * Gibt das Standardverzeichnis fuer gespeicherte erstellte Puzzle zurueck -
+     * wenn es nicht existiert, wird es angelegt
+     * 
      * @return Standardverzeichnis fuer gespeicherte erstelle Puzzle
      */
     private static File getDefaultPuzzleSaveDir() {
@@ -72,4 +72,3 @@ public abstract class GlobaleKonstanten {
         }
     }
 }
-

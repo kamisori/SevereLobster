@@ -9,7 +9,6 @@ import infrastructure.ResourceManager;
  */
 public enum SchwierigkeitsgradEnumeration {
 
-
     /**
      * Schwierigkeitsgrad Leicht: Das Spielfeld ist der Groesse und der Anzahl
      * der Spielsteine entsprechend als leicht eingestuft.

@@ -9,9 +9,8 @@ import org.hamcrest.TypeSafeMatcher;
 import severeLobster.backend.spiel.Spiel;
 
 /**
- * Hamcrest Matcher für ein Spiel,
- * vergleicht ein Spiel und seine Attribute
- *
+ * Hamcrest Matcher für ein Spiel, vergleicht ein Spiel und seine Attribute
+ * 
  * @author Lars Schlegelmilch
  */
 public class SpielMatcher extends TypeSafeMatcher<Spiel> {
@@ -20,7 +19,7 @@ public class SpielMatcher extends TypeSafeMatcher<Spiel> {
     private final Matcher<SchwierigkeitsgradEnumeration> schwierigkeitsgrad;
 
     public SpielMatcher(Matcher<SpielmodusEnumeration> spielmodus,
-                        Matcher<SchwierigkeitsgradEnumeration> schwierigkeitsgrad) {
+            Matcher<SchwierigkeitsgradEnumeration> schwierigkeitsgrad) {
         this.spielmodus = spielmodus;
         this.schwierigkeitsgrad = schwierigkeitsgrad;
     }
@@ -42,7 +41,7 @@ public class SpielMatcher extends TypeSafeMatcher<Spiel> {
 
     @Factory
     public static SpielMatcher spiel(Matcher<SpielmodusEnumeration> spielmodus,
-                                     Matcher<SchwierigkeitsgradEnumeration> schwierigkeitsgrad) {
+            Matcher<SchwierigkeitsgradEnumeration> schwierigkeitsgrad) {
         return new SpielMatcher(spielmodus, schwierigkeitsgrad);
     }
 }

@@ -9,7 +9,7 @@ import java.util.Properties;
 
 /**
  * Helperklasse zur Resourcenverwaltung
- *
+ * 
  * @author Lars Schlegelmilch
  */
 public class ResourceManager {
@@ -29,7 +29,7 @@ public class ResourceManager {
 
     /**
      * Gibt die Instanz des ResourceManager zurueck
-     *
+     * 
      * @return ResourceManager-Instanz
      */
     public static ResourceManager get() {
@@ -37,11 +37,11 @@ public class ResourceManager {
     }
 
     /**
-     * Aender die Spracheinstellung des ResourceManagers,
-     * sodass auf Properties der jeweiligen Sprache
-     * zurueckgegriffen wird
-     *
-     * @param locale Sprache/Land
+     * Aender die Spracheinstellung des ResourceManagers, sodass auf Properties
+     * der jeweiligen Sprache zurueckgegriffen wird
+     * 
+     * @param locale
+     *            Sprache/Land
      */
     public void setLanguage(Locale locale) {
         try {
@@ -53,19 +53,19 @@ public class ResourceManager {
 
     /**
      * Gibt den Text aus der Propertiesdatei zurueck
-     *
-     * @param key Schluessel des Textes
+     * 
+     * @param key
+     *            Schluessel des Textes
      * @return Text zum Schluessel
      */
     public String getText(String key) {
         return propertyfile.getProperty(key);
     }
 
-
     /**
      * Gibt die Properties-Datei(Standard: Deutsch) im Package
      * src/main/resources/infrastructure/constants zurueck
-     *
+     * 
      * @return InputStream der Properties-Datei
      */
     private InputStream getProperties() {
@@ -73,11 +73,11 @@ public class ResourceManager {
     }
 
     /**
-     * Gibt die Properties-Datei zu einer bestimmten Sprache
-     * im Package src/main/resources/infrastructure/constants
-     * zurueck - (Standard: Deutsch)
-     *
-     * @param locale Sprache/Land
+     * Gibt die Properties-Datei zu einer bestimmten Sprache im Package
+     * src/main/resources/infrastructure/constants zurueck - (Standard: Deutsch)
+     * 
+     * @param locale
+     *            Sprache/Land
      * @return Propertiesdatei als InputStream
      */
     private InputStream getProperties(Locale locale) {
@@ -94,8 +94,9 @@ public class ResourceManager {
     /**
      * Gibt die URL einer Grafik im Package
      * src/main/resources/infrastructure/graphics zurueck
-     *
-     * @param graphicName Dateiname
+     * 
+     * @param graphicName
+     *            Dateiname
      * @return URL der Grafik
      */
     public URL getGraphicURL(String graphicName) {
@@ -104,10 +105,10 @@ public class ResourceManager {
 
     /**
      * Gibt die URL eines Icons im Package
-     * src/main/resources/infrastructure/graphics/icons
-     * zurueck
-     *
-     * @param iconName Dateiname
+     * src/main/resources/infrastructure/graphics/icons zurueck
+     * 
+     * @param iconName
+     *            Dateiname
      * @return URL des Icons
      */
     public URL getIconURL(String iconName) {
@@ -116,22 +117,23 @@ public class ResourceManager {
 
     /**
      * Gibt das ImageIcon anhand des iconNames aus dem Package
-     * src/main/resources/infrastructure/graphics/icons
-     * zurueck
-     *
-     * @param iconName Dateiname
+     * src/main/resources/infrastructure/graphics/icons zurueck
+     * 
+     * @param iconName
+     *            Dateiname
      * @return Icon als ImageIcon
      */
     public ImageIcon getImageIcon(String iconName) {
-        return new ImageIcon(getClass().getResource("graphics/icons/" + iconName));
+        return new ImageIcon(getClass().getResource(
+                "graphics/icons/" + iconName));
     }
 
     /**
      * Gibt die URL eines Icons im Package
-     * src/main/resources/infrastructure/graphics/icons
-     * zurueck
-     *
-     * @param iconName Dateiname
+     * src/main/resources/infrastructure/graphics/icons zurueck
+     * 
+     * @param iconName
+     *            Dateiname
      * @return URL des Icons
      */
     @Deprecated
@@ -142,8 +144,9 @@ public class ResourceManager {
     /**
      * Gibt die URL einer Grafik im Package
      * src/main/resources/infrastructure/graphics zurueck
-     *
-     * @param graphicName Dateiname
+     * 
+     * @param graphicName
+     *            Dateiname
      * @return URL der Grafik
      */
     @Deprecated

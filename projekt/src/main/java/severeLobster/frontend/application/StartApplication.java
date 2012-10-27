@@ -12,22 +12,22 @@ import java.awt.Image;
 import java.util.Locale;
 
 /**
-*
-* @author Jean-Fabian Wenisch
-* @version 1.0
-*/
+ * 
+ * @author Jean-Fabian Wenisch
+ * @version 1.0
+ */
 public class StartApplication extends JFrame implements Runnable {
 
     private final ResourceManager resourceManager = ResourceManager.get();
 
     /**
-* Startet das Programm(startet Splaschreen und startet Initialisierung)
-*
-* @param args
-* - werden momentan nicht verwendet
-* @author fwenisch
-* @version 1.0 08.10.2012
-*/
+     * Startet das Programm(startet Splaschreen und startet Initialisierung)
+     * 
+     * @param args
+     *            - werden momentan nicht verwendet
+     * @author fwenisch
+     * @version 1.0 08.10.2012
+     */
     public static void main(String[] args) {
         Thread Splashscreen = new Thread(new StartApplication());
         Splashscreen.start();
@@ -35,17 +35,16 @@ public class StartApplication extends JFrame implements Runnable {
     }
 
     /**
-* Initialisiert Mainframe & laedt Ressourcen bevor das Mainframe gestartet
-* wird
-*
-* @author fwenisch
-* @version 1.0 07.10.2012
-*/
+     * Initialisiert Mainframe & laedt Ressourcen bevor das Mainframe gestartet
+     * wird
+     * 
+     * @author fwenisch
+     * @version 1.0 07.10.2012
+     */
     @Override
     public void run() {
         try {
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e) {
             e.printStackTrace(); // TODO ...
         } catch (InstantiationException e) {
@@ -77,11 +76,11 @@ public class StartApplication extends JFrame implements Runnable {
     }
 
     /**
-* Wird ueberschrieben um Splash anzuzeigen
-*
-* @author fwenisch
-* @version 1.0 08.10.2012
-*/
+     * Wird ueberschrieben um Splash anzuzeigen
+     * 
+     * @author fwenisch
+     * @version 1.0 08.10.2012
+     */
     public void paint(Graphics g) {
         Image sImage = getToolkit().getImage(
                 resourceManager.getGraphicURL("Splashscreen.jpg"));

@@ -14,14 +14,13 @@ import java.util.Map;
 
 /**
  * Graphic Utils
- *
+ * 
  */
 public class GraphicUtils {
 
-
     /**
      * Creates a "screenshot" of the given component.
-     *
+     * 
      */
     public static BufferedImage createComponentShot(final Component component) {
         if (component == null) {
@@ -39,7 +38,8 @@ public class GraphicUtils {
             layoutComponent(component);
         }
 
-        final BufferedImage bufferedImage = new BufferedImage(component.getWidth(), component.getHeight(),
+        final BufferedImage bufferedImage = new BufferedImage(
+                component.getWidth(), component.getHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         final Graphics2D graphics2D = bufferedImage.createGraphics();
         component.paint(graphics2D);
@@ -60,20 +60,22 @@ public class GraphicUtils {
         }
     }
 
-
-
     /**
      * Get a scaled image for the given size
      */
-    public static BufferedImage getScaledIconImage(Image image, int width, int height) {
-        return getScaledIconImage(Collections.singletonList(image), width, height);
+    public static BufferedImage getScaledIconImage(Image image, int width,
+            int height) {
+        return getScaledIconImage(Collections.singletonList(image), width,
+                height);
     }
 
     /**
      * Get best match image from list for the given size
      */
-    public static BufferedImage getScaledIconImage(List<Image> imageList, int width, int height) {
-        if (imageList == null || imageList.size() == 0 || width == 0 || height == 0) {
+    public static BufferedImage getScaledIconImage(List<Image> imageList,
+            int width, int height) {
+        if (imageList == null || imageList.size() == 0 || width == 0
+                || height == 0) {
             return null;
         }
 
@@ -102,7 +104,8 @@ public class GraphicUtils {
 
             if (iw > 0 && ih > 0) {
                 // Calc scale factor
-                double scaleFactor = Math.min((double) width / (double) iw, (double) height / (double) ih);
+                double scaleFactor = Math.min((double) width / (double) iw,
+                        (double) height / (double) ih);
                 // Calculate scaled image dimensions
                 // adjusting scale factor to nearest "good" value
                 int adjw = 0;
@@ -170,7 +173,8 @@ public class GraphicUtils {
             return null;
         }
 
-        final BufferedImage bimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage bimage = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_ARGB);
         final Graphics2D g = bimage.createGraphics();
         applyRenderingHints(g);
 
@@ -194,22 +198,30 @@ public class GraphicUtils {
 
         return bimage;
     }
+
     /**
-     * @return a {@link java.awt.RenderingHints} instance with antialiasing rendering
-     *         hints.
+     * @return a {@link java.awt.RenderingHints} instance with antialiasing
+     *         rendering hints.
      */
     public static RenderingHints createRenderingHints() {
         final Map<RenderingHints.Key, Object> hints = new HashMap<RenderingHints.Key, Object>();
-        hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        hints.put(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        hints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        hints.put(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION,
+                RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 
-        hints.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        hints.put(RenderingHints.KEY_COLOR_RENDERING,
+                RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        hints.put(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY);
 
-        hints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        hints.put(RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 
         return new RenderingHints(hints);
     }

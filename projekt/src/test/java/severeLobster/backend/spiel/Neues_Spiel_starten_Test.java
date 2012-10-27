@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Unit-Test, ob ein vorhandenes Puzzle gespielt werden kann
- *
+ * 
  * @author Lars Schlegelmilch
  */
 public class Neues_Spiel_starten_Test {
@@ -36,17 +36,19 @@ public class Neues_Spiel_starten_Test {
     }
 
     @Test
-    public void ein_neues_spiel_befindet_sich_im_spielmodus() throws IOException {
+    public void ein_neues_spiel_befindet_sich_im_spielmodus()
+            throws IOException {
         Spiel neuesSpiel = Spiel.newGame("neuesTestspiel01");
-        assertTrue(neuesSpiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN));
+        assertTrue(neuesSpiel.getSpielmodus().equals(
+                SpielmodusEnumeration.SPIELEN));
     }
 
     @After
     public void tearDown() throws SpielNichtLoeschbarException {
         boolean success = true;
 
-        File puzzledatei = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "neuesTestspiel01" + "."
-                + GlobaleKonstanten.PUZZLE_DATEITYP);
+        File puzzledatei = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
+                "neuesTestspiel01" + "." + GlobaleKonstanten.PUZZLE_DATEITYP);
         if (puzzledatei.exists()) {
             success = puzzledatei.delete();
         }

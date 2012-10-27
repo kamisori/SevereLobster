@@ -4,7 +4,7 @@ import java.io.IOException;
 
 /**
  * Exception fuer ein nicht loeschbares Spiel
- *
+ * 
  * @author Lars Schlegelmilch
  */
 public class SpielNichtLoeschbarException extends IOException {

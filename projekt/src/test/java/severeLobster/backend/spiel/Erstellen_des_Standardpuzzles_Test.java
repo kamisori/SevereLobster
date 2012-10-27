@@ -24,7 +24,7 @@ import static severeLobster.backend.spiel.helper.matchers.SpielMatcher.spiel;
 /**
  * Dieser Unittest erstellt ein Standardpuzzle, welches spielbar ist und eine
  * eindeutige Loesung hat.
- *
+ * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
 public class Erstellen_des_Standardpuzzles_Test {
@@ -87,8 +87,8 @@ public class Erstellen_des_Standardpuzzles_Test {
     @Test
     public void sichern_des_editierten_standardspiels_ist_erfolgreich()
             throws IOException {
-        File file = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "Standardspiel01" + "."
-                + GlobaleKonstanten.PUZZLE_DATEITYP);
+        File file = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
+                "Standardspiel01" + "." + GlobaleKonstanten.PUZZLE_DATEITYP);
 
         boolean success;
         if (file.exists()) {
@@ -98,110 +98,190 @@ public class Erstellen_des_Standardpuzzles_Test {
             }
         }
         standardspiel.save("Standardspiel01");
-        file = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR, "Standardspiel01" + "."
-                + GlobaleKonstanten.PUZZLE_DATEITYP);
+        file = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
+                "Standardspiel01" + "." + GlobaleKonstanten.PUZZLE_DATEITYP);
         assertTrue(file.exists());
     }
 
     @Test
-    public void das_gesicherte_spiel_ist_das_standardpuzzle_im_editiermodus() throws IOException {
-        Spiel geladenesSpiel = Spiel.load("Standardspiel01", SpielmodusEnumeration.EDITIEREN);
+    public void das_gesicherte_spiel_ist_das_standardpuzzle_im_editiermodus()
+            throws IOException {
+        Spiel geladenesSpiel = Spiel.load("Standardspiel01",
+                SpielmodusEnumeration.EDITIEREN);
         Spielfeld geladenesSpielfeld = geladenesSpiel.getSpielfeld();
 
-        assertThat(geladenesSpiel,
+        assertThat(
+                geladenesSpiel,
                 spiel(equalTo(SpielmodusEnumeration.EDITIEREN),
                         equalTo(standardspiel.getSchwierigkeitsgrad())));
-        assertThat(geladenesSpielfeld.getSpielstein(0, 5), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(0, 4), instanceOf(Stern.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 3), pfeil(equalTo(SUED)));
-        assertThat(geladenesSpielfeld.getSpielstein(0, 2), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 1), pfeil(equalTo(OST)));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 0), pfeil(equalTo(OST)));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(1, 5), pfeil(equalTo(NORDOST)));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 4), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 3), instanceOf(Stern.class));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 2), instanceOf(Stern.class));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 1), instanceOf(Stern.class));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 0), instanceOf(Stern.class));
-        assertThat(geladenesSpielfeld.getSpielstein(2, 5), instanceOf(Stern.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(2, 4), pfeil(equalTo(OST)));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(2, 3), pfeil(equalTo(NORDWEST)));
-        assertThat(geladenesSpielfeld.getSpielstein(2, 2), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(2, 1), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(2, 0), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(3, 5), pfeil(equalTo(NORDWEST)));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 4), instanceOf(Stern.class));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 3), instanceOf(Stern.class));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 2), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 1), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 0), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 5), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(4, 4), pfeil(equalTo(NORDWEST)));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 3), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 2), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 1), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 0), instanceOf(Stern.class));
-        assertThat(geladenesSpielfeld.getSpielstein(5, 5), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(5, 4), instanceOf(Stern.class));
-        assertThat(geladenesSpielfeld.getSpielstein(5, 3), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(5, 2), pfeil(equalTo(SUEDWEST)));
-        assertThat(geladenesSpielfeld.getSpielstein(5, 1), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(5, 0), pfeil(equalTo(SUED)));
+        assertThat(geladenesSpielfeld.getSpielstein(0, 5),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(0, 4),
+                instanceOf(Stern.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 3),
+                pfeil(equalTo(SUED)));
+        assertThat(geladenesSpielfeld.getSpielstein(0, 2),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 1),
+                pfeil(equalTo(OST)));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 0),
+                pfeil(equalTo(OST)));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(1, 5),
+                pfeil(equalTo(NORDOST)));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 4),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 3),
+                instanceOf(Stern.class));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 2),
+                instanceOf(Stern.class));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 1),
+                instanceOf(Stern.class));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 0),
+                instanceOf(Stern.class));
+        assertThat(geladenesSpielfeld.getSpielstein(2, 5),
+                instanceOf(Stern.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(2, 4),
+                pfeil(equalTo(OST)));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(2, 3),
+                pfeil(equalTo(NORDWEST)));
+        assertThat(geladenesSpielfeld.getSpielstein(2, 2),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(2, 1),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(2, 0),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(3, 5),
+                pfeil(equalTo(NORDWEST)));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 4),
+                instanceOf(Stern.class));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 3),
+                instanceOf(Stern.class));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 2),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 1),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 0),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 5),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(4, 4),
+                pfeil(equalTo(NORDWEST)));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 3),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 2),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 1),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 0),
+                instanceOf(Stern.class));
+        assertThat(geladenesSpielfeld.getSpielstein(5, 5),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(5, 4),
+                instanceOf(Stern.class));
+        assertThat(geladenesSpielfeld.getSpielstein(5, 3),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(5, 2),
+                pfeil(equalTo(SUEDWEST)));
+        assertThat(geladenesSpielfeld.getSpielstein(5, 1),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(5, 0),
+                pfeil(equalTo(SUED)));
     }
 
     @Test
-    public void das_erstellte_standardspiel_kann_zum_spielen_freigegeben_werden() throws IOException {
-        Spiel geladenesSpiel = Spiel.load("Standardspiel01", SpielmodusEnumeration.EDITIEREN);
+    public void das_erstellte_standardspiel_kann_zum_spielen_freigegeben_werden()
+            throws IOException {
+        Spiel geladenesSpiel = Spiel.load("Standardspiel01",
+                SpielmodusEnumeration.EDITIEREN);
         geladenesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         geladenesSpiel.save("Standardspiel01");
 
-        File file = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR, "Standardspiel01" + "."
-                + GlobaleKonstanten.SPIELSTAND_DATEITYP);
+        File file = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR,
+                "Standardspiel01" + "." + GlobaleKonstanten.SPIELSTAND_DATEITYP);
         assertTrue(file.exists());
     }
 
     @Test
-    public void das_gesicherte_spiel_ist_das_standardpuzzle_im_spielmodus() throws IOException {
-        Spiel geladenesSpiel = Spiel.load("Standardspiel01", SpielmodusEnumeration.SPIELEN);
+    public void das_gesicherte_spiel_ist_das_standardpuzzle_im_spielmodus()
+            throws IOException {
+        Spiel geladenesSpiel = Spiel.load("Standardspiel01",
+                SpielmodusEnumeration.SPIELEN);
         Spielfeld geladenesSpielfeld = geladenesSpiel.getSpielfeld();
-        assertThat(geladenesSpiel,
+        assertThat(
+                geladenesSpiel,
                 spiel(equalTo(SpielmodusEnumeration.SPIELEN),
                         equalTo(standardspiel.getSchwierigkeitsgrad())));
-        assertThat(geladenesSpielfeld.getSpielstein(0, 5), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(0, 4), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 3), pfeil(equalTo(SUED)));
-        assertThat(geladenesSpielfeld.getSpielstein(0, 2), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 1), pfeil(equalTo(OST)));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 0), pfeil(equalTo(OST)));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(1, 5), pfeil(equalTo(NORDOST)));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 4), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 3), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 2), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 1), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(1, 0), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(2, 5), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(2, 4), pfeil(equalTo(OST)));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(2, 3), pfeil(equalTo(NORDWEST)));
-        assertThat(geladenesSpielfeld.getSpielstein(2, 2), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(2, 1), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(2, 0), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(3, 5), pfeil(equalTo(NORDWEST)));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 4), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 3), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 2), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 1), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(3, 0), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 5), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(4, 4), pfeil(equalTo(NORDWEST)));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 3), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 2), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 1), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(4, 0), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(5, 5), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(5, 4), instanceOf(KeinStein.class));
-        assertThat(geladenesSpielfeld.getSpielstein(5, 3), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(5, 2), pfeil(equalTo(SUEDWEST)));
-        assertThat(geladenesSpielfeld.getSpielstein(5, 1), instanceOf(KeinStein.class));
-        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(5, 0), pfeil(equalTo(SUED)));
+        assertThat(geladenesSpielfeld.getSpielstein(0, 5),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(0, 4),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 3),
+                pfeil(equalTo(SUED)));
+        assertThat(geladenesSpielfeld.getSpielstein(0, 2),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 1),
+                pfeil(equalTo(OST)));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(0, 0),
+                pfeil(equalTo(OST)));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(1, 5),
+                pfeil(equalTo(NORDOST)));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 4),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 3),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 2),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 1),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(1, 0),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(2, 5),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(2, 4),
+                pfeil(equalTo(OST)));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(2, 3),
+                pfeil(equalTo(NORDWEST)));
+        assertThat(geladenesSpielfeld.getSpielstein(2, 2),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(2, 1),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(2, 0),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(3, 5),
+                pfeil(equalTo(NORDWEST)));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 4),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 3),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 2),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 1),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(3, 0),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 5),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(4, 4),
+                pfeil(equalTo(NORDWEST)));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 3),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 2),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 1),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(4, 0),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(5, 5),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(5, 4),
+                instanceOf(KeinStein.class));
+        assertThat(geladenesSpielfeld.getSpielstein(5, 3),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(5, 2),
+                pfeil(equalTo(SUEDWEST)));
+        assertThat(geladenesSpielfeld.getSpielstein(5, 1),
+                instanceOf(KeinStein.class));
+        assertThat((Pfeil) geladenesSpielfeld.getSpielstein(5, 0),
+                pfeil(equalTo(SUED)));
     }
 }

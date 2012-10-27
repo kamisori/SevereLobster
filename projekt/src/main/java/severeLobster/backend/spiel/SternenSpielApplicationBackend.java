@@ -40,7 +40,8 @@ public class SternenSpielApplicationBackend {
 
     public void loadSpielFrom(final String spielname)
             throws FileNotFoundException, IOException {
-        final Spiel loadedSpiel = Spiel.load(spielname, SpielmodusEnumeration.SPIELEN);
+        final Spiel loadedSpiel = Spiel.load(spielname,
+                SpielmodusEnumeration.SPIELEN);
         setSpiel(loadedSpiel);
     }
 
@@ -147,8 +148,10 @@ public class SternenSpielApplicationBackend {
                 int y, Spielstein newStein) {
             fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
             if (spiel.hasErrors()) {
-                JOptionPane.showMessageDialog(null, "Sie haben einen Fehler gemacht! " +
-                        " Das Spiel wird neu gestartet.", "Fehler!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "Sie haben einen Fehler gemacht! "
+                                + " Das Spiel wird neu gestartet.", "Fehler!",
+                        JOptionPane.ERROR_MESSAGE);
                 try {
                     startNewSpielFrom("Standardspiel01");
                 } catch (IOException e) {
@@ -156,8 +159,10 @@ public class SternenSpielApplicationBackend {
                 }
             }
             if (spiel.isSolved()) {
-                JOptionPane.showMessageDialog(null, "Sie haben das Puzzle gelöst! " +
-                        " Herzlichen Glückwunsch!", "Puzzle gelöst!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "Sie haben das Puzzle gelöst! "
+                                + " Herzlichen Glückwunsch!", "Puzzle gelöst!",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }
 

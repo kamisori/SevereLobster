@@ -20,7 +20,8 @@ import severeLobster.frontend.controller.SpielfeldController;
 public class PopupMenuForSpielsteinChoice extends JPopupMenu {
 
     public PopupMenuForSpielsteinChoice(final SpielfeldController controller,
-            final List<? extends Spielstein> listAvailableStates, final int x, final int y) {
+            final List<? extends Spielstein> listAvailableStates, final int x,
+            final int y) {
 
         JMenuItem menuItem;
 
