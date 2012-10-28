@@ -79,7 +79,7 @@ public class Spielfeld implements Serializable {
 
     private int countPfeileSpalte(int x) {
         int result = 0;
-        for (int i = 0; i < getBreite(); i++) {
+        for (int i = 0; i < getHoehe(); i++) {
             if (realSteine[x][i] instanceof Pfeil)
                 result++;
         }
@@ -97,7 +97,7 @@ public class Spielfeld implements Serializable {
 
     public int countSterneSpalte(int x) {
         int result = 0;
-        for (int i = 0; i < getBreite(); i++) {
+        for (int i = 0; i < getHoehe(); i++) {
             if (realSteine[x][i] instanceof Stern)
                 result++;
         }
