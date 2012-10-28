@@ -36,8 +36,7 @@ public class SpielfeldViewTestOhneJUnit {
             final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
 
             backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-            final SpielfeldView view = new SpielfeldView(backend.getSpiel()
-                    .getSpielfeld());
+            final SpielfeldView view = new SpielfeldView();
             new SpielfeldController(view, backend);
 
             final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();

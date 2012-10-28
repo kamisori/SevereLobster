@@ -40,12 +40,7 @@ public class SpielsteinView extends JLabel {
 
     public void setDisplayedStein(final Spielstein newSpielstein) {
         final Icon newIcon = ICON_FACTORY.getIconForState(newSpielstein);
-        SwingUtilities.invokeLater(new Runnable() {
-
-            public void run() {
-                setIcon(newIcon);
-            }
-        });
+        setIcon(newIcon);
     }
 
     /**

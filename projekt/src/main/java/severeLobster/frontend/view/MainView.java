@@ -35,8 +35,7 @@ public class MainView extends JPanel {
          * backend.getSpiel().initializeNewSpielfeld(20, 18);
          * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
          */
-        final SpielfeldView view = new SpielfeldView(backend.getSpiel()
-                .getSpielfeld());
+        final SpielfeldView view = new SpielfeldView();
         new SpielfeldController(view, backend);
 
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
@@ -74,8 +73,7 @@ public class MainView extends JPanel {
          * backend.getSpiel().initializeNewSpielfeld(20, 18);
          * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
          */
-        final SpielfeldView view = new SpielfeldView(backend.getSpiel()
-                .getSpielfeld());
+        final SpielfeldView view = new SpielfeldView();
         new SpielfeldController(view, backend);
 
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
