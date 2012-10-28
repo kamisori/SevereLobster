@@ -8,6 +8,17 @@ import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.view.SpielfeldView;
 
+/**
+ * Steuerung fuer SpielfeldView. Verbindet SternenSpielApplicationBackend und
+ * SpielfeldView. Reagiert auf Veraenderungen von
+ * SternenspielApplicationBackend, Spiel und Spielfeld und aktualisiert
+ * entsprechend die Darstellung. Rohversion: Zeichnet bei jeder Aenderung immer
+ * alles neu, damit Sternanzahlen oben und links bei Spiel- und Editmodus immer
+ * aktuell sind. Testbar mit SpielfeldViewTestOhneJUnit.
+ * 
+ * @author Lutz Kleiber
+ * 
+ */
 public class SpielfeldController {
 
     private final SpielfeldView spielfeldView;
@@ -95,12 +106,15 @@ public class SpielfeldController {
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, Spielfeld spielfeld, int x, int y,
                 Spielstein newStein) {
+            // TEMP: Zeichne immer alles neu, damit Sternanzahlen oben und links
+            // immer aktuell sind.
             if (currentSpielfeld == spielfeld) {
-                spielfeldView.setDisplayedSpielstein(x, y, newStein);
+                // spielfeldView.setDisplayedSpielstein(x, y, newStein);
             } else {
                 currentSpielfeld = spielfeld;
-                changeDisplayedSpielfeldTo(currentSpielfeld);
+
             }
+            changeDisplayedSpielfeldTo(currentSpielfeld);
 
         }
 
