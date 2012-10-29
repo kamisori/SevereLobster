@@ -1,5 +1,7 @@
 package severeLobster.backend.command;
 
+import severeLobster.backend.spiel.Spielstein;
+
 /**
  * Aktionsinterface
  * 
@@ -7,7 +9,7 @@ package severeLobster.backend.command;
  */
 public interface Aktion {
 
-    public void execute(int x, int y);
+    public boolean execute(int x, int y, Spielstein spielstein);
 
-    public void undo();
+    public boolean undo();
 }

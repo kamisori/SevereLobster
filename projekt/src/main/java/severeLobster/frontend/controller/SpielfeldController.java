@@ -1,6 +1,12 @@
 package severeLobster.frontend.controller;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 import infrastructure.constants.enums.SpielmodusEnumeration;
+
+import severeLobster.backend.command.Aktion;
+import severeLobster.backend.command.PrimaerAktion;
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.Spielfeld;
@@ -24,6 +30,9 @@ public class SpielfeldController {
     private final SpielfeldView spielfeldView;
     private final SternenSpielApplicationBackend backend;
     private Spielfeld currentSpielfeld;
+    private Stack<Aktion> spielZuege;
+    private Stack<Integer> trackingPunkte;
+    private int letzterFehlerfreierSpielzug;
 
     public SpielfeldController(SpielfeldView spielfeldView,
             SternenSpielApplicationBackend applicationBackend) {
@@ -32,6 +41,9 @@ public class SpielfeldController {
         this.currentSpielfeld = backend.getSpiel().getSpielfeld();
         spielfeldView.setSpielfeldController(this);
         backend.addApplicationBackendListener(new InnerSternenSpielBackendListener());
+        spielZuege = new Stack<Aktion>();
+        trackingPunkte = new Stack<Integer>();
+        letzterFehlerfreierSpielzug = 0;
     }
 
     public Spielfeld getSpielfeld() {
@@ -43,7 +55,32 @@ public class SpielfeldController {
     }
 
     public void setSpielstein(Spielstein spielstein, int x, int y) {
-        this.currentSpielfeld.setSpielstein(x, y, spielstein);
+        PrimaerAktion spielZug = new PrimaerAktion(backend.getSpiel());
+        if(!spielZug.execute(x, y, spielstein)) {
+            letzterFehlerfreierSpielzug = spielZuege.size();
+        }
+        spielZuege.push(spielZug);
+    }
+    
+    public void setzeTrackingPunkt() {
+        trackingPunkte.push(spielZuege.size());
+    }
+    
+    private void nimmSpielzugZurueck() {
+        spielZuege.pop().undo();
+    }
+    
+    public void zurueckZumFehler() {
+        while(spielZuege.size() > letzterFehlerfreierSpielzug) {
+            nimmSpielzugZurueck();
+        }
+    }
+    
+    public void zurueckZumLetztenTrackingPunkt() {
+        int trackingPunkt = trackingPunkte.pop();
+        while(spielZuege.size() > trackingPunkt) {
+            nimmSpielzugZurueck();
+        }
     }
 
     private void changeDisplayedSpielfeldTo(Spielfeld newSpielfeld) {

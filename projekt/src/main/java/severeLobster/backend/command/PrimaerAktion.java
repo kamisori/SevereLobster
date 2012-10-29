@@ -1,6 +1,7 @@
 package severeLobster.backend.command;
 
 import severeLobster.backend.spiel.Spiel;
+import severeLobster.backend.spiel.Spielstein;
 
 /**
  * Primaeraktion - Primaere Aktion die vom Spieler aus gesteuert wird. (Z.B.
@@ -16,10 +17,14 @@ import severeLobster.backend.spiel.Spiel;
  */
 public class PrimaerAktion implements Aktion {
 
-    private Spiel spiel;
+    private Spiel spiel_;
+    private int x_;
+    private int y_;
+    private Spielstein neuerSpielstein_;
+    private Spielstein alterSpielstein_;
 
     public PrimaerAktion(Spiel spiel) {
-        this.spiel = spiel;
+        this.spiel_ = spiel;
     }
 
     /**
@@ -33,11 +38,16 @@ public class PrimaerAktion implements Aktion {
      *            Y-Achsenwert auf dem der Spielstein gesetzt/getippt wird
      */
     @Override
-    public void execute(int x, int y) {
-        spiel.primaerAktion(x, y);
+    public boolean execute(int x, int y, Spielstein spielstein) {
+        x_ = x;
+        y_ = y;
+        neuerSpielstein_ = spielstein;
+        alterSpielstein_ = spiel_.getSpielstein(x, y);
+        return spiel_.setSpielstein(x_, y_, neuerSpielstein_);
     }
 
     @Override
-    public void undo() {
+    public boolean undo() {
+        return spiel_.setSpielstein(x_, y_, alterSpielstein_);
     }
 }

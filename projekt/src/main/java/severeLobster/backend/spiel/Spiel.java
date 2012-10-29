@@ -65,39 +65,23 @@ public class Spiel implements Serializable, IGotSpielModus {
     }
 
     /**
-     * Zwischenloesung um eine Primaeraktion auszufuehren.
+     * Spielstein setzen.
      * 
      * @param x
      *            X-Achsenwert
      * @param y
      *            Y-Achsenwert
+     * @param spielstein
+     *            zu setzender Spielstein
+     * @return ob spielfeld fehler enthaelt.
      */
-    public void primaerAktion(int x, int y) {
-        currentSpielfeld.setSpielstein(x, y, Stern.getInstance());
-        if (spielmodus == SpielmodusEnumeration.SPIELEN) {
-            if (hasErrors()) {
-                System.out.println("Die Loesung enthaellt Fehler.");
-            }
-        }
+    public boolean setSpielstein(int x, int y, Spielstein spielstein) {
+        currentSpielfeld.setSpielstein(x, y, spielstein);
+        return hasErrors();
     }
-
-    /**
-     * Zwischenloesung um eine Sekundaeraktion auszufuehren.
-     * 
-     * @param x
-     *            x-Achsenwert
-     * @param y
-     *            y-Achsenwer
-     */
-    public void sekundaerAktion(int x, int y) {
-        if (spielmodus == SpielmodusEnumeration.SPIELEN) {
-            currentSpielfeld.setSpielstein(x, y, Ausschluss.getInstance());
-            if (hasErrors()) {
-                System.out.println("Die Loesung enthaellt Fehler.");
-            }
-        } else {
-            currentSpielfeld.setSpielstein(x, y, Pfeil.getNordPfeil());
-        }
+    
+    public Spielstein getSpielstein(int x, int y) {
+        return currentSpielfeld.getSpielstein(x, y);
     }
 
     /**
@@ -244,6 +228,7 @@ public class Spiel implements Serializable, IGotSpielModus {
          * Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
          * koennen.
          */
+        // TODO checken ob es einen unterschied macht ob man im edit oder spielmodus ist wenn man nach fehlern prueft
         return currentSpielfeld.hasErrors();
     }
 
