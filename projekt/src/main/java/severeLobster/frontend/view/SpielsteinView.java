@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 
 import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.KeinStein;
@@ -23,7 +22,8 @@ import severeLobster.frontend.controller.SpielfeldController;
  */
 public class SpielsteinView extends JLabel {
 
-    private static final IconFactory ICON_FACTORY = SimpleDynamicallyResizingIconFactory.getInstance();
+    private static final IconFactory ICON_FACTORY = SimpleIconFactory
+            .getInstance();
     private final int x;
     private final int y;
     private final SpielfeldController controller;
