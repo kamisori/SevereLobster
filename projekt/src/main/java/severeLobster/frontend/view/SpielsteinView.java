@@ -1,16 +1,18 @@
 package severeLobster.frontend.view;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.Icon;
+import javax.swing.JLabel;
+
 import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.Stern;
 import severeLobster.frontend.controller.SpielfeldController;
-
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Darstellung eines einzelnen Spielsteins.
@@ -20,7 +22,8 @@ import java.awt.event.MouseEvent;
  */
 public class SpielsteinView extends JLabel {
 
-    private static final IconFactory ICON_FACTORY = SimpleDynamicallyResizingIconFactory.getInstance();
+    private static final IconFactory ICON_FACTORY = SimpleDynamicallyResizingIconFactory
+            .getInstance();
     private final int x;
     private final int y;
     private final SpielfeldController controller;
