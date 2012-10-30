@@ -1,9 +1,15 @@
 package severeLobster.frontend.view;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import infrastructure.ResourceManager;
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  * Factory Implementation fuer das Simple Icon Paket.
@@ -19,49 +25,70 @@ public class SimpleIconFactory extends IconFactory {
 
     /**
      * Quelle:
-     * http://www.iconarchive.com/show/soft-scraps-icons-by-deleket/Button
-     * -Download-icon.html
-     */
-    protected Icon pfeilSouthIcon;
-    protected Icon pfeilSouthWestIcon;
-    protected Icon pfeilWestIcon;
-    protected Icon pfeilNorthWestIcon;
-    protected Icon pfeilNorthIcon;
-    protected Icon pfeilNorthEastIcon;
-    protected Icon pfeilEastIcon;
-    protected Icon pfeilSouthEastIcon;
-    /**
-     * Quelle:
      * http://www.iconarchive.com/show/colobrush-icons-by-eponas-deeway/system
      * -star-icon.html
      */
-    protected Icon sternIcon;
+    protected ImageIcon sternIcon;
     /**
      * Quelle:
      * http://www.iconarchive.com/show/button-icons-by-deleket/Button-Cancel
      * -icon.html
      */
-    protected Icon ausschlussIcon;
+    protected ImageIcon ausschlussIcon;
     /**
      * Quelle:
      * http://www.iconarchive.com/show/soft-scraps-icons-by-deleket/Button
      * -Blank-Blue-icon.html
      */
-    protected Icon blankIcon;
+    protected ImageIcon blankIcon;
+
+    /**
+     * Quelle:
+     * http://www.iconarchive.com/show/soft-scraps-icons-by-deleket/Button
+     * -Download-icon.html
+     */
+    protected ImageIcon pfeilSouthIcon;
+    protected ImageIcon pfeilSouthWestIcon;
+    protected ImageIcon pfeilWestIcon;
+    protected ImageIcon pfeilNorthWestIcon;
+    protected ImageIcon pfeilNorthIcon;
+    protected ImageIcon pfeilNorthEastIcon;
+    protected ImageIcon pfeilEastIcon;
+    protected ImageIcon pfeilSouthEastIcon;
 
     protected SimpleIconFactory() {
 
         sternIcon = resourceManager.getImageIcon("SternIcon24.png");
         ausschlussIcon = resourceManager.getImageIcon("AusschlussIcon24.png");
         blankIcon = resourceManager.getImageIcon("BlankIcon24.png");
-        pfeilSouthIcon = resourceManager.getImageIcon("PfeilIcon24.png");
-        pfeilSouthWestIcon = new RotatedIcon(pfeilSouthIcon, 45);
-        pfeilWestIcon = new RotatedIcon(pfeilSouthIcon, 90);
-        pfeilNorthWestIcon = new RotatedIcon(pfeilSouthIcon, 135);
-        pfeilNorthIcon = new RotatedIcon(pfeilSouthIcon, 180);
-        pfeilNorthEastIcon = new RotatedIcon(pfeilSouthIcon, 225);
-        pfeilEastIcon = new RotatedIcon(pfeilSouthIcon, 270);
-        pfeilSouthEastIcon = new RotatedIcon(pfeilSouthIcon, 315);
+
+        final BufferedImage pfeilSouthBuffImage;
+        try {
+            pfeilSouthBuffImage = resourceManager
+                    .getIconAsBufferedImage("PfeilIcon24.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Wenn das fehlschlaegt ist was kaputt
+            throw new IllegalStateException(
+                    "SimpleIconFactory kann nicht alle Bilder laden");
+        }
+
+        pfeilSouthIcon = new ImageIcon(pfeilSouthBuffImage);
+        pfeilSouthWestIcon = new ImageIcon(getRotatedImageOf(
+                pfeilSouthBuffImage, 45));
+        pfeilWestIcon = new ImageIcon(
+                getRotatedImageOf(pfeilSouthBuffImage, 90));
+        pfeilNorthWestIcon = new ImageIcon(getRotatedImageOf(
+                pfeilSouthBuffImage, 135));
+        pfeilNorthIcon = new ImageIcon(getRotatedImageOf(pfeilSouthBuffImage,
+                180));
+        pfeilNorthEastIcon = new ImageIcon(getRotatedImageOf(
+                pfeilSouthBuffImage, 225));
+        pfeilEastIcon = new ImageIcon(getRotatedImageOf(pfeilSouthBuffImage,
+                270));
+        pfeilSouthEastIcon = new ImageIcon(getRotatedImageOf(
+                pfeilSouthBuffImage, 315));
+
     }
 
     public static SimpleIconFactory getInstance() {
@@ -113,6 +140,27 @@ public class SimpleIconFactory extends IconFactory {
             return pfeilSouthEastIcon;
         }
         return ausschlussIcon;
+    }
+
+    /***
+     * Ganz dreist geklaut.
+     * http://www.tutorials.de/java/238054-bild-drehen.html#post1241082
+     * 
+     * @param src
+     * @param degrees
+     * @return
+     */
+    private static BufferedImage getRotatedImageOf(BufferedImage src,
+            double degrees) {
+        AffineTransform affineTransform = AffineTransform.getRotateInstance(
+                Math.toRadians(degrees), src.getWidth() / 2,
+                src.getHeight() / 2);
+        BufferedImage rotatedImage = new BufferedImage(src.getWidth(),
+                src.getHeight(), src.getType());
+        Graphics2D g = (Graphics2D) rotatedImage.getGraphics();
+        g.setTransform(affineTransform);
+        g.drawImage(src, 0, 0, null);
+        return rotatedImage;
     }
 
 }

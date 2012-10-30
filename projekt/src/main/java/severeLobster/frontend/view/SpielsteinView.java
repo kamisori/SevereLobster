@@ -22,7 +22,7 @@ import severeLobster.frontend.controller.SpielfeldController;
  */
 public class SpielsteinView extends JLabel {
 
-    private static final IconFactory ICON_FACTORY = SimpleIconFactory
+    private static final IconFactory ICON_FACTORY = SimpleDynamicallyResizingIconFactory
             .getInstance();
     private final int x;
     private final int y;

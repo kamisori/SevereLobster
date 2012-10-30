@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -17,7 +16,7 @@ import javax.swing.ImageIcon;
  * @author Lutz Kleiber
  * 
  */
-public class DynamischSkalierendesIcon implements Icon {
+public class DynamischSkalierendesIcon extends ImageIcon {
 
     private final ImageIcon sourceIcon;
     /** Aendert sich je nach Ausmassen der Zielkomponente: */
@@ -58,7 +57,7 @@ public class DynamischSkalierendesIcon implements Icon {
          * skalieren:
          */
         if (!groesseIstSchonIdentisch) {
-            System.out.println("ImageIcon neu skalieren");
+            // System.out.println("ImageIcon neu skalieren");
             /*
              * x und y fuer neue Groesse anpassen, da das Icon sonst nach dem
              * ersten Skalieren verschoben gezeichnet wird. x und y muessen um
