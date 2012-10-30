@@ -1,9 +1,9 @@
 package severeLobster.frontend.controller;
 
-import java.util.ArrayList;
-import java.util.Stack;
-
 import infrastructure.constants.enums.SpielmodusEnumeration;
+
+import java.util.List;
+import java.util.Stack;
 
 import severeLobster.backend.command.Aktion;
 import severeLobster.backend.command.PrimaerAktion;
@@ -29,7 +29,6 @@ public class SpielfeldController {
 
     private final SpielfeldView spielfeldView;
     private final SternenSpielApplicationBackend backend;
-    private Spielfeld currentSpielfeld;
     private Stack<Aktion> spielZuege;
     private Stack<Integer> trackingPunkte;
     private int letzterFehlerfreierSpielzug;
@@ -38,16 +37,11 @@ public class SpielfeldController {
             SternenSpielApplicationBackend applicationBackend) {
         this.spielfeldView = spielfeldView;
         this.backend = applicationBackend;
-        this.currentSpielfeld = backend.getSpiel().getSpielfeld();
         spielfeldView.setSpielfeldController(this);
         backend.addApplicationBackendListener(new InnerSternenSpielBackendListener());
         spielZuege = new Stack<Aktion>();
         trackingPunkte = new Stack<Integer>();
         letzterFehlerfreierSpielzug = 0;
-    }
-
-    public Spielfeld getSpielfeld() {
-        return this.currentSpielfeld;
     }
 
     public SpielmodusEnumeration getSpielmodus() {
@@ -56,40 +50,45 @@ public class SpielfeldController {
 
     public void setSpielstein(Spielstein spielstein, int x, int y) {
         PrimaerAktion spielZug = new PrimaerAktion(backend.getSpiel());
-        if(!spielZug.execute(x, y, spielstein)) {
+        if (!spielZug.execute(x, y, spielstein)) {
             letzterFehlerfreierSpielzug = spielZuege.size();
         }
         spielZuege.push(spielZug);
     }
-    
+
     public void setzeTrackingPunkt() {
         trackingPunkte.push(spielZuege.size());
     }
-    
+
     private void nimmSpielzugZurueck() {
         spielZuege.pop().undo();
     }
-    
+
     public void zurueckZumFehler() {
-        while(spielZuege.size() > letzterFehlerfreierSpielzug) {
+        while (spielZuege.size() > letzterFehlerfreierSpielzug) {
             nimmSpielzugZurueck();
         }
     }
-    
+
     public void zurueckZumLetztenTrackingPunkt() {
         int trackingPunkt = trackingPunkte.pop();
-        while(spielZuege.size() > trackingPunkt) {
+        while (spielZuege.size() > trackingPunkt) {
             nimmSpielzugZurueck();
         }
     }
 
-    private void changeDisplayedSpielfeldTo(Spielfeld newSpielfeld) {
-        if (null == newSpielfeld) {
-            throw new NullPointerException("Spielfeld ist null");
-        }
+    public Spielstein getSpielstein(int x, int y) {
+        return backend.getSpielstein(x, y);
+    }
 
-        final int laenge = newSpielfeld.getHoehe();
-        final int breite = newSpielfeld.getBreite();
+    public List<? extends Spielstein> listAvailableStates(int x, int y) {
+        return backend.listAvailableStates(x, y);
+    }
+
+    private void refreshDisplayedSpielfeldCompletely() {
+
+        final int laenge = backend.getSpielfeldHoehe();
+        final int breite = backend.getSpielfeldBreite();
 
         spielfeldView.setSpielfeldAbmessungen(breite, laenge);
 
@@ -98,7 +97,8 @@ public class SpielfeldController {
         // Erstelle oberen Balken fuer Anzahl der Pfeile in den Spalten:
         for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
 
-            int anzahlSterne = newSpielfeld.countSterneSpalte(breiteIndex);
+            int anzahlSterne = backend.getCountSterneSpale(breiteIndex);
+
             spielfeldView.getSpaltenPfeilAnzahlView(breiteIndex).setText(
                     String.valueOf(anzahlSterne));
         }
@@ -110,14 +110,13 @@ public class SpielfeldController {
             for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
                 // Am Anfang jeder Zeile einen PfeilAnzahlView einstellen:
                 if (0 == breiteIndex) {
-                    int anzahlSterne = newSpielfeld
-                            .countSterneZeile(laengeIndex);
+                    int anzahlSterne = backend.getCountSterneZeile(laengeIndex);
+
                     spielfeldView.getReihenPfeilAnzahlView(laengeIndex)
                             .setText(String.valueOf(anzahlSterne));
                 }
                 /** Hole naechsten Spielstein */
-                spielstein = newSpielfeld.getSpielstein(breiteIndex,
-                        laengeIndex);
+                spielstein = backend.getSpielstein(breiteIndex, laengeIndex);
                 /** Setze neue Ansichtskomponente fuer diesen Spielstein */
                 spielfeldView.setDisplayedSpielstein(breiteIndex, laengeIndex,
                         spielstein);
@@ -133,9 +132,7 @@ public class SpielfeldController {
         public void spielmodusChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, SpielmodusEnumeration newSpielmodus) {
-            Spielfeld newSpielfeld = spiel.getSpielfeld();
-            currentSpielfeld = newSpielfeld;
-            changeDisplayedSpielfeldTo(currentSpielfeld);
+            refreshDisplayedSpielfeldCompletely();
         }
 
         @Override
@@ -143,15 +140,16 @@ public class SpielfeldController {
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, Spielfeld spielfeld, int x, int y,
                 Spielstein newStein) {
-            // TEMP: Zeichne immer alles neu, damit Sternanzahlen oben und links
-            // immer aktuell sind.
-            if (currentSpielfeld == spielfeld) {
-                // spielfeldView.setDisplayedSpielstein(x, y, newStein);
-            } else {
-                currentSpielfeld = spielfeld;
-
-            }
-            changeDisplayedSpielfeldTo(currentSpielfeld);
+            // // TEMP: Zeichne immer alles neu, damit Sternanzahlen oben und
+            // links
+            // // immer aktuell sind.
+            // if (currentSpielfeld == spielfeld) {
+            // // spielfeldView.setDisplayedSpielstein(x, y, newStein);
+            // } else {
+            // currentSpielfeld = spielfeld;
+            //
+            // }
+            refreshDisplayedSpielfeldCompletely();
 
         }
 
@@ -159,21 +157,14 @@ public class SpielfeldController {
         public void spielfeldChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, Spielfeld newSpielfeld) {
-            currentSpielfeld = newSpielfeld;
-            changeDisplayedSpielfeldTo(currentSpielfeld);
-
+            refreshDisplayedSpielfeldCompletely();
         }
 
         @Override
         public void spielChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel) {
-            if (null != spiel) {
-                final Spielfeld newSpielfeld = spiel.getSpielfeld();
-                currentSpielfeld = newSpielfeld;
-                changeDisplayedSpielfeldTo(currentSpielfeld);
-            }
-
+            refreshDisplayedSpielfeldCompletely();
         }
 
     }

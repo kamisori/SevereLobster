@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.EventListenerList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
@@ -31,6 +32,66 @@ public class SternenSpielApplicationBackend {
     public Spiel getSpiel() {
         return this.currentlyPlayedSpiel;
     }
+
+    /**
+     * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
+     * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
+     * 
+     * 
+     * ANFANG
+     * 
+     */
+
+    /***
+     * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
+     * wie: Spielfeld.setSpielstein().
+     * 
+     * @param x
+     * @param y
+     * @param spielstein
+     */
+    public void setSpielstein(final int x, final int y,
+            final Spielstein spielstein) {
+        getSpiel().getSpielfeld().setSpielstein(x, y, spielstein);
+    }
+
+    /***
+     * Gibt vom aktuellen Spielfeld den Spielstein an der Stelle.
+     * 
+     * @param x
+     * @param y
+     */
+    public Spielstein getSpielstein(final int x, final int y) {
+        return getSpiel().getSpielfeld().getSpielstein(x, y);
+    }
+
+    public int getSpielfeldBreite() {
+        return getSpiel().getSpielfeld().getBreite();
+    }
+
+    public int getSpielfeldHoehe() {
+        return getSpiel().getSpielfeld().getHoehe();
+    }
+
+    public int getCountSterneSpale(final int x) {
+        return getSpiel().getSpielfeld().countSterneSpalte(x);
+    }
+
+    public int getCountSterneZeile(final int y) {
+        return getSpiel().getSpielfeld().countSterneZeile(y);
+    }
+
+    public List<? extends Spielstein> listAvailableStates(int x, int y) {
+        return getSpiel().getSpielfeld().listAvailableStates(x, y);
+    }
+
+    /**
+     * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
+     * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
+     * 
+     * ENDE
+     * 
+     */
 
     public void startNewSpielFrom(final String spielname)
             throws FileNotFoundException, IOException {
@@ -178,4 +239,5 @@ public class SternenSpielApplicationBackend {
         }
 
     }
+
 }
