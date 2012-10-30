@@ -57,7 +57,6 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
         String changeName = changeEvent.getPropertyName();
         if (changeName.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
             File file = (File) changeEvent.getNewValue();
-            SpielfeldView spielfeldView = null;
             if (file != null) {
                 try {
                     spiel = Spiel
@@ -67,14 +66,13 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
                                             "."
                                                     + GlobaleKonstanten.SPIELSTAND_DATEITYP,
                                             ""), SpielmodusEnumeration.SPIELEN);
-                     spielfeldView = new SpielfeldView(
+                    SpielfeldView spielfeldView = new SpielfeldView(
                             spiel.getSpielfeld());
                     spielfeldView.setSize(200, 200);
                     BufferedImage bufferedImage = GraphicUtils
                             .createComponentShot(spielfeldView);
                     bufferedImage = GraphicUtils.getScaledIconImage(
                             bufferedImage, 100, 100);
-
                     spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
                 } catch (IOException e) {
                     System.out.println("Ungueltiges Spielformat");
@@ -88,7 +86,7 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
             } else {
                 schwierigkeitsgradTitle.setText("");
                 schwierigkeitsgradValue.setText("");
-                spielfeldPreviewLabel.setIcon(new ImageIcon());
+                spielfeldPreviewLabel.setIcon(null);
             }
         }
     }

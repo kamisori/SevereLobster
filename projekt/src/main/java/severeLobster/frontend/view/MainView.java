@@ -21,7 +21,6 @@ public class MainView extends JPanel {
     }
 
     private final SternenSpielApplicationBackend backend;
-    private final SpielfeldController spielfeldController;
 
     public MainView() throws IOException {
 
@@ -37,7 +36,7 @@ public class MainView extends JPanel {
          * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
          */
         final SpielfeldView view = new SpielfeldView();
-        spielfeldController = new SpielfeldController(view, backend);
+        new SpielfeldController(view, backend);
 
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
         new SpielmodusController(spielmodusView, backend);
@@ -75,7 +74,7 @@ public class MainView extends JPanel {
          * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
          */
         final SpielfeldView view = new SpielfeldView();
-        spielfeldController = new SpielfeldController(view, backend);
+        new SpielfeldController(view, backend);
 
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
 
@@ -108,9 +107,5 @@ public class MainView extends JPanel {
 
     public Spiel getCurrentSpiel() {
         return backend.getSpiel();
-    }
-
-    public SpielfeldController getSpielfeldController() {
-        return spielfeldController;
     }
 }

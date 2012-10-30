@@ -4,6 +4,7 @@ import infrastructure.constants.enums.SpielmodusEnumeration;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.EventListenerList;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -93,22 +94,20 @@ public class SternenSpielApplicationBackend {
      */
 
     public void startNewSpielFrom(final String spielname)
-            throws IOException {
+            throws FileNotFoundException, IOException {
         final Spiel newGame = Spiel.newGame(spielname);
         setSpiel(newGame);
-        fireSpielmodusChanged(newGame, SpielmodusEnumeration.SPIELEN);
     }
 
     public void loadSpielFrom(final String spielname)
-            throws IOException {
+            throws FileNotFoundException, IOException {
         final Spiel loadedSpiel = Spiel.load(spielname,
                 SpielmodusEnumeration.SPIELEN);
         setSpiel(loadedSpiel);
-        fireSpielfeldChanged(loadedSpiel, loadedSpiel.getSpielfeld());
     }
 
     public void saveCurrentSpielTo(final String spielname)
-            throws IOException {
+            throws FileNotFoundException, IOException {
         getSpiel().save(spielname);
     }
 
@@ -209,6 +208,17 @@ public class SternenSpielApplicationBackend {
         public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
                 int y, Spielstein newStein) {
             fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
+            if (spiel.hasErrors()) {
+                JOptionPane.showMessageDialog(null,
+                        "Sie haben einen Fehler gemacht! "
+                                + " Das Spiel wird neu gestartet.", "Fehler!",
+                        JOptionPane.ERROR_MESSAGE);
+                try {
+                    startNewSpielFrom("Standardspiel01");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             if (spiel.isSolved()) {
                 JOptionPane.showMessageDialog(null,
                         "Sie haben das Puzzle gelöst! "
