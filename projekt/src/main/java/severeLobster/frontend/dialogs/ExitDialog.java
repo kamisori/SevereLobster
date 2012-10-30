@@ -24,6 +24,4 @@ public class ExitDialog extends JOptionPane {
                 resourceManager.getText("exit.application.title"),
                 DEFAULT_OPTION, QUESTION_MESSAGE, null, options, null);
     }
-
-
 }

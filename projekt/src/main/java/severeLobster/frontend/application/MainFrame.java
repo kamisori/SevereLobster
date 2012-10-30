@@ -11,6 +11,7 @@ import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
 import severeLobster.backend.spiel.Spiel;
+import severeLobster.frontend.dialogs.ExitDialog;
 import severeLobster.frontend.dialogs.LoadGamePreview;
 import severeLobster.frontend.dialogs.NewGamePreview;
 import severeLobster.frontend.view.MainView;
@@ -21,7 +22,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -29,11 +33,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 
 /**
  * Initialisiert Grafiken
- * 
+ *
  * @author Jean-Fabian Wenisch, Lars Schlegelmilch
  */
 
@@ -53,7 +60,7 @@ public class MainFrame extends JMenuBar implements Runnable {
 
     /**
      * Initialisiert das Menue
-     * 
+     *
      * @author Jean-Fabian Wenisch
      * @version 1.0 06.12.2010
      */
@@ -104,11 +111,13 @@ public class MainFrame extends JMenuBar implements Runnable {
                     int result = newGameChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         try {
-                            mainPanel = new MainView(
-                                    ((NewGamePreview) newGameChooser
-                                            .getAccessory()).getSpiel());
-                            frame.remove(mainPanel);
-                            frame.add(mainPanel);
+
+                            mainPanel.getBackend().startNewSpielFrom(newGameChooser.getSelectedFile()
+                                    .getName()
+                                    .replace(
+                                            "."
+                                                    + GlobaleKonstanten.PUZZLE_DATEITYP,
+                                            ""));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -119,11 +128,12 @@ public class MainFrame extends JMenuBar implements Runnable {
                     int result = loadGameChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
                         try {
-                            mainPanel = new MainView(
-                                    ((LoadGamePreview) loadGameChooser
-                                            .getAccessory()).getSpiel());
-                            frame.remove(mainPanel);
-                            frame.add(mainPanel);
+                            mainPanel.getBackend().loadSpielFrom(loadGameChooser.getSelectedFile()
+                                    .getName()
+                                    .replace(
+                                            "."
+                                                    + GlobaleKonstanten.SPIELSTAND_DATEITYP,
+                                            ""));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -132,15 +142,24 @@ public class MainFrame extends JMenuBar implements Runnable {
                 if (event.getActionCommand().equals(
                         resourceManager.getText("save.text"))) {
                     Spiel spiel = mainPanel.getCurrentSpiel();
-                    if (spiel.getSaveName() == null) {
-                        spielSpeichernUnter();
-                    } else {
-                        spiel.save(spiel.getSaveName());
+                    try {
+                        if (spiel.getSaveName() == null) {
+                            spielSpeichernUnter();
+                        } else {
+                            mainPanel.getBackend().saveCurrentSpielTo(spiel.getSaveName());
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("save.as.text"))) {
-                    spielSpeichernUnter();
+                    try {
+                        spielSpeichernUnter();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("exit.text"))) {
@@ -172,9 +191,10 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("check.puzzle"))) {
-                    JOptionPane.showMessageDialog(frame,
+
+                /*    JOptionPane.showMessageDialog(frame,
                             "Diese Funktion ist zurzeit nicht verfügbar!",
-                            "Under Construction", JOptionPane.WARNING_MESSAGE);
+                            "Under Construction", JOptionPane.WARNING_MESSAGE); */
                 }
             }
         };
@@ -252,23 +272,21 @@ public class MainFrame extends JMenuBar implements Runnable {
      * Oeffnet den FileChooser, um das Spiel unter einem gewissen Namen
      * abzuspeichern
      */
-    private void spielSpeichernUnter() {
+    private void spielSpeichernUnter() throws IOException {
         int result = saveGameChooser.showSaveDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             Spiel spiel = mainPanel.getCurrentSpiel();
             String filename = saveGameChooser.getSelectedFile().getName()
                     .replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
             spiel.setSaveName(filename);
-            mainPanel.getCurrentSpiel().save(filename);
+            mainPanel.getBackend().saveCurrentSpielTo(filename);
+            //mainPanel.getCurrentSpiel().save(filename);
         }
     }
 
     private void spielBeenden() {
-        int result = JOptionPane.showInternalConfirmDialog(this,
-                resourceManager.getText("exit.application.question"),
-                resourceManager.getText("exit.application.title"),
-                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        if (result == JOptionPane.YES_OPTION) {
+        int result = ExitDialog.show(frame);
+        if (ExitDialog.beenden_option.equals(ExitDialog.options[result])) {
             frame.dispose();
         }
     }
@@ -276,61 +294,75 @@ public class MainFrame extends JMenuBar implements Runnable {
     /**
      * Frame wird initialisiert & Hauptpanel wird hinzugefuegt Ausserdem werden
      * Mouselistener hinzugefuegt mit denen sich das Frame verschieben laesst
-     * 
+     *
      * @author fwenisch
      * @version 1.0 08.10.2012
      */
     private void init() {
-        // Spiel laden Dialog
-        loadGameChooser = new JFileChooser(
-                GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
-        loadGameChooser.setFileSystemView(new SpielView());
-        loadGameChooser.setAcceptAllFileFilterUsed(false);
-        loadGameChooser.setFileFilter(new FileNameExtensionFilter(
-                resourceManager.getText("load.dialog.extension.description"),
-                GlobaleKonstanten.SPIELSTAND_DATEITYP));
-        loadGameChooser.setApproveButtonText(resourceManager
-                .getText("load.dialog.text"));
-        loadGameChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        loadGameChooser.setDialogTitle(resourceManager
-                .getText("load.dialog.title"));
-        loadGameChooser.setMultiSelectionEnabled(false);
+        loadGameChooser = initFileChooser(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR,
+                new SpielView(),
+                new FileNameExtensionFilter(
+                        resourceManager.getText("load.dialog.extension.description"),
+                        GlobaleKonstanten.SPIELSTAND_DATEITYP),
+                resourceManager
+                        .getText("load.dialog.text"),
+                resourceManager
+                        .getText("load.dialog.title")
+                );
         loadGameChooser.setAccessory(new LoadGamePreview(loadGameChooser));
-        // Neues Spiel Dialog
-        newGameChooser = new JFileChooser(
-                GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR);
-        newGameChooser.setFileSystemView(new PuzzleView());
-        newGameChooser.setAcceptAllFileFilterUsed(false);
-        newGameChooser.setFileFilter(new FileNameExtensionFilter(
-                resourceManager.getText("new.dialog.extension.description"),
-                GlobaleKonstanten.PUZZLE_DATEITYP));
-        newGameChooser.setApproveButtonText(resourceManager
-                .getText("new.dialog.text"));
-        newGameChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        newGameChooser.setDialogTitle(resourceManager
-                .getText("new.dialog.title"));
-        newGameChooser.setMultiSelectionEnabled(false);
+
+        newGameChooser = initFileChooser(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
+                new PuzzleView(),
+                new FileNameExtensionFilter(
+                        resourceManager.getText("new.dialog.extension.description"),
+                        GlobaleKonstanten.PUZZLE_DATEITYP),
+                        resourceManager
+                                .getText("new.dialog.text"),
+                        resourceManager
+                                .getText("new.dialog.title")
+                );
         newGameChooser.setAccessory(new NewGamePreview(newGameChooser));
-        // Save Spiel Dialog
-        saveGameChooser = new JFileChooser(
-                GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR);
-        saveGameChooser.setFileSystemView(new SpielView());
-        saveGameChooser.setAcceptAllFileFilterUsed(false);
-        saveGameChooser.setFileFilter(new FileNameExtensionFilter(
-                resourceManager.getText("save.dialog.extension.description"),
-                GlobaleKonstanten.SPIELSTAND_DATEITYP));
-        saveGameChooser.setApproveButtonText(resourceManager
-                .getText("save.dialog.text"));
-        saveGameChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        saveGameChooser.setDialogTitle(resourceManager
-                .getText("save.dialog.title"));
-        saveGameChooser.setMultiSelectionEnabled(false);
+
+        saveGameChooser = initFileChooser(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR,
+                new SpielView(),
+                new FileNameExtensionFilter(
+                        resourceManager.getText("save.dialog.extension.description"),
+                        GlobaleKonstanten.SPIELSTAND_DATEITYP),
+                resourceManager
+                        .getText("save.dialog.text"),
+                resourceManager
+                        .getText("save.dialog.title"));
+
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                spielBeenden();
+            }
+        });
+    }
+
+    private JFileChooser initFileChooser(File defaultDir,
+                                         FileSystemView fileSystemView,
+                                         FileFilter fileFilter,
+                                         String approveButtonText,
+                                         String dialogTitle) {
+        JFileChooser fileChooser = new JFileChooser(
+                defaultDir);
+        fileChooser.setFileSystemView(fileSystemView);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileFilter(fileFilter);
+        fileChooser.setApproveButtonText(approveButtonText);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setDialogTitle(dialogTitle);
+        fileChooser.setMultiSelectionEnabled(false);
+        return fileChooser;
     }
 
     /**
      * Beim starten des Hauptthreads wird die Methode <init()> Aufgerufen in der
      * die Gesamte GUI aufgebaut werden muss
-     * 
+     *
      * @author fwenisch
      * @version 08.10.2012
      */
