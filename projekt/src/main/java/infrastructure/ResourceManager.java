@@ -1,6 +1,9 @@
 package infrastructure;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -126,6 +129,22 @@ public class ResourceManager {
     public ImageIcon getImageIcon(String iconName) {
         return new ImageIcon(getClass().getResource(
                 "graphics/icons/" + iconName));
+    }
+
+    /**
+     * Gibt das BufferedImage anhand des iconnamens aus dem Package
+     * src/main/resources/infrastructure/graphics/icons zurueck
+     * 
+     * @param imageName
+     *            Dateiname
+     * @return Icon Bild als BufferedImage
+     * @throws IOException
+     *             Wenn die Datei nicht gefunden wird.
+     */
+    public BufferedImage getIconAsBufferedImage(String imageName)
+            throws IOException {
+        return ImageIO.read(getClass().getResource(
+                "graphics/icons/" + imageName));
     }
 
     /**

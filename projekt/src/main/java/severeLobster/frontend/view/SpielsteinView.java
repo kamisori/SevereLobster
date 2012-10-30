@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 
 import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.KeinStein;
@@ -23,7 +22,8 @@ import severeLobster.frontend.controller.SpielfeldController;
  */
 public class SpielsteinView extends JLabel {
 
-    private static final IconFactory ICON_FACTORY = SimpleDynamicallyResizingIconFactory.getInstance();
+    private static final IconFactory ICON_FACTORY = SimpleDynamicallyResizingIconFactory
+            .getInstance();
     private final int x;
     private final int y;
     private final SpielfeldController controller;
@@ -69,8 +69,8 @@ public class SpielsteinView extends JLabel {
                 return;
             }
             if (isRightClick(mouseEvent)) {
-                new PopupMenuForSpielsteinChoice(controller, controller
-                        .getSpielfeld().listAvailableStates(x, y), x, y).show(
+                new PopupMenuForSpielsteinChoice(controller,
+                        controller.listAvailableStates(x, y), x, y).show(
                         mouseEvent.getComponent(), mouseEvent.getX(),
                         mouseEvent.getY());
 
@@ -100,8 +100,7 @@ public class SpielsteinView extends JLabel {
     }
 
     private void guessStern() {
-        if (controller.getSpielfeld().getSpielstein(x, y)
-                .equals(Stern.getInstance())) {
+        if (controller.getSpielstein(x, y).equals(Stern.getInstance())) {
             controller.setSpielstein(KeinStein.getInstance(), x, y);
         } else {
             controller.setSpielstein(Stern.getInstance(), x, y);
@@ -110,8 +109,7 @@ public class SpielsteinView extends JLabel {
     }
 
     private void guessAusschluss() {
-        if (controller.getSpielfeld().getSpielstein(x, y)
-                .equals(Ausschluss.getInstance())) {
+        if (controller.getSpielstein(x, y).equals(Ausschluss.getInstance())) {
             controller.setSpielstein(KeinStein.getInstance(), x, y);
         } else {
             controller.setSpielstein(Ausschluss.getInstance(), x, y);
