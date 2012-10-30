@@ -1,10 +1,6 @@
 package severeLobster.frontend.controller;
 
-import java.util.ArrayList;
-import java.util.Stack;
-
 import infrastructure.constants.enums.SpielmodusEnumeration;
-
 import severeLobster.backend.command.Aktion;
 import severeLobster.backend.command.PrimaerAktion;
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
@@ -13,6 +9,8 @@ import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.view.SpielfeldView;
+
+import java.util.Stack;
 
 /**
  * Steuerung fuer SpielfeldView. Verbindet SternenSpielApplicationBackend und
@@ -56,10 +54,10 @@ public class SpielfeldController {
 
     public void setSpielstein(Spielstein spielstein, int x, int y) {
         PrimaerAktion spielZug = new PrimaerAktion(backend.getSpiel());
+        spielZuege.push(spielZug);
         if(!spielZug.execute(x, y, spielstein)) {
             letzterFehlerfreierSpielzug = spielZuege.size();
         }
-        spielZuege.push(spielZug);
     }
     
     public void setzeTrackingPunkt() {
@@ -70,7 +68,7 @@ public class SpielfeldController {
         spielZuege.pop().undo();
     }
     
-    public void zurueckZumFehler() {
+    public void zurueckZumLetzenFehlerfreienSpielzug() {
         while(spielZuege.size() > letzterFehlerfreierSpielzug) {
             nimmSpielzugZurueck();
         }

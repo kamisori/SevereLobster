@@ -1,17 +1,18 @@
 package severeLobster.frontend.view;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielfeldController;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen.
@@ -40,7 +41,6 @@ public class SpielfeldView extends JPanel {
      */
     @Deprecated
     public SpielfeldView(final Spielfeld newSpielfeld) {
-
         if (null == newSpielfeld) {
             throw new NullPointerException("Spielfeld ist null");
         }
@@ -80,11 +80,18 @@ public class SpielfeldView extends JPanel {
 
             }
         }
-
     }
 
-    public void setSpielfeldAbmessungen(int breite, int laenge) {
+    public void setSpielfeldAbmessungen(final int breite, final int laenge) {
+        run(new Runnable() {
+            @Override
+            public void run() {
+                setSpielfeldAbmessungenIntern(breite, laenge);
+            }
+        });
+    }
 
+    public void setSpielfeldAbmessungenIntern(int breite, int laenge) {
         removeAll();
         revalidate();
 
@@ -169,8 +176,33 @@ public class SpielfeldView extends JPanel {
         return reihenPfeilAnzahlenViews[y];
     }
 
-    public void setDisplayedSpielstein(int x, int y, Spielstein spielstein) {
+    public void setDisplayedSpielstein(final int x, final int y, final Spielstein spielstein) {
 
+        run(new Runnable() {
+            @Override
+            public void run() {
+            setDisplayedSpielsteinIntern(x,y,spielstein);
+
+            }
+        });
+    }
+
+    private void run(Runnable runnable)
+    {
+        if(SwingUtilities.isEventDispatchThread()) {
+            runnable.run();
+        }
+        else {
+            try {
+                SwingUtilities.invokeAndWait(runnable);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void setDisplayedSpielsteinIntern(int x, int y, Spielstein spielstein) {
         final SpielsteinView[][] currentViews = spielsteinViews;
         if (null != currentViews) {
             if (null == spielstein) {

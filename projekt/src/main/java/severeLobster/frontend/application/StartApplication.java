@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.Locale;
 
 /**
  * 
@@ -46,13 +45,13 @@ public class StartApplication extends JFrame implements Runnable {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         } catch (InstantiationException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         }
 
         Thread SC_MAIN = null;
