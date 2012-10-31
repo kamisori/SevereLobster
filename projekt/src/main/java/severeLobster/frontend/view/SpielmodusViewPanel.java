@@ -12,14 +12,14 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import severeLobster.frontend.controller.ISpielmodusView;
-import severeLobster.frontend.controller.SpielmodusController;
+import severeLobster.frontend.controller.SpielmodusViewController;
 
 public class SpielmodusViewPanel extends JPanel implements ISpielmodusView {
 
     private final JComboBox spielmodusChoiceComboBox;
     private final InnerComboBoxModelForSpielmodusChoice innerComboBoxModel;
 
-    private SpielmodusController controller;
+    private SpielmodusViewController controller;
 
     public SpielmodusViewPanel() {
         this.innerComboBoxModel = new InnerComboBoxModelForSpielmodusChoice();
@@ -34,7 +34,7 @@ public class SpielmodusViewPanel extends JPanel implements ISpielmodusView {
 
     @Override
     public void setSpielmodusController(
-            SpielmodusController spielmodusController) {
+            SpielmodusViewController spielmodusController) {
         this.controller = spielmodusController;
         final SpielmodusEnumeration currentSpielmodus = controller
                 .getSelectionSpielmodus();

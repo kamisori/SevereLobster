@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
-import severeLobster.frontend.controller.SpielfeldController;
+import severeLobster.frontend.controller.SpielfeldViewController;
 
 /**
  * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen.
@@ -21,7 +21,7 @@ import severeLobster.frontend.controller.SpielfeldController;
 public class SpielfeldView extends JPanel {
 
     private SpielsteinView[][] spielsteinViews;
-    private SpielfeldController spielfeldController;
+    private SpielfeldViewController spielfeldController;
     // Oberer Balken - waagerecht
     private JLabel[] spaltenPfeilAnzahlenViews;
     // Linker Balken - senkrecht
@@ -181,7 +181,7 @@ public class SpielfeldView extends JPanel {
 
     }
 
-    public void setSpielfeldController(SpielfeldController spielfeldController) {
+    public void setSpielfeldController(SpielfeldViewController spielfeldController) {
         this.spielfeldController = spielfeldController;
 
     }

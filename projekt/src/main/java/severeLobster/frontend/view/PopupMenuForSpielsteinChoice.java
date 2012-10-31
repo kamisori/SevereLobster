@@ -8,7 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import severeLobster.backend.spiel.Spielstein;
-import severeLobster.frontend.controller.SpielfeldController;
+import severeLobster.frontend.controller.SpielfeldViewController;
 
 /**
  * TODO An neue Architektur anpassen. Popup Maus Menu zum Editieren des
@@ -19,7 +19,7 @@ import severeLobster.frontend.controller.SpielfeldController;
  */
 public class PopupMenuForSpielsteinChoice extends JPopupMenu {
 
-    public PopupMenuForSpielsteinChoice(final SpielfeldController controller,
+    public PopupMenuForSpielsteinChoice(final SpielfeldViewController controller,
             final List<? extends Spielstein> listAvailableStates, final int x,
             final int y) {
 

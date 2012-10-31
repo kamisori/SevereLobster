@@ -5,7 +5,7 @@ import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.Stern;
-import severeLobster.frontend.controller.SpielfeldController;
+import severeLobster.frontend.controller.SpielfeldViewController;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -24,10 +24,10 @@ public class SpielsteinView extends JLabel {
             .getInstance();
     private final int x;
     private final int y;
-    private final SpielfeldController controller;
+    private final SpielfeldViewController controller;
 
     public SpielsteinView(Spielstein spielstein, int x, int y,
-            SpielfeldController controller) {
+            SpielfeldViewController controller) {
         super(ICON_FACTORY.getIconForState(spielstein), JLabel.CENTER);
         this.x = x;
         this.y = y;
