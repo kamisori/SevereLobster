@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -23,6 +24,7 @@ public class SpielinfoView extends JPanel {
         JPanel trackingView  = new TrackingControllView();
         trackingView.setBounds(0, 365, 200, 131);
         add(trackingView,BorderLayout.SOUTH);
+        setPreferredSize(new Dimension(200, 500));
         setVisible(true);
     }
 

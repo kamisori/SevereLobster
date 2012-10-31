@@ -73,6 +73,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         mainPanel = new MainView();
         frame = new JFrame("Sternenhimmel - Gruppe 3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setIconImage(getToolkit().getImage(resourceManager.getGraphicURL("icons/SternIcon128.png")));
         frame.setSize(800, 600);
         // frame.setUndecorated(true);
         frame.setLocationRelativeTo(null);

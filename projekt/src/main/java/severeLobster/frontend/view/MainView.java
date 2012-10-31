@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -25,7 +26,8 @@ public class MainView extends JPanel {
 
     private final SternenSpielApplicationBackend backend;
 
-    public MainView() throws IOException {
+    public MainView() throws IOException
+    {
 
 
         // JPanel spielfeld = new SpielfeldView_fwenisch();
@@ -40,27 +42,15 @@ public class MainView extends JPanel {
          */
         final SpielfeldView view = new SpielfeldView();
         new SpielfeldViewController(view, backend);
-
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
         new SpielmodusViewController(spielmodusView, backend);
-
         JPanel spielfeld = new JPanel(false);
-        spielfeld.setOpaque(false);
+    //    spielfeld.setOpaque(false);
         spielfeld.setLayout(new BoxLayout(spielfeld, BoxLayout.Y_AXIS));
         spielfeld.add(view);
-        // spielfeld.add(spielmodusView);
-
-        /**
-         * Ende Test
-         */
-
         spielfeld.setPreferredSize(new Dimension(500, 500));
-        JPanel spielinfo = new SpielinfoView();
-        //Alte Version: ohne TrackingView
-        //spielinfo.setBounds(550, 50, 200, 500);
-        //Mit tracking View:
-        spielinfo.setPreferredSize(new Dimension(200, 500));
-       
+        spielfeld.setBackground(Color.GRAY);
+        JPanel spielinfo = new SpielinfoView();     
         
         add(spielfeld,BorderLayout.CENTER);
         add(spielinfo,BorderLayout.EAST);
