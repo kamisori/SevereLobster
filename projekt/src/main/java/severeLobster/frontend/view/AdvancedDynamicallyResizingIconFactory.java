@@ -60,7 +60,34 @@ public class AdvancedDynamicallyResizingIconFactory extends
         pfeilNorthWestIcon = new DynamischSkalierendesIcon(new ImageIcon(
                 getRotatedImageOf(pfeilNorthEastBuffImage, 270)), defaultWidth,
                 defaultHeight);
-
+        /**
+         * TEMP, bis andere Icons fertig sind:
+         */
+        final BufferedImage sternGrossBuffImage;
+        final BufferedImage ausschlussGrossBuffImage;
+        final BufferedImage blankGrossBuffImage;
+        try {
+            sternGrossBuffImage = ResourceManager.get().getIconAsBufferedImage(
+                    "SternIcon128.png");
+            ausschlussGrossBuffImage = ResourceManager.get()
+                    .getIconAsBufferedImage("AusschlussIcon128.png");
+            blankGrossBuffImage = ResourceManager.get().getIconAsBufferedImage(
+                    "BlankIcon128.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Wenn das fehlschlaegt ist was kaputt
+            throw new IllegalStateException(
+                    "IconFactory kann nicht alle Bilder laden");
+        }
+        sternIcon = new DynamischSkalierendesIcon(new ImageIcon(
+                sternGrossBuffImage), defaultWidth, defaultHeight);
+        ausschlussIcon = new DynamischSkalierendesIcon(new ImageIcon(
+                ausschlussGrossBuffImage), defaultWidth, defaultHeight);
+        blankIcon = new DynamischSkalierendesIcon(new ImageIcon(
+                blankGrossBuffImage), defaultWidth, defaultHeight);
+        /**
+         * ENDE TEMP
+         */
     }
 
     public static AdvancedDynamicallyResizingIconFactory getInstance() {
