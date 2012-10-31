@@ -89,7 +89,7 @@ public class StartApplication extends JFrame implements Runnable {
         g.setFont(myFont);
         g.setColor(Color.YELLOW);
         g.drawString(
-                "Sternenkonstellation wird für "
+                "Sternenkonstellation wird fuer "
                         + System.getProperty("user.name") + " berechnet...", 5,
                 280);
     }
