@@ -53,9 +53,16 @@ public class MainView extends JPanel {
 
         spielfeld.setBounds(50, 50, 500, 500);
         JPanel spielinfo = new SpielinfoView();
-        spielinfo.setBounds(550, 50, 200, 500);
+        //Alte Version: ohne TrackingView
+        //spielinfo.setBounds(550, 50, 200, 500);
+        //Mit tracking View:
+        spielinfo.setBounds(550, 50, 200, 369);
+        JPanel trackingView  = new TrackingControllView();
+        trackingView.setBounds(550, 419, 200, 131);
+        
         add(spielfeld);
         add(spielinfo);
+        add(trackingView);
         setVisible(true);
     }
 

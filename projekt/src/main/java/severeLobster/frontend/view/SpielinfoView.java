@@ -22,8 +22,19 @@ public class SpielinfoView extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        // Auskommentiert fuer Test von TrackingControllView
+        // Image sImage = getToolkit().getImage(
+        // resourceManager.getGraphicURL("spielinfo.jpg"));
+        /**
+         * Anfang Test von TrackingControllView
+         */
         Image sImage = getToolkit().getImage(
-                resourceManager.getGraphicURL("spielinfo.jpg"));
+                resourceManager.getGraphicURL("spielinfo_untenAbgeschnitten.jpg"));
+
+        /**
+         * Ende Test von TrackingControllView
+         */
+
         g.drawImage(sImage, 0, 0, this);
 
         Font myFont = new Font("Arial", Font.PLAIN, 22);
