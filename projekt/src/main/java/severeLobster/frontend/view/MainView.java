@@ -8,6 +8,9 @@ import severeLobster.frontend.controller.SpielmodusViewController;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
@@ -24,7 +27,7 @@ public class MainView extends JPanel {
 
     public MainView() throws IOException {
 
-        setLayout(null);
+
         // JPanel spielfeld = new SpielfeldView_fwenisch();
         /**
          * Nur zum Testen
@@ -51,18 +54,17 @@ public class MainView extends JPanel {
          * Ende Test
          */
 
-        spielfeld.setBounds(50, 50, 500, 500);
+        spielfeld.setPreferredSize(new Dimension(500, 500));
         JPanel spielinfo = new SpielinfoView();
         //Alte Version: ohne TrackingView
         //spielinfo.setBounds(550, 50, 200, 500);
         //Mit tracking View:
-        spielinfo.setBounds(550, 50, 200, 369);
-        JPanel trackingView  = new TrackingControllView();
-        trackingView.setBounds(550, 419, 200, 131);
+        spielinfo.setPreferredSize(new Dimension(200, 500));
+       
         
-        add(spielfeld);
-        add(spielinfo);
-        add(trackingView);
+        add(spielfeld,BorderLayout.CENTER);
+        add(spielinfo,BorderLayout.EAST);
+    
         setVisible(true);
     }
 

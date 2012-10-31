@@ -20,7 +20,8 @@ public class TrackingControllView extends JPanel {
 
     private TrackingControllViewController currentController;
 
-    public TrackingControllView() {
+    public TrackingControllView() 
+    {
         setBackground(Color.DARK_GRAY);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         // Tracking Punkt Button setzen

@@ -4,6 +4,8 @@ import infrastructure.ResourceManager;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,10 +15,14 @@ public class SpielinfoView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();
 
-    public SpielinfoView() {
+    public SpielinfoView() 
+    {
+    	setLayout(null);
         add(new JLabel("Spielinfo"));
         setBackground(Color.GRAY);
-
+        JPanel trackingView  = new TrackingControllView();
+        trackingView.setBounds(0, 365, 200, 131);
+        add(trackingView,BorderLayout.SOUTH);
         setVisible(true);
     }
 
