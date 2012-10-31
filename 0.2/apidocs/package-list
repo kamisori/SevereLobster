@@ -1,0 +1,13 @@
+infrastructure
+infrastructure.components
+infrastructure.constants
+infrastructure.constants.enums
+infrastructure.exceptions
+infrastructure.graphics
+severeLobster.backend.command
+severeLobster.backend.spiel
+severeLobster.backend.spieler
+severeLobster.frontend.application
+severeLobster.frontend.controller
+severeLobster.frontend.dialogs
+severeLobster.frontend.view
