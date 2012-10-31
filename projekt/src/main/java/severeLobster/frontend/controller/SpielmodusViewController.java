@@ -7,12 +7,12 @@ import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 
-public class SpielmodusController {
+public class SpielmodusViewController {
 
     private final SternenSpielApplicationBackend backend;
     private final ISpielmodusView view;
 
-    public SpielmodusController(final ISpielmodusView spielmodusView,
+    public SpielmodusViewController(final ISpielmodusView spielmodusView,
             final SternenSpielApplicationBackend backend) {
         this.backend = backend;
         this.view = spielmodusView;

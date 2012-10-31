@@ -24,7 +24,7 @@ import java.util.Stack;
  * @author Lutz Kleiber
  * 
  */
-public class SpielfeldController {
+public class SpielfeldViewController {
 
     private final SpielfeldView spielfeldView;
     private final SternenSpielApplicationBackend backend;
@@ -32,7 +32,7 @@ public class SpielfeldController {
     private Stack<Integer> trackingPunkte;
     private int letzterFehlerfreierSpielzug;
 
-    public SpielfeldController(SpielfeldView spielfeldView,
+    public SpielfeldViewController(SpielfeldView spielfeldView,
             SternenSpielApplicationBackend applicationBackend) {
         this.spielfeldView = spielfeldView;
         this.backend = applicationBackend;

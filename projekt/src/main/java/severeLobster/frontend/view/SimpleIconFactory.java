@@ -150,13 +150,20 @@ public class SimpleIconFactory extends IconFactory {
      * @param degrees
      * @return
      */
-    private static BufferedImage getRotatedImageOf(BufferedImage src,
+    protected static BufferedImage getRotatedImageOf(BufferedImage src,
             double degrees) {
         AffineTransform affineTransform = AffineTransform.getRotateInstance(
                 Math.toRadians(degrees), src.getWidth() / 2,
                 src.getHeight() / 2);
+
+        // TODO
+        // Quickfix
+        int imageType = src.getType();
+        if (imageType == 0) {
+            imageType = 6;
+        }
         BufferedImage rotatedImage = new BufferedImage(src.getWidth(),
-                src.getHeight(), src.getType());
+                src.getHeight(), imageType);
         Graphics2D g = (Graphics2D) rotatedImage.getGraphics();
         g.setTransform(affineTransform);
         g.drawImage(src, 0, 0, null);

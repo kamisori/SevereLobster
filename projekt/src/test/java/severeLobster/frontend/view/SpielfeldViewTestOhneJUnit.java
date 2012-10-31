@@ -4,8 +4,8 @@ import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
-import severeLobster.frontend.controller.SpielfeldController;
-import severeLobster.frontend.controller.SpielmodusController;
+import severeLobster.frontend.controller.SpielfeldViewController;
+import severeLobster.frontend.controller.SpielmodusViewController;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
@@ -37,10 +37,10 @@ public class SpielfeldViewTestOhneJUnit {
 
             backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
             final SpielfeldView view = new SpielfeldView();
-            new SpielfeldController(view, backend);
+            new SpielfeldViewController(view, backend);
 
             final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
-            new SpielmodusController(spielmodusView, backend);
+            new SpielmodusViewController(spielmodusView, backend);
 
             final JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

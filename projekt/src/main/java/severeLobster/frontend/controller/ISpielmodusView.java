@@ -4,7 +4,7 @@ import infrastructure.constants.enums.SpielmodusEnumeration;
 
 public interface ISpielmodusView {
 
-    void setSpielmodusController(SpielmodusController spielmodusController);
+    void setSpielmodusController(SpielmodusViewController spielmodusController);
 
     void setDisplayedSpielmodus(SpielmodusEnumeration newSpielmodus);
 

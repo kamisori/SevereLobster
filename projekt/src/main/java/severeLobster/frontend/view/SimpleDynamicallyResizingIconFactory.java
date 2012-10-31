@@ -10,19 +10,33 @@ package severeLobster.frontend.view;
 public class SimpleDynamicallyResizingIconFactory extends SimpleIconFactory {
 
     private static final SimpleDynamicallyResizingIconFactory INSTANCE = new SimpleDynamicallyResizingIconFactory();
+    public static final int DEFAULT_ICON_WIDTH = 24;
+    public static final int DEFAULT_ICON_HEIGHT = 24;
 
     protected SimpleDynamicallyResizingIconFactory() {
-        sternIcon = new DynamischSkalierendesIcon(sternIcon);
-        ausschlussIcon = new DynamischSkalierendesIcon(ausschlussIcon);
-        blankIcon = new DynamischSkalierendesIcon(blankIcon);
-        pfeilSouthIcon = new DynamischSkalierendesIcon(pfeilSouthIcon);
-        pfeilSouthWestIcon = new DynamischSkalierendesIcon(pfeilSouthWestIcon);
-        pfeilWestIcon = new DynamischSkalierendesIcon(pfeilWestIcon);
-        pfeilNorthWestIcon = new DynamischSkalierendesIcon(pfeilNorthWestIcon);
-        pfeilNorthIcon = new DynamischSkalierendesIcon(pfeilNorthIcon);
-        pfeilNorthEastIcon = new DynamischSkalierendesIcon(pfeilNorthEastIcon);
-        pfeilEastIcon = new DynamischSkalierendesIcon(pfeilEastIcon);
-        pfeilSouthEastIcon = new DynamischSkalierendesIcon(pfeilSouthEastIcon);
+
+        sternIcon = new DynamischSkalierendesIcon(sternIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        ausschlussIcon = new DynamischSkalierendesIcon(ausschlussIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        blankIcon = new DynamischSkalierendesIcon(blankIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        pfeilSouthIcon = new DynamischSkalierendesIcon(pfeilSouthIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        pfeilSouthWestIcon = new DynamischSkalierendesIcon(pfeilSouthWestIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        pfeilWestIcon = new DynamischSkalierendesIcon(pfeilWestIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        pfeilNorthWestIcon = new DynamischSkalierendesIcon(pfeilNorthWestIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        pfeilNorthIcon = new DynamischSkalierendesIcon(pfeilNorthIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        pfeilNorthEastIcon = new DynamischSkalierendesIcon(pfeilNorthEastIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        pfeilEastIcon = new DynamischSkalierendesIcon(pfeilEastIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
+        pfeilSouthEastIcon = new DynamischSkalierendesIcon(pfeilSouthEastIcon,
+                DEFAULT_ICON_WIDTH, DEFAULT_ICON_HEIGHT);
     }
 
     public static SimpleDynamicallyResizingIconFactory getInstance() {
