@@ -22,9 +22,15 @@ public class DynamischSkalierendesIcon extends ImageIcon {
     /** Aendert sich je nach Ausmassen der Zielkomponente: */
     private ImageIcon scaledImageIcon;
 
-    public DynamischSkalierendesIcon(final ImageIcon icon) {
+    public DynamischSkalierendesIcon(final ImageIcon icon,
+            final int defaultWidth, final int defaultHeight) {
         this.sourceIcon = icon;
-        this.scaledImageIcon = icon;
+        /**
+         * Sofort in default Groesse skalieren, damit getIconWidth() und
+         * getIconHeight() kalkulierbare Werte zurueckgeben.
+         */
+        this.scaledImageIcon = getSkaliertesImageIcon(icon, defaultWidth,
+                defaultHeight);
     }
 
     @Override
@@ -91,16 +97,24 @@ public class DynamischSkalierendesIcon extends ImageIcon {
                 y = y + halbeeabnahme;
             }
 
-            /* Quellimage zum bearbeiten laden: */
-            final Image sourceImage = sourceIcon.getImage();
-            /* Skalierte Version erzeugen */
-            final Image scaledImage = sourceImage.getScaledInstance(
-                    targetWidth, targetHeigth, Image.SCALE_SMOOTH);
-            /* Skaliertes Image als IconImage bereitstellen */
-            this.scaledImageIcon = new ImageIcon(scaledImage);
+            /* Bisheriges skaliertes ImageIcon mit neuem ueberschreiben */
+            this.scaledImageIcon = getSkaliertesImageIcon(sourceIcon,
+                    targetWidth, targetHeigth);
         }
         /* Hier hat scaledImage in jedem Fall die richtige Groesse */
         /* Wirkliches Zeichnen in Zielkomponente */
         scaledImageIcon.paintIcon(targetComponent, g, x, y);
+    }
+
+    private static ImageIcon getSkaliertesImageIcon(final ImageIcon sourceIcon,
+            final int targetWidth, final int targetHeight) {
+
+        /* Quellimage zum bearbeiten laden: */
+        final Image sourceImage = sourceIcon.getImage();
+        /* Skalierte Version erzeugen */
+        final Image scaledImage = sourceImage.getScaledInstance(targetWidth,
+                targetHeight, Image.SCALE_SMOOTH);
+        /* Skaliertes Image als IconImage zurueckgeben */
+        return new ImageIcon(scaledImage);
     }
 }

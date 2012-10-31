@@ -13,7 +13,8 @@ import javax.swing.ImageIcon;
  * @author Lutz Kleiber
  * 
  */
-public class AdvancedDynamicallyResizingIconFactory extends SimpleIconFactory {
+public class AdvancedDynamicallyResizingIconFactory extends
+        SimpleDynamicallyResizingIconFactory {
 
     private static final AdvancedDynamicallyResizingIconFactory INSTANCE = new AdvancedDynamicallyResizingIconFactory();
 
@@ -32,24 +33,33 @@ public class AdvancedDynamicallyResizingIconFactory extends SimpleIconFactory {
                     "IconFactory kann nicht alle Bilder laden");
         }
 
+        final int defaultWidth = SimpleDynamicallyResizingIconFactory.DEFAULT_ICON_WIDTH;
+        final int defaultHeight = SimpleDynamicallyResizingIconFactory.DEFAULT_ICON_HEIGHT;
+
         pfeilNorthIcon = new DynamischSkalierendesIcon(new ImageIcon(
-                pfeilNorthBuffImage));
+                pfeilNorthBuffImage), defaultWidth, defaultHeight);
         pfeilNorthEastIcon = new DynamischSkalierendesIcon(new ImageIcon(
-                pfeilNorthEastBuffImage));
+                pfeilNorthEastBuffImage), defaultWidth, defaultHeight);
         pfeilEastIcon = new DynamischSkalierendesIcon(new ImageIcon(
-                getRotatedImageOf(pfeilNorthBuffImage, 90)));
+                getRotatedImageOf(pfeilNorthBuffImage, 90)), defaultWidth,
+                defaultHeight);
         pfeilSouthEastIcon = new DynamischSkalierendesIcon(new ImageIcon(
-                getRotatedImageOf(pfeilNorthEastBuffImage, 90)));
+                getRotatedImageOf(pfeilNorthEastBuffImage, 90)), defaultWidth,
+                defaultHeight);
 
         pfeilSouthIcon = new DynamischSkalierendesIcon(new ImageIcon(
-                getRotatedImageOf(pfeilNorthBuffImage, 180)));
+                getRotatedImageOf(pfeilNorthBuffImage, 180)), defaultWidth,
+                defaultHeight);
 
         pfeilSouthWestIcon = new DynamischSkalierendesIcon(new ImageIcon(
-                getRotatedImageOf(pfeilNorthEastBuffImage, 180)));
+                getRotatedImageOf(pfeilNorthEastBuffImage, 180)), defaultWidth,
+                defaultHeight);
         pfeilWestIcon = new DynamischSkalierendesIcon(new ImageIcon(
-                getRotatedImageOf(pfeilNorthBuffImage, 270)));
+                getRotatedImageOf(pfeilNorthBuffImage, 270)), defaultWidth,
+                defaultHeight);
         pfeilNorthWestIcon = new DynamischSkalierendesIcon(new ImageIcon(
-                getRotatedImageOf(pfeilNorthEastBuffImage, 270)));
+                getRotatedImageOf(pfeilNorthEastBuffImage, 270)), defaultWidth,
+                defaultHeight);
 
     }
 

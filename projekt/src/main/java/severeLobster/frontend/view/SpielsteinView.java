@@ -20,7 +20,7 @@ import java.awt.event.MouseEvent;
  */
 public class SpielsteinView extends JLabel {
 
-    private static final IconFactory ICON_FACTORY = SimpleDynamicallyResizingIconFactory
+    private static final IconFactory ICON_FACTORY = AdvancedDynamicallyResizingIconFactory
             .getInstance();
     private final int x;
     private final int y;
