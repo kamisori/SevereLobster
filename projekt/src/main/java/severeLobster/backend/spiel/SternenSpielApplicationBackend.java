@@ -101,14 +101,14 @@ public class SternenSpielApplicationBackend {
 
     public void loadSpielFrom(final String spielname)
             throws FileNotFoundException, IOException {
-        final Spiel loadedSpiel = Spiel.load(spielname,
+        final Spiel loadedSpiel = Spiel.loadSpiel(spielname,
                 SpielmodusEnumeration.SPIELEN);
         setSpiel(loadedSpiel);
     }
 
     public void saveCurrentSpielTo(final String spielname)
             throws FileNotFoundException, IOException {
-        getSpiel().save(spielname);
+        getSpiel().saveSpiel(spielname);
     }
 
     public void setSpiel(final Spiel spiel) {

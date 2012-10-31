@@ -97,7 +97,7 @@ public class Erstellen_des_Standardpuzzles_Test {
                 throw new SpielNichtLoeschbarException();
             }
         }
-        standardspiel.save("Standardspiel01");
+        standardspiel.saveSpiel("Standardspiel01");
         file = new File(GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
                 "Standardspiel01" + "." + GlobaleKonstanten.PUZZLE_DATEITYP);
         assertTrue(file.exists());
@@ -106,7 +106,7 @@ public class Erstellen_des_Standardpuzzles_Test {
     @Test
     public void das_gesicherte_spiel_ist_das_standardpuzzle_im_editiermodus()
             throws IOException {
-        Spiel geladenesSpiel = Spiel.load("Standardspiel01",
+        Spiel geladenesSpiel = Spiel.loadSpiel("Standardspiel01",
                 SpielmodusEnumeration.EDITIEREN);
         Spielfeld geladenesSpielfeld = geladenesSpiel.getSpielfeld();
 
@@ -191,10 +191,10 @@ public class Erstellen_des_Standardpuzzles_Test {
     @Test
     public void das_erstellte_standardspiel_kann_zum_spielen_freigegeben_werden()
             throws IOException {
-        Spiel geladenesSpiel = Spiel.load("Standardspiel01",
+        Spiel geladenesSpiel = Spiel.loadSpiel("Standardspiel01",
                 SpielmodusEnumeration.EDITIEREN);
         geladenesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        geladenesSpiel.save("Standardspiel01");
+        geladenesSpiel.saveSpiel("Standardspiel01");
 
         File file = new File(GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR,
                 "Standardspiel01" + "." + GlobaleKonstanten.SPIELSTAND_DATEITYP);
@@ -204,7 +204,7 @@ public class Erstellen_des_Standardpuzzles_Test {
     @Test
     public void das_gesicherte_spiel_ist_das_standardpuzzle_im_spielmodus()
             throws IOException {
-        Spiel geladenesSpiel = Spiel.load("Standardspiel01",
+        Spiel geladenesSpiel = Spiel.loadSpiel("Standardspiel01",
                 SpielmodusEnumeration.SPIELEN);
         Spielfeld geladenesSpielfeld = geladenesSpiel.getSpielfeld();
         assertThat(

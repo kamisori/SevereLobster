@@ -26,13 +26,13 @@ public class Neues_Spiel_starten_Test {
     private final Spielstein spielsteinKeinStern = KeinStein.getInstance();
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         erstelles_puzzle = new Spiel(SpielmodusEnumeration.EDITIEREN);
         erstelles_puzzle.initializeNewSpielfeld(10, 9);
         erstelltes_spielfeld = erstelles_puzzle.getSpielfeld();
         erstelltes_spielfeld.setSpielstein(0, 0, spielsteinStern);
         erstelltes_spielfeld.setSpielstein(0, 1, spielsteinKeinStern);
-        erstelles_puzzle.save("neuesTestspiel01");
+        erstelles_puzzle.saveSpiel("neuesTestspiel01");
     }
 
     @Test

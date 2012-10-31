@@ -60,7 +60,7 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
             if (file != null) {
                 try {
                     spiel = Spiel
-                            .load(file
+                            .loadSpiel(file
                                     .getName()
                                     .replace(
                                             "."

@@ -1,5 +1,7 @@
 package severeLobster.backend.spiel;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
@@ -10,10 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 
 /**
  * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
@@ -23,7 +22,7 @@ import java.io.Serializable;
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
-public class Spiel implements Serializable, IGotSpielModus {
+public class Spiel implements IGotSpielModus {
 
     private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
@@ -129,63 +128,41 @@ public class Spiel implements Serializable, IGotSpielModus {
 
     /**
      * Speichert das aktuelle Spiel
-     * 
-     * @param spielname
-     *            Name der Datei (ohne Datei-Endung)
-     * @throws IOException
-     *             Exception falls Datei nicht vorhanden
-     */
-    public void save(String spielname) {
-        OutputStream outputStream = null;
-        try {
-            String dateiendung = "." + getDateiendung(getSpielmodus());
-            File verzeichnis = new File(getVerzeichnis(getSpielmodus()),
-                    spielname + dateiendung);
-            outputStream = new FileOutputStream(verzeichnis);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(
-                    outputStream);
-            objectOutputStream.writeObject(this);
-            objectOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
-     * Laedt ein Spiel aus Spieldateien
-     * 
+     *
      * @param spielname
      *            Name der Datei (ohne Dateiendung)
-     * @return Spieldatei
      * @throws IOException
-     *             Exception falls Datei nicht vorhanden
+     *             Exception falls Datei nicht speicherbar
      */
-    public static Spiel load(String spielname, SpielmodusEnumeration spielmodus)
-            throws IOException {
+    public void saveSpiel(String spielname) throws IOException {
+        XStream xstream = new XStream(new DomDriver());
+        String dateiendung = "." + getDateiendung(getSpielmodus());
+        File verzeichnis = new File(getVerzeichnis(getSpielmodus()),
+                spielname + dateiendung);
+        OutputStream outputStream = new FileOutputStream(verzeichnis);
+        xstream.toXML(this, outputStream);
+        outputStream.close();
+    }
+
+
+    /**
+     * Laed ein Spiel aus .sav / .puz - Dateien
+     *
+     * @param spielname
+     *            Name der Datei (ohne Dateiendung)
+     * @throws IOException
+     *             Exception falls Datei nicht lesbar
+     */
+    public static Spiel loadSpiel(String spielname, SpielmodusEnumeration spielmodus) throws IOException {
+        XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + getDateiendung(spielmodus);
         File verzeichnis = new File(getVerzeichnis(spielmodus), spielname
                 + dateiendung);
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(verzeichnis);
-            ObjectInputStream objectInputStream = new ObjectInputStream(
-                    inputStream);
-            return (Spiel) objectInputStream.readObject();
-        } catch (ClassNotFoundException e) {
-            throw new IOException();
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-        }
+        InputStream inputStream = new FileInputStream(verzeichnis);
+        Spiel spiel = (Spiel)xstream.fromXML(inputStream);
+        inputStream.close();
+
+        return spiel;
     }
 
     /**
@@ -198,7 +175,7 @@ public class Spiel implements Serializable, IGotSpielModus {
      *             Wirft Exception, wenn Datei nicht vorhanden
      */
     public static Spiel newGame(String spielname) throws IOException {
-        Spiel neuesSpiel = load(spielname, SpielmodusEnumeration.EDITIEREN);
+        Spiel neuesSpiel = loadSpiel(spielname, SpielmodusEnumeration.EDITIEREN);
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
 
         return neuesSpiel;
@@ -366,8 +343,7 @@ public class Spiel implements Serializable, IGotSpielModus {
         this.saveName = saveName;
     }
 
-    private class InnerSpielfeldListener implements ISpielfeldListener,
-            Serializable {
+    private class InnerSpielfeldListener implements ISpielfeldListener {
 
         @Override
         public void spielsteinChanged(Spielfeld spielfeld, int x, int y,

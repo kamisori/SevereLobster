@@ -1,13 +1,11 @@
 package severeLobster.backend.spiel;
 
-import java.io.Serializable;
-
 /**
  * Abstrakter Spielstein.
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
-public abstract class Spielstein implements Serializable {
+public abstract class Spielstein {
 
     /**
      * Abgeleitete Klassen sollen eigene toString Methode implementieren.

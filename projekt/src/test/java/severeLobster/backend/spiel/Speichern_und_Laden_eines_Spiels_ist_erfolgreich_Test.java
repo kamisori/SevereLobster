@@ -52,8 +52,8 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     @Test
     public void ein_gespeichertes_Spiel_speichert_seine_Attribute_mit()
             throws IOException {
-        spiel.save("testSpiel01");
-        Spiel geladenesSpiel = Spiel.load("testSpiel01",
+        spiel.saveSpiel("testSpiel01");
+        Spiel geladenesSpiel = Spiel.loadSpiel("testSpiel01",
                 SpielmodusEnumeration.SPIELEN);
 
         assertThat(geladenesSpiel.getSpielmodus(),
@@ -69,8 +69,8 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     @Test
     public void ein_gespeichertes_Puzzle_speichert_seine_Attribute_mit()
             throws IOException {
-        erstelles_puzzle.save("testSpiel01");
-        Spiel geladenesSpiel = Spiel.load("testSpiel01",
+        erstelles_puzzle.saveSpiel("testSpiel01");
+        Spiel geladenesSpiel = Spiel.loadSpiel("testSpiel01",
                 SpielmodusEnumeration.EDITIEREN);
 
         assertThat(geladenesSpiel.getSpielmodus(),
@@ -86,13 +86,13 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     @Test(expected = IOException.class)
     public void ein_nicht_vorhandenes_Spiel_kann_nicht_geladen_werden_und_wirft_eine_exception()
             throws IOException {
-        Spiel.load("testSpiel02", SpielmodusEnumeration.SPIELEN);
+        Spiel.loadSpiel("testSpiel02", SpielmodusEnumeration.SPIELEN);
     }
 
     @Test(expected = IOException.class)
     public void ein_nicht_vorhandenes_Puzzle_kann_nicht_geladen_werden_und_wirft_eine_exception()
             throws IOException {
-        Spiel.load("testSpiel02", SpielmodusEnumeration.EDITIEREN);
+        Spiel.loadSpiel("testSpiel02", SpielmodusEnumeration.EDITIEREN);
     }
 
     @After
