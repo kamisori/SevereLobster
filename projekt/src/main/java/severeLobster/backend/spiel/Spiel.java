@@ -76,7 +76,7 @@ public class Spiel implements IGotSpielModus {
         currentSpielfeld.setSpielstein(x, y, spielstein);
         return hasErrors();
     }
-    
+
     public Spielstein getSpielstein(int x, int y) {
         return currentSpielfeld.getSpielstein(x, y);
     }
@@ -90,9 +90,17 @@ public class Spiel implements IGotSpielModus {
         return getSpielfeld().getSchwierigkeitsgrad();
     }
 
-    public void setSpielfeld(Spielfeld spielfeld) {
-        currentSpielfeld = spielfeld;
-    }
+    /**
+     * Es darf nicht moeglich sein von aussen ein Spielfeld zu setzen, da bei
+     * dem neuen Spielfeld der SPielmodus vom alten Spiel abhaengen wuerde,
+     * durch das das Spielfeld erstellt wurde (IGotSpielmodus). Auf Aenderungen
+     * beim Spielmodus in dieser Instanz wuerde das Spielfeld entsprechend nicht
+     * reagieren.
+     * 
+     */
+    // public void setSpielfeld(Spielfeld spielfeld) {
+    // currentSpielfeld = spielfeld;
+    // }
 
     public Spielfeld getSpielfeld() {
         return currentSpielfeld;
@@ -126,7 +134,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Speichert das aktuelle Spiel
-     *
+     * 
      * @param spielname
      *            Name der Datei (ohne Dateiendung)
      * @throws IOException
@@ -135,29 +143,29 @@ public class Spiel implements IGotSpielModus {
     public void saveSpiel(String spielname) throws IOException {
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + getDateiendung(getSpielmodus());
-        File verzeichnis = new File(getVerzeichnis(getSpielmodus()),
-                spielname + dateiendung);
+        File verzeichnis = new File(getVerzeichnis(getSpielmodus()), spielname
+                + dateiendung);
         OutputStream outputStream = new FileOutputStream(verzeichnis);
         xstream.toXML(this, outputStream);
         outputStream.close();
     }
 
-
     /**
      * Laed ein Spiel aus .sav / .puz - Dateien
-     *
+     * 
      * @param spielname
      *            Name der Datei (ohne Dateiendung)
      * @throws IOException
      *             Exception falls Datei nicht lesbar
      */
-    public static Spiel loadSpiel(String spielname, SpielmodusEnumeration spielmodus) throws IOException {
+    public static Spiel loadSpiel(String spielname,
+            SpielmodusEnumeration spielmodus) throws IOException {
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + getDateiendung(spielmodus);
         File verzeichnis = new File(getVerzeichnis(spielmodus), spielname
                 + dateiendung);
         InputStream inputStream = new FileInputStream(verzeichnis);
-        Spiel spiel = (Spiel)xstream.fromXML(inputStream);
+        Spiel spiel = (Spiel) xstream.fromXML(inputStream);
         inputStream.close();
 
         return spiel;
@@ -203,7 +211,8 @@ public class Spiel implements IGotSpielModus {
          * Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
          * koennen.
          */
-        // TODO checken ob es einen unterschied macht ob man im edit oder spielmodus ist wenn man nach fehlern prueft
+        // TODO checken ob es einen unterschied macht ob man im edit oder
+        // spielmodus ist wenn man nach fehlern prueft
         return currentSpielfeld.hasErrors();
     }
 
