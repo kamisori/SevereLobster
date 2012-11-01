@@ -86,10 +86,6 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#countSterneZeile(int)
-     */
-    @Override
     public int countSterneZeile(int y) {
         int result = 0;
         for (int i = 0; i < getBreite(); i++) {
@@ -99,10 +95,6 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#countSterneSpalte(int)
-     */
-    @Override
     public int countSterneSpalte(int x) {
         int result = 0;
         for (int i = 0; i < getHoehe(); i++) {
@@ -144,10 +136,13 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#getSchwierigkeitsgrad()
+    /**
+     * Schaetzt anhand der Groesse des Spielfeldes und den Verhaeltnisen
+     * zwischen Pfeilen und Sternen sowie zwischen belegten und unbelegten
+     * Spielfeldern einen Schwierigkeitsgrad
+     * 
+     * @return Schwierigkeitsgrad des Spielfeldes
      */
-    @Override
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
         // QUICKFIX
         try {
@@ -173,27 +168,26 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
 
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#getBreite()
-     */
-    @Override
     public int getBreite() {
         return realSteine.length;
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#getHoehe()
-     */
-    @Override
     public int getHoehe() {
         return realSteine[0].length; // TODO Das funktioniert erstmal nur fuer
                                      // rechteckige Spielfelder
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#getSpielstein(int, int)
+    /**
+     * Liefert den Spielstein an der angegebenen Position im Spielfeld.
+     * Verhalten unterscheidet sich bei den unterschiedlichen Spielmodi. Beim
+     * Modus Spielen wird der sichtbare Stein zurueckgegeben. Beim Modus
+     * Editieren wird der reale Stein zurueckgegeben.
+     * 
+     * @param x
+     *            X-Achsen Koordinatenwert
+     * @param y
+     *            Y-Achsen Koordinatenwert
      */
-    @Override
     public Spielstein getSpielstein(final int x, final int y)
             throws IndexOutOfBoundsException {
 
@@ -303,18 +297,22 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         }
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#addSpielfeldListener(severeLobster.backend.spiel.ISpielfeldListener)
+    /**
+     * Fuegt den angegebenen Listener zu der Liste hinzu.
+     * 
+     * @param listener
+     *            ISpielfeldListener
      */
-    @Override
     public void addSpielfeldListener(final ISpielfeldListener listener) {
         listeners.add(ISpielfeldListener.class, listener);
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#removeSpielfeldListener(severeLobster.backend.spiel.ISpielfeldListener)
+    /**
+     * Entfernt den uebergebenen Listener von der Liste.
+     * 
+     * @param listener
+     *            ISpielsteinListener
      */
-    @Override
     public void removeSpielfeldListener(final ISpielfeldListener listener) {
         listeners.remove(ISpielfeldListener.class, listener);
     }
@@ -331,10 +329,14 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         }
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#listAvailableStates(int, int)
+    /**
+     * Gibt eine Liste mit den fuer diese Koordinate aktuell setzbaren
+     * Spielsteinen zurueck. Die fuer dieses Spielfeldelement aktuell setzbaren
+     * Spielsteine haengen vom SpielModus ab.
+     * 
+     * @return Eine Liste mit den fuer diese Koordinate aktuell auswaehlbaren
+     *         Spielsteinen.
      */
-    @Override
     public List<? extends Spielstein> listAvailableStates(final int x,
             final int y) {
 
@@ -385,10 +387,11 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
                 SpielmodusEnumeration.EDITIEREN);
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#isSolved()
+    /**
+     * Ueberprueft ob das Spielfeld geloest wurde (Sieg).
+     * 
+     * @return sieg
      */
-    @Override
     public boolean isSolved() {
         for (int i = 0; i < this.getBreite(); i++) {
 
@@ -413,10 +416,12 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see severeLobster.backend.spiel.ISpielfeldReadOnly#hasErrors()
+    /**
+     * Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
+     * abgegeben wurden, die nicht der Loesung entsprechen
+     * 
+     * @return Fehler vorhanden?
      */
-    @Override
     public boolean hasErrors() {
 
         for (int i = 0; i < this.getBreite(); i++) {
