@@ -5,6 +5,7 @@ import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.controller.SpielfeldViewController;
 import severeLobster.frontend.controller.SpielmodusViewController;
+import severeLobster.frontend.controller.TrackingControllViewController;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -26,9 +27,7 @@ public class MainView extends JPanel {
 
     private final SternenSpielApplicationBackend backend;
 
-    public MainView() throws IOException
-    {
-
+    public MainView() throws IOException {
 
         // JPanel spielfeld = new SpielfeldView_fwenisch();
         /**
@@ -45,16 +44,20 @@ public class MainView extends JPanel {
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
         new SpielmodusViewController(spielmodusView, backend);
         JPanel spielfeld = new JPanel(false);
-    //    spielfeld.setOpaque(false);
+        // spielfeld.setOpaque(false);
         spielfeld.setLayout(new BoxLayout(spielfeld, BoxLayout.Y_AXIS));
         spielfeld.add(view);
         spielfeld.setPreferredSize(new Dimension(500, 500));
         spielfeld.setBackground(Color.GRAY);
-        JPanel spielinfo = new SpielinfoView();     
-        
-        add(spielfeld,BorderLayout.CENTER);
-        add(spielinfo,BorderLayout.EAST);
-    
+        final TrackingControllView trackingView = new TrackingControllView();
+        final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
+                backend);
+        trackingView.setTrackingControllViewController(trackingViewCtrl);
+        JPanel spielinfo = new SpielinfoView(trackingView);
+
+        add(spielfeld, BorderLayout.CENTER);
+        add(spielinfo, BorderLayout.EAST);
+
         setVisible(true);
     }
 
@@ -90,7 +93,13 @@ public class MainView extends JPanel {
          */
 
         spielfeld.setBounds(50, 50, 500, 500);
-        JPanel spielinfo = new SpielinfoView();
+        final TrackingControllView trackingView = new TrackingControllView();
+        final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
+                backend);
+        trackingView.setTrackingControllViewController(trackingViewCtrl);
+        
+        
+        JPanel spielinfo = new SpielinfoView(trackingView);
         spielinfo.setBounds(550, 50, 200, 500);
         add(spielfeld);
         add(spielinfo);

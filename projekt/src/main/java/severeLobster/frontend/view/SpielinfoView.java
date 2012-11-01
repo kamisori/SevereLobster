@@ -16,14 +16,13 @@ public class SpielinfoView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();
 
-    public SpielinfoView() 
-    {
-    	setLayout(null);
+    public SpielinfoView(final TrackingControllView trackingControllView) {
+        setLayout(null);
         add(new JLabel("Spielinfo"));
         setBackground(Color.GRAY);
-        JPanel trackingView  = new TrackingControllView();
+        JPanel trackingView = trackingControllView;
         trackingView.setBounds(0, 365, 200, 131);
-        add(trackingView,BorderLayout.SOUTH);
+        add(trackingView, BorderLayout.SOUTH);
         setPreferredSize(new Dimension(200, 500));
         setVisible(true);
     }
@@ -37,7 +36,8 @@ public class SpielinfoView extends JPanel {
          * Anfang Test von TrackingControllView
          */
         Image sImage = getToolkit().getImage(
-                resourceManager.getGraphicURL("spielinfo_untenAbgeschnitten.jpg"));
+                resourceManager
+                        .getGraphicURL("spielinfo_untenAbgeschnitten.jpg"));
 
         /**
          * Ende Test von TrackingControllView
