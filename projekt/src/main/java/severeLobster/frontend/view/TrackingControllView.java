@@ -1,20 +1,15 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
+import severeLobster.frontend.controller.TrackingControllViewController;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import severeLobster.frontend.controller.TrackingControllViewController;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Erstes Skelett fuer das Tracking Kontroll UI.
@@ -33,7 +28,7 @@ public class TrackingControllView extends JPanel {
         // Zurueck zum letzten Tracking punkt Button setzen
         {
             ImageIcon zurueckZumLetztenPunktIcon = ResourceManager.get()
-                    .getImageIcon("Pfeillinks48.png");
+                    .getImageIcon("PfeilLinks48.png");
             final JButton zurueckZumLetztenPunktBtn = new JButton(
                     zurueckZumLetztenPunktIcon);
             zurueckZumLetztenPunktBtn
@@ -68,7 +63,7 @@ public class TrackingControllView extends JPanel {
         // Zurueck zum Fehler Button setzen
         {
             ImageIcon zurueckZumFehler = ResourceManager.get().getImageIcon(
-                    "DoppelPfeillinks48.png");
+                    "DoppelPfeilLinks48.png");
             final JButton zurueckZumFehlerBtn = new JButton(zurueckZumFehler);
             zurueckZumFehlerBtn.setToolTipText("Zurueck zum Fehler");
             zurueckZumFehlerBtn.addActionListener(new ActionListener() {
