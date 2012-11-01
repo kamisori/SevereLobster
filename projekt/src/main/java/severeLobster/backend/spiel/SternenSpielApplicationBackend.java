@@ -4,9 +4,14 @@ import infrastructure.constants.enums.SpielmodusEnumeration;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.EventListenerList;
+
+import severeLobster.backend.command.Aktion;
+import severeLobster.backend.command.PrimaerAktion;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
@@ -23,15 +28,59 @@ public class SternenSpielApplicationBackend {
     private final EventListenerList listeners = new EventListenerList();
     private final ISpielListener innerSpielListener = new InnerSpielListener();
     private Spiel currentlyPlayedSpiel;
+    /** Tracking: */
+    private Stack<Aktion> spielZuege;
+    private Stack<Integer> trackingPunkte;
+    private int letzterFehlerfreierSpielzug;
 
     public SternenSpielApplicationBackend() {
         this.currentlyPlayedSpiel = new Spiel();
         currentlyPlayedSpiel.addSpielListener(innerSpielListener);
+        spielZuege = new Stack<Aktion>();
+        trackingPunkte = new Stack<Integer>();
+        letzterFehlerfreierSpielzug = 0;
     }
 
     public Spiel getSpiel() {
         return this.currentlyPlayedSpiel;
     }
+
+    /**
+     * Tracking portiert:
+     */
+
+    public void setSpielstein(Spielstein spielstein, int x, int y) {
+        PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
+        spielZuege.push(spielZug);
+        if (!spielZug.execute(x, y, spielstein)) {
+            letzterFehlerfreierSpielzug = spielZuege.size();
+        }
+    }
+
+    public void setzeTrackingPunkt() {
+        trackingPunkte.push(spielZuege.size());
+    }
+
+    private void nimmSpielzugZurueck() {
+        spielZuege.pop().undo();
+    }
+
+    public void zurueckZumLetztenFehlerfreienSpielzug() {
+        while (spielZuege.size() > letzterFehlerfreierSpielzug) {
+            nimmSpielzugZurueck();
+        }
+    }
+
+    public void zurueckZumLetztenTrackingPunkt() {
+        int trackingPunkt = trackingPunkte.pop();
+        while (spielZuege.size() > trackingPunkt) {
+            nimmSpielzugZurueck();
+        }
+    }
+
+    /***
+     * Tracking portiert - Ende
+     */
 
     /**
      * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR

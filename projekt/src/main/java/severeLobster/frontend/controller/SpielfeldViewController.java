@@ -1,17 +1,15 @@
 package severeLobster.frontend.controller;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
-import severeLobster.backend.command.Aktion;
-import severeLobster.backend.command.PrimaerAktion;
+
+import java.util.List;
+
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.view.SpielfeldView;
-
-import java.util.List;
-import java.util.Stack;
 
 /**
  * Steuerung fuer SpielfeldView. Verbindet SternenSpielApplicationBackend und
@@ -28,9 +26,7 @@ public class SpielfeldViewController {
 
     private final SpielfeldView spielfeldView;
     private final SternenSpielApplicationBackend backend;
-    private Stack<Aktion> spielZuege;
-    private Stack<Integer> trackingPunkte;
-    private int letzterFehlerfreierSpielzug;
+
 
     public SpielfeldViewController(SpielfeldView spielfeldView,
             SternenSpielApplicationBackend applicationBackend) {
@@ -38,43 +34,13 @@ public class SpielfeldViewController {
         this.backend = applicationBackend;
         spielfeldView.setSpielfeldController(this);
         backend.addApplicationBackendListener(new InnerSternenSpielBackendListener());
-        spielZuege = new Stack<Aktion>();
-        trackingPunkte = new Stack<Integer>();
-        letzterFehlerfreierSpielzug = 0;
+
     }
 
     public SpielmodusEnumeration getSpielmodus() {
         return backend.getSpiel().getSpielmodus();
     }
 
-    public void setSpielstein(Spielstein spielstein, int x, int y) {
-        PrimaerAktion spielZug = new PrimaerAktion(backend.getSpiel());
-        spielZuege.push(spielZug);
-        if (!spielZug.execute(x, y, spielstein)) {
-            letzterFehlerfreierSpielzug = spielZuege.size();
-        }
-    }
-
-    public void setzeTrackingPunkt() {
-        trackingPunkte.push(spielZuege.size());
-    }
-
-    private void nimmSpielzugZurueck() {
-        spielZuege.pop().undo();
-    }
-
-    public void zurueckZumLetztenFehlerfreienSpielzug() {
-        while (spielZuege.size() > letzterFehlerfreierSpielzug) {
-            nimmSpielzugZurueck();
-        }
-    }
-
-    public void zurueckZumLetztenTrackingPunkt() {
-        int trackingPunkt = trackingPunkte.pop();
-        while (spielZuege.size() > trackingPunkt) {
-            nimmSpielzugZurueck();
-        }
-    }
 
     public Spielstein getSpielstein(int x, int y) {
         return backend.getSpielstein(x, y);
