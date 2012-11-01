@@ -45,18 +45,6 @@ public class SternenSpielApplicationBackend {
         return this.currentlyPlayedSpiel;
     }
 
-    /**
-     * Tracking portiert:
-     */
-
-    public void setSpielstein(Spielstein spielstein, int x, int y) {
-        PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
-        spielZuege.push(spielZug);
-        if (!spielZug.execute(x, y, spielstein)) {
-            letzterFehlerfreierSpielzug = spielZuege.size();
-        }
-    }
-
     public void setzeTrackingPunkt() {
         trackingPunkte.push(spielZuege.size());
     }
@@ -78,10 +66,6 @@ public class SternenSpielApplicationBackend {
         }
     }
 
-    /***
-     * Tracking portiert - Ende
-     */
-
     /**
      * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
      * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
@@ -101,7 +85,11 @@ public class SternenSpielApplicationBackend {
      */
     public void setSpielstein(final int x, final int y,
             final Spielstein spielstein) {
-        getSpiel().getSpielfeld().setSpielstein(x, y, spielstein);
+        PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
+        spielZuege.push(spielZug);
+        if (!spielZug.execute(x, y, spielstein)) {
+            letzterFehlerfreierSpielzug = spielZuege.size();
+        }
     }
 
     /***

@@ -1,15 +1,17 @@
 package severeLobster.frontend.controller;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
-
-import java.util.List;
-
+import severeLobster.backend.command.Aktion;
+import severeLobster.backend.command.PrimaerAktion;
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.view.SpielfeldView;
+
+import java.util.List;
+import java.util.Stack;
 
 /**
  * Steuerung fuer SpielfeldView. Verbindet SternenSpielApplicationBackend und
@@ -27,7 +29,6 @@ public class SpielfeldViewController {
     private final SpielfeldView spielfeldView;
     private final SternenSpielApplicationBackend backend;
 
-
     public SpielfeldViewController(SpielfeldView spielfeldView,
             SternenSpielApplicationBackend applicationBackend) {
         this.spielfeldView = spielfeldView;
@@ -41,6 +42,9 @@ public class SpielfeldViewController {
         return backend.getSpiel().getSpielmodus();
     }
 
+    public void setSpielstein(Spielstein spielstein, int x, int y) {
+        backend.setSpielstein(x, y, spielstein);
+    }
 
     public Spielstein getSpielstein(int x, int y) {
         return backend.getSpielstein(x, y);
