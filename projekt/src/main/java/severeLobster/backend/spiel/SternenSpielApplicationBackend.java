@@ -1,18 +1,16 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import severeLobster.backend.command.Aktion;
+import severeLobster.backend.command.PrimaerAktion;
 
+import javax.swing.JOptionPane;
+import javax.swing.event.EventListenerList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
-
-import javax.swing.JOptionPane;
-import javax.swing.event.EventListenerList;
-
-import severeLobster.backend.command.Aktion;
-import severeLobster.backend.command.PrimaerAktion;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
@@ -255,7 +253,7 @@ public class SternenSpielApplicationBackend {
         public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
                 int y, Spielstein newStein) {
             fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
-            if (spiel.isSolved()) {
+            if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
                 JOptionPane.showMessageDialog(null,
                         "Sie haben das Puzzle gelöst! "
                                 + " Herzlichen Glückwunsch!", "Puzzle gelöst!",
