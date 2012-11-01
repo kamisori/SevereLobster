@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import severeLobster.backend.command.Aktion;
 
 import javax.swing.event.EventListenerList;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Stack;
 
 /**
  * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
@@ -28,9 +30,12 @@ public class Spiel implements IGotSpielModus {
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
     private SpielmodusEnumeration spielmodus = SpielmodusEnumeration.SPIELEN;
-    private int anzahlZuege;
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
     private String saveName;
+    /** Tracking: */
+    private Stack<Aktion> spielZuege;
+    private Stack<Integer> trackingPunkte;
+    private int letzterFehlerfreierSpielzug;
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
@@ -51,16 +56,9 @@ public class Spiel implements IGotSpielModus {
         this.spielmodus = spielmodus;
         this.currentSpielfeld = new Spielfeld(this, 10, 10);
         currentSpielfeld.addSpielfeldListener(innerSpielfeldListener);
-        anzahlZuege = 0;
-    }
-
-    /**
-     * Gibt die Anzahl an bereits versuchten Spielzuegen zurueck
-     * 
-     * @return Anzahl Spielzuege
-     */
-    public int getAnzahlZuege() {
-        return anzahlZuege;
+        spielZuege = new Stack<Aktion>();
+        trackingPunkte = new Stack<Integer>();
+        letzterFehlerfreierSpielzug = 0;
     }
 
     /**
@@ -341,6 +339,22 @@ public class Spiel implements IGotSpielModus {
      */
     public void setSaveName(String saveName) {
         this.saveName = saveName;
+    }
+
+    public Stack<Aktion> getSpielZuege() {
+        return spielZuege;
+    }
+
+    public Stack<Integer> getTrackingPunkte() {
+        return trackingPunkte;
+    }
+
+    public int getLetzterFehlerfreierSpielzug() {
+        return letzterFehlerfreierSpielzug;
+    }
+
+    public void setLetzterFehlerfreierSpielzug(int letzterFehlerfreierSpielzug) {
+        this.letzterFehlerfreierSpielzug = letzterFehlerfreierSpielzug;
     }
 
     private class InnerSpielfeldListener implements ISpielfeldListener {

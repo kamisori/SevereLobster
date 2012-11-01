@@ -129,6 +129,48 @@
     <gotSpielModus class="severeLobster.backend.spiel.Spiel" reference="../.."/>
   </currentSpielfeld>
   <spielmodus>SPIELEN</spielmodus>
-  <anzahlZuege>0</anzahlZuege>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
+  <spielZuege serialization="custom">
+    <unserializable-parents/>
+    <vector>
+      <default>
+        <capacityIncrement>0</capacityIncrement>
+        <elementCount>0</elementCount>
+        <elementData>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+        </elementData>
+      </default>
+    </vector>
+  </spielZuege>
+  <trackingPunkte serialization="custom">
+    <unserializable-parents/>
+    <vector>
+      <default>
+        <capacityIncrement>0</capacityIncrement>
+        <elementCount>0</elementCount>
+        <elementData>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+          <null/>
+        </elementData>
+      </default>
+    </vector>
+  </trackingPunkte>
+  <letzterFehlerfreierSpielzug>0</letzterFehlerfreierSpielzug>
 </severeLobster.backend.spiel.Spiel>
