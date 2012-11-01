@@ -1,9 +1,9 @@
 package severeLobster.frontend.controller;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import severeLobster.backend.spiel.ISpielfeldReadOnly;
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 
@@ -37,7 +37,7 @@ public class SpielmodusViewController {
         @Override
         public void spielsteinChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
-                Spiel spiel, Spielfeld spielfeld, int x, int y,
+                Spiel spiel, ISpielfeldReadOnly spielfeld, int x, int y,
                 Spielstein newStein) {
 
         }
@@ -45,7 +45,7 @@ public class SpielmodusViewController {
         @Override
         public void spielfeldChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
-                Spiel spiel, Spielfeld newSpielfeld) {
+                Spiel spiel, ISpielfeldReadOnly newSpielfeld) {
 
         }
 

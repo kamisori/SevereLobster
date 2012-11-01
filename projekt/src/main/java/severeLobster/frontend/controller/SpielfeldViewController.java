@@ -4,9 +4,9 @@ import infrastructure.constants.enums.SpielmodusEnumeration;
 
 import java.util.List;
 
+import severeLobster.backend.spiel.ISpielfeldReadOnly;
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.view.SpielfeldView;
@@ -105,7 +105,7 @@ public class SpielfeldViewController {
         @Override
         public void spielsteinChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
-                Spiel spiel, Spielfeld spielfeld, int x, int y,
+                Spiel spiel, ISpielfeldReadOnly spielfeld, int x, int y,
                 Spielstein newStein) {
             // // TEMP: Zeichne immer alles neu, damit Sternanzahlen oben und
             // links
@@ -123,7 +123,7 @@ public class SpielfeldViewController {
         @Override
         public void spielfeldChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
-                Spiel spiel, Spielfeld newSpielfeld) {
+                Spiel spiel, ISpielfeldReadOnly newSpielfeld) {
             refreshDisplayedSpielfeldCompletely();
         }
 

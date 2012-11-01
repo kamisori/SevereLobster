@@ -12,11 +12,12 @@ public interface ISternenSpielApplicationBackendListener extends EventListener {
 
     void spielsteinChanged(
             SternenSpielApplicationBackend sternenSpielApplicationBackend,
-            Spiel spiel, Spielfeld spielfeld, int x, int y, Spielstein newStein);
+            Spiel spiel, ISpielfeldReadOnly spielfeld, int x, int y,
+            Spielstein newStein);
 
     void spielfeldChanged(
             SternenSpielApplicationBackend sternenSpielApplicationBackend,
-            Spiel spiel, Spielfeld newSpielfeld);
+            Spiel spiel, ISpielfeldReadOnly newSpielfeld);
 
     void spielChanged(
             SternenSpielApplicationBackend sternenSpielApplicationBackend,
