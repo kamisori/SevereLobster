@@ -4,6 +4,7 @@ import infrastructure.constants.enums.SpielmodusEnumeration;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 
@@ -60,10 +61,19 @@ public class SternenSpielApplicationBackend {
     }
 
     public void zurueckZumLetztenTrackingPunkt() {
-        int trackingPunkt = trackingPunkte.pop();
-        while (spielZuege.size() > trackingPunkt) {
-            nimmSpielzugZurueck();
+
+        /** Try-Catch ist Quickfix fuer Emptystackexception: */
+        try {
+            int trackingPunkt = trackingPunkte.pop();
+            while (spielZuege.size() > trackingPunkt) {
+                nimmSpielzugZurueck();
+            }
+        } catch (EmptyStackException e) {
+            /**
+             * Wenn keine Trackingpunkte gespeichert sind, mach einfach nix.
+             */
         }
+
     }
 
     /**
