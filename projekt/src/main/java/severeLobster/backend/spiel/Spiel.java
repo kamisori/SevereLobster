@@ -180,7 +180,7 @@ public class Spiel implements IGotSpielModus {
      * @throws IOException
      *             Wirft Exception, wenn Datei nicht vorhanden
      */
-    public static Spiel newGame(String spielname) throws IOException {
+    public static Spiel newSpiel(String spielname) throws IOException {
         Spiel neuesSpiel = loadSpiel(spielname, SpielmodusEnumeration.EDITIEREN);
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
 

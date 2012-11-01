@@ -38,7 +38,7 @@ public class Neues_Spiel_starten_Test {
     @Test
     public void ein_neues_spiel_befindet_sich_im_spielmodus()
             throws IOException {
-        Spiel neuesSpiel = Spiel.newGame("neuesTestspiel01");
+        Spiel neuesSpiel = Spiel.newSpiel("neuesTestspiel01");
         assertTrue(neuesSpiel.getSpielmodus().equals(
                 SpielmodusEnumeration.SPIELEN));
     }

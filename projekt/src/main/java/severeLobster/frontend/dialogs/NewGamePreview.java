@@ -61,7 +61,7 @@ public class NewGamePreview extends JPanel implements PropertyChangeListener {
             File file = (File) changeEvent.getNewValue();
             if (file != null) {
                 try {
-                    spiel = Spiel.newGame(file.getName().replace(
+                    spiel = Spiel.newSpiel(file.getName().replace(
                             "." + GlobaleKonstanten.PUZZLE_DATEITYP, ""));
                     SpielfeldView spielfeldView = new SpielfeldView(
                             spiel.getSpielfeld());

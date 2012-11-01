@@ -131,7 +131,7 @@ public class SternenSpielApplicationBackend {
 
     public void startNewSpielFrom(final String spielname)
             throws FileNotFoundException, IOException {
-        final Spiel newGame = Spiel.newGame(spielname);
+        final Spiel newGame = Spiel.newSpiel(spielname);
         setSpiel(newGame);
     }
 
