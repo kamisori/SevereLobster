@@ -16,38 +16,36 @@ import static severeLobster.backend.spiel.helper.matchers.PfeilMatcher.pfeil;
 
 /**
  * Unit-Test zur Zurueck-zum-letzen-fehlerfreien-Spielzug-Funktionalitaet
- *
+ * 
  * @author Lars Schlegelmilch
  */
 public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
 
-    private final SternenSpielApplicationBackend backend = mock(SternenSpielApplicationBackend.class);
-    private final SpielfeldViewController controller = new SpielfeldViewController(mock(SpielfeldView.class),
-            backend);
+    private final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
+    private final SpielfeldViewController controller = new SpielfeldViewController(
+            new SpielfeldView(), backend);
 
     private Spiel spiel;
 
     @Before
     public void setUp() {
-        spiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
+        spiel = backend.getSpiel();
+        spiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
         spiel.initializeNewSpielfeld(2, 2);
         spiel.setSpielstein(0, 0, Pfeil.getSuedPfeil());
         spiel.setSpielstein(0, 1, Stern.getInstance());
         spiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        when(backend.getSpiel()).thenReturn(spiel);
+        //when(backend.getSpiel()).thenReturn(spiel);
     }
 
     @Test
     public void bei_einem_fehler_im_ersten_spielzug_wird_das_spielfeld_komplett_zurueck_gesetzt() {
         controller.setSpielstein(Stern.getInstance(), 1, 0);
 
-        controller.zurueckZumLetztenFehlerfreienSpielzug();
-        assertThat(spiel.getSpielstein(1, 0),
-                instanceOf(KeinStein.class));
-        assertThat(spiel.getSpielstein(1, 1),
-                instanceOf(KeinStein.class));
-        assertThat(spiel.getSpielstein(0, 1),
-                instanceOf(KeinStein.class));
+        backend.zurueckZumLetztenFehlerfreienSpielzug();
+        assertThat(spiel.getSpielstein(1, 0), instanceOf(KeinStein.class));
+        assertThat(spiel.getSpielstein(1, 1), instanceOf(KeinStein.class));
+        assertThat(spiel.getSpielstein(0, 1), instanceOf(KeinStein.class));
         assertThat((Pfeil) spiel.getSpielstein(0, 0),
                 pfeil(equalTo(PfeilrichtungEnumeration.SUED)));
     }
@@ -56,13 +54,10 @@ public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
     public void bei_einem_fehler_durch_ausschluss_im_ersten_spielzug_wird_das_spielfeld_komplett_zurueck_gesetzt() {
         controller.setSpielstein(Ausschluss.getInstance(), 0, 1);
 
-        controller.zurueckZumLetztenFehlerfreienSpielzug();
-        assertThat(spiel.getSpielstein(1, 0),
-                instanceOf(KeinStein.class));
-        assertThat(spiel.getSpielstein(1, 1),
-                instanceOf(KeinStein.class));
-        assertThat(spiel.getSpielstein(0, 1),
-                instanceOf(KeinStein.class));
+        backend.zurueckZumLetztenFehlerfreienSpielzug();
+        assertThat(spiel.getSpielstein(1, 0), instanceOf(KeinStein.class));
+        assertThat(spiel.getSpielstein(1, 1), instanceOf(KeinStein.class));
+        assertThat(spiel.getSpielstein(0, 1), instanceOf(KeinStein.class));
         assertThat((Pfeil) spiel.getSpielstein(0, 0),
                 pfeil(equalTo(PfeilrichtungEnumeration.SUED)));
     }
@@ -72,13 +67,10 @@ public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
         controller.setSpielstein(Stern.getInstance(), 0, 1);
         controller.setSpielstein(Stern.getInstance(), 1, 1);
 
-        controller.zurueckZumLetztenFehlerfreienSpielzug();
-        assertThat(spiel.getSpielstein(0, 1),
-                instanceOf(Stern.class));
-        assertThat(spiel.getSpielstein(1, 1),
-                instanceOf(KeinStein.class));
-        assertThat(spiel.getSpielstein(1, 0),
-                instanceOf(KeinStein.class));
+        backend.zurueckZumLetztenFehlerfreienSpielzug();
+        assertThat(spiel.getSpielstein(0, 1), instanceOf(Stern.class));
+        assertThat(spiel.getSpielstein(1, 1), instanceOf(KeinStein.class));
+        assertThat(spiel.getSpielstein(1, 0), instanceOf(KeinStein.class));
         assertThat((Pfeil) spiel.getSpielstein(0, 0),
                 pfeil(equalTo(PfeilrichtungEnumeration.SUED)));
     }
@@ -89,13 +81,10 @@ public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
         controller.setSpielstein(Ausschluss.getInstance(), 1, 0);
         controller.setSpielstein(Stern.getInstance(), 1, 1);
 
-        controller.zurueckZumLetztenFehlerfreienSpielzug();
-        assertThat(spiel.getSpielstein(0, 1),
-                instanceOf(Stern.class));
-        assertThat(spiel.getSpielstein(1, 1),
-                instanceOf(KeinStein.class));
-        assertThat(spiel.getSpielstein(1, 0),
-                instanceOf(Ausschluss.class));
+        backend.zurueckZumLetztenFehlerfreienSpielzug();
+        assertThat(spiel.getSpielstein(0, 1), instanceOf(Stern.class));
+        assertThat(spiel.getSpielstein(1, 1), instanceOf(KeinStein.class));
+        assertThat(spiel.getSpielstein(1, 0), instanceOf(Ausschluss.class));
         assertThat((Pfeil) spiel.getSpielstein(0, 0),
                 pfeil(equalTo(PfeilrichtungEnumeration.SUED)));
     }

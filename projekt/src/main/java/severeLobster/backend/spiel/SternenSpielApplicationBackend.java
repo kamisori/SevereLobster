@@ -2,16 +2,16 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Stack;
+
 import javax.swing.JOptionPane;
 import javax.swing.event.EventListenerList;
 
 import severeLobster.backend.command.Aktion;
 import severeLobster.backend.command.PrimaerAktion;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
-import java.util.Stack;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
