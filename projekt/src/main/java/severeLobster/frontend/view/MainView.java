@@ -108,8 +108,13 @@ public class MainView extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(getForeground());
+
         Image sImage = getToolkit().getImage(
                 resourceManager.getGraphicURL("sternenhimmel.jpg"));
+
         g.drawImage(sImage, 0, 0, this);
     }
 
