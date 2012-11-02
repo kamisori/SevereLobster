@@ -11,8 +11,12 @@ import java.util.List;
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
-public class Pfeil extends Spielstein {
-
+public class Pfeil extends Spielstein
+{
+private Pfeil()
+{
+	pfeilrichtung = PfeilrichtungEnumeration.NORD;
+}
     private static final Pfeil NORD_PFEIL = new Pfeil(
             PfeilrichtungEnumeration.NORD);
     private static final Pfeil NORD_OST_PFEIL = new Pfeil(
