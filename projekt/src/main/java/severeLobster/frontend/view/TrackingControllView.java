@@ -21,6 +21,8 @@ public class TrackingControllView extends JPanel {
 
     private TrackingControllViewController currentController;
 
+    private static final ResourceManager resourceManager = ResourceManager.get();
+
     public TrackingControllView() {
         setBackground(Color.DARK_GRAY);
         setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -32,7 +34,7 @@ public class TrackingControllView extends JPanel {
             final JButton zurueckZumLetztenPunktBtn = new JButton(
                     zurueckZumLetztenPunktIcon);
             zurueckZumLetztenPunktBtn
-                    .setToolTipText("Zurueck zum letzten Trackingpunkt");
+                    .setToolTipText(resourceManager.getText("tracking.backToLastTrackingPoint"));
             zurueckZumLetztenPunktBtn.addActionListener(new ActionListener() {
 
                 @Override
@@ -49,7 +51,7 @@ public class TrackingControllView extends JPanel {
             ImageIcon trackingPunktIcon = ResourceManager.get().getImageIcon(
                     "SetzeTrackingPointIcon48.png");
             final JButton setzeTrackingPunktBtn = new JButton(trackingPunktIcon);
-            setzeTrackingPunktBtn.setToolTipText("Setze Trackingpunkt");
+            setzeTrackingPunktBtn.setToolTipText(resourceManager.getText("tracking.setPoint"));
             setzeTrackingPunktBtn.addActionListener(new ActionListener() {
 
                 @Override
@@ -65,7 +67,7 @@ public class TrackingControllView extends JPanel {
             ImageIcon zurueckZumFehler = ResourceManager.get().getImageIcon(
                     "DoppelPfeilLinks48.png");
             final JButton zurueckZumFehlerBtn = new JButton(zurueckZumFehler);
-            zurueckZumFehlerBtn.setToolTipText("Zurueck zum Fehler");
+            zurueckZumFehlerBtn.setToolTipText(resourceManager.getText("tracking.backToMistake"));
             zurueckZumFehlerBtn.addActionListener(new ActionListener() {
 
                 @Override
