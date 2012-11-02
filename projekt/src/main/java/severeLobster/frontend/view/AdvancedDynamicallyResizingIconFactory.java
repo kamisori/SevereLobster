@@ -2,10 +2,9 @@ package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
 
+import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import javax.swing.ImageIcon;
 
 /**
  * IconFactory mit den neuen Icons. Funktioniert aber noch net.
@@ -68,11 +67,11 @@ public class AdvancedDynamicallyResizingIconFactory extends
         final BufferedImage blankGrossBuffImage;
         try {
             sternGrossBuffImage = ResourceManager.get().getIconAsBufferedImage(
-                    "SternIcon128.png");
+                    "Stern.png");
             ausschlussGrossBuffImage = ResourceManager.get()
-                    .getIconAsBufferedImage("AusschlussIcon128.png");
+                    .getIconAsBufferedImage("Ausschluss.png");
             blankGrossBuffImage = ResourceManager.get().getIconAsBufferedImage(
-                    "BlankIcon128.png");
+                    "Blank.png");
         } catch (IOException e) {
             e.printStackTrace();
             // Wenn das fehlschlaegt ist was kaputt
