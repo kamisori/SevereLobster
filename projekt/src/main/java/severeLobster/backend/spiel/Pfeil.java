@@ -13,10 +13,6 @@ import java.util.List;
  */
 public class Pfeil extends Spielstein
 {
-private Pfeil()
-{
-	pfeilrichtung = PfeilrichtungEnumeration.NORD;
-}
     private static final Pfeil NORD_PFEIL = new Pfeil(
             PfeilrichtungEnumeration.NORD);
     private static final Pfeil NORD_OST_PFEIL = new Pfeil(
@@ -54,6 +50,15 @@ private Pfeil()
     }
 
     private final PfeilrichtungEnumeration pfeilrichtung;
+
+    /**
+     * Default-Konstruktor nur fuer Serialisierung vorhanden
+     */
+    @Deprecated
+    private Pfeil()
+    {
+        pfeilrichtung = PfeilrichtungEnumeration.NORD;
+    }
 
     /**
      * Statt des Konstruktors lieber die statischen Factory Methoden nehmen, da

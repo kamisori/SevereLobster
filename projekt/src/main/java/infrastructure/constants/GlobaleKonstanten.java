@@ -1,5 +1,6 @@
 package infrastructure.constants;
 
+import java.awt.Font;
 import java.io.File;
 
 /**
@@ -8,6 +9,11 @@ import java.io.File;
  * @author Lars Schlegelmilch
  */
 public abstract class GlobaleKonstanten {
+
+    /**
+     * Globale Schriftart der Application
+     */
+    public static final Font FONT = new Font("Arial", java.awt.Font.PLAIN, 22);
 
     /**
      * Name des Spiels

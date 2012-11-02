@@ -2,14 +2,13 @@ package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
 
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * 
@@ -89,9 +88,10 @@ public class StartApplication extends JFrame implements Runnable {
         g.setFont(myFont);
         g.setColor(Color.YELLOW);
         g.drawString(
-                "Sternenkonstellation wird fuer "
-                        + System.getProperty("user.name") + " berechnet...", 5,
-                280);
+                resourceManager.getText("splashscreen.text.1")
+                        + " " + System.getProperty("user.name")
+                        + " " + resourceManager.getText("splashscreen.text.2"),
+                5, 280);
     }
 
 }
