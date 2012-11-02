@@ -2,7 +2,6 @@ package severeLobster.frontend.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -90,7 +89,8 @@ public class SpielfeldView extends JPanel {
 
         final int laengeMitAnzahlPfeilenInZeileView = laenge + 1;
         final int breiteMitAnzahlPfeilenInSpalteView = breite + 1;
-        setLayout(new GridLayout(laengeMitAnzahlPfeilenInZeileView,
+        setLayout(new QuadratischeZellenGridLayout(
+                laengeMitAnzahlPfeilenInZeileView,
                 breiteMitAnzahlPfeilenInSpalteView));
         // setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         /**
@@ -181,7 +181,8 @@ public class SpielfeldView extends JPanel {
 
     }
 
-    public void setSpielfeldController(SpielfeldViewController spielfeldController) {
+    public void setSpielfeldController(
+            SpielfeldViewController spielfeldController) {
         this.spielfeldController = spielfeldController;
 
     }
