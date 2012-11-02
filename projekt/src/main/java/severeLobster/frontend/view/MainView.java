@@ -29,35 +29,21 @@ public class MainView extends JPanel {
 
     public MainView() throws IOException {
 
-        // JPanel spielfeld = new SpielfeldView_fwenisch();
-        /**
-         * Nur zum Testen
-         */
         backend = new SternenSpielApplicationBackend();
         backend.startNewSpielFrom("Standardspiel01");
-        /*
-         * backend.getSpiel().initializeNewSpielfeld(20, 18);
-         * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-         */
-        final SpielfeldView view = new SpielfeldView();
-        new SpielfeldViewController(view, backend);
+
+        final SpielfeldView spielfeldView = new SpielfeldView();
+        new SpielfeldViewController(spielfeldView, backend);
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
         new SpielmodusViewController(spielmodusView, backend);
-        JPanel spielfeld = new JPanel(false);
-        // spielfeld.setOpaque(false);
-        spielfeld.setLayout(new BoxLayout(spielfeld, BoxLayout.Y_AXIS));
-        spielfeld.add(view);
-        spielfeld.setPreferredSize(new Dimension(500, 500));
-        spielfeld.setBackground(Color.GRAY);
+        spielfeldView.setPreferredSize(new Dimension(500, 500));
         final TrackingControllView trackingView = new TrackingControllView();
         final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
                 backend);
         trackingView.setTrackingControllViewController(trackingViewCtrl);
         JPanel spielinfo = new SpielinfoView(trackingView);
-
-        add(spielfeld, BorderLayout.CENTER);
+        add(spielfeldView, BorderLayout.CENTER);
         add(spielinfo, BorderLayout.EAST);
-
         setVisible(true);
     }
 
@@ -97,8 +83,7 @@ public class MainView extends JPanel {
         final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
                 backend);
         trackingView.setTrackingControllViewController(trackingViewCtrl);
-        
-        
+
         JPanel spielinfo = new SpielinfoView(trackingView);
         spielinfo.setBounds(550, 50, 200, 500);
         add(spielfeld);

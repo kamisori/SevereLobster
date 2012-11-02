@@ -102,6 +102,7 @@ public class SpielfeldView extends JPanel {
 
         // Fuege oben links ein leeres Label ein
         JLabel dummyObenLinks = new JLabel("", JLabel.CENTER);
+        dummyObenLinks.setBackground(Color.DARK_GRAY);
         dummyObenLinks.setBorder(BorderFactory
                 .createLineBorder(Color.DARK_GRAY));
         add(dummyObenLinks);
@@ -111,6 +112,7 @@ public class SpielfeldView extends JPanel {
         for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
 
             pfeilAnzahlView = new JLabel("", JLabel.CENTER);
+            pfeilAnzahlView.setBackground(Color.DARK_GRAY);
             pfeilAnzahlView.setBorder(BorderFactory
                     .createLineBorder(Color.DARK_GRAY));
             spaltenPfeilAnzahlenViews[breiteIndex] = pfeilAnzahlView;
@@ -132,6 +134,7 @@ public class SpielfeldView extends JPanel {
                     // int anzahlSterne = spielfeld
                     // .countSterneZeile(laengeIndex);
                     pfeilAnzahlView = new JLabel("", JLabel.CENTER);
+                    pfeilAnzahlView.setBackground(Color.DARK_GRAY);
                     reihenPfeilAnzahlenViews[laengeIndex] = pfeilAnzahlView;
                     pfeilAnzahlView.setBorder(BorderFactory
                             .createLineBorder(Color.DARK_GRAY));
