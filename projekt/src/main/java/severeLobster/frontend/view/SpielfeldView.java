@@ -1,5 +1,12 @@
 package severeLobster.frontend.view;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -15,8 +22,10 @@ import severeLobster.frontend.controller.SpielfeldViewController;
  */
 public class SpielfeldView extends JPanel {
 
-    private SpielsteinView[][] spielsteinViews;
+    private static final IconFactory ICON_FACTORY = AdvancedDynamicallyResizingIconFactory
+            .getInstance();
     private SpielfeldViewController spielfeldController;
+    private JLabel[][] spielsteinViews;
     // Oberer Balken - waagerecht
     private JLabel[] spaltenPfeilAnzahlenViews;
     // Linker Balken - senkrecht
@@ -51,8 +60,7 @@ public class SpielfeldView extends JPanel {
             for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
 
                 anzahlSterne = newSpielfeld.countSterneSpalte(breiteIndex);
-                getSpaltenPfeilAnzahlView(breiteIndex).setText(
-                        String.valueOf(anzahlSterne));
+                setReihenPfeilAnzahl(breiteIndex, anzahlSterne);
             }
         }
         /**
@@ -68,8 +76,7 @@ public class SpielfeldView extends JPanel {
                     if (0 == breiteIndex) {
                         anzahlSterne = newSpielfeld
                                 .countSterneZeile(laengeIndex);
-                        getReihenPfeilAnzahlView(laengeIndex).setText(
-                                String.valueOf(anzahlSterne));
+                        setReihenPfeilAnzahl(laengeIndex, anzahlSterne);
                     }
                     /** Hole Spielstein fuer diese Koordinate */
                     spielstein = newSpielfeld.getSpielstein(breiteIndex,
@@ -102,7 +109,7 @@ public class SpielfeldView extends JPanel {
          * Platzhalter und hat keinen Inhalt
          */
         {
-            final JLabel dummyObenLinks = SpielsteinView.createLabel();
+            final JLabel dummyObenLinks = createLabel();
             this.add(dummyObenLinks);
         }
         /**
@@ -114,7 +121,7 @@ public class SpielfeldView extends JPanel {
 
             for (int breiteIndex = 0; breiteIndex < spielfeldBreite; breiteIndex++) {
 
-                pfeilAnzahlView = SpielsteinView.createPfeilAnzahlLabel();
+                pfeilAnzahlView = createPfeilAnzahlLabel();
                 this.spaltenPfeilAnzahlenViews[breiteIndex] = pfeilAnzahlView;
                 this.add(pfeilAnzahlView);
             }
@@ -125,16 +132,15 @@ public class SpielfeldView extends JPanel {
          */
         {
             /** Erzeuge array mit views */
-            spielsteinViews = new SpielsteinView[spielfeldBreite][spielfeldHoehe];
+            spielsteinViews = new JLabel[spielfeldBreite][spielfeldHoehe];
             reihenPfeilAnzahlenViews = new JLabel[spielfeldHoehe];
-            SpielsteinView view = null;
+            JLabel view = null;
             JLabel pfeilAnzahlView;
             for (int laengeIndex = 0; laengeIndex < spielfeldHoehe; laengeIndex++) {
                 for (int breiteIndex = 0; breiteIndex < spielfeldBreite; breiteIndex++) {
                     /** Am Anfang jeder Zeile einen PfeilAnzahlView einfuegen */
                     if (0 == breiteIndex) {
-                        pfeilAnzahlView = SpielsteinView
-                                .createPfeilAnzahlLabel();
+                        pfeilAnzahlView = createPfeilAnzahlLabel();
                         this.reihenPfeilAnzahlenViews[laengeIndex] = pfeilAnzahlView;
                         this.add(pfeilAnzahlView);
                     }
@@ -142,8 +148,8 @@ public class SpielfeldView extends JPanel {
                      * Erstelle neue Ansichtskomponente fuer Spielstein mit
                      * diesen Koordinaten
                      */
-                    view = SpielsteinView.createSpielsteinView(breiteIndex,
-                            laengeIndex, spielfeldController);
+                    view = createSpielsteinView(breiteIndex, laengeIndex,
+                            getController());
                     /**
                      * Speichere Komponente in Array, fuer leichteren Zugriff
                      * auf einzelne SpielsteinViews
@@ -158,26 +164,66 @@ public class SpielfeldView extends JPanel {
         revalidate();
     }
 
-    public JLabel getSpaltenPfeilAnzahlView(int x) {
-        return spaltenPfeilAnzahlenViews[x];
+    public void setSpaltenPfeilAnzahl(int x, int neuerWert) {
+        this.spaltenPfeilAnzahlenViews[x].setText(Integer.toString(neuerWert));
     }
 
-    public JLabel getReihenPfeilAnzahlView(int y) {
-        return reihenPfeilAnzahlenViews[y];
+    public void setReihenPfeilAnzahl(int y, int neuerWert) {
+        this.reihenPfeilAnzahlenViews[y].setText(Integer.toString(neuerWert));
     }
 
-    public void setDisplayedSpielstein(int x, int y, Spielstein newSpielstein) {
+    public void setDisplayedSpielstein(final int x, final int y,
+            Spielstein newSpielstein) {
 
         if (null == newSpielstein) {
             newSpielstein = KeinStein.getInstance();
         }
-        spielsteinViews[x][y].setDisplayedSpielstein(newSpielstein);
+        final Icon newIcon = ICON_FACTORY.getIconForSpielstein(newSpielstein);
+        spielsteinViews[x][y].setIcon(newIcon);
     }
 
     public void setSpielfeldController(
             SpielfeldViewController spielfeldController) {
         this.spielfeldController = spielfeldController;
 
+    }
+
+    private SpielfeldViewController getController() {
+        return this.spielfeldController;
+    }
+
+    private static JLabel createSpielsteinView(final int x, final int y,
+            final SpielfeldViewController viewController) {
+        final JLabel result = createLabel();
+
+        result.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                viewController.spielSteinClick(x, y, mouseEvent);
+            }
+        });
+
+        return result;
+    }
+
+    public static JLabel createLabel() {
+        final JLabel result = new JLabel();
+        initializeVisibleStyleOf(result);
+        return result;
+    }
+
+    private static JLabel createPfeilAnzahlLabel() {
+        final JLabel result = createLabel();
+        result.setFont(new Font("Serif", Font.PLAIN, 20));
+        result.setForeground(Color.white);
+        return result;
+    }
+
+    private static void initializeVisibleStyleOf(JLabel label) {
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setBackground(Color.DARK_GRAY);
+        label.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
     }
 
 }

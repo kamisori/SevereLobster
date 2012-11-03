@@ -1,16 +1,14 @@
 package severeLobster.frontend.view;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
-import severeLobster.backend.spiel.Spielfeld;
-import severeLobster.backend.spiel.Spielstein;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
+
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.controller.SpielfeldViewController;
 import severeLobster.frontend.controller.SpielmodusViewController;
-
-import javax.swing.JFrame;
-import java.awt.BorderLayout;
-import java.util.List;
-import java.util.Random;
 
 /**
  * Test fuer SpielfeldView, SpielmodusView und Spielfeld. Einfaches Frame, das
@@ -29,7 +27,7 @@ import java.util.Random;
 public class SpielfeldViewTestOhneJUnit {
 
     public static final boolean DO_RANDOM_TEST = false;
-    public static final int SPIELFELD_BREITE = 2;
+    public static final int SPIELFELD_BREITE = 40;
     public static final int SPIELFELD_HOEHE = 7;
     
     

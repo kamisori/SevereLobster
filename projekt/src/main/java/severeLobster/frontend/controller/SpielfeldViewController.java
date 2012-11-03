@@ -2,13 +2,18 @@ package severeLobster.frontend.controller;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import java.awt.event.MouseEvent;
 import java.util.List;
 
+import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.ISpielfeldReadOnly;
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
+import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.Spielstein;
+import severeLobster.backend.spiel.Stern;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
+import severeLobster.frontend.view.PopupMenuForSpielsteinChoice;
 import severeLobster.frontend.view.SpielfeldView;
 
 /**
@@ -66,8 +71,7 @@ public class SpielfeldViewController {
 
             int anzahlSterne = backend.getCountSterneSpale(breiteIndex);
 
-            spielfeldView.getSpaltenPfeilAnzahlView(breiteIndex).setText(
-                    String.valueOf(anzahlSterne));
+            spielfeldView.setSpaltenPfeilAnzahl(breiteIndex, anzahlSterne);
         }
         /**
          * Durchlaufe das Spielfeld zeilenweise und fuege in der Reihenfolge die
@@ -79,8 +83,8 @@ public class SpielfeldViewController {
                 if (0 == breiteIndex) {
                     int anzahlSterne = backend.getCountSterneZeile(laengeIndex);
 
-                    spielfeldView.getReihenPfeilAnzahlView(laengeIndex)
-                            .setText(String.valueOf(anzahlSterne));
+                    spielfeldView.setReihenPfeilAnzahl(laengeIndex,
+                            anzahlSterne);
                 }
                 /** Hole naechsten Spielstein */
                 spielstein = backend.getSpielstein(breiteIndex, laengeIndex);
@@ -89,6 +93,70 @@ public class SpielfeldViewController {
                         spielstein);
 
             }
+        }
+    }
+
+    public void spielSteinClick(int x, int y, MouseEvent mouseEvent) {
+        if (isSpielModus()) {
+            if (isLeftClick(mouseEvent)) {
+                guessStern(x, y);
+                return;
+            }
+            if (isRightClick(mouseEvent)) {
+                guessAusschluss(x, y);
+                return;
+            }
+        }
+        /** Editiermodus: */
+        if (!isSpielModus()) {
+            if (isLeftClick(mouseEvent)) {
+                resetSpielsteinState(x, y);
+                return;
+            }
+            if (isRightClick(mouseEvent)) {
+                new PopupMenuForSpielsteinChoice(this,
+                        listAvailableStates(x, y), x, y).show(
+                        mouseEvent.getComponent(), mouseEvent.getX(),
+                        mouseEvent.getY());
+
+                return;
+            }
+        }
+    }
+
+    private boolean isLeftClick(final MouseEvent e) {
+        return e.getButton() == MouseEvent.BUTTON1;
+
+    }
+
+    private boolean isRightClick(final MouseEvent e) {
+        return e.getButton() == MouseEvent.BUTTON3;
+
+    }
+
+    private void resetSpielsteinState(final int x, final int y) {
+        final Spielstein nullState = KeinStein.getInstance();
+        setSpielstein(nullState, x, y);
+    }
+
+    private boolean isSpielModus() {
+        return getSpielmodus().equals(SpielmodusEnumeration.SPIELEN);
+    }
+
+    private void guessStern(final int x, final int y) {
+        if (getSpielstein(x, y).equals(Stern.getInstance())) {
+            setSpielstein(KeinStein.getInstance(), x, y);
+        } else {
+            setSpielstein(Stern.getInstance(), x, y);
+        }
+
+    }
+
+    private void guessAusschluss(final int x, final int y) {
+        if (getSpielstein(x, y).equals(Ausschluss.getInstance())) {
+            setSpielstein(KeinStein.getInstance(), x, y);
+        } else {
+            setSpielstein(Ausschluss.getInstance(), x, y);
         }
     }
 

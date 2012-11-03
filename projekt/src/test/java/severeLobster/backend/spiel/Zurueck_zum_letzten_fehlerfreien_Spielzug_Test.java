@@ -33,9 +33,7 @@ public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
 
     @Before
     public void setUp() {
-        when(view.getReihenPfeilAnzahlView(anyInt())).thenReturn(new JLabel());
-        when(view.getSpaltenPfeilAnzahlView(anyInt())).thenReturn(new JLabel());
-        
+
         spiel = backend.getSpiel();
         spiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
         spiel.initializeNewSpielfeld(3, 3);
@@ -43,7 +41,7 @@ public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
         spiel.setSpielstein(0, 1, Stern.getInstance());
         spiel.setSpielstein(0, 2, Stern.getInstance());
         spiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        //when(backend.getSpiel()).thenReturn(spiel);
+        // when(backend.getSpiel()).thenReturn(spiel);
     }
 
     @Test
