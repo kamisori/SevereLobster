@@ -27,7 +27,7 @@ public abstract class IconFactory {
 
     public abstract Icon blankIcon();
 
-    public final Icon getIconForState(final Spielstein state) {
+    public final Icon getIconForSpielstein(final Spielstein state) {
         if (null == state) {
             return blankIcon();
         }

@@ -1,21 +1,17 @@
 package severeLobster.frontend.view;
 
-import java.awt.Color;
-import java.awt.Font;
-
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import severeLobster.backend.spiel.ISpielfeldReadOnly;
 import severeLobster.backend.spiel.KeinStein;
-import severeLobster.backend.spiel.Spielfeld;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielfeldViewController;
 
 /**
  * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen.
  * 
- * @author LKleiber
+ * @author Lutz Kleiber
  */
 public class SpielfeldView extends JPanel {
 
@@ -38,127 +34,125 @@ public class SpielfeldView extends JPanel {
      * @param newSpielfeld
      */
     @Deprecated
-    public SpielfeldView(final Spielfeld newSpielfeld) {
+    public SpielfeldView(final ISpielfeldReadOnly newSpielfeld) {
 
+        this();
         if (null == newSpielfeld) {
             throw new NullPointerException("Spielfeld ist null");
         }
-        setOpaque(false);
         final int laenge = newSpielfeld.getHoehe();
         final int breite = newSpielfeld.getBreite();
 
         setSpielfeldAbmessungen(breite, laenge);
 
-        Spielstein spielstein = null;
-
-        // Erstelle oberen Balken fuer Anzahl der Pfeile in den Spalten:
-        for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-
-            int anzahlSterne = newSpielfeld.countSterneSpalte(breiteIndex);
-            getSpaltenPfeilAnzahlView(breiteIndex).setText(
-                    String.valueOf(anzahlSterne));
-        }
-        /**
-         * Durchlaufe das Spielfeld zeilenweise und fuege in der Reihenfolge die
-         * Spielsteinansichten zum Panel hinzu.
-         */
-        for (int laengeIndex = 0; laengeIndex < laenge; laengeIndex++) {
+        /** Setze Werte in oberem Balken fuer Anzahl der Pfeile in den Spalten */
+        {
+            int anzahlSterne = 0;
             for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-                // Am Anfang jeder Zeile einen PfeilAnzahlView einstellen:
-                if (0 == breiteIndex) {
-                    int anzahlSterne = newSpielfeld
-                            .countSterneZeile(laengeIndex);
-                    getReihenPfeilAnzahlView(laengeIndex).setText(
-                            String.valueOf(anzahlSterne));
-                }
-                /** Hole naechsten Spielstein */
-                spielstein = newSpielfeld.getSpielstein(breiteIndex,
-                        laengeIndex);
-                /** Setze neue Ansichtskomponente fuer diesen Spielstein */
-                setDisplayedSpielstein(breiteIndex, laengeIndex, spielstein);
 
+                anzahlSterne = newSpielfeld.countSterneSpalte(breiteIndex);
+                getSpaltenPfeilAnzahlView(breiteIndex).setText(
+                        String.valueOf(anzahlSterne));
             }
         }
-
+        /**
+         * Durchlaufe das Spielfeld zeilenweise und setze in der Reihenfolge die
+         * Icons der Spielsteinansichten.
+         */
+        {
+            Spielstein spielstein = null;
+            int anzahlSterne = 0;
+            for (int laengeIndex = 0; laengeIndex < laenge; laengeIndex++) {
+                for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
+                    /** Am Anfang jeder Zeile einen PfeilAnzahlView einstellen */
+                    if (0 == breiteIndex) {
+                        anzahlSterne = newSpielfeld
+                                .countSterneZeile(laengeIndex);
+                        getReihenPfeilAnzahlView(laengeIndex).setText(
+                                String.valueOf(anzahlSterne));
+                    }
+                    /** Hole Spielstein fuer diese Koordinate */
+                    spielstein = newSpielfeld.getSpielstein(breiteIndex,
+                            laengeIndex);
+                    /** Setze neue Ansicht fuer diesen Spielstein */
+                    setDisplayedSpielstein(breiteIndex, laengeIndex, spielstein);
+                }
+            }
+        }
     }
 
-    public void setSpielfeldAbmessungen(int breite, int laenge) {
+    public void setSpielfeldAbmessungen(final int spielfeldBreite,
+            final int spielfeldHoehe) {
 
-        removeAll();
-        revalidate();
+        /** Nimm alles bisherige aus dem Panel raus */
+        this.removeAll();
+        this.revalidate();
 
-        final int laengeMitAnzahlPfeilenInZeileView = laenge + 1;
-        final int breiteMitAnzahlPfeilenInSpalteView = breite + 1;
-        setLayout(new QuadratischeZellenGridLayout(
-                laengeMitAnzahlPfeilenInZeileView,
-                breiteMitAnzahlPfeilenInSpalteView));
-        // setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         /**
-         * Erzeuge array mit views:
+         * Intitialisiere Layout immer neu, da sich die Ausmasse geaendert haben
+         * koennten. Zu Hoehe und Breite kommt je 1 hinzu, da die Anzahl der
+         * Pfeile in Spalten und Zeilen noch dargestellt werden muessen (oben
+         * und links). Durch QuadratischeZellenGridLayout sind alle Zellen
+         * gleichgross und quadratisch.
          */
-        spielsteinViews = new SpielsteinView[breite][laenge];
-        Spielstein spielstein = null;
-        SpielsteinView view = null;
-
-        // Fuege oben links ein leeres Label ein
-        JLabel dummyObenLinks = new JLabel("", JLabel.CENTER);
-        dummyObenLinks.setBackground(Color.DARK_GRAY);
-        dummyObenLinks.setBorder(BorderFactory
-                .createLineBorder(Color.DARK_GRAY));
-        add(dummyObenLinks);
-        JLabel pfeilAnzahlView;
-        spaltenPfeilAnzahlenViews = new JLabel[breite];
-        // Erstelle oberen Balken fuer Anzahl der Pfeile in den Spalten:
-        for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-
-            pfeilAnzahlView = new JLabel("", JLabel.CENTER);
-            pfeilAnzahlView.setBackground(Color.DARK_GRAY);
-            pfeilAnzahlView.setBorder(BorderFactory
-                    .createLineBorder(Color.DARK_GRAY));
-            spaltenPfeilAnzahlenViews[breiteIndex] = pfeilAnzahlView;
-            // Vergroessere Schrift:
-            pfeilAnzahlView.setFont(new Font("Serif", Font.PLAIN, 20));
-            pfeilAnzahlView.setForeground(Color.white);
-            add(pfeilAnzahlView);
+        this.setLayout(new QuadratischeZellenGridLayout(spielfeldHoehe + 1,
+                spielfeldBreite + 1));
+        /**
+         * Fuege oben links ein leeres Label ein. Das Label dient nur als
+         * Platzhalter und hat keinen Inhalt
+         */
+        {
+            final JLabel dummyObenLinks = SpielsteinView.createLabel();
+            this.add(dummyObenLinks);
         }
-        reihenPfeilAnzahlenViews = new JLabel[laenge];
+        /**
+         * Erstelle oberen Balken fuer Anzeige der Pfeilanzahl in den Spalten
+         */
+        {
+            this.spaltenPfeilAnzahlenViews = new JLabel[spielfeldBreite];
+            JLabel pfeilAnzahlView;
+
+            for (int breiteIndex = 0; breiteIndex < spielfeldBreite; breiteIndex++) {
+
+                pfeilAnzahlView = SpielsteinView.createPfeilAnzahlLabel();
+                this.spaltenPfeilAnzahlenViews[breiteIndex] = pfeilAnzahlView;
+                this.add(pfeilAnzahlView);
+            }
+        }
         /**
          * Durchlaufe das Spielfeld zeilenweise und fuege in der Reihenfolge die
          * Spielsteinansichten zum Panel hinzu.
          */
-        for (int laengeIndex = 0; laengeIndex < laenge; laengeIndex++) {
-            for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-                // Am Anfang jeder Zeile einen PfeilAnzahlView
-                // einfuegen:
-                if (0 == breiteIndex) {
-                    // int anzahlSterne = spielfeld
-                    // .countSterneZeile(laengeIndex);
-                    pfeilAnzahlView = new JLabel("", JLabel.CENTER);
-                    pfeilAnzahlView.setBackground(Color.DARK_GRAY);
-                    reihenPfeilAnzahlenViews[laengeIndex] = pfeilAnzahlView;
-                    pfeilAnzahlView.setBorder(BorderFactory
-                            .createLineBorder(Color.DARK_GRAY));
-                    pfeilAnzahlView.setFont(new Font("Serif", Font.PLAIN, 20));
-                    pfeilAnzahlView.setForeground(Color.white);
-                    add(pfeilAnzahlView);
-                }
-                /** Hole naechsten Spielstein */
-                // spielstein = spielfeld.getSpielstein(breiteIndex,
-                // laengeIndex);
-                /**
-                 * Erstelle neue Ansichtskomponente fuer diesen Spielstein
-                 */
-                view = new SpielsteinView(spielstein, breiteIndex, laengeIndex,
-                        spielfeldController);
-                view.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-                /**
-                 * Speichere Komponente in Array, fuer leichteren Zugriff auf
-                 * einzelne SpielsteinViews
-                 */
-                spielsteinViews[breiteIndex][laengeIndex] = view;
+        {
+            /** Erzeuge array mit views */
+            spielsteinViews = new SpielsteinView[spielfeldBreite][spielfeldHoehe];
+            reihenPfeilAnzahlenViews = new JLabel[spielfeldHoehe];
+            SpielsteinView view = null;
+            JLabel pfeilAnzahlView;
+            for (int laengeIndex = 0; laengeIndex < spielfeldHoehe; laengeIndex++) {
+                for (int breiteIndex = 0; breiteIndex < spielfeldBreite; breiteIndex++) {
+                    /** Am Anfang jeder Zeile einen PfeilAnzahlView einfuegen */
+                    if (0 == breiteIndex) {
+                        pfeilAnzahlView = SpielsteinView
+                                .createPfeilAnzahlLabel();
+                        this.reihenPfeilAnzahlenViews[laengeIndex] = pfeilAnzahlView;
+                        this.add(pfeilAnzahlView);
+                    }
+                    /**
+                     * Erstelle neue Ansichtskomponente fuer Spielstein mit
+                     * diesen Koordinaten
+                     */
+                    view = SpielsteinView.createSpielsteinView(breiteIndex,
+                            laengeIndex, spielfeldController);
+                    /**
+                     * Speichere Komponente in Array, fuer leichteren Zugriff
+                     * auf einzelne SpielsteinViews
+                     */
+                    this.spielsteinViews[breiteIndex][laengeIndex] = view;
 
-                /** Fuege Ansicht zum Panel hinzu */
-                add(view);
+                    /** Fuege Ansicht zum Panel hinzu */
+                    this.add(view);
+                }
             }
         }
         revalidate();
@@ -172,16 +166,12 @@ public class SpielfeldView extends JPanel {
         return reihenPfeilAnzahlenViews[y];
     }
 
-    public void setDisplayedSpielstein(int x, int y, Spielstein spielstein) {
+    public void setDisplayedSpielstein(int x, int y, Spielstein newSpielstein) {
 
-        final SpielsteinView[][] currentViews = spielsteinViews;
-        if (null != currentViews) {
-            if (null == spielstein) {
-                spielstein = KeinStein.getInstance();
-            }
-            currentViews[x][y].setDisplayedStein(spielstein);
+        if (null == newSpielstein) {
+            newSpielstein = KeinStein.getInstance();
         }
-
+        spielsteinViews[x][y].setDisplayedSpielstein(newSpielstein);
     }
 
     public void setSpielfeldController(
@@ -189,4 +179,5 @@ public class SpielfeldView extends JPanel {
         this.spielfeldController = spielfeldController;
 
     }
+
 }

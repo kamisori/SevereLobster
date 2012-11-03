@@ -33,7 +33,7 @@ public class PopupMenuForSpielsteinChoice extends JPopupMenu {
             /** Hole Icon und Namen fuer diesen SpielsteinState: */
 
             menuItem = new JMenuItem(currentstein.toString(), SimpleIconFactory
-                    .getInstance().getIconForState(currentstein));
+                    .getInstance().getIconForSpielstein(currentstein));
             /**
              * Sinn dieser Variable ist es der Anonymen Klasse eine Konstante
              * mitzugeben:
