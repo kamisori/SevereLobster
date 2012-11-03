@@ -60,14 +60,16 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
             if (file != null) {
                 try {
                     spiel = Spiel
-                            .loadSpiel(file
-                                    .getName()
-                                    .replace(
-                                            "."
-                                                    + GlobaleKonstanten.SPIELSTAND_DATEITYP,
-                                            ""), SpielmodusEnumeration.SPIELEN);
-                    SpielfeldView spielfeldView = new SpielfeldView(
-                            spiel.getSpielfeld());
+                            .loadSpiel(
+                                    file.getName()
+                                            .replace(
+                                                    "."
+                                                            + GlobaleKonstanten.SPIELSTAND_DATEITYP,
+                                                    ""),
+                                    SpielmodusEnumeration.SPIELEN);
+                    SpielfeldView spielfeldView = new SpielfeldView();
+                    spielfeldView.setDisplayedSpielfeld(spiel
+                            .getSpielfeld());
                     spielfeldView.setSize(200, 200);
                     BufferedImage bufferedImage = GraphicUtils
                             .createComponentShot(spielfeldView);

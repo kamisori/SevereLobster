@@ -57,45 +57,6 @@ public class SpielfeldViewController {
         return backend.listAvailableStates(x, y);
     }
 
-    private void refreshDisplayedSpielfeldCompletely() {
-
-        final int laenge = backend.getSpielfeldHoehe();
-        final int breite = backend.getSpielfeldBreite();
-
-        spielfeldView.setSpielfeldAbmessungen(breite, laenge);
-
-        Spielstein spielstein = null;
-
-        // Erstelle oberen Balken fuer Anzahl der Pfeile in den Spalten:
-        for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-
-            int anzahlSterne = backend.getCountSterneSpale(breiteIndex);
-
-            spielfeldView.setSpaltenPfeilAnzahl(breiteIndex, anzahlSterne);
-        }
-        /**
-         * Durchlaufe das Spielfeld zeilenweise und fuege in der Reihenfolge die
-         * Spielsteinansichten zum Panel hinzu.
-         */
-        for (int laengeIndex = 0; laengeIndex < laenge; laengeIndex++) {
-            for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-                // Am Anfang jeder Zeile einen PfeilAnzahlView einstellen:
-                if (0 == breiteIndex) {
-                    int anzahlSterne = backend.getCountSterneZeile(laengeIndex);
-
-                    spielfeldView.setReihenPfeilAnzahl(laengeIndex,
-                            anzahlSterne);
-                }
-                /** Hole naechsten Spielstein */
-                spielstein = backend.getSpielstein(breiteIndex, laengeIndex);
-                /** Setze neue Ansichtskomponente fuer diesen Spielstein */
-                spielfeldView.setDisplayedSpielstein(breiteIndex, laengeIndex,
-                        spielstein);
-
-            }
-        }
-    }
-
     public void spielSteinClick(int x, int y, MouseEvent mouseEvent) {
         if (isSpielModus()) {
             if (isLeftClick(mouseEvent)) {
@@ -167,7 +128,7 @@ public class SpielfeldViewController {
         public void spielmodusChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, SpielmodusEnumeration newSpielmodus) {
-            refreshDisplayedSpielfeldCompletely();
+            spielfeldView.setDisplayedSpielfeld(spiel.getSpielfeld());
         }
 
         @Override
@@ -175,16 +136,7 @@ public class SpielfeldViewController {
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, ISpielfeldReadOnly spielfeld, int x, int y,
                 Spielstein newStein) {
-            // // TEMP: Zeichne immer alles neu, damit Sternanzahlen oben und
-            // links
-            // // immer aktuell sind.
-            // if (currentSpielfeld == spielfeld) {
-            // // spielfeldView.setDisplayedSpielstein(x, y, newStein);
-            // } else {
-            // currentSpielfeld = spielfeld;
-            //
-            // }
-            refreshDisplayedSpielfeldCompletely();
+            spielfeldView.setDisplayedSpielfeld(spiel.getSpielfeld());
 
         }
 
@@ -192,14 +144,14 @@ public class SpielfeldViewController {
         public void spielfeldChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, ISpielfeldReadOnly newSpielfeld) {
-            refreshDisplayedSpielfeldCompletely();
+            spielfeldView.setDisplayedSpielfeld(spiel.getSpielfeld());
         }
 
         @Override
         public void spielChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel) {
-            refreshDisplayedSpielfeldCompletely();
+            spielfeldView.setDisplayedSpielfeld(spiel.getSpielfeld());
         }
 
     }

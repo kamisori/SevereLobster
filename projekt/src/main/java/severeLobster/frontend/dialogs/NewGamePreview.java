@@ -63,8 +63,9 @@ public class NewGamePreview extends JPanel implements PropertyChangeListener {
                 try {
                     spiel = Spiel.newSpiel(file.getName().replace(
                             "." + GlobaleKonstanten.PUZZLE_DATEITYP, ""));
-                    SpielfeldView spielfeldView = new SpielfeldView(
-                            spiel.getSpielfeld());
+                    SpielfeldView spielfeldView = new SpielfeldView();
+                    spielfeldView.setDisplayedSpielfeld(spiel
+                            .getSpielfeld());
                     spielfeldView.setSize(200, 200);
                     BufferedImage bufferedImage = GraphicUtils
                             .createComponentShot(spielfeldView);

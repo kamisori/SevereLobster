@@ -35,59 +35,6 @@ public class SpielfeldView extends JPanel {
         setOpaque(false);
     }
 
-    /**
-     * Konstruktor sollte nur fuer Vorschau benutzt werden. Es werden keine
-     * Klicks unterstuetzt, da die SpielSteinView Instanzen einen Controller
-     * uebergeben bekommen, der hier noch null ist.
-     * 
-     * @param newSpielfeld
-     */
-    @Deprecated
-    public SpielfeldView(final ISpielfeldReadOnly newSpielfeld) {
-
-        this();
-        if (null == newSpielfeld) {
-            throw new NullPointerException("Spielfeld ist null");
-        }
-        final int laenge = newSpielfeld.getHoehe();
-        final int breite = newSpielfeld.getBreite();
-
-        setSpielfeldAbmessungen(breite, laenge);
-
-        /** Setze Werte in oberem Balken fuer Anzahl der Pfeile in den Spalten */
-        {
-            int anzahlSterne = 0;
-            for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-
-                anzahlSterne = newSpielfeld.countSterneSpalte(breiteIndex);
-                setReihenPfeilAnzahl(breiteIndex, anzahlSterne);
-            }
-        }
-        /**
-         * Durchlaufe das Spielfeld zeilenweise und setze in der Reihenfolge die
-         * Icons der Spielsteinansichten.
-         */
-        {
-            Spielstein spielstein = null;
-            int anzahlSterne = 0;
-            for (int laengeIndex = 0; laengeIndex < laenge; laengeIndex++) {
-                for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-                    /** Am Anfang jeder Zeile einen PfeilAnzahlView einstellen */
-                    if (0 == breiteIndex) {
-                        anzahlSterne = newSpielfeld
-                                .countSterneZeile(laengeIndex);
-                        setReihenPfeilAnzahl(laengeIndex, anzahlSterne);
-                    }
-                    /** Hole Spielstein fuer diese Koordinate */
-                    spielstein = newSpielfeld.getSpielstein(breiteIndex,
-                            laengeIndex);
-                    /** Setze neue Ansicht fuer diesen Spielstein */
-                    setDisplayedSpielstein(breiteIndex, laengeIndex, spielstein);
-                }
-            }
-        }
-    }
-
     public void setSpielfeldAbmessungen(final int spielfeldBreite,
             final int spielfeldHoehe) {
 
@@ -186,6 +133,49 @@ public class SpielfeldView extends JPanel {
             SpielfeldViewController spielfeldController) {
         this.spielfeldController = spielfeldController;
 
+    }
+
+    public void setDisplayedSpielfeld(final ISpielfeldReadOnly newSpielfeld) {
+        if (null == newSpielfeld) {
+            throw new NullPointerException("Spielfeld ist null");
+        }
+        final int laenge = newSpielfeld.getHoehe();
+        final int breite = newSpielfeld.getBreite();
+
+        setSpielfeldAbmessungen(breite, laenge);
+
+        /** Setze Werte in oberem Balken fuer Anzahl der Pfeile in den Spalten */
+        {
+            int anzahlSterne = 0;
+            for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
+
+                anzahlSterne = newSpielfeld.countSterneSpalte(breiteIndex);
+                setSpaltenPfeilAnzahl(breiteIndex, anzahlSterne);
+            }
+        }
+        /**
+         * Durchlaufe das Spielfeld zeilenweise und setze in der Reihenfolge die
+         * Icons der Spielsteinansichten.
+         */
+        {
+            Spielstein spielstein = null;
+            int anzahlSterne = 0;
+            for (int laengeIndex = 0; laengeIndex < laenge; laengeIndex++) {
+                for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
+                    /** Am Anfang jeder Zeile einen PfeilAnzahlView einstellen */
+                    if (0 == breiteIndex) {
+                        anzahlSterne = newSpielfeld
+                                .countSterneZeile(laengeIndex);
+                        setReihenPfeilAnzahl(laengeIndex, anzahlSterne);
+                    }
+                    /** Hole Spielstein fuer diese Koordinate */
+                    spielstein = newSpielfeld.getSpielstein(breiteIndex,
+                            laengeIndex);
+                    /** Setze neue Ansicht fuer diesen Spielstein */
+                    setDisplayedSpielstein(breiteIndex, laengeIndex, spielstein);
+                }
+            }
+        }
     }
 
     private SpielfeldViewController getController() {
