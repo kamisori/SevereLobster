@@ -31,7 +31,7 @@ public class MainView extends JPanel {
 		return backend;
 	}
 
-	private SternenSpielApplicationBackend backend;
+	private static SternenSpielApplicationBackend backend;
 
 	public MainView() throws IOException 
 	{
@@ -101,7 +101,7 @@ public class MainView extends JPanel {
 
 	}
 
-	public Spiel getCurrentSpiel() {
+	public static Spiel getCurrentSpiel() {
 		return backend.getSpiel();
 	}
 }

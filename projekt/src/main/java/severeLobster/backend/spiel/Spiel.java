@@ -36,6 +36,7 @@ public class Spiel implements IGotSpielModus {
     private Stack<Aktion> spielZuege;
     private Stack<Integer> trackingPunkte;
     private int letzterFehlerfreierSpielzug;
+	private int spielVersuche=0;
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
@@ -374,5 +375,16 @@ public class Spiel implements IGotSpielModus {
             fireSpielsteinChanged(spielfeld, x, y, changedStein);
         }
     }
+
+	public int getSpielVersuche() 
+	{
+		
+		return spielVersuche;
+	}
+	public void addSpielVersuch() 
+	{
+		
+		spielVersuche++;
+	}
 
 }

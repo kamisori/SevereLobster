@@ -17,8 +17,8 @@ public class SpielinfoView extends JPanel {
 
     public SpielinfoView(final TrackingControllView trackingControllView) {
         setLayout(null);
-        add(new JLabel("Spielinfo"));
-        setBackground(Color.GRAY);
+        
+        setBackground(Color.BLACK);
         JPanel trackingView = trackingControllView;
         trackingView.setBounds(0, 365, 200, 131);
         add(trackingView, BorderLayout.SOUTH);
@@ -28,15 +28,15 @@ public class SpielinfoView extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        // Auskommentiert fuer Test von TrackingControllView
-        // Image sImage = getToolkit().getImage(
-        // resourceManager.getGraphicURL("spielinfo.jpg"));
+    	super.paintComponent(g);
+   
         /**
          * Anfang Test von TrackingControllView
          */
+    	int zugcount =MainView.getCurrentSpiel().getSpielVersuche();
         Image sImage = getToolkit().getImage(
                 resourceManager
-                        .getGraphicURL("spielinfo_untenAbgeschnitten.jpg"));
+                        .getGraphicURL("spielinfo_neu.jpg"));
 
         /**
          * Ende Test von TrackingControllView
@@ -46,7 +46,11 @@ public class SpielinfoView extends JPanel {
 
         g.setFont(GlobaleKonstanten.FONT);
         g.setColor(Color.YELLOW);
-        g.drawString(System.getProperty("user.name"), 60, 140);
+        g.drawString(System.getProperty("user.name"), 90, 80);
+        g.setColor(Color.BLACK);
+        g.drawString("Versuche: "+String.valueOf(zugcount), 40, 246);
+        validate();
+        repaint();
     }
 
 }

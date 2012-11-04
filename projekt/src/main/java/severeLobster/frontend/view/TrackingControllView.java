@@ -1,6 +1,7 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
+import infrastructure.constants.GlobaleKonstanten;
 import severeLobster.frontend.controller.TrackingControllViewController;
 
 import javax.swing.ImageIcon;
@@ -8,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,7 +30,7 @@ public class TrackingControllView extends JPanel {
     private final JButton zurueckZumFehlerBtn;
 
     public TrackingControllView() {
-        setBackground(Color.DARK_GRAY);
+        setBackground(Color.BLACK);
         setLayout(new FlowLayout(FlowLayout.CENTER));
 
         final AnAusAuswahl auswahl = new AnAusAuswahl(true);
@@ -112,5 +115,15 @@ public class TrackingControllView extends JPanel {
             final TrackingControllViewController controller) {
         this.currentController = controller;
     }
+    @Override
+    public void paintComponent(Graphics g) {
+    	super.paintComponent(g);
+   Image sImage = getToolkit().getImage(
+                resourceManager
+                        .getGraphicURL("trackingview.jpg"));
 
+        g.drawImage(sImage, 0, 0, this);
+      validate();
+        repaint();
+    }
 }

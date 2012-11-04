@@ -22,244 +22,252 @@ import java.util.List;
  */
 public class SternenSpielApplicationBackend {
 
-    private final EventListenerList listeners = new EventListenerList();
-    private final ISpielListener innerSpielListener = new InnerSpielListener();
-    private Spiel currentlyPlayedSpiel;
+	private final EventListenerList listeners = new EventListenerList();
+	private final ISpielListener innerSpielListener = new InnerSpielListener();
+	private Spiel currentlyPlayedSpiel;
 
-    public SternenSpielApplicationBackend() {
-        this.currentlyPlayedSpiel = new Spiel();
-        currentlyPlayedSpiel.addSpielListener(innerSpielListener);
-    }
+	public SternenSpielApplicationBackend() {
+		this.currentlyPlayedSpiel = new Spiel();
+		currentlyPlayedSpiel.addSpielListener(innerSpielListener);
+	}
 
-    public Spiel getSpiel() {
-        return this.currentlyPlayedSpiel;
-    }
+	public Spiel getSpiel() {
+		return this.currentlyPlayedSpiel;
+	}
 
-    public void setzeTrackingPunkt() {
-        currentlyPlayedSpiel.getTrackingPunkte().push(currentlyPlayedSpiel.getSpielZuege().size());
-    }
+	public void setzeTrackingPunkt() {
+		currentlyPlayedSpiel.getTrackingPunkte().push(currentlyPlayedSpiel.getSpielZuege().size());
+	}
 
-    private void nimmSpielzugZurueck() {
-        currentlyPlayedSpiel.getSpielZuege().pop().undo();
-    }
+	private void nimmSpielzugZurueck() {
+		currentlyPlayedSpiel.getSpielZuege().pop().undo();
+	}
 
-    public void zurueckZumLetztenFehlerfreienSpielzug() {
-        while (currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug()) {
-            nimmSpielzugZurueck();
-        }
-    }
+	public void zurueckZumLetztenFehlerfreienSpielzug() {
 
-    public void zurueckZumLetztenTrackingPunkt() {
+		if(currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug())
+		{
+			currentlyPlayedSpiel.addSpielVersuch();
+			while (currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug()) 
+			{
+				nimmSpielzugZurueck();
+			}
+		}
 
-        /** Try-Catch ist Quickfix fuer Emptystackexception: */
-        try {
-            int trackingPunkt = currentlyPlayedSpiel.getTrackingPunkte().pop();
-            while (currentlyPlayedSpiel.getSpielZuege().size() > trackingPunkt) {
-                nimmSpielzugZurueck();
-            }
-        } catch (EmptyStackException e) {
-            /**
-             * Wenn keine Trackingpunkte gespeichert sind, mach einfach nix.
-             */
-        }
+	}
 
-    }
+	public void zurueckZumLetztenTrackingPunkt() {
 
-    /**
-     * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
-     * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
-     * 
-     * 
-     * ANFANG
-     * 
-     */
+		/** Try-Catch ist Quickfix fuer Emptystackexception: */
+		try {
+			int trackingPunkt = currentlyPlayedSpiel.getTrackingPunkte().pop();
+			while (currentlyPlayedSpiel.getSpielZuege().size() > trackingPunkt) {
+				nimmSpielzugZurueck();
+			}
+			currentlyPlayedSpiel.addSpielVersuch();  
+		} catch (EmptyStackException e) {
+			/**
+			 * Wenn keine Trackingpunkte gespeichert sind, mach einfach nix.
+			 */
+		}
 
-    /***
-     * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
-     * wie: Spielfeld.setSpielstein().
-     * 
-     * @param x
-     * @param y
-     * @param spielstein
-     */
-    public void setSpielstein(final int x, final int y,
-            final Spielstein spielstein) {
-        PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
-        currentlyPlayedSpiel.getSpielZuege().push(spielZug);
-        if (!spielZug.execute(x, y, spielstein)) {
-            currentlyPlayedSpiel.setLetzterFehlerfreierSpielzug(currentlyPlayedSpiel.getSpielZuege().size());
-        }
-    }
+	}
 
-    /***
-     * Gibt vom aktuellen Spielfeld den Spielstein an der Stelle.
-     * 
-     * @param x
-     * @param y
-     */
-    public Spielstein getSpielstein(final int x, final int y) {
-        return getSpiel().getSpielfeld().getSpielstein(x, y);
-    }
+	/**
+	 * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
+	 * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
+	 * 
+	 * 
+	 * ANFANG
+	 * 
+	 */
 
-    public int getSpielfeldBreite() {
-        return getSpiel().getSpielfeld().getBreite();
-    }
+	/***
+	 * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
+	 * wie: Spielfeld.setSpielstein().
+	 * 
+	 * @param x
+	 * @param y
+	 * @param spielstein
+	 */
+	public void setSpielstein(final int x, final int y,
+			final Spielstein spielstein) {
+		PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
+		currentlyPlayedSpiel.getSpielZuege().push(spielZug);
+		if (!spielZug.execute(x, y, spielstein)) {
+			currentlyPlayedSpiel.setLetzterFehlerfreierSpielzug(currentlyPlayedSpiel.getSpielZuege().size());
+		}
+	}
 
-    public int getSpielfeldHoehe() {
-        return getSpiel().getSpielfeld().getHoehe();
-    }
+	/***
+	 * Gibt vom aktuellen Spielfeld den Spielstein an der Stelle.
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public Spielstein getSpielstein(final int x, final int y) {
+		return getSpiel().getSpielfeld().getSpielstein(x, y);
+	}
 
-    public int getCountSterneSpale(final int x) {
-        return getSpiel().getSpielfeld().countSterneSpalte(x);
-    }
+	public int getSpielfeldBreite() {
+		return getSpiel().getSpielfeld().getBreite();
+	}
 
-    public int getCountSterneZeile(final int y) {
-        return getSpiel().getSpielfeld().countSterneZeile(y);
-    }
+	public int getSpielfeldHoehe() {
+		return getSpiel().getSpielfeld().getHoehe();
+	}
 
-    public List<? extends Spielstein> listAvailableStates(int x, int y) {
-        return getSpiel().getSpielfeld().listAvailableStates(x, y);
-    }
+	public int getCountSterneSpale(final int x) {
+		return getSpiel().getSpielfeld().countSterneSpalte(x);
+	}
 
-    /**
-     * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
-     * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
-     * 
-     * ENDE
-     * 
-     */
+	public int getCountSterneZeile(final int y) {
+		return getSpiel().getSpielfeld().countSterneZeile(y);
+	}
 
-    public void startNewSpielFrom(final String spielname)
-            throws FileNotFoundException, IOException {
-        final Spiel newGame = Spiel.newSpiel(spielname);
-        setSpiel(newGame);
-    }
+	public List<? extends Spielstein> listAvailableStates(int x, int y) {
+		return getSpiel().getSpielfeld().listAvailableStates(x, y);
+	}
 
-    public void loadSpielFrom(final String spielname)
-            throws FileNotFoundException, IOException {
-        final Spiel loadedSpiel = Spiel.loadSpiel(spielname,
-                SpielmodusEnumeration.SPIELEN);
-        setSpiel(loadedSpiel);
-    }
+	/**
+	 * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
+	 * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
+	 * 
+	 * ENDE
+	 * 
+	 */
 
-    public void saveCurrentSpielTo(final String spielname)
-            throws FileNotFoundException, IOException {
-        getSpiel().saveSpiel(spielname);
-    }
+	public void startNewSpielFrom(final String spielname)
+			throws FileNotFoundException, IOException {
+		final Spiel newGame = Spiel.newSpiel(spielname);
+		setSpiel(newGame);
+	}
 
-    public void setSpiel(final Spiel spiel) {
-        final Spiel currentlyListenedSpiel = getSpiel();
-        if (null != currentlyListenedSpiel) {
-            currentlyListenedSpiel.removeSpielListener(innerSpielListener);
-        }
-        spiel.addSpielListener(innerSpielListener);
-        this.currentlyPlayedSpiel = spiel;
-        fireSpielChanged(spiel);
-    }
+	public void loadSpielFrom(final String spielname)
+			throws FileNotFoundException, IOException {
+		final Spiel loadedSpiel = Spiel.loadSpiel(spielname,
+				SpielmodusEnumeration.SPIELEN);
+		setSpiel(loadedSpiel);
+	}
 
-    /**
-     * Fuegt listener zu der Liste hinzu.
-     * 
-     * @param listener
-     *            ISpielfeldListener
-     */
-    public void addApplicationBackendListener(
-            final ISternenSpielApplicationBackendListener listener) {
-        listeners.add(ISternenSpielApplicationBackendListener.class, listener);
-    }
+	public void saveCurrentSpielTo(final String spielname)
+			throws FileNotFoundException, IOException {
+		getSpiel().saveSpiel(spielname);
+	}
 
-    /**
-     * Entfernt listener von der Liste.
-     * 
-     * @param listener
-     *            ISpielsteinListener
-     */
-    public void removeApplicationBackendListener(
-            final ISternenSpielApplicationBackendListener listener) {
-        listeners.remove(ISternenSpielApplicationBackendListener.class,
-                listener);
-    }
+	public void setSpiel(final Spiel spiel) {
+		final Spiel currentlyListenedSpiel = getSpiel();
+		if (null != currentlyListenedSpiel) {
+			currentlyListenedSpiel.removeSpielListener(innerSpielListener);
+		}
+		spiel.addSpielListener(innerSpielListener);
+		this.currentlyPlayedSpiel = spiel;
+		fireSpielChanged(spiel);
+	}
 
-    private void fireSpielChanged(Spiel spiel) {
-        /** Gibt ein Array zurueck, das nicht null ist */
-        final Object[] currentListeners = listeners.getListenerList();
-        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-            if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
-                ((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
-                        .spielChanged(this, spiel);
-            }
-        }
-    }
+	/**
+	 * Fuegt listener zu der Liste hinzu.
+	 * 
+	 * @param listener
+	 *            ISpielfeldListener
+	 */
+	public void addApplicationBackendListener(
+			final ISternenSpielApplicationBackendListener listener) {
+		listeners.add(ISternenSpielApplicationBackendListener.class, listener);
+	}
 
-    private void fireSpielmodusChanged(final Spiel spiel,
-            final SpielmodusEnumeration newSpielmodus) {
+	/**
+	 * Entfernt listener von der Liste.
+	 * 
+	 * @param listener
+	 *            ISpielsteinListener
+	 */
+	public void removeApplicationBackendListener(
+			final ISternenSpielApplicationBackendListener listener) {
+		listeners.remove(ISternenSpielApplicationBackendListener.class,
+				listener);
+	}
 
-        /** Gibt ein Array zurueck, das nicht null ist */
-        final Object[] currentListeners = listeners.getListenerList();
-        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-            if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
-                ((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
-                        .spielmodusChanged(this, spiel, newSpielmodus);
-            }
-        }
-    }
+	private void fireSpielChanged(Spiel spiel) {
+		/** Gibt ein Array zurueck, das nicht null ist */
+		final Object[] currentListeners = listeners.getListenerList();
+		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+			if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
+				((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
+				.spielChanged(this, spiel);
+			}
+		}
+	}
 
-    private void fireSpielsteinChanged(final Spiel spiel,
-            final Spielfeld spielfeld, final int x, final int y,
-            Spielstein newStein) {
+	private void fireSpielmodusChanged(final Spiel spiel,
+			final SpielmodusEnumeration newSpielmodus) {
 
-        /** Gibt ein Array zurueck, das nicht null ist */
-        final Object[] currentListeners = listeners.getListenerList();
-        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-            if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
-                ((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
-                        .spielsteinChanged(this, spiel, spielfeld, x, y,
-                                newStein);
-            }
-        }
-    }
+		/** Gibt ein Array zurueck, das nicht null ist */
+		final Object[] currentListeners = listeners.getListenerList();
+		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+			if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
+				((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
+				.spielmodusChanged(this, spiel, newSpielmodus);
+			}
+		}
+	}
 
-    private void fireSpielfeldChanged(final Spiel spiel,
-            final Spielfeld newSpielfeld) {
+	private void fireSpielsteinChanged(final Spiel spiel,
+			final Spielfeld spielfeld, final int x, final int y,
+			Spielstein newStein) {
 
-        /** Gibt ein Array zurueck, das nicht null ist */
-        final Object[] currentListeners = listeners.getListenerList();
-        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-            if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
-                ((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
-                        .spielfeldChanged(this, spiel, newSpielfeld);
-            }
-        }
-    }
+		/** Gibt ein Array zurueck, das nicht null ist */
+		final Object[] currentListeners = listeners.getListenerList();
+		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+			if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
+				((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
+				.spielsteinChanged(this, spiel, spielfeld, x, y,
+						newStein);
+			}
+		}
+	}
 
-    /**
-     * Zur Weiterleitung.
-     * 
-     * @author Lutz Kleiber
-     * 
-     */
-    private class InnerSpielListener implements ISpielListener {
+	private void fireSpielfeldChanged(final Spiel spiel,
+			final Spielfeld newSpielfeld) {
 
-        @Override
-        public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
-                int y, Spielstein newStein) {
-            fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
-            if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-                GewonnenDialog.show(null, 1000); //TODO Highscore-Berechnung
-            }
-        }
+		/** Gibt ein Array zurueck, das nicht null ist */
+		final Object[] currentListeners = listeners.getListenerList();
+		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+			if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
+				((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
+				.spielfeldChanged(this, spiel, newSpielfeld);
+			}
+		}
+	}
 
-        @Override
-        public void spielfeldChanged(Spiel spiel, Spielfeld newSpielfeld) {
-            fireSpielfeldChanged(spiel, newSpielfeld);
-        }
+	/**
+	 * Zur Weiterleitung.
+	 * 
+	 * @author Lutz Kleiber
+	 * 
+	 */
+	private class InnerSpielListener implements ISpielListener {
 
-        @Override
-        public void spielmodusChanged(Spiel spiel,
-                SpielmodusEnumeration newSpielmodus) {
-            fireSpielmodusChanged(spiel, newSpielmodus);
-        }
+		@Override
+		public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
+				int y, Spielstein newStein) {
+			fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
+			if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
+				GewonnenDialog.show(null, 1000); //TODO Highscore-Berechnung
+			}
+		}
 
-    }
+		@Override
+		public void spielfeldChanged(Spiel spiel, Spielfeld newSpielfeld) {
+			fireSpielfeldChanged(spiel, newSpielfeld);
+		}
+
+		@Override
+		public void spielmodusChanged(Spiel spiel,
+				SpielmodusEnumeration newSpielmodus) {
+			fireSpielmodusChanged(spiel, newSpielmodus);
+		}
+
+	}
 
 }
