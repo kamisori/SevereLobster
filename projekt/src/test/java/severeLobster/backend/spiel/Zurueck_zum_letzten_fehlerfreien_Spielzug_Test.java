@@ -4,8 +4,8 @@ import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import org.junit.Before;
 import org.junit.Test;
-import severeLobster.frontend.controller.SpielfeldViewController;
-import severeLobster.frontend.view.SpielfeldView;
+import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
+import severeLobster.frontend.view.SpielfeldDarstellung;
 
 import javax.swing.JLabel;
 
@@ -24,9 +24,9 @@ import static severeLobster.backend.spiel.helper.matchers.PfeilMatcher.pfeil;
  */
 public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
 
-    private final SpielfeldView view = mock(SpielfeldView.class);
+    private final SpielfeldDarstellung view = mock(SpielfeldDarstellung.class);
     private final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
-    private final SpielfeldViewController controller = new SpielfeldViewController(
+    private final SpielfeldDarstellungsSteuerung controller = new SpielfeldDarstellungsSteuerung(
             view, backend);
 
     private Spiel spiel;

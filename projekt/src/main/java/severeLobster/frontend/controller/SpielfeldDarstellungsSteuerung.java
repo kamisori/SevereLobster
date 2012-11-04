@@ -14,7 +14,7 @@ import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.Stern;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.view.PopupMenuForSpielsteinChoice;
-import severeLobster.frontend.view.SpielfeldView;
+import severeLobster.frontend.view.SpielfeldDarstellung;
 
 /**
  * Steuerung fuer SpielfeldView. Verbindet SternenSpielApplicationBackend und
@@ -27,16 +27,16 @@ import severeLobster.frontend.view.SpielfeldView;
  * @author Lutz Kleiber
  * 
  */
-public class SpielfeldViewController {
+public class SpielfeldDarstellungsSteuerung {
 
-    private final SpielfeldView spielfeldView;
+    private final SpielfeldDarstellung spielfeldView;
     private final SternenSpielApplicationBackend backend;
 
-    public SpielfeldViewController(SpielfeldView spielfeldView,
+    public SpielfeldDarstellungsSteuerung(SpielfeldDarstellung spielfeldView,
             SternenSpielApplicationBackend applicationBackend) {
         this.spielfeldView = spielfeldView;
         this.backend = applicationBackend;
-        spielfeldView.setSpielfeldController(this);
+        spielfeldView.setSpielfeldDarstellungsSteuerung(this);
         backend.addApplicationBackendListener(new InnerSternenSpielBackendListener());
 
     }
@@ -128,7 +128,7 @@ public class SpielfeldViewController {
         public void spielmodusChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, SpielmodusEnumeration newSpielmodus) {
-            spielfeldView.setDisplayedSpielfeld(spiel.getSpielfeld());
+            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
         }
 
         @Override
@@ -136,7 +136,7 @@ public class SpielfeldViewController {
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, ISpielfeldReadOnly spielfeld, int x, int y,
                 Spielstein newStein) {
-            spielfeldView.setDisplayedSpielfeld(spiel.getSpielfeld());
+            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
 
         }
 
@@ -144,14 +144,14 @@ public class SpielfeldViewController {
         public void spielfeldChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, ISpielfeldReadOnly newSpielfeld) {
-            spielfeldView.setDisplayedSpielfeld(spiel.getSpielfeld());
+            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
         }
 
         @Override
         public void spielChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel) {
-            spielfeldView.setDisplayedSpielfeld(spiel.getSpielfeld());
+            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
         }
 
     }

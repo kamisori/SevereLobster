@@ -5,7 +5,7 @@ import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.graphics.GraphicUtils;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.frontend.view.SpielfeldView;
+import severeLobster.frontend.view.SpielfeldDarstellung;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -67,8 +67,8 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
                                                             + GlobaleKonstanten.SPIELSTAND_DATEITYP,
                                                     ""),
                                     SpielmodusEnumeration.SPIELEN);
-                    SpielfeldView spielfeldView = new SpielfeldView();
-                    spielfeldView.setDisplayedSpielfeld(spiel
+                    SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
+                    spielfeldView.setAngezeigtesSpielfeld(spiel
                             .getSpielfeld());
                     spielfeldView.setSize(200, 200);
                     BufferedImage bufferedImage = GraphicUtils

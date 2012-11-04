@@ -3,7 +3,7 @@ package severeLobster.frontend.view;
 import infrastructure.ResourceManager;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
-import severeLobster.frontend.controller.SpielfeldViewController;
+import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 import severeLobster.frontend.controller.SpielmodusViewController;
 import severeLobster.frontend.controller.TrackingControllViewController;
 
@@ -32,8 +32,8 @@ public class MainView extends JPanel {
         backend = new SternenSpielApplicationBackend();
         backend.startNewSpielFrom("Standardspiel01");
 
-        final SpielfeldView spielfeldView = new SpielfeldView();
-        new SpielfeldViewController(spielfeldView, backend);
+        final SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
+        new SpielfeldDarstellungsSteuerung(spielfeldView, backend);
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
         new SpielmodusViewController(spielmodusView, backend);
         spielfeldView.setPreferredSize(new Dimension(500, 500));
@@ -61,8 +61,8 @@ public class MainView extends JPanel {
          * backend.getSpiel().initializeNewSpielfeld(20, 18);
          * backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
          */
-        final SpielfeldView view = new SpielfeldView();
-        new SpielfeldViewController(view, backend);
+        final SpielfeldDarstellung view = new SpielfeldDarstellung();
+        new SpielfeldDarstellungsSteuerung(view, backend);
 
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
 

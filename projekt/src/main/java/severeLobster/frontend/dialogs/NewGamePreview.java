@@ -4,7 +4,7 @@ import infrastructure.ResourceManager;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.graphics.GraphicUtils;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.frontend.view.SpielfeldView;
+import severeLobster.frontend.view.SpielfeldDarstellung;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -63,8 +63,8 @@ public class NewGamePreview extends JPanel implements PropertyChangeListener {
                 try {
                     spiel = Spiel.newSpiel(file.getName().replace(
                             "." + GlobaleKonstanten.PUZZLE_DATEITYP, ""));
-                    SpielfeldView spielfeldView = new SpielfeldView();
-                    spielfeldView.setDisplayedSpielfeld(spiel
+                    SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
+                    spielfeldView.setAngezeigtesSpielfeld(spiel
                             .getSpielfeld());
                     spielfeldView.setSize(200, 200);
                     BufferedImage bufferedImage = GraphicUtils

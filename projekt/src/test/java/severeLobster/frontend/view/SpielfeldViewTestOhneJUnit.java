@@ -7,7 +7,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
-import severeLobster.frontend.controller.SpielfeldViewController;
+import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 import severeLobster.frontend.controller.SpielmodusViewController;
 
 /**
@@ -37,8 +37,8 @@ public class SpielfeldViewTestOhneJUnit {
             final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
             backend.getSpiel().initializeNewSpielfeld(SPIELFELD_BREITE, SPIELFELD_HOEHE);
             backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-            final SpielfeldView view = new SpielfeldView();
-            new SpielfeldViewController(view, backend);
+            final SpielfeldDarstellung view = new SpielfeldDarstellung();
+            new SpielfeldDarstellungsSteuerung(view, backend);
 
             final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
             new SpielmodusViewController(spielmodusView, backend);
