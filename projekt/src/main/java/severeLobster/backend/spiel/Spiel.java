@@ -202,6 +202,10 @@ public class Spiel implements IGotSpielModus {
          * Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
          * koennen.
          */
+    	if(currentSpielfeld.isSolved())
+    	{
+    		spielStoppUhr.stop();
+    	}
         return currentSpielfeld.isSolved();
     }
 

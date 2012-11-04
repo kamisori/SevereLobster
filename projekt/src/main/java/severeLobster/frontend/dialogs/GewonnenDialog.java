@@ -30,7 +30,9 @@ public class GewonnenDialog extends JOptionPane {
     public static int show(Component parentComponent, int highscore) {
         JLabel title = new JLabel("Herzlichen Glückwunsch!");
         JLabel text = new JLabel("<html><body>Sie haben das Puzzle erfolgreich gelößt. <br>" +
-                "Ihre Highscore beträgt " + highscore + " Punkte! <br>"+"Sie haben "+String.valueOf(MainView.getCurrentSpiel().getSpielVersuche())+" Versuche benötigt</body></html>");
+                "Ihre Highscore beträgt " + highscore + " Punkte! <br> " +
+                "Sie haben "+String.valueOf(MainView.getCurrentSpiel().getSpielVersuche())+" Versuche benötigt <br>" +
+                "Sie haben "+MainView.getCurrentSpiel().getSpielZeit()+" Sekunden für dieses Rätsel gebraucht </body></html>");
         title.setFont(GlobaleKonstanten.FONT.deriveFont((float) 20));
         title.setVisible(true);
         text.setVisible(true);

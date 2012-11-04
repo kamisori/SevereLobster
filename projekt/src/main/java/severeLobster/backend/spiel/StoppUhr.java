@@ -2,28 +2,37 @@ package severeLobster.backend.spiel;
 
 import severeLobster.frontend.view.MainView;
 
-public class StoppUhr {
+/**
+ * StoppUhr Klasse zur Nachverfolgung der gespielten Zeit
+ * @author fwenisch
+ * @date	04.11.2012
+ */
+public class StoppUhr 
+{
+	private  long lZeit;
+	private  long lZeitStart;
+	private boolean isStarted=false;
 
+	public  void start()
+	{    
+		lZeitStart = System.currentTimeMillis();
+		isStarted=true;
+	}
+	public void stop()
+	{
+		isStarted=false;
+	}
 
-    private  long lZeit;
-    private  long lZeitStart;
-        
-    
-    public  void start()
-    {
-        
-        lZeitStart = System.currentTimeMillis();
-    }
-    
-    private   void update()
-    {
-    	lZeit = ((System.currentTimeMillis() - lZeitStart)/1000);
-    }
-    
-    public   long getZeit()
-    {
-    	update();
-    	return lZeit;
-    }
+	private   void update()
+	{
+		lZeit = ((System.currentTimeMillis() - lZeitStart)/1000);
+	}
+
+	public   long getZeit()
+	{
+		if(isStarted)
+			update();
+		return lZeit;
+	}
 
 }
