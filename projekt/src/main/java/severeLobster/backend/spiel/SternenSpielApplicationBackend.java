@@ -1,9 +1,13 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.command.PrimaerAktion;
+import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.GewonnenDialog;
+import severeLobster.frontend.view.MainView;
 
+import javax.swing.JFileChooser;
 import javax.swing.event.EventListenerList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -253,8 +257,24 @@ public class SternenSpielApplicationBackend {
 				int y, Spielstein newStein) {
 			fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
 			if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-				GewonnenDialog.show(null, 1000); //TODO Highscore-Berechnung
+				int iOptionPaneStatus = GewonnenDialog.show(null, 1000);
+				//TODO Highscore-Berechnung
+			// 0 = Neues Spiel	
+			if(iOptionPaneStatus==0)
+			{
+                MainFrame.frame.remove(MainFrame.mainPanel);
+                try
+                {
+					MainFrame.mainPanel=new MainView();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                MainFrame.frame.add(MainFrame.mainPanel);
+                MainFrame.frame.validate();
+                MainFrame.frame.repaint();
 			}
+				}
 		}
 
 		@Override

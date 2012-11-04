@@ -53,7 +53,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     private JFileChooser newGameChooser;
     private JFileChooser saveGameChooser;
     public static JFrame frame;
-    private static MainView mainPanel;
+    public static MainView mainPanel;
     private static Point m_Windowlocation;
 
     private final ResourceManager resourceManager = ResourceManager.get();
