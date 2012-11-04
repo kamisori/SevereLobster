@@ -2,8 +2,8 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.command.PrimaerAktion;
+import severeLobster.frontend.dialogs.GewonnenDialog;
 
-import javax.swing.JOptionPane;
 import javax.swing.event.EventListenerList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -245,10 +245,7 @@ public class SternenSpielApplicationBackend {
                 int y, Spielstein newStein) {
             fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
             if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-                JOptionPane.showMessageDialog(null,
-                        "Sie haben das Puzzle gelöst! "
-                                + " Herzlichen Glückwunsch!", "Puzzle gelöst!",
-                        JOptionPane.INFORMATION_MESSAGE);
+                GewonnenDialog.show(null, 1000); //TODO Highscore-Berechnung
             }
         }
 
