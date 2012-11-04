@@ -5,6 +5,9 @@ import infrastructure.constants.GlobaleKonstanten;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import severeLobster.backend.spiel.StoppUhr;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,6 +37,7 @@ public class SpielinfoView extends JPanel {
          * Anfang Test von TrackingControllView
          */
     	int zugcount =MainView.getCurrentSpiel().getSpielVersuche();
+    	String strSpielZeit = MainView.getCurrentSpiel().getSpielZeit();
         Image sImage = getToolkit().getImage(
                 resourceManager
                         .getGraphicURL("spielinfo_neu.jpg"));
@@ -49,6 +53,7 @@ public class SpielinfoView extends JPanel {
         g.drawString(System.getProperty("user.name"), 90, 80);
         g.setColor(Color.BLACK);
         g.drawString("Versuche: "+String.valueOf(zugcount), 40, 246);
+        g.drawString("Zeit: " + strSpielZeit+ " sek",40, 286);
         validate();
         repaint();
     }

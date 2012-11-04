@@ -37,6 +37,8 @@ public class Spiel implements IGotSpielModus {
     private Stack<Integer> trackingPunkte;
     private int letzterFehlerfreierSpielzug;
 	private int spielVersuche=0;
+	private static  StoppUhr spielStoppUhr;
+	private String spielZeit= "Nicht begonnen";
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
@@ -44,6 +46,7 @@ public class Spiel implements IGotSpielModus {
      */
     public Spiel() {
         this(SpielmodusEnumeration.SPIELEN);
+        
     }
 
     /**
@@ -184,7 +187,8 @@ public class Spiel implements IGotSpielModus {
     public static Spiel newSpiel(String spielname) throws IOException {
         Spiel neuesSpiel = loadSpiel(spielname, SpielmodusEnumeration.EDITIEREN);
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-
+        spielStoppUhr=new StoppUhr();
+        spielStoppUhr.start();
         return neuesSpiel;
     }
 
@@ -375,16 +379,32 @@ public class Spiel implements IGotSpielModus {
             fireSpielsteinChanged(spielfeld, x, y, changedStein);
         }
     }
-
+    /**
+	 * @author fwenisch
+	 * @return Die benutzten Versuche
+	 */
 	public int getSpielVersuche() 
 	{
 		
 		return spielVersuche;
 	}
+	/**
+	 * addiert +1 auf den Versuchscounter des aktuellen Spiels
+	 * @author fwenisch
+	 */
 	public void addSpielVersuch() 
 	{
 		
 		spielVersuche++;
 	}
+
+	public String getSpielZeit() 
+	{
+	spielZeit=String.valueOf(spielStoppUhr.getZeit());
+	//TODO: Formatierung der Zeit (Sekunden)
+		return spielZeit;
+	}
+
+	
 
 }
