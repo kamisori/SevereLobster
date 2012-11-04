@@ -285,11 +285,12 @@ public class MainFrame extends JMenuBar implements Runnable {
         }
     }
 
-    private void spielBeenden() {
+    public static int spielBeenden() {
         int result = ExitDialog.show(frame);
         if (ExitDialog.beenden_option.equals(ExitDialog.options[result])) {
             frame.dispose();
         }
+        return result;
     }
 
     /**

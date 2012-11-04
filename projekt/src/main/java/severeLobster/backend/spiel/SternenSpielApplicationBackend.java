@@ -257,26 +257,42 @@ public class SternenSpielApplicationBackend {
 				int y, Spielstein newStein) {
 			fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
 			if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-				int iOptionPaneStatus = GewonnenDialog.show(null, 1000);
-				//TODO Highscore-Berechnung
-			// 0 = Neues Spiel	
-			if(iOptionPaneStatus==0)
-			{
-                MainFrame.frame.remove(MainFrame.mainPanel);
-                try
-                {
-					MainFrame.mainPanel=new MainView();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                MainFrame.frame.add(MainFrame.mainPanel);
-                MainFrame.frame.validate();
-                MainFrame.frame.repaint();
-			}
-				}
-		}
+				{
+					int iOptionPaneStatus = GewonnenDialog.show(null, 1000);
 
+					// 0 = Neues Spiel	
+					if(iOptionPaneStatus==0)
+					{
+						MainFrame.frame.remove(MainFrame.mainPanel);
+						try
+						{
+							MainFrame.mainPanel=new MainView();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						MainFrame.frame.add(MainFrame.mainPanel);
+						MainFrame.frame.validate();
+						MainFrame.frame.repaint();
+					}
+					//Hauptmenü
+					else if(iOptionPaneStatus==1)
+					{
+						//TODO: Wenn Menü existiert -> Hauptmenü öffnen
+						spielsteinChanged( spiel,  spielfeld,  x, y,  newStein);
+
+					}
+					//Beenden
+					else if(iOptionPaneStatus==2)
+					{
+						//falls Beenden abgebrochen wird, Dialog erneut anzeigen
+						if(MainFrame.spielBeenden()==1)
+							spielsteinChanged( spiel,  spielfeld,  x, y,  newStein);
+
+					}
+				}
+			}
+		}
 		@Override
 		public void spielfeldChanged(Spiel spiel, Spielfeld newSpielfeld) {
 			fireSpielfeldChanged(spiel, newSpielfeld);
