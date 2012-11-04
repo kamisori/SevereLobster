@@ -29,12 +29,12 @@ import severeLobster.frontend.view.SpielfeldDarstellung;
  */
 public class SpielfeldDarstellungsSteuerung {
 
-    private final SpielfeldDarstellung spielfeldView;
+    private final SpielfeldDarstellung spielfeldDarstellung;
     private final SternenSpielApplicationBackend backend;
 
     public SpielfeldDarstellungsSteuerung(SpielfeldDarstellung spielfeldView,
             SternenSpielApplicationBackend applicationBackend) {
-        this.spielfeldView = spielfeldView;
+        this.spielfeldDarstellung = spielfeldView;
         this.backend = applicationBackend;
         spielfeldView.setSpielfeldDarstellungsSteuerung(this);
         backend.addApplicationBackendListener(new InnerSternenSpielBackendListener());
@@ -128,7 +128,13 @@ public class SpielfeldDarstellungsSteuerung {
         public void spielmodusChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, SpielmodusEnumeration newSpielmodus) {
-            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
+            /**
+             * Wenn sich der Spielmodus geaendert hat, koennte sich fast jeder
+             * Stein geaendert haben -> komplett neuzeichnen
+             */
+            spielfeldDarstellung.setAngezeigtesSpielfeld(spiel.getSpielfeld());
+            // TODO Optimieren: da Spielfeldgroesse gleich bleibt, braucht net
+            // alles neu gesetzt werden.
         }
 
         @Override
@@ -136,7 +142,16 @@ public class SpielfeldDarstellungsSteuerung {
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, ISpielfeldReadOnly spielfeld, int x, int y,
                 Spielstein newStein) {
-            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
+            /**
+             * Setze nur einen Spielstein neu, da die restlichen Spielsteine
+             * gleich geblieben sind
+             */
+            spielfeldDarstellung.setAngezeigterSpielstein(x, y, newStein);
+            /** Sternanzahl Anzeigen anpassen */
+            final int sternAnzahlInSpalte = spielfeld.countSterneSpalte(x);
+            spielfeldDarstellung.setSternAnzahlInSpalte(x, sternAnzahlInSpalte);
+            final int sternAnzahlInZeile = spielfeld.countSterneZeile(y);
+            spielfeldDarstellung.setSternAnzahlInZeile(y, sternAnzahlInZeile);
 
         }
 
@@ -144,14 +159,19 @@ public class SpielfeldDarstellungsSteuerung {
         public void spielfeldChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel, ISpielfeldReadOnly newSpielfeld) {
-            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
+            /** Wenn Spielfeld sich gaendert hat, alles neuzeichnen */
+            spielfeldDarstellung.setAngezeigtesSpielfeld(spiel.getSpielfeld());
         }
 
         @Override
         public void spielChanged(
                 SternenSpielApplicationBackend sternenSpielApplicationBackend,
                 Spiel spiel) {
-            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
+            /**
+             * Wenn Spiel sich gaendert hat, hat sich auch das Spielfeld
+             * geaendert -> alles neuzeichnen
+             */
+            spielfeldDarstellung.setAngezeigtesSpielfeld(spiel.getSpielfeld());
         }
 
     }

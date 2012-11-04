@@ -213,12 +213,10 @@ public class SpielfeldDarstellung extends JPanel {
         final JLabel result = createLabel();
 
         result.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                viewController.spielSteinClick(x, y, mouseEvent);
-            }
-
+            /**
+             * Verhalten von mousePressed ist dynamischer als bei mouseClicked ,
+             * da auch Klicks beim Bewegen der Maus genommen werden.
+             */
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 viewController.spielSteinClick(x, y, mouseEvent);

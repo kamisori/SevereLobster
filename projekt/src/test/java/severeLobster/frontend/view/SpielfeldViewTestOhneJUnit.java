@@ -28,7 +28,7 @@ public class SpielfeldViewTestOhneJUnit {
 
     public static final boolean DO_RANDOM_TEST = false;
     public static final int SPIELFELD_BREITE = 40;
-    public static final int SPIELFELD_HOEHE = 7;
+    public static final int SPIELFELD_HOEHE = 40;
     
     
     public static void main(String[] args) {
