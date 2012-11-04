@@ -6,6 +6,9 @@ import infrastructure.constants.GlobaleKonstanten;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import severeLobster.frontend.view.MainView;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 
@@ -27,7 +30,7 @@ public class GewonnenDialog extends JOptionPane {
     public static int show(Component parentComponent, int highscore) {
         JLabel title = new JLabel("Herzlichen Glückwunsch!");
         JLabel text = new JLabel("<html><body>Sie haben das Puzzle erfolgreich gelößt. <br>" +
-                "Ihre Highscore beträgt " + highscore + " Punkte!</body></html>");
+                "Ihre Highscore beträgt " + highscore + " Punkte! <br>"+"Sie haben "+String.valueOf(MainView.getCurrentSpiel().getSpielVersuche())+" Versuche benötigt</body></html>");
         title.setFont(GlobaleKonstanten.FONT.deriveFont((float) 20));
         title.setVisible(true);
         text.setVisible(true);
