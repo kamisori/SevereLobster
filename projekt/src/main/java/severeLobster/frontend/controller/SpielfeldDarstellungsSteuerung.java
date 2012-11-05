@@ -29,8 +29,27 @@ import severeLobster.frontend.view.SpielfeldDarstellung;
  */
 public class SpielfeldDarstellungsSteuerung {
 
+    public static final SpielfeldDarstellungsSteuerung NULL_OBJECT_INSTANCE = new SpielfeldDarstellungsSteuerung() {
+        @Override
+        public void setSpielstein(Spielstein spielstein, int x, int y) {
+            /** Macht nichts */
+        }
+
+        public void spielSteinClick(int x, int y, MouseEvent mouseEvent) {
+            /** Macht nichts */
+        }
+    };
+
     private final SpielfeldDarstellung spielfeldDarstellung;
     private final SternenSpielApplicationBackend backend;
+
+    /**
+     * Konstruktor fuer Null Object Instanz
+     */
+    private SpielfeldDarstellungsSteuerung() {
+        this.spielfeldDarstellung = null;
+        this.backend = null;
+    }
 
     public SpielfeldDarstellungsSteuerung(SpielfeldDarstellung spielfeldView,
             SternenSpielApplicationBackend applicationBackend) {
@@ -41,20 +60,8 @@ public class SpielfeldDarstellungsSteuerung {
 
     }
 
-    public SpielmodusEnumeration getSpielmodus() {
-        return backend.getSpiel().getSpielmodus();
-    }
-
     public void setSpielstein(Spielstein spielstein, int x, int y) {
         backend.setSpielstein(x, y, spielstein);
-    }
-
-    public Spielstein getSpielstein(int x, int y) {
-        return backend.getSpielstein(x, y);
-    }
-
-    public List<? extends Spielstein> listAvailableStates(int x, int y) {
-        return backend.listAvailableStates(x, y);
     }
 
     public void spielSteinClick(int x, int y, MouseEvent mouseEvent) {
@@ -83,6 +90,18 @@ public class SpielfeldDarstellungsSteuerung {
                 return;
             }
         }
+    }
+
+    private SpielmodusEnumeration getSpielmodus() {
+        return backend.getSpiel().getSpielmodus();
+    }
+
+    private Spielstein getSpielstein(int x, int y) {
+        return backend.getSpielstein(x, y);
+    }
+
+    private List<? extends Spielstein> listAvailableStates(int x, int y) {
+        return backend.listAvailableStates(x, y);
     }
 
     private boolean isLeftClick(final MouseEvent e) {

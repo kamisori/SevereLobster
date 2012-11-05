@@ -2,6 +2,7 @@ package severeLobster.frontend.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,20 +17,17 @@ import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 
 /**
- * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen. Diese
- * Implementation geht davon aus, dass sich das gesamte Programm im AWT
- * EventDispatch Thread abspielt und wir keine asynchronen Aktionen haben, die
- * später wieder eingereiht werden muessen. Von daher wird in dieser Klasse
- * absichtlich nichts manuell in den AWT Thread eingereiht (kein
- * SwingUtils.invokeAndWait da laut doku: "This method should be used when an
- * application thread needs to update the GUI. It should'nt be called from the
- * EventDispatchThread." ).
+ * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen. In dieser
+ * Klasse wird absichtlich nichts in den AWT Thread eingereiht. Wenn von
+ * ausserhalb des AWT Event Dispatch Threads Aenderungen am Zustand einer
+ * Instanz dieser Klasse gemacht werden, sollten diese manuell in den AWT Thread
+ * eingereiht werden (SwingUtils.invokeLater oder SwingUtils.invokeAndWait).
  * 
  * @author Lutz Kleiber
  */
 public class SpielfeldDarstellung extends JPanel {
 
-    private static final IconFactory ICON_FACTORY = AdvancedDynamicallyResizingIconFactory
+    private static IconFactory ICON_FACTORY = AdvancedDynamicallyResizingIconFactory
             .getInstance();
     /**
      * Steuert SpielfeldDarstellung und hat Strategie fuer Mausklicks, die bei
@@ -38,81 +36,112 @@ public class SpielfeldDarstellung extends JPanel {
     private SpielfeldDarstellungsSteuerung spielfeldDarstellungsSteuerung;
     /** Die Ansichten der einzelnen Spielfeldzellen/Spielsteine */
     private JLabel[][] spielsteinDarstellungen;
-    /** Oberer Balken - waagerecht ueber Spielfeld dargestellt */
+    /**
+     * Der obere Balken mit der Anzeige der Sternanzahl in den Spalten -
+     * waagerecht ueber Spielfeld dargestellt
+     */
     private JLabel[] sternAnzahlInSpaltenAnzeigen;
-    /** Linker Balken - senkrecht neben Spielfeld dargestellt */
+    /**
+     * Der linke Balken mit der Anzeige der Sternanzahl in den Zeilen -
+     * senkrecht neben Spielfeld dargestellt
+     */
     private JLabel[] sternAnzahlInZeilenAnzeigen;
 
     public SpielfeldDarstellung() {
+        this(false);
+    }
+
+    public SpielfeldDarstellung(final boolean isDoubleBuffered) {
+        super(new QuadratischeZellenGridLayout(1, 1), isDoubleBuffered);
         setOpaque(false);
+    }
+
+    /**
+     * Setzt die IconFactories fuer alle Instanzen neu. Aktualisiert nicht die
+     * Darstellung.
+     * 
+     * @param newIconFactory
+     */
+    public static void setIconFactory(final IconFactory newIconFactory) {
+        if (null == newIconFactory) {
+            throw new NullPointerException("Neue IconFactory ist null");
+        }
+        SpielfeldDarstellung.ICON_FACTORY = newIconFactory;
     }
 
     public void setAngezeigtesSpielfeld(final ISpielfeldReadOnly newSpielfeld) {
         if (null == newSpielfeld) {
             throw new NullPointerException("Spielfeld ist null");
         }
-        final int laenge = newSpielfeld.getHoehe();
-        final int breite = newSpielfeld.getBreite();
+        final int spaltenAnzahl = newSpielfeld.getBreite();
+        final int zeilenAnzahl = newSpielfeld.getHoehe();
 
-        setSpielfeldAbmessungen(breite, laenge);
+        setSpielfeldAbmessungen(spaltenAnzahl, zeilenAnzahl);
 
-        /** Setze Werte in oberem Balken fuer Anzahl der Pfeile in den Spalten */
-        {
-            int anzahlSterne = 0;
-            for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
+        /** Setze Anzeigen der Sternanzahl in den Spalten */
+        int anzahlSterneInSpalte;
+        for (int spaltenIndex = 0; spaltenIndex < spaltenAnzahl; spaltenIndex++) {
 
-                anzahlSterne = newSpielfeld.countSterneSpalte(breiteIndex);
-                setSternAnzahlInSpalte(breiteIndex, anzahlSterne);
-            }
+            anzahlSterneInSpalte = newSpielfeld.countSterneSpalte(spaltenIndex);
+            setSternAnzahlInSpalte(spaltenIndex, anzahlSterneInSpalte);
+        }
+        /** Setze Anzeigen der Sternanzahl in den Zeilen */
+        int anzahlSterneInZeile;
+        for (int zeilenIndex = 0; zeilenIndex < zeilenAnzahl; zeilenIndex++) {
+
+            anzahlSterneInZeile = newSpielfeld.countSterneZeile(zeilenIndex);
+            setSternAnzahlInZeile(zeilenIndex, anzahlSterneInZeile);
         }
         /**
-         * Durchlaufe das Spielfeld zeilenweise und setze in der Reihenfolge die
-         * Icons der Spielsteinansichten.
+         * Durchlaufe das Spielfeld und setze fuer die Spielsteine die Icons an
+         * der entsprechenden Koordinate im Panel
          */
-        {
-            Spielstein spielstein = null;
-            int anzahlSterne = 0;
-            for (int laengeIndex = 0; laengeIndex < laenge; laengeIndex++) {
-                for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
-                    /** Am Anfang jeder Zeile einen PfeilAnzahlView einstellen */
-                    if (0 == breiteIndex) {
-                        anzahlSterne = newSpielfeld
-                                .countSterneZeile(laengeIndex);
-                        setSternAnzahlInZeile(laengeIndex, anzahlSterne);
-                    }
-                    /** Hole Spielstein fuer diese Koordinate */
-                    spielstein = newSpielfeld.getSpielstein(breiteIndex,
-                            laengeIndex);
-                    /** Setze neue Ansicht fuer diesen Spielstein */
-                    setAngezeigterSpielstein(breiteIndex, laengeIndex,
-                            spielstein);
-                }
+        Spielstein aktuellerStein;
+        for (int zeilenIndex = 0; zeilenIndex < zeilenAnzahl; zeilenIndex++) {
+            for (int spaltenIndex = 0; spaltenIndex < spaltenAnzahl; spaltenIndex++) {
+
+                /** Hole Spielstein fuer diese Koordinate */
+                aktuellerStein = newSpielfeld.getSpielstein(spaltenIndex,
+                        zeilenIndex);
+                /** Setze neue Ansicht fuer diesen Spielstein */
+                setAngezeigterSpielstein(spaltenIndex, zeilenIndex,
+                        aktuellerStein);
             }
         }
     }
 
-    public void setAngezeigterSpielstein(final int x, final int y,
-            Spielstein newSpielstein) {
+    public void setAngezeigterSpielstein(final int spaltenIndex,
+            final int zeilenIndex, Spielstein newSpielstein) {
+
+        throwExceptionIfIndexOutOfBounds(spaltenIndex, zeilenIndex);
 
         if (null == newSpielstein) {
             newSpielstein = KeinStein.getInstance();
         }
         final Icon newIcon = ICON_FACTORY.getIconForSpielstein(newSpielstein);
-        spielsteinDarstellungen[x][y].setIcon(newIcon);
+        spielsteinDarstellungen[spaltenIndex][zeilenIndex].setIcon(newIcon);
     }
 
-    public void setSternAnzahlInSpalte(int x, int neuerWert) {
+    public int getSpaltenAnzahl() {
+        return spielsteinDarstellungen.length;
+    }
+
+    public int getZeilenAnzahl() {
+        return spielsteinDarstellungen[0].length;
+    }
+
+    public void setSternAnzahlInSpalte(final int x, final int neuerWert) {
         this.sternAnzahlInSpaltenAnzeigen[x].setText(Integer
                 .toString(neuerWert));
     }
 
-    public void setSternAnzahlInZeile(int y, int neuerWert) {
+    public void setSternAnzahlInZeile(final int y, final int neuerWert) {
         this.sternAnzahlInZeilenAnzeigen[y]
                 .setText(Integer.toString(neuerWert));
     }
 
-    public void setSpielfeldAbmessungen(final int spielfeldBreite,
-            final int spielfeldHoehe) {
+    public void setSpielfeldAbmessungen(final int anzahlSpalten,
+            final int anzahlZeilen) {
 
         /** Nimm alles bisherige aus dem Panel raus */
         this.removeAll();
@@ -124,78 +153,107 @@ public class SpielfeldDarstellung extends JPanel {
          * und links). Durch QuadratischeZellenGridLayout sind alle Zellen
          * gleichgross und quadratisch.
          */
-        this.setLayout(new QuadratischeZellenGridLayout(spielfeldHoehe + 1,
-                spielfeldBreite + 1));
+        this.setLayout(new QuadratischeZellenGridLayout(anzahlZeilen + 1,
+                anzahlSpalten + 1));
         /**
          * Fuege oben links ein leeres Label ein. Das Label dient nur als
          * Platzhalter und hat keinen Inhalt
          */
-        {
-            final JLabel dummyObenLinks = createLabel();
-            this.add(dummyObenLinks);
-        }
+        final JLabel dummyObenLinks = createLabel();
+        this.add(dummyObenLinks);
         /**
-         * Erstelle oberen Balken fuer Anzeige der Pfeilanzahl in den Spalten
+         * Erstelle neues Array zur Speicherung der Spaltensternanzahl
+         * Anzeigelabels
          */
-        {
-            this.sternAnzahlInSpaltenAnzeigen = new JLabel[spielfeldBreite];
-            JLabel pfeilAnzahlView;
-
-            for (int breiteIndex = 0; breiteIndex < spielfeldBreite; breiteIndex++) {
-
-                pfeilAnzahlView = createSternAnzahlAnzeige();
-                this.sternAnzahlInSpaltenAnzeigen[breiteIndex] = pfeilAnzahlView;
-                this.add(pfeilAnzahlView);
-            }
-        }
+        this.sternAnzahlInSpaltenAnzeigen = new JLabel[anzahlSpalten];
         /**
-         * Durchlaufe das Spielfeld zeilenweise und fuege in der Reihenfolge die
-         * Spielsteinansichten zum Panel hinzu.
+         * Erstelle oberen Balken fuer Anzeige der Sternanzahl in den Spalten
+         * und speichere die neu erstellten JLabels im Array
          */
-        {
-            /** Erzeuge array mit views */
-            spielsteinDarstellungen = new JLabel[spielfeldBreite][spielfeldHoehe];
-            sternAnzahlInZeilenAnzeigen = new JLabel[spielfeldHoehe];
-            JLabel view = null;
-            JLabel pfeilAnzahlView;
-            for (int laengeIndex = 0; laengeIndex < spielfeldHoehe; laengeIndex++) {
-                for (int breiteIndex = 0; breiteIndex < spielfeldBreite; breiteIndex++) {
-                    /** Am Anfang jeder Zeile einen PfeilAnzahlView einfuegen */
-                    if (0 == breiteIndex) {
-                        pfeilAnzahlView = createSternAnzahlAnzeige();
-                        this.sternAnzahlInZeilenAnzeigen[laengeIndex] = pfeilAnzahlView;
-                        this.add(pfeilAnzahlView);
-                    }
-                    /**
-                     * Erstelle neue Ansichtskomponente fuer Spielstein mit
-                     * diesen Koordinaten
-                     */
-                    view = createSpielsteinAnsicht(breiteIndex, laengeIndex,
-                            getSpielfeldDarstellungsSteuerung());
-                    /**
-                     * Speichere Komponente in Array, fuer leichteren Zugriff
-                     * auf einzelne SpielsteinViews
-                     */
-                    this.spielsteinDarstellungen[breiteIndex][laengeIndex] = view;
+        JLabel pfeilAnzahlView;
+        for (int spaltenIndex = 0; spaltenIndex < anzahlSpalten; spaltenIndex++) {
 
-                    /** Fuege Ansicht zum Panel hinzu */
-                    this.add(view);
+            pfeilAnzahlView = createSternAnzahlAnzeige();
+            this.sternAnzahlInSpaltenAnzeigen[spaltenIndex] = pfeilAnzahlView;
+            this.add(pfeilAnzahlView);
+        }
+
+        /** Fuege die Spielsteinansichten zum Panel hinzu */
+        /** Erzeuge arrays mit views */
+        this.spielsteinDarstellungen = new JLabel[anzahlSpalten][anzahlZeilen];
+        this.sternAnzahlInZeilenAnzeigen = new JLabel[anzahlZeilen];
+
+        JLabel label;
+        for (int zeilenIndex = 0; zeilenIndex < anzahlZeilen; zeilenIndex++) {
+            for (int spaltenIndex = 0; spaltenIndex < anzahlSpalten; spaltenIndex++) {
+                /** Am Anfang jeder Zeile eine Sternanzahlanzeige einfuegen */
+                if (0 == spaltenIndex) {
+                    label = createSternAnzahlAnzeige();
+                    this.sternAnzahlInZeilenAnzeigen[zeilenIndex] = label;
+                    this.add(label);
                 }
+                /**
+                 * Erstelle neue Ansichtskomponente fuer Spielstein mit diesen
+                 * Koordinaten
+                 */
+                label = createSpielsteinAnsicht(spaltenIndex, zeilenIndex,
+                        getSpielfeldDarstellungsSteuerung());
+                /**
+                 * Speichere Komponente in Array, fuer leichteren Zugriff auf
+                 * einzelne SpielsteinViews
+                 */
+                this.spielsteinDarstellungen[spaltenIndex][zeilenIndex] = label;
+
+                /** Fuege Ansicht zum Panel hinzu */
+                this.add(label);
             }
         }
         revalidate();
     }
 
     public void setSpielfeldDarstellungsSteuerung(
-            SpielfeldDarstellungsSteuerung spielfeldController) {
+            final SpielfeldDarstellungsSteuerung spielfeldController) {
         this.spielfeldDarstellungsSteuerung = spielfeldController;
     }
 
-    private SpielfeldDarstellungsSteuerung getSpielfeldDarstellungsSteuerung() {
-        return this.spielfeldDarstellungsSteuerung;
+    /**
+     * Akzeptiert nur QuadratischeZellenGridLayout, weil sonst die Darstellung
+     * des Spielfeldes verzerrt sein kann und die Felder nicht quadratisch sind.
+     */
+    @Override
+    public void setLayout(final LayoutManager layoutManager) {
+        if (null == layoutManager) {
+            throw new NullPointerException("LayoutManager ist null");
+        }
+        if (!(layoutManager instanceof QuadratischeZellenGridLayout)) {
+            throw new IllegalArgumentException(
+                    "SpielfeldDarstellung funktioniert nur mit QuadratischeZellenGridLayout");
+        }
+        super.setLayout(layoutManager);
     }
 
-    public static JLabel createLabel() {
+    private void throwExceptionIfIndexOutOfBounds(final int spaltenIndex,
+            final int zeilenIndex) throws ArrayIndexOutOfBoundsException {
+        if ((spaltenIndex < 0) || (spaltenIndex > getSpaltenAnzahl() - 1)
+                || (zeilenIndex < 0) || (zeilenIndex > getZeilenAnzahl() - 1)) {
+            throw new ArrayIndexOutOfBoundsException(
+                    "Die uebergebenen Koordinaten X:"
+                            + spaltenIndex
+                            + " Y:"
+                            + zeilenIndex
+                            + " sind ausserhalb des aktuell gezeichneten Spielfelds");
+        }
+    }
+
+    private SpielfeldDarstellungsSteuerung getSpielfeldDarstellungsSteuerung() {
+        if (null == this.spielfeldDarstellungsSteuerung) {
+            return SpielfeldDarstellungsSteuerung.NULL_OBJECT_INSTANCE;
+        } else {
+            return this.spielfeldDarstellungsSteuerung;
+        }
+    }
+
+    private static JLabel createLabel() {
         final JLabel result = new JLabel();
         initialisiereAllgemeinenLabelStilVon(result);
         return result;
@@ -218,7 +276,7 @@ public class SpielfeldDarstellung extends JPanel {
              * da auch Klicks beim Bewegen der Maus genommen werden.
              */
             @Override
-            public void mousePressed(MouseEvent mouseEvent) {
+            public void mousePressed(final MouseEvent mouseEvent) {
                 viewController.spielSteinClick(x, y, mouseEvent);
             }
         });
@@ -226,7 +284,7 @@ public class SpielfeldDarstellung extends JPanel {
         return result;
     }
 
-    private static void initialisiereAllgemeinenLabelStilVon(JLabel label) {
+    private static void initialisiereAllgemeinenLabelStilVon(final JLabel label) {
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setBackground(Color.DARK_GRAY);
         label.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
