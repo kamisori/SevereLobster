@@ -173,4 +173,6 @@
     </vector>
   </trackingPunkte>
   <letzterFehlerfreierSpielzug>0</letzterFehlerfreierSpielzug>
+  <spielVersuche>0</spielVersuche>
+  <spielZeit>Nicht begonnen</spielZeit>
 </severeLobster.backend.spiel.Spiel>

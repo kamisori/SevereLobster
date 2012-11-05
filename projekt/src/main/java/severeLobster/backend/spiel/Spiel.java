@@ -37,7 +37,16 @@ public class Spiel implements IGotSpielModus {
     private Stack<Integer> trackingPunkte;
     private int letzterFehlerfreierSpielzug;
 	private int spielVersuche=0;
-	private static  StoppUhr spielStoppUhr;
+
+    public StoppUhr getSpielStoppUhr() {
+        return spielStoppUhr;
+    }
+
+    public void setSpielStoppUhr(StoppUhr spielStoppUhr) {
+        this.spielStoppUhr = spielStoppUhr;
+    }
+
+    private StoppUhr spielStoppUhr;
 	private String spielZeit= "Nicht begonnen";
 
     /**
@@ -187,8 +196,9 @@ public class Spiel implements IGotSpielModus {
     public static Spiel newSpiel(String spielname) throws IOException {
         Spiel neuesSpiel = loadSpiel(spielname, SpielmodusEnumeration.EDITIEREN);
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        spielStoppUhr=new StoppUhr();
-        spielStoppUhr.start();
+        StoppUhr stoppUhr = new StoppUhr();
+        stoppUhr.start();
+        neuesSpiel.setSpielStoppUhr(stoppUhr);
         return neuesSpiel;
     }
 
@@ -202,7 +212,7 @@ public class Spiel implements IGotSpielModus {
          * Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
          * koennen.
          */
-    	if(currentSpielfeld.isSolved())
+    	if(spielStoppUhr != null && currentSpielfeld.isSolved())
     	{
     		spielStoppUhr.stop();
     	}
@@ -404,7 +414,7 @@ public class Spiel implements IGotSpielModus {
 
 	public String getSpielZeit() 
 	{
-	spielZeit=String.valueOf(spielStoppUhr.getZeit());
+    	spielZeit=String.valueOf(getSpielStoppUhr().getZeit());
 	//TODO: Formatierung der Zeit (Sekunden)
 		return spielZeit;
 	}

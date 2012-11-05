@@ -7,17 +7,12 @@ import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 import severeLobster.frontend.controller.SpielmodusViewController;
 import severeLobster.frontend.controller.TrackingControllViewController;
 
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -31,15 +26,10 @@ public class MainView extends JPanel {
 		return backend;
 	}
 
-	private static SternenSpielApplicationBackend backend;
+	private SternenSpielApplicationBackend backend;
 
-	public MainView() throws IOException 
-	{
-
-		
-		
+	public MainView() throws IOException {
 		add(getNewSpielfeld("Standardspiel01"));
-		
 		
 		setVisible(true);
 	}
@@ -75,7 +65,7 @@ public class MainView extends JPanel {
 		final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
 				backend);
 		trackingView.setTrackingControllViewController(trackingViewCtrl);
-		JPanel spielinfo = new SpielinfoView(trackingView);
+		JPanel spielinfo = new SpielinfoView(trackingView, backend);
 		Spielfeld.add(spielfeldView, BorderLayout.CENTER);
 		Spielfeld.add(spielinfo, BorderLayout.EAST);
 		Spielfeld.setOpaque(false);
@@ -101,7 +91,7 @@ public class MainView extends JPanel {
 
 	}
 
-	public static Spiel getCurrentSpiel() {
+	public Spiel getCurrentSpiel() {
 		return backend.getSpiel();
 	}
 }

@@ -1,12 +1,11 @@
 package severeLobster.backend.spiel;
 
-import severeLobster.frontend.view.MainView;
-
 /**
  * StoppUhr Klasse zur Nachverfolgung der gespielten Zeit
  * @author fwenisch
  * @date	04.11.2012
  */
+//TODO das reicht leider nicht aus, ein gespeichertes Spiel muss seine aktuelle laufzeit mitspeichern
 public class StoppUhr 
 {
 	private  long lZeit;
