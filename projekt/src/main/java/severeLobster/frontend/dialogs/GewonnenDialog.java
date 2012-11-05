@@ -6,9 +6,6 @@ import infrastructure.constants.GlobaleKonstanten;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import severeLobster.frontend.view.MainView;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 
@@ -27,12 +24,11 @@ public class GewonnenDialog extends JOptionPane {
 
     public static final String[] options = {neues_spiel_starten, zurueck_zum_menue, spiel_beenden};
 
-    public static int show(Component parentComponent, int highscore) {
+    public static int show(Component parentComponent, int highscore, String spielzeit, int versuche) {
         JLabel title = new JLabel("Herzlichen Glückwunsch!");
-        JLabel text = new JLabel("<html><body>Sie haben das Puzzle erfolgreich gelößt. <br>" +
-                "Ihre Highscore beträgt " + highscore + " Punkte! <br> " +
-                "Sie haben "+String.valueOf(MainView.getCurrentSpiel().getSpielVersuche())+" Versuche benötigt <br>" +
-                "Sie haben "+MainView.getCurrentSpiel().getSpielZeit()+" Sekunden für dieses Rätsel gebraucht </body></html>");
+        JLabel text = new JLabel("<html><body>Sie haben das Puzzle erfolgreich gelößt! <br>" +
+                "Bei einer Spielzeit von " + spielzeit +" Sekunden haben Sie " + versuche + " Versuche benötigt. <br>" +
+                "Ihre Highscore beträgt sagenhafte " + highscore + " Punkte!");
         title.setFont(GlobaleKonstanten.FONT.deriveFont((float) 20));
         title.setVisible(true);
         text.setVisible(true);
@@ -41,7 +37,7 @@ public class GewonnenDialog extends JOptionPane {
         panel.add(text, BorderLayout.CENTER);
 
 
-        return showOptionDialog(parentComponent,panel , "Gewonnen",
+        return showOptionDialog(parentComponent, panel, "Gewonnen",
                 DEFAULT_OPTION, PLAIN_MESSAGE, resourceManager.getImageIcon("sieg.png"), options, null);
     }
 

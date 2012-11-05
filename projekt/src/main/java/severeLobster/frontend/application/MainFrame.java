@@ -50,7 +50,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     public JMenu jm_Grafik;
     public JMenu jm_Eigenschaften;
     private JFileChooser loadGameChooser;
-    private JFileChooser newGameChooser;
+    private static JFileChooser newGameChooser;
     private JFileChooser saveGameChooser;
     public static JFrame frame;
     public static MainView mainPanel;
@@ -109,20 +109,7 @@ public class MainFrame extends JMenuBar implements Runnable {
 
                 if (event.getActionCommand().equals(
                         resourceManager.getText("neues.spiel.text"))) {
-                    int result = newGameChooser.showOpenDialog(frame);
-                    if (result == JFileChooser.APPROVE_OPTION) {
-                        try {
-
-                            mainPanel.getBackend().startNewSpielFrom(newGameChooser.getSelectedFile()
-                                    .getName()
-                                    .replace(
-                                            "."
-                                                    + GlobaleKonstanten.PUZZLE_DATEITYP,
-                                            ""));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    neuesSpielOeffnen();
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("load.text"))) {
@@ -269,6 +256,23 @@ public class MainFrame extends JMenuBar implements Runnable {
         frame.setJMenuBar(this);
     }
 
+    public static void neuesSpielOeffnen() {
+        int result = newGameChooser.showOpenDialog(frame);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+
+                mainPanel.getBackend().startNewSpielFrom(newGameChooser.getSelectedFile()
+                        .getName()
+                        .replace(
+                                "."
+                                        + GlobaleKonstanten.PUZZLE_DATEITYP,
+                                ""));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * Oeffnet den FileChooser, um das Spiel unter einem gewissen Namen
      * abzuspeichern
@@ -281,16 +285,14 @@ public class MainFrame extends JMenuBar implements Runnable {
                     .replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
             spiel.setSaveName(filename);
             mainPanel.getBackend().saveCurrentSpielTo(filename);
-            //mainPanel.getCurrentSpiel().save(filename);
         }
     }
 
-    public static int spielBeenden() {
+    public void spielBeenden() {
         int result = ExitDialog.show(frame);
         if (ExitDialog.beenden_option.equals(ExitDialog.options[result])) {
             frame.dispose();
         }
-        return result;
     }
 
     /**

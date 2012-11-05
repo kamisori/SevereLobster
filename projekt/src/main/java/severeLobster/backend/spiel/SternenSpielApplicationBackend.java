@@ -1,13 +1,10 @@
 package severeLobster.backend.spiel;
 
-import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.command.PrimaerAktion;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.GewonnenDialog;
-import severeLobster.frontend.view.MainView;
 
-import javax.swing.JFileChooser;
 import javax.swing.event.EventListenerList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,9 +17,9 @@ import java.util.List;
  * diese Klasse zugaengich sein - Direkt oder gekapselt. Instanz benachrichtigt
  * angemeldete ISternenSpielApplicationBackendListener, wenn sich irgendetwas am
  * Zustand der Anwendung aendert.
- * 
+ *
  * @author Lutz Kleiber
- * 
+ *
  */
 public class SternenSpielApplicationBackend {
 
@@ -52,7 +49,7 @@ public class SternenSpielApplicationBackend {
 		if(currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug())
 		{
 			currentlyPlayedSpiel.addSpielVersuch();
-			while (currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug()) 
+			while (currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug())
 			{
 				nimmSpielzugZurueck();
 			}
@@ -68,7 +65,7 @@ public class SternenSpielApplicationBackend {
 			while (currentlyPlayedSpiel.getSpielZuege().size() > trackingPunkt) {
 				nimmSpielzugZurueck();
 			}
-			currentlyPlayedSpiel.addSpielVersuch();  
+			currentlyPlayedSpiel.addSpielVersuch();
 		} catch (EmptyStackException e) {
 			/**
 			 * Wenn keine Trackingpunkte gespeichert sind, mach einfach nix.
@@ -80,16 +77,16 @@ public class SternenSpielApplicationBackend {
 	/**
 	 * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
 	 * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
-	 * 
-	 * 
+	 *
+	 *
 	 * ANFANG
-	 * 
+	 *
 	 */
 
 	/***
 	 * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
 	 * wie: Spielfeld.setSpielstein().
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @param spielstein
@@ -105,7 +102,7 @@ public class SternenSpielApplicationBackend {
 
 	/***
 	 * Gibt vom aktuellen Spielfeld den Spielstein an der Stelle.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 */
@@ -136,9 +133,9 @@ public class SternenSpielApplicationBackend {
 	/**
 	 * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
 	 * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
-	 * 
+	 *
 	 * ENDE
-	 * 
+	 *
 	 */
 
 	public void startNewSpielFrom(final String spielname)
@@ -171,7 +168,7 @@ public class SternenSpielApplicationBackend {
 
 	/**
 	 * Fuegt listener zu der Liste hinzu.
-	 * 
+	 *
 	 * @param listener
 	 *            ISpielfeldListener
 	 */
@@ -182,7 +179,7 @@ public class SternenSpielApplicationBackend {
 
 	/**
 	 * Entfernt listener von der Liste.
-	 * 
+	 *
 	 * @param listener
 	 *            ISpielsteinListener
 	 */
@@ -246,9 +243,9 @@ public class SternenSpielApplicationBackend {
 
 	/**
 	 * Zur Weiterleitung.
-	 * 
+	 *
 	 * @author Lutz Kleiber
-	 * 
+	 *
 	 */
 	private class InnerSpielListener implements ISpielListener {
 
@@ -258,37 +255,17 @@ public class SternenSpielApplicationBackend {
 			fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
 			if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
 				{
-					int iOptionPaneStatus = GewonnenDialog.show(null, 1000);
-
-					// 0 = Neues Spiel	
-					if(iOptionPaneStatus==0)
-					{
-						MainFrame.frame.remove(MainFrame.mainPanel);
-						try
-						{
-							MainFrame.mainPanel=new MainView();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						MainFrame.frame.add(MainFrame.mainPanel);
-						MainFrame.frame.validate();
-						MainFrame.frame.repaint();
+					int result = GewonnenDialog.show(null, 1000, spiel.getSpielZeit(), spiel.getSpielVersuche());
+					if (GewonnenDialog.neues_spiel_starten.equals(GewonnenDialog.options[result])) {
+                        MainFrame.neuesSpielOeffnen();
 					}
-					//Hauptmenü
-					else if(iOptionPaneStatus==1)
-					{
+					else if (GewonnenDialog.zurueck_zum_menue.equals(GewonnenDialog.options[result])) {
 						//TODO: Wenn Menü existiert -> Hauptmenü öffnen
 						spielsteinChanged( spiel,  spielfeld,  x, y,  newStein);
 
 					}
-					//Beenden
-					else if(iOptionPaneStatus==2)
-					{
-						//falls Beenden abgebrochen wird, Dialog erneut anzeigen
-						if(MainFrame.spielBeenden()==1)
-							spielsteinChanged( spiel,  spielfeld,  x, y,  newStein);
-
+                    else if (GewonnenDialog.spiel_beenden.equals(GewonnenDialog.options[result])) {
+                        System.exit(0);
 					}
 				}
 			}

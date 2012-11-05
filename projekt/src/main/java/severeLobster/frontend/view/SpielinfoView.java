@@ -2,12 +2,9 @@ package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
 import infrastructure.constants.GlobaleKonstanten;
+import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import severeLobster.backend.spiel.StoppUhr;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,10 +14,11 @@ import java.awt.Image;
 public class SpielinfoView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();
+    private final SternenSpielApplicationBackend backend;
 
-    public SpielinfoView(final TrackingControllView trackingControllView) {
+    public SpielinfoView(final TrackingControllView trackingControllView, SternenSpielApplicationBackend backend) {
         setLayout(null);
-        
+        this.backend = backend;
         setBackground(Color.BLACK);
         JPanel trackingView = trackingControllView;
         trackingView.setBounds(0, 365, 200, 131);
@@ -36,8 +34,9 @@ public class SpielinfoView extends JPanel {
         /**
          * Anfang Test von TrackingControllView
          */
-    	int zugcount =MainView.getCurrentSpiel().getSpielVersuche();
-    	String strSpielZeit = MainView.getCurrentSpiel().getSpielZeit();
+    	int zugcount = backend.getSpiel().getSpielVersuche();
+    	String strSpielZeit = backend.getSpiel().getSpielZeit();
+
         Image sImage = getToolkit().getImage(
                 resourceManager
                         .getGraphicURL("spielinfo_neu.jpg"));
