@@ -36,7 +36,7 @@ public class Spiel implements IGotSpielModus {
     private Stack<Aktion> spielZuege;
     private Stack<Integer> trackingPunkte;
     private int letzterFehlerfreierSpielzug;
-	private int spielVersuche=0;
+	private int spielVersuche = 0;
 
     public StoppUhr getSpielStoppUhr() {
         return spielStoppUhr;

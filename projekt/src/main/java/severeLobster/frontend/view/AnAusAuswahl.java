@@ -21,13 +21,12 @@ public class AnAusAuswahl extends JCheckBox {
         super.setFont(GlobaleKonstanten.FONT.deriveFont((float) 17));
         super.setFocusable(false);
         super.setText(resourceManager.getText("tracking.an.aus.text"));
-        super.setForeground(Color.YELLOW);
         super.setHorizontalTextPosition(2);
         super.setIcon(icon);
         super.setSelectedIcon(iconSelected);
         super.setContentAreaFilled(false);
         super.setMargin(new Insets(0, 0, 0, 0));
         super.setSelected(false);
-        super.setVisible(true);
+        super.setVisible(visible);
     }
 }
