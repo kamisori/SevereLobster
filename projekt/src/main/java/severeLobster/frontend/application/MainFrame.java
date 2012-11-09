@@ -49,6 +49,10 @@ public class MainFrame extends JMenuBar implements Runnable {
     public JMenu jm_Editieren;
     public JMenu jm_Grafik;
     public JMenu jm_Eigenschaften;
+    public static JMenuItem itemSave;
+    public static JMenuItem itemSaveAs;
+    public static JMenuItem puzzleSave;
+    public static JMenuItem puzzleSaveAs;
     private static JFileChooser loadGameChooser;
     private static JFileChooser newGameChooser;
     private JFileChooser saveGameChooser;
@@ -194,11 +198,13 @@ public class MainFrame extends JMenuBar implements Runnable {
         item.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("load.text")));
         item.addActionListener(menuAction);
-        jm_Spiel.add(item = new JMenuItem(resourceManager.getText("save.text")));
-        item.addActionListener(menuAction);
-        jm_Spiel.add(item = new JMenuItem(resourceManager
+        jm_Spiel.add(itemSave = new JMenuItem(resourceManager.getText("save.text")));
+        itemSave.setEnabled(false);
+        itemSave.addActionListener(menuAction);
+        jm_Spiel.add(itemSaveAs = new JMenuItem(resourceManager
                 .getText("save.as.text")));
-        item.addActionListener(menuAction);
+        itemSaveAs.setEnabled(false);
+        itemSaveAs.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("exit.text")));
         item.addActionListener(menuAction);
 
@@ -258,12 +264,11 @@ public class MainFrame extends JMenuBar implements Runnable {
 
     public static void neuesSpielOeffnen() {
         int result = newGameChooser.showOpenDialog(frame);
-        if (result == JFileChooser.APPROVE_OPTION) 
-        {
-mainPanel.addNewSpielfeld((newGameChooser.getSelectedFile().getName().replace("."+ GlobaleKonstanten.PUZZLE_DATEITYP,"")));
-           
+        if (result == JFileChooser.APPROVE_OPTION) {
+            mainPanel.addNewSpielfeld((newGameChooser.getSelectedFile().getName().replace("."+ GlobaleKonstanten.PUZZLE_DATEITYP,"")));
       }
-
+        itemSave.setEnabled(true);
+        itemSaveAs.setEnabled(true);
     }
 
     /**
