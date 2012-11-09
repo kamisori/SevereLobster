@@ -168,9 +168,11 @@ public class SpielfeldDarstellungsSteuerung {
             spielfeldDarstellung.setAngezeigterSpielstein(x, y, newStein);
             /** Sternanzahl Anzeigen anpassen */
             final int sternAnzahlInSpalte = spielfeld.countSterneSpalte(x);
-            spielfeldDarstellung.setSternAnzahlInSpalte(x, sternAnzahlInSpalte);
+            spielfeldDarstellung.setAngezeigteSternAnzahlInSpalte(x,
+                    sternAnzahlInSpalte);
             final int sternAnzahlInZeile = spielfeld.countSterneZeile(y);
-            spielfeldDarstellung.setSternAnzahlInZeile(y, sternAnzahlInZeile);
+            spielfeldDarstellung.setAngezeigteSternAnzahlInZeile(y,
+                    sternAnzahlInZeile);
 
         }
 
