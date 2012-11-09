@@ -30,6 +30,7 @@ public class MainView extends JPanel {
 	private final ResourceManager resourceManager = ResourceManager.get();
 	private final Image	backgroundimage = getToolkit().getImage(resourceManager.getGraphicURL("sternenhimmel.jpg"));
 	private JPanel jpMenu= null;
+	private JPanel jpKampagne = null;
 
 
 	public SternenSpielApplicationBackend getBackend() {
@@ -40,9 +41,7 @@ public class MainView extends JPanel {
 
 	public MainView() throws IOException
 	{
-		//add(getNewSpielfeld("Standardspiel01"));
 		addMenuPanel();
-
 		setVisible(true);
 	}
 	/**
@@ -87,6 +86,48 @@ public class MainView extends JPanel {
 		repaint();
 	}
 
+	public void addKampagnenPanel()
+	{
+		if (jpKampagne==null)
+		{
+			jpKampagne = new JPanel();
+			jpKampagne.setPreferredSize(new Dimension(600, 450));
+			JPanel jpSpielfeldAuswahl = new JPanel();
+			jpSpielfeldAuswahl.setLayout(new GridLayout(2,5));
+			
+			for(int i=0; i <10;i++)
+			{
+				jpSpielfeldAuswahl.add(new JLabel(resourceManager.getImageIcon("Ausschluss_128.png")));
+			}
+			JPanel jpBottom = new JPanel();
+			jpBottom.setOpaque(false);
+			jpBottom.setPreferredSize(new Dimension(600, 30));
+			JButton jbBackToMenu = new JButton("Zurück zum Hauptmenü");
+			jbBackToMenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) 
+				{
+					
+					try 
+					{
+						addMenuPanel();
+					}
+					catch(Exception e)
+					{
+						removeAll();
+						addMenuPanel();
+					}
+				}}
+					);
+			jpBottom.add(jbBackToMenu);
+			jpKampagne.add(jpSpielfeldAuswahl,BorderLayout.CENTER);
+			jpKampagne.add(jpBottom,BorderLayout.SOUTH);
+			jpKampagne.setOpaque(false);
+		}
+		removeAll();
+		add(jpKampagne);
+		validate();
+		repaint();
+	}
 	public void addMenuPanel()
 	{
 		if (jpMenu==null)
@@ -101,10 +142,19 @@ public class MainView extends JPanel {
 			jbKampagneSpielen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) 
 				{
-
+					
+					try 
+					{
+						addKampagnenPanel();
+					}
+					catch(Exception e)
+					{
+						removeAll();
+						addMenuPanel();
+					}
 				}}
 					);
-			JButton jbSpielSpielen= new JButton("Puzzle öffnen");
+			JButton jbSpielSpielen= new JButton("Neues Spiel starten");
 			jbSpielSpielen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) 
 				{
@@ -119,14 +169,13 @@ public class MainView extends JPanel {
 					}
 				}
 			});
-			JButton jbSpielErstellen= new JButton("Puzzle erstellen");
+			JButton jbSpielErstellen= new JButton("Neues Puzzle erstellen");
 			JButton jbSpielBeenden= new JButton("Beenden");
 
 			jpMenu.add(jlLogo);
 			jpMenu.add(jbKampagneSpielen);
 			jpMenu.add(jbSpielSpielen);
 			jpMenu.add(jbSpielErstellen);
-			jpMenu.add(jbSpielBeenden);
 
 		}
 		removeAll();
