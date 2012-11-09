@@ -3,11 +3,10 @@ package severeLobster.backend.spiel;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
+import javax.swing.event.EventListenerList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * Spielfeld eines Spiels - verhaelt sich nach aussen wie ein zweidimensionales
@@ -125,7 +124,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * 
      * @return result Die Anzahl der Sterne auf dem Spielfeld.
      */
-    private int countSterne() {
+    protected int countSterne() {
         int result = 0;
         for (Spielstein[] zeile : realSteine) {
             for (Spielstein stein : zeile) {

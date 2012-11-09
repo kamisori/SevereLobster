@@ -34,7 +34,7 @@ public class SpielinfoView extends JPanel {
         /**
          * Anfang Test von TrackingControllView
          */
-    	int zugcount = backend.getSpiel().getSpielVersuche();
+    	int zugcount = backend.getSpiel().getAnzahlZuege();
     	String strSpielZeit = backend.getSpiel().getSpielZeit();
 
         Image sImage = getToolkit().getImage(

@@ -48,7 +48,6 @@ public class SternenSpielApplicationBackend {
 
 		if(currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug())
 		{
-			currentlyPlayedSpiel.addSpielVersuch();
 			while (currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug())
 			{
 				nimmSpielzugZurueck();
@@ -65,7 +64,6 @@ public class SternenSpielApplicationBackend {
 			while (currentlyPlayedSpiel.getSpielZuege().size() > trackingPunkt) {
 				nimmSpielzugZurueck();
 			}
-			currentlyPlayedSpiel.addSpielVersuch();
 		} catch (EmptyStackException e) {
 			/**
 			 * Wenn keine Trackingpunkte gespeichert sind, mach einfach nix.
@@ -255,7 +253,7 @@ public class SternenSpielApplicationBackend {
 			fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
 			if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
 				{
-					int result = GewonnenDialog.show(null, 1000, spiel.getSpielZeit(), spiel.getSpielVersuche());
+					int result = GewonnenDialog.show(null, spiel.getHighscore(), spiel.getSpielZeit(), spiel.getAnzahlZuege());
 					if (GewonnenDialog.neues_spiel_starten.equals(GewonnenDialog.options[result])) {
                         MainFrame.neuesSpielOeffnen();
 					}

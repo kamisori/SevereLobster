@@ -21,7 +21,7 @@ import java.util.Stack;
  * Spiel dar und beinhaltet einen aktuellen Spielstand, der gespeichert und
  * geladen werden kann. Instanzen dieser Klasse sind in ihrem Zustand komplett
  * unabhaengig voneinander.
- * 
+ *
  * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
 public class Spiel implements IGotSpielModus {
@@ -36,7 +36,8 @@ public class Spiel implements IGotSpielModus {
     private Stack<Aktion> spielZuege;
     private Stack<Integer> trackingPunkte;
     private int letzterFehlerfreierSpielzug;
-	private int spielVersuche = 0;
+	private int anzahlZuege = 0;
+    private int highscore = 0;
 
     public StoppUhr getSpielStoppUhr() {
         return spielStoppUhr;
@@ -55,12 +56,12 @@ public class Spiel implements IGotSpielModus {
      */
     public Spiel() {
         this(SpielmodusEnumeration.SPIELEN);
-        
+
     }
 
     /**
      * Spielfeld wird mit Standardfeld initialisiert.
-     * 
+     *
      * @param spielmodus
      *            Spielmodus des Spiels
      */
@@ -76,7 +77,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Spielstein setzen.
-     * 
+     *
      * @param x
      *            X-Achsenwert
      * @param y
@@ -96,7 +97,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Gibt den Schwierigkeitsgrad des Spielfeldes zurueck
-     * 
+     *
      * @return Schwierigkeitsgrad
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
@@ -109,7 +110,7 @@ public class Spiel implements IGotSpielModus {
      * durch das das Spielfeld erstellt wurde (IGotSpielmodus). Auf Aenderungen
      * beim Spielmodus in dieser Instanz wuerde das Spielfeld entsprechend nicht
      * reagieren.
-     * 
+     *
      */
     // public void setSpielfeld(Spielfeld spielfeld) {
     // currentSpielfeld = spielfeld;
@@ -122,7 +123,7 @@ public class Spiel implements IGotSpielModus {
     /***
      * Setzt ein neues, leeres Spielfeld fuer dieses Spiel. Benachrichtigt
      * listener dieser Instanz ueber spielfeldChanged().
-     * 
+     *
      * @param x
      *            Laenge der x-Achse
      * @param y
@@ -146,8 +147,24 @@ public class Spiel implements IGotSpielModus {
     }
 
     /**
+     * Gibt die Highscore anhand der Anzahl der Zuege, der Zeit
+     * und des Spielfeldes zurueck
+     * @return Highscore des Spiels
+     */
+    public int getHighscore() {
+        if (isSolved() && spielStoppUhr != null) {
+            int fehlversuche = getAnzahlZuege() - currentSpielfeld.countSterne();
+            int groesse = currentSpielfeld.getBreite() * currentSpielfeld.getHoehe();
+            long faktor = (long)(groesse/(fehlversuche+1));
+            int sekunden = (int) spielStoppUhr.getZeit();
+            return (int) (faktor) * 100 - sekunden;
+        }
+        return 0;
+    }
+
+    /**
      * Speichert das aktuelle Spiel
-     * 
+     *
      * @param spielname
      *            Name der Datei (ohne Dateiendung)
      * @throws IOException
@@ -165,7 +182,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Laed ein Spiel aus .sav / .puz - Dateien
-     * 
+     *
      * @param spielname
      *            Name der Datei (ohne Dateiendung)
      * @throws IOException
@@ -186,7 +203,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Laed ein erstelles Puzzle und aendert den Modus in den Spielmodus.
-     * 
+     *
      * @param spielname
      *            Name der Datei (ohne Dateiendung)
      * @return Erstelltes Spiel im Spielmodus
@@ -204,7 +221,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Ueberprueft ob das Spielfeld geloest wurde (Sieg).
-     * 
+     *
      * @return sieg
      */
     public boolean isSolved() {
@@ -222,7 +239,7 @@ public class Spiel implements IGotSpielModus {
     /**
      * Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
      * abgegeben wurden, die nicht der Loesung entsprechen
-     * 
+     *
      * @return fehler vorhanden
      */
     public boolean hasErrors() {
@@ -237,7 +254,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Setzt den Spielmodus des aktuellen Spiels
-     * 
+     *
      * @param spielmodus
      *            Spielmodus des Spiels
      */
@@ -266,7 +283,7 @@ public class Spiel implements IGotSpielModus {
      * Benachrichtigt alle Listener dieses Spiel ueber einen neuen Wert an den
      * uebergeben Koordinaten. Implementation ist glaube ich aus JComponent oder
      * Component kopiert.
-     * 
+     *
      * @param newSpielfeld
      *            - Der neue Status, der an die Listener mitgeteilt wird.
      */
@@ -296,7 +313,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Fuegt listener zu der Liste hinzu.
-     * 
+     *
      * @param listener
      *            ISpielfeldListener
      */
@@ -306,7 +323,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Entfernt listener von der Liste.
-     * 
+     *
      * @param listener
      *            ISpielsteinListener
      */
@@ -317,7 +334,7 @@ public class Spiel implements IGotSpielModus {
     /**
      * Gibt die Dateiendung eines zu ladenen oder zu sichernden Spiels bzw.
      * Puzzles anhand des Spielmodus zurück
-     * 
+     *
      * @param spielmodus
      *            Spielmodus des Spiels
      * @return Dateiendung (.puz oder .sav)
@@ -335,7 +352,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Gibt das Verzeichnis der puz/sav Dateien je nach Spielmodus zurueck
-     * 
+     *
      * @param spielmodus
      *            Spielmodus des Spiels
      * @return Verzeichnis fuer puz/sav Dateien
@@ -352,7 +369,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Gibt den Namen des SaveGames zum Spiel zurueck
-     * 
+     *
      * @return Spielname
      */
     public String getSaveName() {
@@ -361,7 +378,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Setzt den Names des SaveGames
-     * 
+     *
      * @param saveName
      *            Name des SaveGames
      */
@@ -397,28 +414,24 @@ public class Spiel implements IGotSpielModus {
 	 * @author fwenisch
 	 * @return Die benutzten Versuche
 	 */
-	public int getSpielVersuche() 
-	{
-		
-		return spielVersuche;
+	public int getAnzahlZuege() {
+		return anzahlZuege;
 	}
 	/**
-	 * addiert +1 auf den Versuchscounter des aktuellen Spiels
+	 * addiert +1 auf den Spielzugcounter des aktuellen Spiels
 	 * @author fwenisch
 	 */
-	public void addSpielVersuch() 
-	{
-		
-		spielVersuche++;
+	public void addSpielZug() {
+		anzahlZuege++;
 	}
 
-	public String getSpielZeit() 
+	public String getSpielZeit()
 	{
     	spielZeit=String.valueOf(getSpielStoppUhr().getZeit());
 	//TODO: Formatierung der Zeit (Sekunden)
 		return spielZeit;
 	}
 
-	
+
 
 }

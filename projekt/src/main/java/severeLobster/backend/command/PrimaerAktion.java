@@ -23,6 +23,8 @@ public class PrimaerAktion implements Aktion {
     private Spielstein neuerSpielstein_;
     private Spielstein alterSpielstein_;
 
+    private PrimaerAktion(){}
+
     public PrimaerAktion(Spiel spiel) {
         this.spiel_ = spiel;
     }
@@ -43,11 +45,15 @@ public class PrimaerAktion implements Aktion {
         y_ = y;
         neuerSpielstein_ = spielstein;
         alterSpielstein_ = spiel_.getSpielstein(x, y);
+        spiel_.addSpielZug();
+
         return spiel_.setSpielstein(x_, y_, neuerSpielstein_);
     }
 
     @Override
     public boolean undo() {
+        spiel_.addSpielZug();
+
         return spiel_.setSpielstein(x_, y_, alterSpielstein_);
     }
 }
