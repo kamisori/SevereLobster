@@ -1,16 +1,10 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
-import infrastructure.constants.GlobaleKonstanten;
 import severeLobster.frontend.controller.TrackingControllViewController;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,9 +12,8 @@ import java.awt.event.MouseEvent;
 
 /**
  * Erstes Skelett fuer das Tracking Kontroll UI.
- * 
+ *
  * @author Lutz Kleiber
- * 
  */
 public class TrackingControllView extends JPanel {
     private static final ResourceManager resourceManager = ResourceManager.get();
@@ -52,6 +45,8 @@ public class TrackingControllView extends JPanel {
                     zurueckZumLetztenPunktIcon);
             zurueckZumLetztenPunktBtn
                     .setToolTipText(resourceManager.getText("tracking.backToLastTrackingPoint"));
+            zurueckZumLetztenPunktBtn.setMargin(new Insets(1, 1, 1, 1));
+            zurueckZumLetztenPunktBtn.setFocusable(false);
             zurueckZumLetztenPunktBtn.addActionListener(new ActionListener() {
 
                 @Override
@@ -70,6 +65,8 @@ public class TrackingControllView extends JPanel {
                     "SetzeTrackingPointIcon48.png");
             setzeTrackingPunktBtn = new JButton(trackingPunktIcon);
             setzeTrackingPunktBtn.setToolTipText(resourceManager.getText("tracking.setPoint"));
+            setzeTrackingPunktBtn.setMargin(new Insets(1, 1, 1, 1));
+            setzeTrackingPunktBtn.setFocusable(false);
             setzeTrackingPunktBtn.addActionListener(new ActionListener() {
 
                 @Override
@@ -87,6 +84,8 @@ public class TrackingControllView extends JPanel {
                     "DoppelPfeilLinks48.png");
             zurueckZumFehlerBtn = new JButton(zurueckZumFehler);
             zurueckZumFehlerBtn.setToolTipText(resourceManager.getText("tracking.backToMistake"));
+            zurueckZumFehlerBtn.setMargin(new Insets(1, 1, 1, 1));
+            zurueckZumFehlerBtn.setFocusable(false);
             zurueckZumFehlerBtn.addActionListener(new ActionListener() {
 
                 @Override
@@ -115,15 +114,16 @@ public class TrackingControllView extends JPanel {
             final TrackingControllViewController controller) {
         this.currentController = controller;
     }
+
     @Override
     public void paintComponent(Graphics g) {
-    	super.paintComponent(g);
-   Image sImage = getToolkit().getImage(
+        super.paintComponent(g);
+        Image sImage = getToolkit().getImage(
                 resourceManager
                         .getGraphicURL("trackingview.jpg"));
 
         g.drawImage(sImage, 0, 0, this);
-      validate();
+        validate();
         repaint();
     }
 }
