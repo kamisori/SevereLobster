@@ -266,9 +266,9 @@ public class MainFrame extends JMenuBar implements Runnable {
         int result = newGameChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             mainPanel.addNewSpielfeld((newGameChooser.getSelectedFile().getName().replace("."+ GlobaleKonstanten.PUZZLE_DATEITYP,"")));
+            itemSave.setEnabled(true);
+            itemSaveAs.setEnabled(true);
       }
-        itemSave.setEnabled(true);
-        itemSaveAs.setEnabled(true);
     }
 
     /**
