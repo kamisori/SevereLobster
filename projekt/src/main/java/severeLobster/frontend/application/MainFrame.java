@@ -49,7 +49,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     public JMenu jm_Editieren;
     public JMenu jm_Grafik;
     public JMenu jm_Eigenschaften;
-    private JFileChooser loadGameChooser;
+    private static JFileChooser loadGameChooser;
     private static JFileChooser newGameChooser;
     private JFileChooser saveGameChooser;
     public static JFrame frame;
@@ -258,19 +258,12 @@ public class MainFrame extends JMenuBar implements Runnable {
 
     public static void neuesSpielOeffnen() {
         int result = newGameChooser.showOpenDialog(frame);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
+        if (result == JFileChooser.APPROVE_OPTION) 
+        {
+mainPanel.addNewSpielfeld((newGameChooser.getSelectedFile().getName().replace("."+ GlobaleKonstanten.PUZZLE_DATEITYP,"")));
+           
+      }
 
-                mainPanel.getBackend().startNewSpielFrom(newGameChooser.getSelectedFile()
-                        .getName()
-                        .replace(
-                                "."
-                                        + GlobaleKonstanten.PUZZLE_DATEITYP,
-                                ""));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
