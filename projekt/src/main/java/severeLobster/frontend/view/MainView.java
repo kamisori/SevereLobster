@@ -85,20 +85,27 @@ public class MainView extends JPanel {
 		validate();
 		repaint();
 	}
-
+	/**
+	 * Fügt das KampagnenPanel hinzu
+	 * @author fwenisch
+	 * @date 10.11.2012
+	 */
 	public void addKampagnenPanel()
 	{
 		if (jpKampagne==null)
 		{
 			jpKampagne = new JPanel();
-			jpKampagne.setPreferredSize(new Dimension(600, 450));
+			jpKampagne.setPreferredSize(new Dimension(700, 600));
+			jpKampagne.setMinimumSize(new Dimension(700, 600));
 			JPanel jpSpielfeldAuswahl = new JPanel();
 			jpSpielfeldAuswahl.setLayout(new GridLayout(2,5));
+			jpSpielfeldAuswahl.setOpaque(false);
+			
 			
 			for(int i=0; i <10;i++)
 			{
-				jpSpielfeldAuswahl.add(new JLabel(resourceManager.getImageIcon("Ausschluss_128.png")));
-			}
+				jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"+(i+1)));
+				}
 			JPanel jpBottom = new JPanel();
 			jpBottom.setOpaque(false);
 			jpBottom.setPreferredSize(new Dimension(600, 30));
@@ -106,7 +113,7 @@ public class MainView extends JPanel {
 			jbBackToMenu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) 
 				{
-					
+
 					try 
 					{
 						addMenuPanel();
@@ -128,6 +135,12 @@ public class MainView extends JPanel {
 		validate();
 		repaint();
 	}
+	
+	/**
+	 * Fügt das Hauptmenü hinzu
+	 * @author fwenisch
+	 * @date 10.11.2012
+	 */
 	public void addMenuPanel()
 	{
 		if (jpMenu==null)
@@ -142,7 +155,7 @@ public class MainView extends JPanel {
 			jbKampagneSpielen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) 
 				{
-					
+
 					try 
 					{
 						addKampagnenPanel();
