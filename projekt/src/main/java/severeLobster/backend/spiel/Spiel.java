@@ -149,6 +149,9 @@ public class Spiel implements IGotSpielModus {
     /**
      * Gibt die Highscore anhand der Anzahl der Zuege, der Zeit
      * und des Spielfeldes zurueck
+     * Ist der Spieler so schlecht das er keine positive High-
+     * score erreicht, so wird eine Score von "1" zurueckgegeben.
+     *
      * @return Highscore des Spiels
      */
     public int getHighscore() {
@@ -157,7 +160,13 @@ public class Spiel implements IGotSpielModus {
             int groesse = currentSpielfeld.getBreite() * currentSpielfeld.getHoehe();
             long faktor = (long)(groesse/(fehlversuche+1));
             int sekunden = (int) spielStoppUhr.getZeit();
-            return (int) (faktor) * 100 - sekunden;
+            int score = (int) (faktor) * 1000 - sekunden;
+            if (score <= 0) {
+                return 1;
+            }
+            else {
+                return score;
+            }
         }
         return 0;
     }
