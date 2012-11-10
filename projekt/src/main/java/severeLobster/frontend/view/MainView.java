@@ -98,7 +98,9 @@ public class MainView extends JPanel {
 			jpKampagne.setPreferredSize(new Dimension(700, 600));
 			jpKampagne.setMinimumSize(new Dimension(700, 600));
 			JPanel jpSpielfeldAuswahl = new JPanel();
-			jpSpielfeldAuswahl.setLayout(new GridLayout(2,5));
+			GridLayout layout = new GridLayout(2,5);
+			layout.setHgap(10);
+			jpSpielfeldAuswahl.setLayout(layout);
 			jpSpielfeldAuswahl.setOpaque(false);
 			
 			

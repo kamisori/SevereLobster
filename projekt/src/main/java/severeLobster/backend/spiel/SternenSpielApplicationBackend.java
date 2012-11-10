@@ -258,8 +258,7 @@ public class SternenSpielApplicationBackend {
                         MainFrame.neuesSpielOeffnen();
 					}
 					else if (GewonnenDialog.zurueck_zum_menue.equals(GewonnenDialog.options[result])) {
-						//TODO: Wenn Menü existiert -> Hauptmenü öffnen
-						spielsteinChanged(spiel, spielfeld, x, y, newStein);
+						MainFrame.mainPanel.addMenuPanel();
 
 					}
                     else if (GewonnenDialog.spiel_beenden.equals(GewonnenDialog.options[result])) {
