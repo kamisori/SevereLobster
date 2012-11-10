@@ -4,6 +4,7 @@ import infrastructure.ResourceManager;
 import infrastructure.graphics.GraphicUtils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +33,8 @@ public class PuzzlePreviewView  extends JPanel
 	PuzzlePreviewView(String strPuzzleName)
 	{
 		JPanel  SpielfeldInfo = new JPanel();
+		SpielfeldInfo.setLayout(new FlowLayout());
+		SpielfeldInfo.setPreferredSize(new Dimension(150,100));
 		JLabel spielfeldPreviewLabel = new JLabel();
 		try 
 		{
@@ -52,13 +55,23 @@ public class PuzzlePreviewView  extends JPanel
 			
 			spielfeldPreviewLabel .setIcon(new ImageIcon(bufferedImage));
 			/*
-			SpielfeldInfo.setLayout(new GridLayout(3,0));
+			
 			JLabel schwierigkeitsgradTitle = new JLabel("");
 			JLabel schwierigkeitsgradValue = new JLabel("");
 			schwierigkeitsgradTitle.setText(resourceManager.getText("load.dialog.difficulty"));
 			schwierigkeitsgradValue.setText(spiel.getSchwierigkeitsgrad().toString());
 			 */
 	
+			JLabel jlName=new JLabel(strPuzzleName);
+			JLabel jlSchwierigkeit = new JLabel("Schwierigkeitsgrad: "+spiel.getSchwierigkeitsgrad().toString());
+			JLabel jlFelder = new JLabel("Felder: "+spiel.getSpielfeld().getHoehe()*spiel.getSpielfeld().getBreite());
+			
+			//Layout Hack
+			while (jlFelder.getText().length()<30)
+			{
+				jlFelder.setText(jlFelder.getText()+" ");
+				jlFelder.setText(" "+jlFelder.getText());
+			}
 			JButton jbSSpielen = new JButton("Spielen");
 			jbSSpielen.addActionListener(new ActionListener() 
 			{
@@ -75,9 +88,12 @@ public class PuzzlePreviewView  extends JPanel
 					}
 				}}
 					);
-
+			SpielfeldInfo.add(jlName);
+			SpielfeldInfo.add(jlSchwierigkeit);
+			SpielfeldInfo.add(jlFelder);
 			SpielfeldInfo.add(jbSSpielen);
-			SpielfeldInfo.setOpaque(false);
+		
+			//SpielfeldInfo.setOpaque(false);
 		} 
 		catch (Exception e) 
 		{
@@ -86,7 +102,7 @@ public class PuzzlePreviewView  extends JPanel
 		}
 		this.add(spielfeldPreviewLabel,BorderLayout.CENTER);
 		this.add(SpielfeldInfo,BorderLayout.SOUTH);
-		this.setPreferredSize(new Dimension (128,170));
+		this.setPreferredSize(new Dimension (128,200));
 		this.setOpaque(false);
 		this.setVisible(true);
 
