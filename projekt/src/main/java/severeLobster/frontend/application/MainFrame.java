@@ -47,8 +47,7 @@ import java.io.IOException;
 public class MainFrame extends JMenuBar implements Runnable {
     public JMenu jm_Spiel;
     public JMenu jm_Editieren;
-    public JMenu jm_Grafik;
-    public JMenu jm_Eigenschaften;
+    public JMenu jm_Hilfe;
     public static JMenuItem itemSave;
     public static JMenuItem itemSaveAs;
     public static JMenuItem puzzleSave;
@@ -104,9 +103,8 @@ public class MainFrame extends JMenuBar implements Runnable {
          */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         jm_Spiel = new JMenu(resourceManager.getText("spiel.menu.text"));
-        jm_Grafik = new JMenu("Grafik");
         jm_Editieren = new JMenu(resourceManager.getText("editieren.menu.text"));
-        jm_Eigenschaften = new JMenu("Einstellungen");
+        jm_Hilfe = new JMenu("Hilfe");
         m_Windowlocation = new Point();
         ActionListener menuAction = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -231,16 +229,9 @@ public class MainFrame extends JMenuBar implements Runnable {
         item.setEnabled(false);
         item.addActionListener(menuAction);
 
-        jm_Grafik.add(item = new JMenuItem("Aufloesung"));
+        jm_Hilfe.add(item = new JMenuItem("Anleitung"));
         item.addActionListener(menuAction);
-        jm_Grafik.add(item = new JMenuItem("Farbe"));
-        item.addActionListener(menuAction);
-        jm_Grafik.add(item = new JMenuItem("Hintergrund"));
-        item.addActionListener(menuAction);
-
-        jm_Eigenschaften.add(item = new JMenuItem("Lizenz"));
-        item.addActionListener(menuAction);
-        jm_Eigenschaften.add(item = new JMenuItem("Info"));
+        jm_Hilfe.add(item = new JMenuItem("About"));
         item.addActionListener(menuAction);
 
         jm_Spiel.insertSeparator(4);
@@ -249,8 +240,7 @@ public class MainFrame extends JMenuBar implements Runnable {
 
         add(jm_Spiel);
         add(jm_Editieren);
-        add(jm_Grafik);
-        add(jm_Eigenschaften);
+        add(jm_Hilfe);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
