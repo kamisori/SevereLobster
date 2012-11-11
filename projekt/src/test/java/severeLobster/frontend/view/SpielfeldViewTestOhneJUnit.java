@@ -27,15 +27,15 @@ import severeLobster.frontend.controller.SpielmodusViewController;
 public class SpielfeldViewTestOhneJUnit {
 
     public static final boolean DO_RANDOM_TEST = false;
-    public static final int SPIELFELD_BREITE = 40;
-    public static final int SPIELFELD_HOEHE = 40;
-    
-    
+    public static final int SPIELFELD_BREITE = 2;
+    public static final int SPIELFELD_HOEHE = 2;
+
     public static void main(String[] args) {
         try {
 
             final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
-            backend.getSpiel().initializeNewSpielfeld(SPIELFELD_BREITE, SPIELFELD_HOEHE);
+            backend.getSpiel().initializeNewSpielfeld(SPIELFELD_BREITE,
+                    SPIELFELD_HOEHE);
             backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
             final SpielfeldDarstellung view = new SpielfeldDarstellung();
             new SpielfeldDarstellungsSteuerung(view, backend);
@@ -53,53 +53,54 @@ public class SpielfeldViewTestOhneJUnit {
             /**
              * Aendere die Stati.
              */
-//            if (DO_RANDOM_TEST) {
-//                while (true) {
-//                    Random random = new Random();
-//                    int randomX = 0;
-//                    int randomY = 0;
-//                    Spielfeld spielfeld = backend.getSpiel().getSpielfeld();
-//                    System.out.println(spielfeld.listAvailableStates(0, 0));
-//                    Spielstein currentStein;
-//                    List<? extends Spielstein> allowedStates;
-//                    while (true) {
-//                        for (int i = 0; i < 20; i++) {
-//                            randomX = random.nextInt(spielfeld.getBreite());
-//                            randomY = random.nextInt(spielfeld.getHoehe());
-//                            allowedStates = spielfeld.listAvailableStates(
-//                                    randomX, randomY);
-//                            if (allowedStates.size() != 0) {
-//                                int randomNextListIndex = random
-//                                        .nextInt(allowedStates.size());
-//                                currentStein = allowedStates
-//                                        .get(randomNextListIndex);
-//
-//                                backend.getSpiel()
-//                                        .getSpielfeld()
-//                                        .setSpielstein(randomX, randomY,
-//                                                currentStein);
-//                            }
-//                            try {
-//                                Thread.sleep(200);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        if (backend.getSpiel().getSpielmodus() == SpielmodusEnumeration.EDITIEREN) {
-//                            backend.getSpiel().setSpielmodus(
-//                                    SpielmodusEnumeration.SPIELEN);
-//                            System.out.println("Spielmodus");
-//                            frame.setTitle("Spielmodus");
-//                        } else {
-//                            backend.getSpiel().setSpielmodus(
-//                                    SpielmodusEnumeration.EDITIEREN);
-//                            System.out.println("Editmodus");
-//                            frame.setTitle("Editmodus");
-//                        }
-//                    }
-//                }
-//            }
+            // if (DO_RANDOM_TEST) {
+            // while (true) {
+            // Random random = new Random();
+            // int randomX = 0;
+            // int randomY = 0;
+            // Spielfeld spielfeld = backend.getSpiel().getSpielfeld();
+            // System.out.println(spielfeld.listAvailableStates(0, 0));
+            // Spielstein currentStein;
+            // List<? extends Spielstein> allowedStates;
+            // while (true) {
+            // for (int i = 0; i < 20; i++) {
+            // randomX = random.nextInt(spielfeld.getBreite());
+            // randomY = random.nextInt(spielfeld.getHoehe());
+            // allowedStates = spielfeld.listAvailableStates(
+            // randomX, randomY);
+            // if (allowedStates.size() != 0) {
+            // int randomNextListIndex = random
+            // .nextInt(allowedStates.size());
+            // currentStein = allowedStates
+            // .get(randomNextListIndex);
+            //
+            // backend.getSpiel()
+            // .getSpielfeld()
+            // .setSpielstein(randomX, randomY,
+            // currentStein);
+            // }
+            // try {
+            // Thread.sleep(200);
+            // } catch (InterruptedException e) {
+            // e.printStackTrace();
+            // }
+            // }
+            //
+            // if (backend.getSpiel().getSpielmodus() ==
+            // SpielmodusEnumeration.EDITIEREN) {
+            // backend.getSpiel().setSpielmodus(
+            // SpielmodusEnumeration.SPIELEN);
+            // System.out.println("Spielmodus");
+            // frame.setTitle("Spielmodus");
+            // } else {
+            // backend.getSpiel().setSpielmodus(
+            // SpielmodusEnumeration.EDITIEREN);
+            // System.out.println("Editmodus");
+            // frame.setTitle("Editmodus");
+            // }
+            // }
+            // }
+            // }
 
         } catch (Exception e) {
             e.printStackTrace();

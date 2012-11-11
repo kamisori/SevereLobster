@@ -23,7 +23,8 @@ public class PrimaerAktion implements Aktion {
     private Spielstein neuerSpielstein_;
     private Spielstein alterSpielstein_;
 
-    private PrimaerAktion(){}
+    private PrimaerAktion() {
+    }
 
     public PrimaerAktion(Spiel spiel) {
         this.spiel_ = spiel;

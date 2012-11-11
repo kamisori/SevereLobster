@@ -16,7 +16,8 @@ public class SpielinfoView extends JPanel {
     private final ResourceManager resourceManager = ResourceManager.get();
     private final SternenSpielApplicationBackend backend;
 
-    public SpielinfoView(final TrackingControllView trackingControllView, SternenSpielApplicationBackend backend) {
+    public SpielinfoView(final TrackingControllView trackingControllView,
+            SternenSpielApplicationBackend backend) {
         setLayout(null);
         this.backend = backend;
         setBackground(Color.BLACK);
@@ -29,17 +30,16 @@ public class SpielinfoView extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-    	super.paintComponent(g);
-   
+        super.paintComponent(g);
+
         /**
          * Anfang Test von TrackingControllView
          */
-    	int zugcount = backend.getSpiel().getAnzahlZuege();
-    	String strSpielZeit = backend.getSpiel().getSpielZeit();
+        int zugcount = backend.getSpiel().getAnzahlZuege();
+        String strSpielZeit = backend.getSpiel().getSpielZeit();
 
         Image sImage = getToolkit().getImage(
-                resourceManager
-                        .getGraphicURL("spielinfo_neu.jpg"));
+                resourceManager.getGraphicURL("spielinfo_neu.jpg"));
 
         /**
          * Ende Test von TrackingControllView
@@ -51,8 +51,8 @@ public class SpielinfoView extends JPanel {
         g.setColor(Color.YELLOW);
         g.drawString(System.getProperty("user.name"), 90, 80);
         g.setColor(Color.BLACK);
-        g.drawString("Versuche: "+String.valueOf(zugcount), 40, 246);
-        g.drawString("Zeit: " + strSpielZeit+ " sek",40, 286);
+        g.drawString("Versuche: " + String.valueOf(zugcount), 40, 246);
+        g.drawString("Zeit: " + strSpielZeit + " sek", 40, 286);
         validate();
         repaint();
     }

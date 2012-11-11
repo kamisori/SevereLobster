@@ -68,8 +68,7 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
                                                     ""),
                                     SpielmodusEnumeration.SPIELEN);
                     SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
-                    spielfeldView.setAngezeigtesSpielfeld(spiel
-                            .getSpielfeld());
+                    spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
                     spielfeldView.setSize(200, 200);
                     BufferedImage bufferedImage = GraphicUtils
                             .createComponentShot(spielfeldView);

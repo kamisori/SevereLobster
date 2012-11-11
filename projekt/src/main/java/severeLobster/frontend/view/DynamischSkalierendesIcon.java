@@ -3,6 +3,8 @@ package severeLobster.frontend.view;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -25,6 +27,12 @@ public class DynamischSkalierendesIcon extends ImageIcon {
     public DynamischSkalierendesIcon(final ImageIcon icon,
             final int defaultWidth, final int defaultHeight) {
         this(new ImageIcon[] { icon }, defaultWidth, defaultHeight);
+    }
+
+    public DynamischSkalierendesIcon(final List<BufferedImage> bufferedImages,
+            final int defaultWidth, final int defaultHeight) {
+        this(convertToArrayOfImageIcon(bufferedImages), defaultWidth,
+                defaultHeight);
     }
 
     public DynamischSkalierendesIcon(
@@ -125,6 +133,9 @@ public class DynamischSkalierendesIcon extends ImageIcon {
     private static ImageIcon getSkaliertesImageIcon(final ImageIcon sourceIcon,
             final int targetWidth, final int targetHeight) {
 
+        System.out.println("skalliere Quellicon der Groesse "
+                + sourceIcon.getIconWidth() + "X" + sourceIcon.getIconHeight()
+                + " herunter auf " + targetWidth + "X" + targetHeight);
         /* Quellimage zum bearbeiten laden: */
         final Image sourceImage = sourceIcon.getImage();
         /* Skalierte Version erzeugen */
@@ -132,5 +143,17 @@ public class DynamischSkalierendesIcon extends ImageIcon {
                 targetHeight, Image.SCALE_SMOOTH);
         /* Skaliertes Image als IconImage zurueckgeben */
         return new ImageIcon(scaledImage);
+    }
+
+    private static ImageIcon[] convertToArrayOfImageIcon(
+            final List<BufferedImage> bufferedImages) {
+        if (null == bufferedImages) {
+            throw new NullPointerException("BufferedImage Array ist null");
+        }
+        final ImageIcon[] icons = new ImageIcon[bufferedImages.size()];
+        for (int index = 0; index < bufferedImages.size(); index++) {
+            icons[index] = new ImageIcon(bufferedImages.get(index));
+        }
+        return icons;
     }
 }

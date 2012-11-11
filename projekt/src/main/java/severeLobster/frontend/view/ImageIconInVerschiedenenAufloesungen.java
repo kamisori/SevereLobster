@@ -33,6 +33,7 @@ public class ImageIconInVerschiedenenAufloesungen {
             result = verschiedeneAufloesungen[index];
             index++;
         } while (result.getIconWidth() < targetWidth);
+
         return result;
     }
 

@@ -10,9 +10,11 @@ import infrastructure.ResourceManager;
 public class UngueltigeSpielfeldgroessenangabeException extends
         IllegalArgumentException {
 
-    private static final ResourceManager resourceManager = ResourceManager.get();
+    private static final ResourceManager resourceManager = ResourceManager
+            .get();
 
     public UngueltigeSpielfeldgroessenangabeException() {
-        super(resourceManager.getText("exception.size.of.playing.field.invalid"));
+        super(resourceManager
+                .getText("exception.size.of.playing.field.invalid"));
     }
 }

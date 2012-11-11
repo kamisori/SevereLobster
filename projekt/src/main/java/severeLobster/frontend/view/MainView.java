@@ -33,317 +33,283 @@ import java.io.IOException;
 
 public class MainView extends JPanel {
 
-	private final ResourceManager resourceManager = ResourceManager.get();
-	private final Image	backgroundimage = getToolkit().getImage(resourceManager.getGraphicURL("sternenhimmel.jpg"));
-	private JPanel jpMenu= null;
-	private JPanel jpKampagne = null;
-	private JPanel jpSpielAuswahl = null;
+    private final ResourceManager resourceManager = ResourceManager.get();
+    private final Image backgroundimage = getToolkit().getImage(
+            resourceManager.getGraphicURL("sternenhimmel.jpg"));
+    private JPanel jpMenu = null;
+    private JPanel jpKampagne = null;
+    private JPanel jpSpielAuswahl = null;
 
+    public SternenSpielApplicationBackend getBackend() {
+        return backend;
+    }
 
-	public SternenSpielApplicationBackend getBackend() {
-		return backend;
-	}
+    private SternenSpielApplicationBackend backend;
 
-	private SternenSpielApplicationBackend backend;
+    public MainView() throws IOException {
+        addMenuPanel();
+        setVisible(true);
+    }
 
-	public MainView() throws IOException
-	{
-		addMenuPanel();
-		setVisible(true);
-	}
-	/**
-	 * Erstellt ein neues SpiefeldPanel anhand des übergebenen PuzzleNamens aus dem Resource Ordner
-	 * @param strPuzzleName - Der Name des zu ladenen Puzzles (ohne ".puz")
-	 * @return - JPanel auf dem das Spielfeld und das SpielInfo panel zu sehen sind
-	 * @author fwenisch
-	 * @date 04.11.2012
-	 */
-	public void addNewSpielfeld(String strPuzzleName)
-	{
-		backend = new SternenSpielApplicationBackend();
-		try 
-		{
-			backend.startNewSpielFrom(strPuzzleName);
-		} catch (FileNotFoundException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		JPanel Spielfeld = new JPanel();
-		final SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
-		new SpielfeldDarstellungsSteuerung(spielfeldView, backend);
-		final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
-		new SpielmodusViewController(spielmodusView, backend);
-		spielfeldView.setPreferredSize(new Dimension(500, 500));
-		final TrackingControllView trackingView = new TrackingControllView();
-		final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
-				backend);
-		trackingView.setTrackingControllViewController(trackingViewCtrl);
-		JPanel spielinfo = new SpielinfoView(trackingView, backend);
-		Spielfeld.add(spielfeldView, BorderLayout.CENTER);
-		Spielfeld.add(spielinfo, BorderLayout.EAST);
-		Spielfeld.setOpaque(false);
-		removeAll();
-		add(Spielfeld);
-		validate();
-		repaint();
-	}
-	/**
-	 * Fügt das KampagnenPanel hinzu
-	 * @author fwenisch
-	 * @date 10.11.2012
-	 */
-	public void addKampagnenPanel()
-	{
-		if (jpKampagne==null)
-		{
-			jpKampagne = new JPanel();
-			jpKampagne.setPreferredSize(new Dimension(700, 600));
-			jpKampagne.setMinimumSize(new Dimension(700, 600));
-			JPanel jpSpielfeldAuswahl = new JPanel();
-			GridLayout layout = new GridLayout(2,5);
-			layout.setHgap(10);
-			jpSpielfeldAuswahl.setLayout(layout);
-			jpSpielfeldAuswahl.setOpaque(false);
-			
-			
-			for(int i=0; i <10;i++)
-			{
-				jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"+(i+1)));
-				}
-			JPanel jpBottom = new JPanel();
-			jpBottom.setOpaque(false);
-			jpBottom.setPreferredSize(new Dimension(600, 30));
-			JButton jbBackToMenu = new JButton("Zurück zum Hauptmenü");
-			jbBackToMenu.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) 
-				{
+    /**
+     * Erstellt ein neues SpiefeldPanel anhand des übergebenen PuzzleNamens aus
+     * dem Resource Ordner
+     * 
+     * @param strPuzzleName
+     *            - Der Name des zu ladenen Puzzles (ohne ".puz")
+     * @return - JPanel auf dem das Spielfeld und das SpielInfo panel zu sehen
+     *         sind
+     * @author fwenisch
+     * @date 04.11.2012
+     */
+    public void addNewSpielfeld(String strPuzzleName) {
+        backend = new SternenSpielApplicationBackend();
+        try {
+            backend.startNewSpielFrom(strPuzzleName);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        JPanel Spielfeld = new JPanel();
+        final SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
+        new SpielfeldDarstellungsSteuerung(spielfeldView, backend);
+        final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
+        new SpielmodusViewController(spielmodusView, backend);
+        spielfeldView.setPreferredSize(new Dimension(500, 500));
+        final TrackingControllView trackingView = new TrackingControllView();
+        final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
+                backend);
+        trackingView.setTrackingControllViewController(trackingViewCtrl);
+        JPanel spielinfo = new SpielinfoView(trackingView, backend);
+        Spielfeld.add(spielfeldView, BorderLayout.CENTER);
+        Spielfeld.add(spielinfo, BorderLayout.EAST);
+        Spielfeld.setOpaque(false);
+        removeAll();
+        add(Spielfeld);
+        validate();
+        repaint();
+    }
 
-					try 
-					{
-						addMenuPanel();
-					}
-					catch(Exception e)
-					{
-						removeAll();
-						addMenuPanel();
-					}
-				}}
-					);
-			jpBottom.add(jbBackToMenu);
-			jpKampagne.add(jpSpielfeldAuswahl,BorderLayout.CENTER);
-			jpKampagne.add(jpBottom,BorderLayout.SOUTH);
-			jpKampagne.setOpaque(false);
-		}
-		removeAll();
-		add(jpKampagne);
-		validate();
-		repaint();
-	}
-	
-	/**
-	 * Fügt das Hauptmenü hinzu
-	 * @author fwenisch
-	 * @date 10.11.2012
-	 */
-	public void addMenuPanel()
-	{
-		if (jpMenu==null)
-		{
-			jpMenu = new JPanel();
-			jpMenu.setPreferredSize(new Dimension(450,450));
-			jpMenu.setLayout(new GridLayout(5,0));
-			jpMenu.setOpaque(false);
-			JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
-			jlLogo.setMinimumSize(new Dimension(450, 200));
-			JButton jbKampagneSpielen= new JButton("Kampagne Starten");
-			jbKampagneSpielen.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) 
-				{
+    /**
+     * Fügt das KampagnenPanel hinzu
+     * 
+     * @author fwenisch
+     * @date 10.11.2012
+     */
+    public void addKampagnenPanel() {
+        if (jpKampagne == null) {
+            jpKampagne = new JPanel();
+            jpKampagne.setPreferredSize(new Dimension(700, 600));
+            jpKampagne.setMinimumSize(new Dimension(700, 600));
+            JPanel jpSpielfeldAuswahl = new JPanel();
+            GridLayout layout = new GridLayout(2, 5);
+            layout.setHgap(10);
+            jpSpielfeldAuswahl.setLayout(layout);
+            jpSpielfeldAuswahl.setOpaque(false);
 
-					try 
-					{
-						addKampagnenPanel();
-					}
-					catch(Exception e)
-					{
-						removeAll();
-						addMenuPanel();
-					}
-				}}
-					);
-			JButton jbSpielSpielen= new JButton("Neues Spiel starten");
-			jbSpielSpielen.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) 
-				{
-					try 
-					{
-						addSpielAuswahlPanel();
-					}
-					catch(Exception e)
-					{
-						removeAll();
-						addMenuPanel();
-					}
-				}
-			});
-			JButton jbSpielErstellen= new JButton("Neues Puzzle erstellen");
-			JButton jbSpielBeenden= new JButton("Beenden");
+            for (int i = 0; i < 10; i++) {
+                jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"
+                        + (i + 1)));
+            }
+            JPanel jpBottom = new JPanel();
+            jpBottom.setOpaque(false);
+            jpBottom.setPreferredSize(new Dimension(600, 30));
+            JButton jbBackToMenu = new JButton("Zurück zum Hauptmenü");
+            jbBackToMenu.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
 
-			jpMenu.add(jlLogo);
-			jpMenu.add(jbKampagneSpielen);
-			jpMenu.add(jbSpielSpielen);
-			jpMenu.add(jbSpielErstellen);
+                    try {
+                        addMenuPanel();
+                    } catch (Exception e) {
+                        removeAll();
+                        addMenuPanel();
+                    }
+                }
+            });
+            jpBottom.add(jbBackToMenu);
+            jpKampagne.add(jpSpielfeldAuswahl, BorderLayout.CENTER);
+            jpKampagne.add(jpBottom, BorderLayout.SOUTH);
+            jpKampagne.setOpaque(false);
+        }
+        removeAll();
+        add(jpKampagne);
+        validate();
+        repaint();
+    }
 
-		}
-		removeAll();
-		add(jpMenu);
-		validate();
-		repaint();
-	}
-	public void addSpielAuswahlPanel()
-	{
-		if (jpSpielAuswahl==null)
-		{
-			jpSpielAuswahl = new JPanel();
-			jpSpielAuswahl.setPreferredSize(new Dimension(450,450));
-			jpSpielAuswahl.setLayout(new GridLayout(3,0));
-			jpSpielAuswahl.setOpaque(false);
-			JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
-			jlLogo.setMinimumSize(new Dimension(450, 200));
-			JButton jbLokalSpielSpielen= new JButton("Eigenes Spiel starten");
-			jbLokalSpielSpielen.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) 
-				{
+    /**
+     * Fügt das Hauptmenü hinzu
+     * 
+     * @author fwenisch
+     * @date 10.11.2012
+     */
+    public void addMenuPanel() {
+        if (jpMenu == null) {
+            jpMenu = new JPanel();
+            jpMenu.setPreferredSize(new Dimension(450, 450));
+            jpMenu.setLayout(new GridLayout(5, 0));
+            jpMenu.setOpaque(false);
+            JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
+            jlLogo.setMinimumSize(new Dimension(450, 200));
+            JButton jbKampagneSpielen = new JButton("Kampagne Starten");
+            jbKampagneSpielen.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
 
-					try 
-					{
-						MainFrame.neuesSpielOeffnen();
-					}
-					catch(Exception e)
-					{
-						removeAll();
-						addMenuPanel();
-					}
-				}}
-					);
-			JButton jbOnlineSpielSpielen= new JButton("Online Archiv durchsuchen");
-			jbOnlineSpielSpielen.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) 
-				{
-					try 
-					{
-						addOnlineSpielAuswahlPanel();
-					}
-					catch(Exception e)
-					{
-						removeAll();
-						addMenuPanel();
-					}
-				}
-			});
-			
+                    try {
+                        addKampagnenPanel();
+                    } catch (Exception e) {
+                        removeAll();
+                        addMenuPanel();
+                    }
+                }
+            });
+            JButton jbSpielSpielen = new JButton("Neues Spiel starten");
+            jbSpielSpielen.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    try {
+                        addSpielAuswahlPanel();
+                    } catch (Exception e) {
+                        removeAll();
+                        addMenuPanel();
+                    }
+                }
+            });
+            JButton jbSpielErstellen = new JButton("Neues Puzzle erstellen");
+            JButton jbSpielBeenden = new JButton("Beenden");
 
-			jpSpielAuswahl.add(jlLogo);
-			jpSpielAuswahl.add(jbLokalSpielSpielen);
-			jpSpielAuswahl.add(jbOnlineSpielSpielen);
-			
+            jpMenu.add(jlLogo);
+            jpMenu.add(jbKampagneSpielen);
+            jpMenu.add(jbSpielSpielen);
+            jpMenu.add(jbSpielErstellen);
 
-		}
-		removeAll();
-		add(jpSpielAuswahl);
-		validate();
-		repaint();
-	}
-	public void addOnlineSpielAuswahlPanel()
-	{
-		
-			JPanel jpAuswahl = new JPanel();
-			jpAuswahl.setOpaque(false);
-			jpAuswahl.setPreferredSize(new Dimension(700, 600));
-			jpAuswahl.setMinimumSize(new Dimension(700, 600));
-			jpAuswahl.setMaximumSize(new Dimension(700, 600));
-			JPanel jpSpielfeldAuswahl = new JPanel();
-			GridLayout layout = new GridLayout(10,5);
-			layout.setHgap(10);
-			jpSpielfeldAuswahl.setLayout(layout);
-			jpSpielfeldAuswahl.setOpaque(false);
-			
-			
-			for(int i=0; i <30;i++)
-			{
-				jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"+(i+1)));
-				}
-			JPanel jpBottom = new JPanel();
-			jpBottom.setOpaque(false);
-			jpBottom.setPreferredSize(new Dimension(600, 30));
-			JButton jbBackToMenu = new JButton("Zurück zum Hauptmenü");
-			jbBackToMenu.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) 
-				{
+        }
+        removeAll();
+        add(jpMenu);
+        validate();
+        repaint();
+    }
 
-					try 
-					{
-						addMenuPanel();
-					}
-					catch(Exception e)
-					{
-						removeAll();
-						addMenuPanel();
-					}
-				}}
-					);
-			jpBottom.add(jbBackToMenu);
-			JScrollPane jpScroll = new JScrollPane();
-			jpScroll.setOpaque(false);
-			jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			jpScroll.getViewport().add(jpSpielfeldAuswahl);
-			jpScroll.setPreferredSize(new Dimension(700,400));
-			jpScroll.getViewport().setOpaque(false);
-			JLabel jlÜberschrift = new JLabel();
-			jlÜberschrift.setPreferredSize(new Dimension(700,50));
-			jlÜberschrift.setForeground(Color.YELLOW);
-			jlÜberschrift.setFont(new Font("Verdana", 0, 36));
-			jlÜberschrift.setHorizontalAlignment(JLabel.CENTER);
-			jlÜberschrift.setText("Online Archiv");
-			jpAuswahl.add(jlÜberschrift,BorderLayout.NORTH);
-			jpAuswahl.add(jpScroll,BorderLayout.CENTER);
-			jpAuswahl.add(jpBottom,BorderLayout.SOUTH);
-			
+    public void addSpielAuswahlPanel() {
+        if (jpSpielAuswahl == null) {
+            jpSpielAuswahl = new JPanel();
+            jpSpielAuswahl.setPreferredSize(new Dimension(450, 450));
+            jpSpielAuswahl.setLayout(new GridLayout(3, 0));
+            jpSpielAuswahl.setOpaque(false);
+            JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
+            jlLogo.setMinimumSize(new Dimension(450, 200));
+            JButton jbLokalSpielSpielen = new JButton("Eigenes Spiel starten");
+            jbLokalSpielSpielen.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
 
-		
-		removeAll();
-		add(jpAuswahl);
-		validate();
-		repaint();
-	}
-	
-	
+                    try {
+                        MainFrame.neuesSpielOeffnen();
+                    } catch (Exception e) {
+                        removeAll();
+                        addMenuPanel();
+                    }
+                }
+            });
+            JButton jbOnlineSpielSpielen = new JButton(
+                    "Online Archiv durchsuchen");
+            jbOnlineSpielSpielen.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    try {
+                        addOnlineSpielAuswahlPanel();
+                    } catch (Exception e) {
+                        removeAll();
+                        addMenuPanel();
+                    }
+                }
+            });
 
-	@Override
-	/**
-	 * Hintergrundbild wird skaliert gezeichnet
-	 * @author fwenisch
-	 * @date	04.11.2012
-	 */
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+            jpSpielAuswahl.add(jlLogo);
+            jpSpielAuswahl.add(jbLokalSpielSpielen);
+            jpSpielAuswahl.add(jbOnlineSpielSpielen);
 
+        }
+        removeAll();
+        add(jpSpielAuswahl);
+        validate();
+        repaint();
+    }
 
-		Insets insets = getInsets();
-		int x = insets.left;
-		int y = insets.top;
-		int width = getWidth() - x - insets.right;
-		int height = getHeight() - y - insets.bottom;
-		g.drawImage(backgroundimage, x, y, width, height, this);
+    public void addOnlineSpielAuswahlPanel() {
 
-	}
+        JPanel jpAuswahl = new JPanel();
+        jpAuswahl.setOpaque(false);
+        jpAuswahl.setPreferredSize(new Dimension(700, 600));
+        jpAuswahl.setMinimumSize(new Dimension(700, 600));
+        jpAuswahl.setMaximumSize(new Dimension(700, 600));
+        JPanel jpSpielfeldAuswahl = new JPanel();
+        GridLayout layout = new GridLayout(10, 5);
+        layout.setHgap(10);
+        jpSpielfeldAuswahl.setLayout(layout);
+        jpSpielfeldAuswahl.setOpaque(false);
 
-	public Spiel getCurrentSpiel() {
-		return backend.getSpiel();
-	}
+        for (int i = 0; i < 30; i++) {
+            jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"
+                    + (i + 1)));
+        }
+        JPanel jpBottom = new JPanel();
+        jpBottom.setOpaque(false);
+        jpBottom.setPreferredSize(new Dimension(600, 30));
+        JButton jbBackToMenu = new JButton("Zurück zum Hauptmenü");
+        jbBackToMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+
+                try {
+                    addMenuPanel();
+                } catch (Exception e) {
+                    removeAll();
+                    addMenuPanel();
+                }
+            }
+        });
+        jpBottom.add(jbBackToMenu);
+        JScrollPane jpScroll = new JScrollPane();
+        jpScroll.setOpaque(false);
+        jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jpScroll.getViewport().add(jpSpielfeldAuswahl);
+        jpScroll.setPreferredSize(new Dimension(700, 400));
+        jpScroll.getViewport().setOpaque(false);
+        JLabel jlÜberschrift = new JLabel();
+        jlÜberschrift.setPreferredSize(new Dimension(700, 50));
+        jlÜberschrift.setForeground(Color.YELLOW);
+        jlÜberschrift.setFont(new Font("Verdana", 0, 36));
+        jlÜberschrift.setHorizontalAlignment(JLabel.CENTER);
+        jlÜberschrift.setText("Online Archiv");
+        jpAuswahl.add(jlÜberschrift, BorderLayout.NORTH);
+        jpAuswahl.add(jpScroll, BorderLayout.CENTER);
+        jpAuswahl.add(jpBottom, BorderLayout.SOUTH);
+
+        removeAll();
+        add(jpAuswahl);
+        validate();
+        repaint();
+    }
+
+    @Override
+    /**
+     * Hintergrundbild wird skaliert gezeichnet
+     * @author fwenisch
+     * @date	04.11.2012
+     */
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        Insets insets = getInsets();
+        int x = insets.left;
+        int y = insets.top;
+        int width = getWidth() - x - insets.right;
+        int height = getHeight() - y - insets.bottom;
+        g.drawImage(backgroundimage, x, y, width, height, this);
+
+    }
+
+    public Spiel getCurrentSpiel() {
+        return backend.getSpiel();
+    }
 }

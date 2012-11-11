@@ -8,7 +8,7 @@ import java.awt.*;
 
 /**
  * An/Auswahl fuer den Tracking-Modus
- *
+ * 
  * @author Lars Schlegelmilch
  */
 public class AnAusAuswahl extends JCheckBox {

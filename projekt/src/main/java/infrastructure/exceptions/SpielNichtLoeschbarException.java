@@ -11,7 +11,8 @@ import java.io.IOException;
  */
 public class SpielNichtLoeschbarException extends IOException {
 
-    private static final ResourceManager resourceManager = ResourceManager.get();
+    private static final ResourceManager resourceManager = ResourceManager
+            .get();
 
     public SpielNichtLoeschbarException() {
         super(resourceManager.getText("exception.cant.delete.gamefile"));

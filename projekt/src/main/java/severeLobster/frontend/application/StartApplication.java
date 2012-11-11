@@ -63,11 +63,11 @@ public class StartApplication extends JFrame implements Runnable {
         setUndecorated(true);
         setVisible(true);
 
-        try 
-        {
+        try {
             // TODO: Bilder & Sonstige Sachen laden
             SC_MAIN = new Thread(new MainFrame());
-            FTPConnector oFtp = new FTPConnector("ftp.strato.de", "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);
+            FTPConnector oFtp = new FTPConnector("ftp.strato.de",
+                    "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);
             oFtp.getFiles();
             Thread.sleep(2000);
         } catch (Exception e) {
@@ -93,10 +93,10 @@ public class StartApplication extends JFrame implements Runnable {
         g.setFont(myFont);
         g.setColor(Color.YELLOW);
         g.drawString(
-                resourceManager.getText("splashscreen.text.1")
-                        + " " + System.getProperty("user.name")
-                        + " " + resourceManager.getText("splashscreen.text.2"),
-                5, 280);
+                resourceManager.getText("splashscreen.text.1") + " "
+                        + System.getProperty("user.name") + " "
+                        + resourceManager.getText("splashscreen.text.2"), 5,
+                280);
     }
 
 }
