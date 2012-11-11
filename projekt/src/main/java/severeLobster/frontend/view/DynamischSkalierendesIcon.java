@@ -8,29 +8,42 @@ import javax.swing.ImageIcon;
 
 /**
  * Icon Implementation, die das gezeichnete Icon dynamisch immer auf die Groesse
- * der Zielkomponente skaliert.
+ * der Zielkomponente skaliert. Dabei koennen als Quelle mehrere Aufloesungen
+ * desselben Bildes uebergeben werden, um den Skalierungsaufwand gering zu
+ * halten.
  * 
- * Rohversion - koennen wir nachher noch mit den verschieden grossen Icons
- * ergaenzen, so dass immer die bestmoegliche Aufloesung angezeigt wird.
  * 
  * @author Lutz Kleiber
  * 
  */
 public class DynamischSkalierendesIcon extends ImageIcon {
 
-    private final ImageIcon sourceIcon;
+    private final ImageIconInVerschiedenenAufloesungen sourceIcons;
     /** Aendert sich je nach Ausmassen der Zielkomponente: */
     private ImageIcon scaledImageIcon;
 
     public DynamischSkalierendesIcon(final ImageIcon icon,
             final int defaultWidth, final int defaultHeight) {
-        this.sourceIcon = icon;
+        this(new ImageIcon[] { icon }, defaultWidth, defaultHeight);
+    }
+
+    public DynamischSkalierendesIcon(
+            final ImageIcon[] verschiedeneAufloesungen, final int defaultWidth,
+            final int defaultHeight) {
+        if (null == verschiedeneAufloesungen) {
+            throw new NullPointerException("ImageIcon Array ist null");
+        }
+        this.sourceIcons = new ImageIconInVerschiedenenAufloesungen(
+                verschiedeneAufloesungen);
+        final ImageIcon naechstHoehereStartGroesse = sourceIcons
+                .getNaechstHoehereAufloesung(defaultWidth);
         /**
          * Sofort in default Groesse skalieren, damit getIconWidth() und
          * getIconHeight() kalkulierbare Werte zurueckgeben.
          */
-        this.scaledImageIcon = getSkaliertesImageIcon(icon, defaultWidth,
-                defaultHeight);
+        this.scaledImageIcon = getSkaliertesImageIcon(
+                naechstHoehereStartGroesse, defaultWidth, defaultHeight);
+
     }
 
     @Override
@@ -98,8 +111,11 @@ public class DynamischSkalierendesIcon extends ImageIcon {
             }
 
             /* Bisheriges skaliertes ImageIcon mit neuem ueberschreiben */
-            this.scaledImageIcon = getSkaliertesImageIcon(sourceIcon,
-                    targetWidth, targetHeigth);
+            final ImageIcon naechstHoehereAufloesung = sourceIcons
+                    .getNaechstHoehereAufloesung(targetWidth);
+
+            this.scaledImageIcon = getSkaliertesImageIcon(
+                    naechstHoehereAufloesung, targetWidth, targetHeigth);
         }
         /* Hier hat scaledImage in jedem Fall die richtige Groesse */
         /* Wirkliches Zeichnen in Zielkomponente */
