@@ -14,6 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -31,6 +35,7 @@ public class MainView extends JPanel {
 	private final Image	backgroundimage = getToolkit().getImage(resourceManager.getGraphicURL("sternenhimmel.jpg"));
 	private JPanel jpMenu= null;
 	private JPanel jpKampagne = null;
+	private JPanel jpSpielAuswahl = null;
 
 
 	public SternenSpielApplicationBackend getBackend() {
@@ -175,7 +180,7 @@ public class MainView extends JPanel {
 				{
 					try 
 					{
-						MainFrame.neuesSpielOeffnen();
+						addSpielAuswahlPanel();
 					}
 					catch(Exception e)
 					{
@@ -198,6 +203,116 @@ public class MainView extends JPanel {
 		validate();
 		repaint();
 	}
+	public void addSpielAuswahlPanel()
+	{
+		if (jpSpielAuswahl==null)
+		{
+			jpSpielAuswahl = new JPanel();
+			jpSpielAuswahl.setPreferredSize(new Dimension(450,450));
+			jpSpielAuswahl.setLayout(new GridLayout(3,0));
+			jpSpielAuswahl.setOpaque(false);
+			JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
+			jlLogo.setMinimumSize(new Dimension(450, 200));
+			JButton jbLokalSpielSpielen= new JButton("Eigenes Spiel starten");
+			jbLokalSpielSpielen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) 
+				{
+
+					try 
+					{
+						MainFrame.neuesSpielOeffnen();
+					}
+					catch(Exception e)
+					{
+						removeAll();
+						addMenuPanel();
+					}
+				}}
+					);
+			JButton jbOnlineSpielSpielen= new JButton("Online Archiv durchsuchen");
+			jbOnlineSpielSpielen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) 
+				{
+					try 
+					{
+						addOnlineSpielAuswahlPanel();
+					}
+					catch(Exception e)
+					{
+						removeAll();
+						addMenuPanel();
+					}
+				}
+			});
+			
+
+			jpSpielAuswahl.add(jlLogo);
+			jpSpielAuswahl.add(jbLokalSpielSpielen);
+			jpSpielAuswahl.add(jbOnlineSpielSpielen);
+			
+
+		}
+		removeAll();
+		add(jpSpielAuswahl);
+		validate();
+		repaint();
+	}
+	public void addOnlineSpielAuswahlPanel()
+	{
+		
+			JPanel jpAuswahl = new JPanel();
+			jpAuswahl.setOpaque(false);
+			jpAuswahl.setPreferredSize(new Dimension(700, 600));
+			jpAuswahl.setMinimumSize(new Dimension(700, 600));
+			jpAuswahl.setMaximumSize(new Dimension(700, 600));
+			jpAuswahl.setOpaque(false);
+			JPanel jpSpielfeldAuswahl = new JPanel();
+			GridLayout layout = new GridLayout(10,5);
+			layout.setHgap(10);
+			jpSpielfeldAuswahl.setLayout(layout);
+			jpSpielfeldAuswahl.setOpaque(false);
+			
+			
+			for(int i=0; i <30;i++)
+			{
+				jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"+(i+1)));
+				}
+			JPanel jpBottom = new JPanel();
+			jpBottom.setOpaque(false);
+			jpBottom.setPreferredSize(new Dimension(600, 30));
+			JButton jbBackToMenu = new JButton("Zurück zum Hauptmenü");
+			jbBackToMenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) 
+				{
+
+					try 
+					{
+						addMenuPanel();
+					}
+					catch(Exception e)
+					{
+						removeAll();
+						addMenuPanel();
+					}
+				}}
+					);
+			jpBottom.add(jbBackToMenu);
+			JScrollPane jpScroll = new JScrollPane();
+			jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			jpScroll.getViewport().add(jpSpielfeldAuswahl);
+			jpScroll.setPreferredSize(new Dimension(700,450));
+			jpAuswahl.add(jpScroll,BorderLayout.CENTER);
+			jpAuswahl.add(jpBottom,BorderLayout.SOUTH);
+			
+
+		
+		removeAll();
+		add(jpAuswahl);
+		validate();
+		repaint();
+	}
+	
+	
 
 	@Override
 	/**

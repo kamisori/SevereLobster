@@ -5,6 +5,9 @@ import infrastructure.ResourceManager;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import severeLobster.backend.spiel.FTPConnector;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -60,10 +63,13 @@ public class StartApplication extends JFrame implements Runnable {
         setUndecorated(true);
         setVisible(true);
 
-        try {
+        try 
+        {
             // TODO: Bilder & Sonstige Sachen laden
             SC_MAIN = new Thread(new MainFrame());
-            // Zum Testen auskommentiert
+            FTPConnector oFtp = new FTPConnector("ftp.strato.de", "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);
+            oFtp.connect(); // Zum Testen auskommentiert
+            oFtp.getFiles();
             Thread.sleep(2000);
         } catch (Exception e) {
             dispose();
