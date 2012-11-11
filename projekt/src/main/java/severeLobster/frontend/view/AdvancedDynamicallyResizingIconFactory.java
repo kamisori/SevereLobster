@@ -18,7 +18,7 @@ public class AdvancedDynamicallyResizingIconFactory extends
         SimpleDynamicallyResizingIconFactory {
 
     private static final AdvancedDynamicallyResizingIconFactory INSTANCE = new AdvancedDynamicallyResizingIconFactory();
-
+    private final ResourceManager resourceManager = ResourceManager.get();
     protected AdvancedDynamicallyResizingIconFactory() {
 
         final int defaultWidth = SimpleDynamicallyResizingIconFactory.DEFAULT_ICON_WIDTH;
@@ -177,7 +177,7 @@ public class AdvancedDynamicallyResizingIconFactory extends
             e.printStackTrace();
             // Wenn das fehlschlaegt ist was kaputt
             throw new IllegalStateException(
-                    "IconFactory kann nicht alle Bilder laden");
+                    resourceManager.getText("exception.cant.load.all.icons"));
         }
 
     }

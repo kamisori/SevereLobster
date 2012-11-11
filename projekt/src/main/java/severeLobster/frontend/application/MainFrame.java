@@ -74,7 +74,7 @@ public class MainFrame extends JMenuBar implements Runnable {
          */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         mainPanel = new MainView();
-        frame = new JFrame("Sternenhimmel - Gruppe 3");
+        frame = new JFrame(resourceManager.getText("mainFrame.title"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setIconImage(getToolkit().getImage(
                 resourceManager.getGraphicURL("icons/SternIcon128.png")));
@@ -105,7 +105,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         jm_Spiel = new JMenu(resourceManager.getText("spiel.menu.text"));
         jm_Editieren = new JMenu(resourceManager.getText("editieren.menu.text"));
-        jm_Hilfe = new JMenu("Hilfe");
+        jm_Hilfe = new JMenu(resourceManager.getText("hilfe.menu.text"));
         m_Windowlocation = new Point();
         ActionListener menuAction = new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -164,25 +164,25 @@ public class MainFrame extends JMenuBar implements Runnable {
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.erstellen"))) {
                     JOptionPane.showMessageDialog(frame,
-                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            resourceManager.getText("menu.function.not.available"),
                             "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("load.puzzle"))) {
                     JOptionPane.showMessageDialog(frame,
-                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            resourceManager.getText("menu.function.not.available"),
                             "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("save.puzzle"))) {
                     JOptionPane.showMessageDialog(frame,
-                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            resourceManager.getText("menu.function.not.available"),
                             "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.freigeben"))) {
                     JOptionPane.showMessageDialog(frame,
-                            "Diese Funktion ist zurzeit nicht verfügbar!",
+                            resourceManager.getText("menu.function.not.available"),
                             "Under Construction", JOptionPane.WARNING_MESSAGE);
                 }
                 if (event.getActionCommand().equals(
@@ -238,9 +238,9 @@ public class MainFrame extends JMenuBar implements Runnable {
         item.setEnabled(false);
         item.addActionListener(menuAction);
 
-        jm_Hilfe.add(item = new JMenuItem("Anleitung"));
+        jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.user.manual")));
         item.addActionListener(menuAction);
-        jm_Hilfe.add(item = new JMenuItem("About"));
+        jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.about")));
         item.addActionListener(menuAction);
 
         jm_Spiel.insertSeparator(4);

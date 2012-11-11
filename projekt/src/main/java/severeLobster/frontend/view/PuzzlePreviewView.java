@@ -63,9 +63,9 @@ public class PuzzlePreviewView extends JPanel {
              */
 
             JLabel jlName = new JLabel(strPuzzleName);
-            JLabel jlSchwierigkeit = new JLabel("Schwierigkeitsgrad: "
-                    + spiel.getSchwierigkeitsgrad().toString());
-            JLabel jlFelder = new JLabel("Felder: "
+            JLabel jlSchwierigkeit = new JLabel(resourceManager.getText("difficulty")
+                    + " " + spiel.getSchwierigkeitsgrad().toString());
+            JLabel jlFelder = new JLabel(resourceManager.getText("fields") + " "
                     + spiel.getSpielfeld().getHoehe()
                     * spiel.getSpielfeld().getBreite());
 
@@ -74,7 +74,7 @@ public class PuzzlePreviewView extends JPanel {
                 jlFelder.setText(jlFelder.getText() + " ");
                 jlFelder.setText(" " + jlFelder.getText());
             }
-            JButton jbSSpielen = new JButton("Spielen");
+            JButton jbSSpielen = new JButton(resourceManager.getText("play"));
             jbSSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
 
@@ -94,7 +94,7 @@ public class PuzzlePreviewView extends JPanel {
         } catch (Exception e) {
             spielfeldPreviewLabel.setIcon(resourceManager
                     .getImageIcon("Ausschluss_128.png"));
-            SpielfeldInfo.add(new JLabel("Nicht verfügbar"));
+            SpielfeldInfo.add(new JLabel(resourceManager.getText("not.available")));
         }
         this.add(spielfeldPreviewLabel, BorderLayout.CENTER);
         this.add(SpielfeldInfo, BorderLayout.SOUTH);

@@ -1,5 +1,7 @@
 package severeLobster.frontend.view;
 
+import infrastructure.ResourceManager;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -14,12 +16,13 @@ public class ImageIconInVerschiedenenAufloesungen {
      * Verfuegbare Aufloesungen des Bildes. Bilder sind nach dem erstellen in
      * aufsteigender Aufloesung sortiert.
      */
+    private final ResourceManager resourceManager = ResourceManager.get();
     private final ImageIcon[] verschiedeneAufloesungen;
 
     public ImageIconInVerschiedenenAufloesungen(
             final ImageIcon[] gleichesBildInVerschiedenenAufloesungen) {
         if (null == gleichesBildInVerschiedenenAufloesungen) {
-            throw new NullPointerException("Array von ImageIcons ist null");
+            throw new NullPointerException(resourceManager.getText("exception.icon.array.is.null"));
         }
         this.verschiedeneAufloesungen = gleichesBildInVerschiedenenAufloesungen;
         sortiereVonNiedrigerZuHoherAufloesung(verschiedeneAufloesungen);

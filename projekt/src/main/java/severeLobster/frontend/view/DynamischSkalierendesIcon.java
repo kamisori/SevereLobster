@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import infrastructure.ResourceManager;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -20,6 +22,7 @@ import javax.swing.ImageIcon;
  */
 public class DynamischSkalierendesIcon extends ImageIcon {
 
+    private final ResourceManager resourceManager = ResourceManager.get();
     private final ImageIconInVerschiedenenAufloesungen sourceIcons;
     /** Aendert sich je nach Ausmassen der Zielkomponente: */
     private ImageIcon scaledImageIcon;
@@ -39,7 +42,7 @@ public class DynamischSkalierendesIcon extends ImageIcon {
             final ImageIcon[] verschiedeneAufloesungen, final int defaultWidth,
             final int defaultHeight) {
         if (null == verschiedeneAufloesungen) {
-            throw new NullPointerException("ImageIcon Array ist null");
+            throw new NullPointerException(resourceManager.getText("exception.icon.array.is.null"));
         }
         this.sourceIcons = new ImageIconInVerschiedenenAufloesungen(
                 verschiedeneAufloesungen);
