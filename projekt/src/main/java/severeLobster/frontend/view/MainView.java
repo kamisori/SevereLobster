@@ -19,7 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -265,7 +267,6 @@ public class MainView extends JPanel {
 			jpAuswahl.setPreferredSize(new Dimension(700, 600));
 			jpAuswahl.setMinimumSize(new Dimension(700, 600));
 			jpAuswahl.setMaximumSize(new Dimension(700, 600));
-			jpAuswahl.setOpaque(false);
 			JPanel jpSpielfeldAuswahl = new JPanel();
 			GridLayout layout = new GridLayout(10,5);
 			layout.setHgap(10);
@@ -298,9 +299,18 @@ public class MainView extends JPanel {
 					);
 			jpBottom.add(jbBackToMenu);
 			JScrollPane jpScroll = new JScrollPane();
+			jpScroll.setOpaque(false);
 			jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			jpScroll.getViewport().add(jpSpielfeldAuswahl);
-			jpScroll.setPreferredSize(new Dimension(700,450));
+			jpScroll.setPreferredSize(new Dimension(700,400));
+			jpScroll.getViewport().setOpaque(false);
+			JLabel jlÜberschrift = new JLabel();
+			jlÜberschrift.setPreferredSize(new Dimension(700,50));
+			jlÜberschrift.setForeground(Color.YELLOW);
+			jlÜberschrift.setFont(new Font("Verdana", 0, 36));
+			jlÜberschrift.setHorizontalAlignment(JLabel.CENTER);
+			jlÜberschrift.setText("Online Archiv");
+			jpAuswahl.add(jlÜberschrift,BorderLayout.NORTH);
 			jpAuswahl.add(jpScroll,BorderLayout.CENTER);
 			jpAuswahl.add(jpBottom,BorderLayout.SOUTH);
 			
