@@ -70,7 +70,7 @@ public class SimpleIconFactory extends IconFactory {
             e.printStackTrace();
             // Wenn das fehlschlaegt ist was kaputt
             throw new IllegalStateException(
-                    "SimpleIconFactory kann nicht alle Bilder laden");
+                    resourceManager.getText("exception.simple.icon.factory.cannot.load.all.pictures"));
         }
 
         pfeilSouthIcon = new ImageIcon(pfeilSouthBuffImage);

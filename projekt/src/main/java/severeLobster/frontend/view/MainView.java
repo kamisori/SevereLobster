@@ -117,7 +117,7 @@ public class MainView extends JPanel {
             JPanel jpBottom = new JPanel();
             jpBottom.setOpaque(false);
             jpBottom.setPreferredSize(new Dimension(600, 30));
-            JButton jbBackToMenu = new JButton("Zurück zum Hauptmenü");
+            JButton jbBackToMenu = new JButton(resourceManager.getText("back.to.main.menu"));
             jbBackToMenu.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
 
@@ -154,7 +154,7 @@ public class MainView extends JPanel {
             jpMenu.setOpaque(false);
             JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
             jlLogo.setMinimumSize(new Dimension(450, 200));
-            JButton jbKampagneSpielen = new JButton("Kampagne Starten");
+            JButton jbKampagneSpielen = new JButton(resourceManager.getText("start.campaign"));
             jbKampagneSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
 
@@ -166,7 +166,7 @@ public class MainView extends JPanel {
                     }
                 }
             });
-            JButton jbSpielSpielen = new JButton("Neues Spiel starten");
+            JButton jbSpielSpielen = new JButton(resourceManager.getText("start.new.game"));
             jbSpielSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     try {
@@ -177,8 +177,8 @@ public class MainView extends JPanel {
                     }
                 }
             });
-            JButton jbSpielErstellen = new JButton("Neues Puzzle erstellen");
-            JButton jbSpielBeenden = new JButton("Beenden");
+            JButton jbSpielErstellen = new JButton(resourceManager.getText("create.new.puzzle"));
+            JButton jbSpielBeenden = new JButton(resourceManager.getText("quit"));
 
             jpMenu.add(jlLogo);
             jpMenu.add(jbKampagneSpielen);
@@ -200,7 +200,7 @@ public class MainView extends JPanel {
             jpSpielAuswahl.setOpaque(false);
             JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
             jlLogo.setMinimumSize(new Dimension(450, 200));
-            JButton jbLokalSpielSpielen = new JButton("Eigenes Spiel starten");
+            JButton jbLokalSpielSpielen = new JButton(resourceManager.getText("start.own.game"));
             jbLokalSpielSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
 
@@ -213,7 +213,7 @@ public class MainView extends JPanel {
                 }
             });
             JButton jbOnlineSpielSpielen = new JButton(
-                    "Online Archiv durchsuchen");
+                    resourceManager.getText("search.online.archive"));
             jbOnlineSpielSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     try {
@@ -256,7 +256,7 @@ public class MainView extends JPanel {
         JPanel jpBottom = new JPanel();
         jpBottom.setOpaque(false);
         jpBottom.setPreferredSize(new Dimension(600, 30));
-        JButton jbBackToMenu = new JButton("Zurück zum Hauptmenü");
+        JButton jbBackToMenu = new JButton(resourceManager.getText("back.to.main.menu"));
         jbBackToMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 
@@ -280,7 +280,7 @@ public class MainView extends JPanel {
         jlÜberschrift.setForeground(Color.YELLOW);
         jlÜberschrift.setFont(new Font("Verdana", 0, 36));
         jlÜberschrift.setHorizontalAlignment(JLabel.CENTER);
-        jlÜberschrift.setText("Online Archiv");
+        jlÜberschrift.setText(resourceManager.getText("online.archive"));
         jpAuswahl.add(jlÜberschrift, BorderLayout.NORTH);
         jpAuswahl.add(jpScroll, BorderLayout.CENTER);
         jpAuswahl.add(jpBottom, BorderLayout.SOUTH);
