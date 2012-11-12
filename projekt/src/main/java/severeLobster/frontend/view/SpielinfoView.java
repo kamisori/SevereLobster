@@ -51,8 +51,9 @@ public class SpielinfoView extends JPanel {
         g.setColor(Color.YELLOW);
         g.drawString(System.getProperty("user.name"), 90, 80);
         g.setColor(Color.BLACK);
-        g.drawString("Versuche: " + String.valueOf(zugcount), 40, 246);
-        g.drawString("Zeit: " + strSpielZeit + " sek", 40, 286);
+        g.drawString(resourceManager.getText("try") + " " + String.valueOf(zugcount), 40, 246);
+        g.drawString(resourceManager.getText("time") + " " + strSpielZeit + " "
+                   + resourceManager.getText("seconds"), 40, 286);
         validate();
         repaint();
     }

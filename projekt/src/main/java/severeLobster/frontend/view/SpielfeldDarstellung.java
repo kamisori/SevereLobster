@@ -16,6 +16,8 @@ import severeLobster.backend.spiel.KeinStein;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 
+import infrastructure.ResourceManager;
+
 /**
  * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen. In dieser
  * Klasse wird absichtlich nichts in den AWT Thread eingereiht. Wenn von
@@ -27,6 +29,7 @@ import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
  */
 public class SpielfeldDarstellung extends JPanel {
 
+    private final ResourceManager resourceManager = ResourceManager.get();
     /** Default Icon Factory fuer Spielstein Icons */
     public static final IconFactory DEFAULT_ICON_FACTORY = AdvancedDynamicallyResizingIconFactory
             .getInstance();
@@ -85,7 +88,7 @@ public class SpielfeldDarstellung extends JPanel {
 
         if (null == newSpielfeld) {
 
-            throw new NullPointerException("Spielfeld ist null");
+            throw new NullPointerException(resourceManager.getText("exception.playing.field.is.null"));
         }
         final int spaltenAnzahl = newSpielfeld.getBreite();
         final int zeilenAnzahl = newSpielfeld.getHoehe();
@@ -137,8 +140,9 @@ public class SpielfeldDarstellung extends JPanel {
 
         if (anzahlSpalten < 1 || anzahlZeilen < 1) {
             throw new IllegalArgumentException(
-                    "Unzulaessige Groessenangabe: Spaltenanzahl:"
-                            + anzahlSpalten + "  Zeilenanzahl:" + anzahlZeilen);
+                    resourceManager.getText("exception.invalid.size") + " " +
+                    resourceManager.getText("exception.invalid.size.column") + " " + anzahlSpalten + " " +
+                    resourceManager.getText("exception.invalid.size.row") + " " + anzahlZeilen);
         }
 
         /* Nimm alles bisherige aus dem Panel raus */

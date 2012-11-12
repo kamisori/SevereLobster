@@ -6,6 +6,7 @@ import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.command.Aktion;
+import infrastructure.ResourceManager;
 
 import javax.swing.event.EventListenerList;
 import java.io.File;
@@ -25,7 +26,7 @@ import java.util.Stack;
  * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
 public class Spiel implements IGotSpielModus {
-
+    private final ResourceManager resourceManager = ResourceManager.get();
     private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
@@ -48,7 +49,7 @@ public class Spiel implements IGotSpielModus {
     }
 
     private StoppUhr spielStoppUhr;
-    private String spielZeit = "Nicht begonnen";
+    private String spielZeit = resourceManager.getText("backend.spiel.nicht.begonnen");
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.

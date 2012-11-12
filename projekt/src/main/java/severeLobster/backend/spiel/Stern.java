@@ -1,12 +1,14 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.ResourceManager;
+
 /**
  * Sternenspielstein
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
 public class Stern extends Spielstein {
-
+    private final ResourceManager resourceManager = ResourceManager.get();
     private static final Stern INSTANCE = new Stern();
 
     public static Stern getInstance() {
@@ -15,7 +17,7 @@ public class Stern extends Spielstein {
 
     @Override
     public String toString() {
-        return "Stern";
+        return resourceManager.getText("backend.stern");
     }
 
     @Override

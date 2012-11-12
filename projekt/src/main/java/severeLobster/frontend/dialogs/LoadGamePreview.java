@@ -76,7 +76,7 @@ public class LoadGamePreview extends JPanel implements PropertyChangeListener {
                             bufferedImage, 100, 100);
                     spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
                 } catch (IOException e) {
-                    System.out.println("Ungueltiges Spielformat");
+                    System.out.println(resourceManager.getText("load.dialog.invalid.format"));
                 }
                 if (spiel != null) {
                     schwierigkeitsgradTitle.setText(resourceManager

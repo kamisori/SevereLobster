@@ -8,6 +8,8 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+import infrastructure.ResourceManager;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -23,6 +25,7 @@ import javax.swing.ImageIcon;
 public class DynamischSkalierendesIcon extends ImageIcon {
 
     private final BufferedImageInVerschiedenenAufloesungen sourceImages;
+    private final ResourceManager resourceManager = ResourceManager.get();
     /** Aendert sich je nach Ausmassen der Zielkomponente: */
     private ImageIcon scaledImageIcon;
 
@@ -33,6 +36,7 @@ public class DynamischSkalierendesIcon extends ImageIcon {
                 bufferedImages);
         final BufferedImage naechstHoehereStartGroesse = sourceImages
                 .getNaechstHoehereAufloesung(defaultWidth);
+
         /**
          * Sofort in default Groesse skalieren, damit getIconWidth() und
          * getIconHeight() kalkulierbare Werte zurueckgeben.
