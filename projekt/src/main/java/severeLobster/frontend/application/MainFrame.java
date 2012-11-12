@@ -11,32 +11,21 @@ import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
 import severeLobster.backend.spiel.Spiel;
+import severeLobster.frontend.dialogs.AboutDialog;
 import severeLobster.frontend.dialogs.ExitDialog;
 import severeLobster.frontend.dialogs.LoadGamePreview;
 import severeLobster.frontend.dialogs.NewGamePreview;
 import severeLobster.frontend.view.MainView;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.Color;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 /**
  * Initialisiert Grafiken
@@ -187,12 +176,14 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("check.puzzle"))) {
-
-                    /*
-                     * JOptionPane.showMessageDialog(frame,
-                     * "Diese Funktion ist zurzeit nicht verfügbar!",
-                     * "Under Construction", JOptionPane.WARNING_MESSAGE);
-                     */
+                }
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("hilfe.about"))) {
+                    AboutDialog.showAboutDialog(frame);
+                }
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("hilfe.kontakt"))) {
+                    kontaktMail();
                 }
             }
         };
@@ -240,6 +231,8 @@ public class MainFrame extends JMenuBar implements Runnable {
 
         jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.user.manual")));
         item.addActionListener(menuAction);
+        jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.kontakt")));
+        item.addActionListener(menuAction);
         jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.about")));
         item.addActionListener(menuAction);
 
@@ -259,6 +252,18 @@ public class MainFrame extends JMenuBar implements Runnable {
         });
 
         frame.setJMenuBar(this);
+    }
+
+    private void kontaktMail() {
+        Desktop desktop = Desktop.getDesktop();
+        String message = "mailto:entwickler@nirako.de?subject=Kontakt%20Sternenhimmel%20Deluxe";
+        URI uri = URI.create(message);
+        try {
+            desktop.mail(uri);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Kein Mail Client gefunden!",
+                    "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void neuesSpielOeffnen() {

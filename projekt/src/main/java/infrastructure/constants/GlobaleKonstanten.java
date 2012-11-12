@@ -1,5 +1,7 @@
 package infrastructure.constants;
 
+import severeLobster.frontend.application.StartApplication;
+
 import java.awt.Font;
 import java.io.File;
 
