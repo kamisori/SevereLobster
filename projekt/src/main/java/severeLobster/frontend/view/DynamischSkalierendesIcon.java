@@ -3,11 +3,9 @@ package severeLobster.frontend.view;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
-import java.lang.annotation.Target;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -122,31 +120,27 @@ public class DynamischSkalierendesIcon extends ImageIcon {
         scaledImageIcon.paintIcon(targetComponent, g, x, y);
     }
 
-    private static BufferedImage getScaledInstance(final BufferedImage img,
-            final int targetWidth, final int targetHeight) {
-        try {
-            System.out.println("Skaliere Quellimage der Groesse: "
-                    + img.getWidth() + "X" + img.getHeight() + " herunter auf "
-                    + targetWidth + "X" + targetHeight);
-            int type = (img.getTransparency() == Transparency.OPAQUE) ? BufferedImage.TYPE_INT_RGB
-                    : BufferedImage.TYPE_INT_ARGB;
-            BufferedImage ret = (BufferedImage) img;
-
-            BufferedImage tmp = new BufferedImage(targetWidth, targetHeight,
-                    type);
-            Graphics2D g2 = tmp.createGraphics();
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.drawImage(ret, 0, 0, targetWidth, targetHeight, null);
-            g2.dispose();
-
-            ret = tmp;
-
-            return ret;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            throw e;
+    private static BufferedImage getScaledInstance(
+            final BufferedImage sourceImage, final int targetWidth,
+            final int targetHeight) {
+        System.out.println("Skaliere Quellimage der Groesse: "
+                + sourceImage.getWidth() + "X" + sourceImage.getHeight()
+                + " herunter auf " + targetWidth + "X" + targetHeight);
+        final int imageType;
+        if (sourceImage.getTransparency() == Transparency.OPAQUE) {
+            imageType = BufferedImage.TYPE_INT_RGB;
+        } else {
+            imageType = BufferedImage.TYPE_INT_ARGB;
         }
-    }
 
+        final BufferedImage result = new BufferedImage(targetWidth,
+                targetHeight, imageType);
+        final Graphics2D g2 = result.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(sourceImage, 0, 0, targetWidth, targetHeight, null);
+        g2.dispose();
+
+        return result;
+    }
 }
