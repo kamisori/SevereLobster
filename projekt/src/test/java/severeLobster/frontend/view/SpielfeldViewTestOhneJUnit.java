@@ -5,6 +5,7 @@ import infrastructure.constants.enums.SpielmodusEnumeration;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
@@ -33,22 +34,30 @@ public class SpielfeldViewTestOhneJUnit {
     public static void main(String[] args) {
         try {
 
-            final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
-            backend.getSpiel().initializeNewSpielfeld(SPIELFELD_BREITE,
-                    SPIELFELD_HOEHE);
-            backend.getSpiel().setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-            final SpielfeldDarstellung view = new SpielfeldDarstellung();
-            new SpielfeldDarstellungsSteuerung(view, backend);
+            SwingUtilities.invokeAndWait(new Runnable() {
 
-            final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
-            new SpielmodusViewController(spielmodusView, backend);
+                @Override
+                public void run() {
+                    final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
+                    backend.getSpiel().initializeNewSpielfeld(SPIELFELD_BREITE,
+                            SPIELFELD_HOEHE);
+                    backend.getSpiel().setSpielmodus(
+                            SpielmodusEnumeration.EDITIEREN);
+                    final SpielfeldDarstellung view = new SpielfeldDarstellung();
+                    new SpielfeldDarstellungsSteuerung(view, backend);
 
-            final JFrame frame = new JFrame();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.getContentPane().add(view, BorderLayout.CENTER);
-            frame.getContentPane().add(spielmodusView, BorderLayout.SOUTH);
-            frame.pack();
-            frame.setVisible(true);
+                    final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
+                    new SpielmodusViewController(spielmodusView, backend);
+
+                    final JFrame frame = new JFrame();
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.getContentPane().add(view, BorderLayout.CENTER);
+                    frame.getContentPane().add(spielmodusView,
+                            BorderLayout.SOUTH);
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+            });
 
             /**
              * Aendere die Stati.
