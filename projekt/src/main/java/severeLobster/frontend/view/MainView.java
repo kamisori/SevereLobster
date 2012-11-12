@@ -275,13 +275,13 @@ public class MainView extends JPanel {
         jpScroll.getViewport().add(jpSpielfeldAuswahl);
         jpScroll.setPreferredSize(new Dimension(700, 400));
         jpScroll.getViewport().setOpaque(false);
-        JLabel jlÜberschrift = new JLabel();
-        jlÜberschrift.setPreferredSize(new Dimension(700, 50));
-        jlÜberschrift.setForeground(Color.YELLOW);
-        jlÜberschrift.setFont(new Font("Verdana", 0, 36));
-        jlÜberschrift.setHorizontalAlignment(JLabel.CENTER);
-        jlÜberschrift.setText(resourceManager.getText("online.archive"));
-        jpAuswahl.add(jlÜberschrift, BorderLayout.NORTH);
+        JLabel jlUeberschrift = new JLabel();
+        jlUeberschrift.setPreferredSize(new Dimension(700, 50));
+        jlUeberschrift.setForeground(Color.YELLOW);
+        jlUeberschrift.setFont(new Font("Verdana", 0, 36));
+        jlUeberschrift.setHorizontalAlignment(JLabel.CENTER);
+        jlUeberschrift.setText(resourceManager.getText("online.archive"));
+        jpAuswahl.add(jlUeberschrift, BorderLayout.NORTH);
         jpAuswahl.add(jpScroll, BorderLayout.CENTER);
         jpAuswahl.add(jpBottom, BorderLayout.SOUTH);
 

@@ -1,4 +1,4 @@
-package severeLobster.backend.spiel;
+package infrastructure.components;
 
 import org.apache.commons.net.ftp.*;
 import java.io.*;

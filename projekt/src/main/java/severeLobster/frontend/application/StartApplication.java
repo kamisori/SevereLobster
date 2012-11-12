@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import severeLobster.backend.spiel.FTPConnector;
+import infrastructure.components.FTPConnector;
 
 import java.awt.Color;
 import java.awt.Font;

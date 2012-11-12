@@ -1,4 +1,4 @@
-package severeLobster.backend.spiel;
+package infrastructure.components;
 
 /**
  * StoppUhr Klasse zur Nachverfolgung der gespielten Zeit
