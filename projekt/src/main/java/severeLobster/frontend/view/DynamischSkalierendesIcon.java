@@ -2,7 +2,9 @@ package severeLobster.frontend.view;
 
 import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -22,39 +24,25 @@ import javax.swing.ImageIcon;
  */
 public class DynamischSkalierendesIcon extends ImageIcon {
 
+    private final BufferedImageInVerschiedenenAufloesungen sourceImages;
     private final ResourceManager resourceManager = ResourceManager.get();
-    private final ImageIconInVerschiedenenAufloesungen sourceIcons;
     /** Aendert sich je nach Ausmassen der Zielkomponente: */
     private ImageIcon scaledImageIcon;
 
-    public DynamischSkalierendesIcon(final ImageIcon icon,
-            final int defaultWidth, final int defaultHeight) {
-        this(new ImageIcon[] { icon }, defaultWidth, defaultHeight);
-    }
-
     public DynamischSkalierendesIcon(final List<BufferedImage> bufferedImages,
             final int defaultWidth, final int defaultHeight) {
-        this(convertToArrayOfImageIcon(bufferedImages), defaultWidth,
-                defaultHeight);
-    }
 
-    public DynamischSkalierendesIcon(
-            final ImageIcon[] verschiedeneAufloesungen, final int defaultWidth,
-            final int defaultHeight) {
-        if (null == verschiedeneAufloesungen) {
-            throw new NullPointerException(resourceManager.getText("exception.icon.array.is.null"));
-        }
-        this.sourceIcons = new ImageIconInVerschiedenenAufloesungen(
-                verschiedeneAufloesungen);
-        final ImageIcon naechstHoehereStartGroesse = sourceIcons
+        this.sourceImages = new BufferedImageInVerschiedenenAufloesungen(
+                bufferedImages);
+        final BufferedImage naechstHoehereStartGroesse = sourceImages
                 .getNaechstHoehereAufloesung(defaultWidth);
+
         /**
          * Sofort in default Groesse skalieren, damit getIconWidth() und
          * getIconHeight() kalkulierbare Werte zurueckgeben.
          */
-        this.scaledImageIcon = getSkaliertesImageIcon(
-                naechstHoehereStartGroesse, defaultWidth, defaultHeight);
-
+        this.scaledImageIcon = new ImageIcon(getScaledInstance(
+                naechstHoehereStartGroesse, defaultWidth, defaultHeight));
     }
 
     @Override
@@ -74,8 +62,8 @@ public class DynamischSkalierendesIcon extends ImageIcon {
          * Ausmasse von Zielkomponente auslesen und mit Ausmassen von
          * gespeichertem, skaliertem ImageIcon vergleichen:
          */
-        int targetWidth = targetComponent.getWidth() - 2;
-        int targetHeigth = targetComponent.getHeight() - 2;
+        int targetWidth = targetComponent.getWidth();
+        int targetHeigth = targetComponent.getHeight();
 
         boolean groesseIstSchonIdentisch = (targetWidth == scaledImageIcon
                 .getIconWidth() && targetHeigth == scaledImageIcon
@@ -87,7 +75,6 @@ public class DynamischSkalierendesIcon extends ImageIcon {
          * skalieren:
          */
         if (!groesseIstSchonIdentisch) {
-            // System.out.println("ImageIcon neu skalieren");
             /*
              * x und y fuer neue Groesse anpassen, da das Icon sonst nach dem
              * ersten Skalieren verschoben gezeichnet wird. x und y muessen um
@@ -121,42 +108,43 @@ public class DynamischSkalierendesIcon extends ImageIcon {
                 y = y + halbeeabnahme;
             }
 
-            /* Bisheriges skaliertes ImageIcon mit neuem ueberschreiben */
-            final ImageIcon naechstHoehereAufloesung = sourceIcons
+            /* Bild in naechsthoeherer Aufloesung zum skalieren laden */
+            final BufferedImage naechstHoehereAufloesung = sourceImages
                     .getNaechstHoehereAufloesung(targetWidth);
 
-            this.scaledImageIcon = getSkaliertesImageIcon(
-                    naechstHoehereAufloesung, targetWidth, targetHeigth);
+            /*
+             * Bild herunter skalieren und ImageIcon mit neu skaliertem Bild
+             * erzeugen
+             */
+            this.scaledImageIcon = new ImageIcon(getScaledInstance(
+                    naechstHoehereAufloesung, targetWidth, targetHeigth));
         }
         /* Hier hat scaledImage in jedem Fall die richtige Groesse */
         /* Wirkliches Zeichnen in Zielkomponente */
         scaledImageIcon.paintIcon(targetComponent, g, x, y);
     }
 
-    private static ImageIcon getSkaliertesImageIcon(final ImageIcon sourceIcon,
-            final int targetWidth, final int targetHeight) {
-
-        System.out.println("skalliere Quellicon der Groesse "
-                + sourceIcon.getIconWidth() + "X" + sourceIcon.getIconHeight()
+    private static BufferedImage getScaledInstance(
+            final BufferedImage sourceImage, final int targetWidth,
+            final int targetHeight) {
+        System.out.println("Skaliere Quellimage der Groesse: "
+                + sourceImage.getWidth() + "X" + sourceImage.getHeight()
                 + " herunter auf " + targetWidth + "X" + targetHeight);
-        /* Quellimage zum bearbeiten laden: */
-        final Image sourceImage = sourceIcon.getImage();
-        /* Skalierte Version erzeugen */
-        final Image scaledImage = sourceImage.getScaledInstance(targetWidth,
-                targetHeight, Image.SCALE_SMOOTH);
-        /* Skaliertes Image als IconImage zurueckgeben */
-        return new ImageIcon(scaledImage);
-    }
+        final int imageType;
+        if (sourceImage.getTransparency() == Transparency.OPAQUE) {
+            imageType = BufferedImage.TYPE_INT_RGB;
+        } else {
+            imageType = BufferedImage.TYPE_INT_ARGB;
+        }
 
-    private static ImageIcon[] convertToArrayOfImageIcon(
-            final List<BufferedImage> bufferedImages) {
-        if (null == bufferedImages) {
-            throw new NullPointerException("BufferedImage Array ist null");
-        }
-        final ImageIcon[] icons = new ImageIcon[bufferedImages.size()];
-        for (int index = 0; index < bufferedImages.size(); index++) {
-            icons[index] = new ImageIcon(bufferedImages.get(index));
-        }
-        return icons;
+        final BufferedImage result = new BufferedImage(targetWidth,
+                targetHeight, imageType);
+        final Graphics2D g2 = result.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(sourceImage, 0, 0, targetWidth, targetHeight, null);
+        g2.dispose();
+
+        return result;
     }
 }

@@ -1,6 +1,7 @@
 package severeLobster.frontend.view;
 
-import infrastructure.ResourceManager;
+import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -10,32 +11,36 @@ import javax.swing.ImageIcon;
  * @author Lutz Kleiber
  * 
  */
-public class ImageIconInVerschiedenenAufloesungen {
+public class BufferedImageInVerschiedenenAufloesungen {
 
     /**
      * Verfuegbare Aufloesungen des Bildes. Bilder sind nach dem erstellen in
      * aufsteigender Aufloesung sortiert.
      */
-    private final ResourceManager resourceManager = ResourceManager.get();
-    private final ImageIcon[] verschiedeneAufloesungen;
+    private final BufferedImage[] verschiedeneAufloesungen;
 
-    public ImageIconInVerschiedenenAufloesungen(
-            final ImageIcon[] gleichesBildInVerschiedenenAufloesungen) {
+    public BufferedImageInVerschiedenenAufloesungen(
+            final List<BufferedImage> gleichesBildInVerschiedenenAufloesungen) {
         if (null == gleichesBildInVerschiedenenAufloesungen) {
-            throw new NullPointerException(resourceManager.getText("exception.icon.array.is.null"));
+            throw new NullPointerException("Liste von BufferedImages ist null");
         }
-        this.verschiedeneAufloesungen = gleichesBildInVerschiedenenAufloesungen;
+        this.verschiedeneAufloesungen = new BufferedImage[gleichesBildInVerschiedenenAufloesungen
+                .size()];
+        for (int index = 0; index < verschiedeneAufloesungen.length; index++) {
+            verschiedeneAufloesungen[index] = gleichesBildInVerschiedenenAufloesungen
+                    .get(index);
+        }
         sortiereVonNiedrigerZuHoherAufloesung(verschiedeneAufloesungen);
     }
 
-    public ImageIcon getNaechstHoehereAufloesung(final int targetWidth) {
+    public BufferedImage getNaechstHoehereAufloesung(final int targetWidth) {
 
-        ImageIcon result;
+        BufferedImage result;
         int index = 0;
         do {
             result = verschiedeneAufloesungen[index];
             index++;
-        } while ((result.getIconWidth() < targetWidth)
+        } while ((result.getWidth() < targetWidth)
                 && (index < verschiedeneAufloesungen.length));
 
         return result;
@@ -47,12 +52,12 @@ public class ImageIconInVerschiedenenAufloesungen {
      * @param array
      */
     private static void sortiereVonNiedrigerZuHoherAufloesung(
-            final ImageIcon[] array) {
+            final BufferedImage[] array) {
         for (int n = array.length; n > 1; n = n - 1) {
             for (int i = 0; i < n - 1; i = i + 1) {
-                if (array[i].getIconWidth() > array[i + 1].getIconWidth()) {
+                if (array[i].getWidth() > array[i + 1].getWidth()) {
                     /* Tauschen: */
-                    final ImageIcon temp = array[i];
+                    final BufferedImage temp = array[i];
                     array[i] = array[i + 1];
                     array[i + 1] = temp;
                 }
