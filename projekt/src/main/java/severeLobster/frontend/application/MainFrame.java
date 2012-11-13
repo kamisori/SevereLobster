@@ -68,7 +68,6 @@ public class MainFrame extends JMenuBar implements Runnable {
         frame.setIconImage(getToolkit().getImage(
                 resourceManager.getGraphicURL("icons/SternIcon128.png")));
         frame.setSize(800, 600);
-        // frame.setUndecorated(true);
         frame.setLocationRelativeTo(null);
         frame.setBackground(Color.white);
         frame.add(mainPanel);
