@@ -28,7 +28,7 @@
       <property name="backend.spiel.nicht.begonnen" value="Nicht begonnen"/>
       <property name="exception.invalid.size.column" value="Spaltenanzahl:"/>
       <property name="backend.spiel.not.allowed.size" value="Nicht erlaubte Breite/Höhe"/>
-      <property name="win.start.new.game" value="Start a new game..."/>
+      <property name="win.start.new.game" value="Neues Spiel starten..."/>
       <property name="back.to.main.menu" value="Zurück zum Hauptmenü"/>
       <property name="start.new.game" value="Neues Spiel starten"/>
       <property name="start.campaign" value="Kampagne starten"/>
@@ -267,6 +267,5 @@
   </trackingPunkte>
   <letzterFehlerfreierSpielzug>0</letzterFehlerfreierSpielzug>
   <anzahlZuege>0</anzahlZuege>
-  <highscore>0</highscore>
   <spielZeit>Nicht begonnen</spielZeit>
 </severeLobster.backend.spiel.Spiel>

@@ -1,7 +1,7 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
-import infrastructure.constants.GlobaleKonstanten;
+import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.application.MainFrame;
@@ -9,15 +9,11 @@ import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 import severeLobster.frontend.controller.SpielmodusViewController;
 import severeLobster.frontend.controller.TrackingControllViewController;
 
-import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -86,6 +82,37 @@ public class MainView extends JPanel {
         JPanel spielinfo = new SpielinfoView(trackingView, backend);
         Spielfeld.add(spielfeldView, BorderLayout.CENTER);
         Spielfeld.add(spielinfo, BorderLayout.EAST);
+        Spielfeld.setOpaque(false);
+        removeAll();
+        add(Spielfeld);
+        validate();
+        repaint();
+    }
+
+    /**
+     * Erstellt ein neues SpiefeldPanel anhand der übergebenen Spielfeldgroesse aus
+     *
+     * @param x x-Achsengroesse des Spielfeldes
+     * @param y y-Achsengroesse des Spielfeldes
+     */
+    public void addNewSpielfeld(int x, int y) {
+        Spiel spiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
+        spiel.initializeNewSpielfeld(x, y);
+
+        backend = new SternenSpielApplicationBackend();
+        backend.setSpiel(spiel);
+
+        JPanel Spielfeld = new JPanel();
+        final SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
+        new SpielfeldDarstellungsSteuerung(spielfeldView, backend);
+        final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
+        new SpielmodusViewController(spielmodusView, backend);
+        spielfeldView.setPreferredSize(new Dimension(500, 500));
+        //JPanel spielinfo = new SpielinfoView(backend);
+
+        Spielfeld.add(spielfeldView, BorderLayout.CENTER);
+        //Spielfeld.add(spielinfo, BorderLayout.EAST);
+
         Spielfeld.setOpaque(false);
         removeAll();
         add(Spielfeld);

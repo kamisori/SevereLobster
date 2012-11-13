@@ -16,6 +16,14 @@ public class SpielinfoView extends JPanel {
     private final ResourceManager resourceManager = ResourceManager.get();
     private final SternenSpielApplicationBackend backend;
 
+    public SpielinfoView(SternenSpielApplicationBackend backend) {
+        setLayout(null);
+        this.backend = backend;
+        setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(200, 500));
+        setVisible(true);
+    }
+
     public SpielinfoView(final TrackingControllView trackingControllView,
             SternenSpielApplicationBackend backend) {
         setLayout(null);

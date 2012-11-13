@@ -39,7 +39,6 @@ public class Spiel implements IGotSpielModus {
     private Stack<Integer> trackingPunkte;
     private int letzterFehlerfreierSpielzug;
     private int anzahlZuege = 0;
-    private int highscore = 0;
 
     public StoppUhr getSpielStoppUhr() {
         return spielStoppUhr;
@@ -439,7 +438,9 @@ public class Spiel implements IGotSpielModus {
     }
 
     public String getSpielZeit() {
-        spielZeit = String.valueOf(getSpielStoppUhr().getZeit());
+        if (getSpielStoppUhr() != null) {
+            spielZeit = String.valueOf(getSpielStoppUhr().getZeit());
+        }
         // TODO: Formatierung der Zeit (Sekunden)
         return spielZeit;
     }

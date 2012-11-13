@@ -7,6 +7,7 @@
 package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
+import infrastructure.components.Koordinaten;
 import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
@@ -15,14 +16,29 @@ import severeLobster.frontend.dialogs.AboutDialog;
 import severeLobster.frontend.dialogs.ExitDialog;
 import severeLobster.frontend.dialogs.LoadGamePreview;
 import severeLobster.frontend.dialogs.NewGamePreview;
+import severeLobster.frontend.dialogs.SpielfeldgroessenDialog;
 import severeLobster.frontend.view.MainView;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -37,10 +53,12 @@ public class MainFrame extends JMenuBar implements Runnable {
     public JMenu jm_Spiel;
     public JMenu jm_Editieren;
     public JMenu jm_Hilfe;
-    public static JMenuItem itemSave;
-    public static JMenuItem itemSaveAs;
-    public static JMenuItem puzzleSave;
-    public static JMenuItem puzzleSaveAs;
+    private static JMenuItem itemSave;
+    private static JMenuItem itemSaveAs;
+    private static JMenuItem puzzleSave;
+    private static JMenuItem puzzleSaveAs;
+    private static JMenuItem puzzleFreigeben;
+    private static JMenuItem puzzleCheck;
     private static JFileChooser loadGameChooser;
     private static JFileChooser newGameChooser;
     private JFileChooser saveGameChooser;
@@ -151,9 +169,12 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.erstellen"))) {
-                    JOptionPane.showMessageDialog(frame,
-                            resourceManager.getText("menu.function.not.available"),
-                            "Under Construction", JOptionPane.WARNING_MESSAGE);
+                    Koordinaten koordinaten = SpielfeldgroessenDialog.show(frame);
+                    mainPanel.addNewSpielfeld(koordinaten.getX(), koordinaten.getY());
+                    puzzleSave.setEnabled(true);
+                    puzzleSaveAs.setEnabled(true);
+                    puzzleFreigeben.setEnabled(true);
+                    puzzleCheck.setEnabled(true);
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("load.puzzle"))) {
@@ -211,22 +232,22 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Editieren.add(item = new JMenuItem(resourceManager
                 .getText("load.puzzle")));
         item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager
+        jm_Editieren.add(puzzleSave = new JMenuItem(resourceManager
                 .getText("save.puzzle")));
-        item.setEnabled(false);
-        item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager
+        puzzleSave.setEnabled(false);
+        puzzleSave.addActionListener(menuAction);
+        jm_Editieren.add(puzzleSaveAs = new JMenuItem(resourceManager
                 .getText("save.as.puzzle")));
-        item.setEnabled(false);
-        item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager
+        puzzleSaveAs.setEnabled(false);
+        puzzleSaveAs.addActionListener(menuAction);
+        jm_Editieren.add(puzzleFreigeben = new JMenuItem(resourceManager
                 .getText("puzzle.freigeben")));
-        item.setEnabled(false);
-        item.addActionListener(menuAction);
-        jm_Editieren.add(item = new JMenuItem(resourceManager
+        puzzleFreigeben.setEnabled(false);
+        puzzleFreigeben.addActionListener(menuAction);
+        jm_Editieren.add(puzzleCheck = new JMenuItem(resourceManager
                 .getText("check.puzzle")));
-        item.setEnabled(false);
-        item.addActionListener(menuAction);
+        puzzleCheck.setEnabled(false);
+        puzzleCheck.addActionListener(menuAction);
 
         jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.user.manual")));
         item.addActionListener(menuAction);
