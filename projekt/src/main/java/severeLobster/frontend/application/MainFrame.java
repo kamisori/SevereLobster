@@ -158,7 +158,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.erstellen"))) {
-                    Koordinaten koordinaten = SpielfeldgroessenDialog.show(frame);
+                    Koordinaten koordinaten = SpielfeldGroessenDialog.show(frame);
                     mainPanel.addNewSpielfeld(koordinaten.getX(), koordinaten.getY());
                     controlEditierMenue(true);
                     controlSpielMenue(false);
