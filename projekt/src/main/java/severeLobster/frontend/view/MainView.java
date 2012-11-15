@@ -209,10 +209,9 @@ public class MainView extends JPanel {
             jpMenu.add(jbKampagneSpielen);
             jpMenu.add(jbSpielSpielen);
             jpMenu.add(jbSpielErstellen);
-
-            MainFrame.controlSpielMenue(false);
-            MainFrame.controlEditierMenue(false);
         }
+        MainFrame.controlSpielMenue(false);
+        MainFrame.controlEditierMenue(false);
         removeAll();
         add(jpMenu);
         validate();

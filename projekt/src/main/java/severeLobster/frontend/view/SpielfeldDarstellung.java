@@ -399,8 +399,15 @@ public class SpielfeldDarstellung extends JPanel {
 
     private static JLabel createSternAnzahlAnzeige() {
         final JLabel result = createLabel();
-        result.setFont(new Font("Serif", Font.PLAIN, 20));
+
+        result.setFont(new Font("Arial", Font.PLAIN, 25)); //TODO Dynamisch vergrößern
         result.setForeground(Color.white);
+        result.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                result.setEnabled(!result.isEnabled());
+            }
+        });
         return result;
     }
 
