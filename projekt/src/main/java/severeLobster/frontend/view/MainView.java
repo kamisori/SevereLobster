@@ -45,7 +45,6 @@ public class MainView extends JPanel {
     public MainView() throws IOException {
         addMenuPanel();
         setVisible(true);
-        backend = new SternenSpielApplicationBackend();
     }
 
     /**

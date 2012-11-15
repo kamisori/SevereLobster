@@ -126,20 +126,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                         resourceManager.getText("load.text"))) {
                     int result = loadGameChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
-                        try {
-                            mainPanel
-                                    .getBackend()
-                                    .loadSpielFrom(
-                                            loadGameChooser
-                                                    .getSelectedFile()
-                                                    .getName()
-                                                    .replace(
-                                                            "."
-                                                                    + GlobaleKonstanten.SPIELSTAND_DATEITYP,
-                                                            ""));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        loadSpiel();
                     }
                 }
                 if (event.getActionCommand().equals(
@@ -171,7 +158,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.erstellen"))) {
-                    Koordinaten koordinaten = SpielfeldgroessenDialog.show(frame);
+                    Koordinaten koordinaten = SpielfeldGroessenDialog.show(frame);
                     mainPanel.addNewSpielfeld(koordinaten.getX(), koordinaten.getY());
                     controlEditierMenue(true);
                     controlSpielMenue(false);
@@ -180,20 +167,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                         resourceManager.getText("load.puzzle"))) {
                     int result = loadPuzzleChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
-                        try {
-                            mainPanel
-                                    .getBackend()
-                                    .loadPuzzleFrom(
-                                            loadPuzzleChooser
-                                                    .getSelectedFile()
-                                                    .getName()
-                                                    .replace(
-                                                            "."
-                                                                    + GlobaleKonstanten.PUZZLE_DATEITYP,
-                                                            ""));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                       loadPuzzle();
                     }
                 }
                 if (event.getActionCommand().equals(
@@ -303,6 +277,56 @@ public class MainFrame extends JMenuBar implements Runnable {
         });
 
         frame.setJMenuBar(this);
+    }
+
+    /**
+     * Laed ein Puzzle aus vorhandenen Spieldateien
+     * in das Spielfeld
+     */
+    private void loadPuzzle() {
+        try {
+            String spielname = loadPuzzleChooser
+                    .getSelectedFile()
+                    .getName()
+                    .replace(
+                            "."
+                                    + GlobaleKonstanten.PUZZLE_DATEITYP,
+                            "");
+            if (mainPanel.getBackend() == null) {
+                mainPanel.addNewSpielfeld(spielname);
+            }
+
+            mainPanel
+                    .getBackend()
+                    .loadPuzzleFrom(spielname);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Laed ein Spiel aus vorhandenen Spieldateien
+     * in das Spielfeld
+     */
+    private void loadSpiel() {
+        try {
+            String spielname = loadGameChooser
+                    .getSelectedFile()
+                    .getName()
+                    .replace(
+                            "."
+                                    + GlobaleKonstanten.SPIELSTAND_DATEITYP,
+                            "");
+            if (mainPanel.getBackend() == null) {
+                mainPanel.addNewSpielfeld(spielname);
+            }
+
+            mainPanel
+                    .getBackend()
+                    .loadSpielFrom(spielname);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void kontaktMail() {

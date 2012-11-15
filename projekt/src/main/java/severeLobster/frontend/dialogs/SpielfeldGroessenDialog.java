@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.Frame;
 
-public class SpielfeldgroessenDialog {
+public class SpielfeldGroessenDialog {
 
     private static int[][] spielfeldgroesse;
 
