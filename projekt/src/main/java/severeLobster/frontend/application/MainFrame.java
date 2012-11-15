@@ -441,10 +441,10 @@ public class MainFrame extends JMenuBar implements Runnable {
                 GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
                 new SpielView(),
                 new FileNameExtensionFilter(resourceManager
-                        .getText("load.dialog.extension.description"),
+                        .getText("puzzle.load.dialog.extension.description"),
                         GlobaleKonstanten.PUZZLE_DATEITYP),
-                resourceManager.getText("load.dialog.text"),
-                resourceManager.getText("load.dialog.title"));
+                resourceManager.getText("puzzle.load.dialog.text"),
+                resourceManager.getText("puzzle.load.dialog.title"));
         loadPuzzleChooser.setAccessory(new LoadPuzzlePreview(loadPuzzleChooser));
 
         newGameChooser = initFileChooser(
@@ -470,10 +470,10 @@ public class MainFrame extends JMenuBar implements Runnable {
                 GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
                 new SpielView(),
                 new FileNameExtensionFilter(resourceManager
-                        .getText("save.dialog.extension.description"),
+                        .getText("puzzle.save.dialog.extension.description"),
                         GlobaleKonstanten.PUZZLE_DATEITYP),
-                resourceManager.getText("save.dialog.text"),
-                resourceManager.getText("save.dialog.title"));
+                resourceManager.getText("puzzle.save.dialog.text"),
+                resourceManager.getText("puzzle.save.dialog.title"));
 
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {

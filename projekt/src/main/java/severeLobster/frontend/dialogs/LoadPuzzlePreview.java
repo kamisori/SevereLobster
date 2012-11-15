@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -63,7 +62,7 @@ public class LoadPuzzlePreview extends JPanel implements PropertyChangeListener 
                             bufferedImage, 100, 100);
                     spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
                 } catch (IOException e) {
-                    System.out.println(resourceManager.getText("load.dialog.invalid.format"));
+                    System.out.println(resourceManager.getText("puzzle.load.dialog.invalid.format"));
                 }
             } else {
                 spielfeldPreviewLabel.setIcon(null);
