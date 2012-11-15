@@ -33,9 +33,9 @@ public class Spiel implements IGotSpielModus {
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
     private String saveName;
     /** Tracking: */
-    private Stack<Aktion> spielZuege;
-    private Stack<Integer> trackingPunkte;
-    private int letzterFehlerfreierSpielzug;
+    private ActionHistory spielZuege;
+    // private Stack<Aktion> spielZuege;
+    private Stack<ActionHistory> trackingPunkte;
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
@@ -56,9 +56,8 @@ public class Spiel implements IGotSpielModus {
         this.spielmodus = spielmodus;
         this.currentSpielfeld = new Spielfeld(this, 10, 10);
         currentSpielfeld.addSpielfeldListener(innerSpielfeldListener);
-        spielZuege = new Stack<Aktion>();
-        trackingPunkte = new Stack<Integer>();
-        letzterFehlerfreierSpielzug = 0;
+        spielZuege = new ActionHistory();
+        trackingPunkte = new Stack<ActionHistory>();
     }
 
     /**
@@ -350,20 +349,12 @@ public class Spiel implements IGotSpielModus {
         this.saveName = saveName;
     }
 
-    public Stack<Aktion> getSpielZuege() {
+    public ActionHistory getSpielZuege() {
         return spielZuege;
     }
 
-    public Stack<Integer> getTrackingPunkte() {
+    public Stack<ActionHistory> getTrackingPunkte() {
         return trackingPunkte;
-    }
-
-    public int getLetzterFehlerfreierSpielzug() {
-        return letzterFehlerfreierSpielzug;
-    }
-
-    public void setLetzterFehlerfreierSpielzug(int letzterFehlerfreierSpielzug) {
-        this.letzterFehlerfreierSpielzug = letzterFehlerfreierSpielzug;
     }
 
     private class InnerSpielfeldListener implements ISpielfeldListener {

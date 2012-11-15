@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.EmptyStackException;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
@@ -17,7 +18,7 @@ import java.util.List;
  * angemeldete ISternenSpielApplicationBackendListener, wenn sich irgendetwas am
  * Zustand der Anwendung aendert.
  * 
- * @author Lutz Kleiber
+ * @author Lutz Kleiber, Paul Bruell
  * 
  */
 public class SternenSpielApplicationBackend {
@@ -36,33 +37,26 @@ public class SternenSpielApplicationBackend {
     }
 
     public void setzeTrackingPunkt() {
-        currentlyPlayedSpiel.getTrackingPunkte().push(currentlyPlayedSpiel.getSpielZuege().size());
-    }
-
-    private void nimmSpielzugZurueck() {
-        currentlyPlayedSpiel.getSpielZuege().pop().undo();
+        ActionHistory current = currentlyPlayedSpiel.getSpielZuege().getCurrent();
+        current.setzeTrackingPunktNachDiesemZug(true);
+        currentlyPlayedSpiel.getTrackingPunkte().push(current);
     }
 
     public void zurueckZumLetztenFehlerfreienSpielzug() {
-        while (currentlyPlayedSpiel.getSpielZuege().size() > currentlyPlayedSpiel.getLetzterFehlerfreierSpielzug()) {
-            nimmSpielzugZurueck();
-        }
+        currentlyPlayedSpiel.getSpielZuege().zurueckZuLetztemFehlerfreiemZug();
     }
 
     public void zurueckZumLetztenTrackingPunkt() {
+        currentlyPlayedSpiel.getSpielZuege().zurueckZuLetztemCheckpoint();
+        currentlyPlayedSpiel.getTrackingPunkte().pop().setzeTrackingPunktNachDiesemZug(false);
+    }
 
-        /** Try-Catch ist Quickfix fuer Emptystackexception: */
-        try {
-            int trackingPunkt = currentlyPlayedSpiel.getTrackingPunkte().pop();
-            while (currentlyPlayedSpiel.getSpielZuege().size() > trackingPunkt) {
-                nimmSpielzugZurueck();
-            }
-        } catch (EmptyStackException e) {
-            /**
-             * Wenn keine Trackingpunkte gespeichert sind, mach einfach nix.
-             */
+    public void entferneAlleTrackingPunkte(){
+        Stack<ActionHistory> tP = currentlyPlayedSpiel.getTrackingPunkte();
+        while(tP.size() != 0)
+        {
+            tP.pop().setzeTrackingPunktNachDiesemZug(false);
         }
-
     }
 
     /**
@@ -84,11 +78,11 @@ public class SternenSpielApplicationBackend {
      */
     public void setSpielstein(final int x, final int y,
             final Spielstein spielstein) {
+        boolean fehler;
         PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
-        currentlyPlayedSpiel.getSpielZuege().push(spielZug);
-        if (!spielZug.execute(x, y, spielstein)) {
-            currentlyPlayedSpiel.setLetzterFehlerfreierSpielzug(currentlyPlayedSpiel.getSpielZuege().size());
-        }
+        
+        fehler = spielZug.execute(x, y, spielstein);
+        currentlyPlayedSpiel.getSpielZuege().add( new ActionHistory(spielZug,fehler,false) );
     }
 
     /***
