@@ -4,7 +4,7 @@ import infrastructure.ResourceManager;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.graphics.GraphicUtils;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.frontend.view.SpielfeldView;
+import severeLobster.frontend.view.SpielfeldDarstellung;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -63,8 +63,8 @@ public class NewGamePreview extends JPanel implements PropertyChangeListener {
                 try {
                     spiel = Spiel.newSpiel(file.getName().replace(
                             "." + GlobaleKonstanten.PUZZLE_DATEITYP, ""));
-                    SpielfeldView spielfeldView = new SpielfeldView(
-                            spiel.getSpielfeld());
+                    SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
+                    spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
                     spielfeldView.setSize(200, 200);
                     BufferedImage bufferedImage = GraphicUtils
                             .createComponentShot(spielfeldView);
@@ -72,7 +72,7 @@ public class NewGamePreview extends JPanel implements PropertyChangeListener {
                             bufferedImage, 100, 100);
                     spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
                 } catch (IOException e) {
-                    System.out.println("Ungueltiges Spielformat");
+                    System.out.println(resourceManager.getText("load.dialog.invalid.format"));
                 }
                 if (spiel != null) {
                     schwierigkeitsgradTitle.setText(resourceManager

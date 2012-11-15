@@ -2,8 +2,9 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.command.PrimaerAktion;
+import severeLobster.frontend.application.MainFrame;
+import severeLobster.frontend.dialogs.GewonnenDialog;
 
-import javax.swing.JOptionPane;
 import javax.swing.event.EventListenerList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -80,7 +81,6 @@ public class SternenSpielApplicationBackend {
             final Spielstein spielstein) {
         boolean fehler;
         PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
-        
         fehler = spielZug.execute(x, y, spielstein);
         currentlyPlayedSpiel.getSpielZuege().add( new ActionHistory(spielZug,fehler,false) );
     }
@@ -124,21 +124,33 @@ public class SternenSpielApplicationBackend {
      */
 
     public void startNewSpielFrom(final String spielname)
-            throws FileNotFoundException, IOException {
+            throws IOException {
         final Spiel newGame = Spiel.newSpiel(spielname);
         setSpiel(newGame);
     }
 
     public void loadSpielFrom(final String spielname)
-            throws FileNotFoundException, IOException {
+            throws IOException {
         final Spiel loadedSpiel = Spiel.loadSpiel(spielname,
                 SpielmodusEnumeration.SPIELEN);
         setSpiel(loadedSpiel);
     }
 
     public void saveCurrentSpielTo(final String spielname)
-            throws FileNotFoundException, IOException {
+            throws IOException {
         getSpiel().saveSpiel(spielname);
+    }
+
+    public void loadPuzzleFrom(final String puzzlename)
+            throws IOException {
+        final Spiel loadedPuzzle = Spiel.loadSpiel(puzzlename,
+                SpielmodusEnumeration.EDITIEREN);
+        setSpiel(loadedPuzzle);
+    }
+
+    public void saveCurrentPuzzleTo(final String puzzlename)
+            throws IOException {
+        getSpiel().saveSpiel(puzzlename);
     }
 
     public void setSpiel(final Spiel spiel) {
@@ -238,11 +250,25 @@ public class SternenSpielApplicationBackend {
         public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
                 int y, Spielstein newStein) {
             fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
-            if (spiel.isSolved() && spiel.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-                JOptionPane.showMessageDialog(null,
-                        "Sie haben das Puzzle gelöst! "
-                                + " Herzlichen Glückwunsch!", "Puzzle gelöst!",
-                        JOptionPane.INFORMATION_MESSAGE);
+            if (spiel.isSolved()
+                    && spiel.getSpielmodus().equals(
+                            SpielmodusEnumeration.SPIELEN)) {
+                {
+                    int result = GewonnenDialog.show(null,
+                            spiel.getHighscore(), spiel.getSpielZeit(),
+                            spiel.getAnzahlZuege());
+                    if (GewonnenDialog.neues_spiel_starten
+                            .equals(GewonnenDialog.options[result])) {
+                        MainFrame.neuesSpielOeffnen();
+                    } else if (GewonnenDialog.zurueck_zum_menue
+                            .equals(GewonnenDialog.options[result])) {
+                        MainFrame.mainPanel.addMenuPanel();
+
+                    } else if (GewonnenDialog.spiel_beenden
+                            .equals(GewonnenDialog.options[result])) {
+                        System.exit(0);
+                    }
+                }
             }
         }
 

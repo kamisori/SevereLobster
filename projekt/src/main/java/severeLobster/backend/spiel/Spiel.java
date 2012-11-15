@@ -2,10 +2,12 @@ package severeLobster.backend.spiel;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import infrastructure.components.StoppUhr;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.command.Aktion;
+import infrastructure.ResourceManager;
 
 import javax.swing.event.EventListenerList;
 import java.io.File;
@@ -25,7 +27,7 @@ import java.util.Stack;
  * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
 public class Spiel implements IGotSpielModus {
-
+    private final ResourceManager resourceManager = ResourceManager.get();
     private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
@@ -37,12 +39,24 @@ public class Spiel implements IGotSpielModus {
     // private Stack<Aktion> spielZuege;
     private Stack<ActionHistory> trackingPunkte;
 
+    public StoppUhr getSpielStoppUhr() {
+        return spielStoppUhr;
+    }
+
+    public void setSpielStoppUhr(StoppUhr spielStoppUhr) {
+        this.spielStoppUhr = spielStoppUhr;
+    }
+
+    private StoppUhr spielStoppUhr;
+    private String spielZeit = resourceManager.getText("backend.spiel.nicht.begonnen");
+
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
      * Spielfeld wird mit Standardfeld initialisiert.
      */
     public Spiel() {
         this(SpielmodusEnumeration.SPIELEN);
+
     }
 
     /**
@@ -132,6 +146,31 @@ public class Spiel implements IGotSpielModus {
     }
 
     /**
+     * Gibt die Highscore anhand der Anzahl der Zuege, der Zeit und des
+     * Spielfeldes zurueck Ist der Spieler so schlecht das er keine positive
+     * High- score erreicht, so wird eine Score von "1" zurueckgegeben.
+     * 
+     * @return Highscore des Spiels
+     */
+    public int getHighscore() {
+        if (isSolved() && spielStoppUhr != null) {
+            int fehlversuche = getAnzahlZuege()
+                    - currentSpielfeld.countSterne();
+            int groesse = currentSpielfeld.getBreite()
+                    * currentSpielfeld.getHoehe();
+            long faktor = (long) (groesse / (fehlversuche + 1));
+            int sekunden = (int) spielStoppUhr.getZeit();
+            int score = (int) (faktor) * 1000 - sekunden;
+            if (score <= 0) {
+                return 1;
+            } else {
+                return score;
+            }
+        }
+        return 0;
+    }
+
+    /**
      * Speichert das aktuelle Spiel
      * 
      * @param spielname
@@ -182,7 +221,9 @@ public class Spiel implements IGotSpielModus {
     public static Spiel newSpiel(String spielname) throws IOException {
         Spiel neuesSpiel = loadSpiel(spielname, SpielmodusEnumeration.EDITIEREN);
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-
+        StoppUhr stoppUhr = new StoppUhr();
+        stoppUhr.start();
+        neuesSpiel.setSpielStoppUhr(stoppUhr);
         return neuesSpiel;
     }
 
@@ -196,6 +237,9 @@ public class Spiel implements IGotSpielModus {
          * Methode in Spielfeld verschoben, um Spielfeld besser kapseln zu
          * koennen.
          */
+        if (spielStoppUhr != null && currentSpielfeld.isSolved()) {
+            spielStoppUhr.stop();
+        }
         return currentSpielfeld.isSolved();
     }
 
@@ -364,6 +408,31 @@ public class Spiel implements IGotSpielModus {
                 Spielstein changedStein) {
             fireSpielsteinChanged(spielfeld, x, y, changedStein);
         }
+    }
+
+    /**
+     * @author fwenisch
+     * @return Die benutzten Versuche
+     */
+    public int getAnzahlZuege() {
+        return anzahlZuege;
+    }
+
+    /**
+     * addiert +1 auf den Spielzugcounter des aktuellen Spiels
+     * 
+     * @author fwenisch
+     */
+    public void addSpielZug() {
+        anzahlZuege++;
+    }
+
+    public String getSpielZeit() {
+        if (getSpielStoppUhr() != null) {
+            spielZeit = String.valueOf(getSpielStoppUhr().getZeit());
+        }
+        // TODO: Formatierung der Zeit (Sekunden)
+        return spielZeit;
     }
 
 }

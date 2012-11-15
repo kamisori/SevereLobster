@@ -8,7 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import severeLobster.backend.spiel.Spielstein;
-import severeLobster.frontend.controller.SpielfeldViewController;
+import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 
 /**
  * TODO An neue Architektur anpassen. Popup Maus Menu zum Editieren des
@@ -19,7 +19,8 @@ import severeLobster.frontend.controller.SpielfeldViewController;
  */
 public class PopupMenuForSpielsteinChoice extends JPopupMenu {
 
-    public PopupMenuForSpielsteinChoice(final SpielfeldViewController controller,
+    public PopupMenuForSpielsteinChoice(
+            final SpielfeldDarstellungsSteuerung controller,
             final List<? extends Spielstein> listAvailableStates, final int x,
             final int y) {
 
@@ -33,7 +34,7 @@ public class PopupMenuForSpielsteinChoice extends JPopupMenu {
             /** Hole Icon und Namen fuer diesen SpielsteinState: */
 
             menuItem = new JMenuItem(currentstein.toString(), SimpleIconFactory
-                    .getInstance().getIconForState(currentstein));
+                    .getInstance().getIconForSpielstein(currentstein));
             /**
              * Sinn dieser Variable ist es der Anonymen Klasse eine Konstante
              * mitzugeben:

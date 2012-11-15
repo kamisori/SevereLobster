@@ -2,14 +2,16 @@ package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
 
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import infrastructure.components.FTPConnector;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * 
@@ -64,7 +66,9 @@ public class StartApplication extends JFrame implements Runnable {
         try {
             // TODO: Bilder & Sonstige Sachen laden
             SC_MAIN = new Thread(new MainFrame());
-            // Zum Testen auskommentiert
+            FTPConnector oFtp = new FTPConnector("ftp.strato.de",
+                    "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);
+            oFtp.getFiles();
             Thread.sleep(2000);
         } catch (Exception e) {
             dispose();
@@ -89,8 +93,9 @@ public class StartApplication extends JFrame implements Runnable {
         g.setFont(myFont);
         g.setColor(Color.YELLOW);
         g.drawString(
-                "Sternenkonstellation wird fuer "
-                        + System.getProperty("user.name") + " berechnet...", 5,
+                resourceManager.getText("splashscreen.text.1") + " "
+                        + System.getProperty("user.name") + " "
+                        + resourceManager.getText("splashscreen.text.2"), 5,
                 280);
     }
 

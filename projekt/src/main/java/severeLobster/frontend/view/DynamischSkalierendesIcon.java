@@ -2,35 +2,47 @@ package severeLobster.frontend.view;
 
 import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.util.List;
+
+import infrastructure.ResourceManager;
 
 import javax.swing.ImageIcon;
 
 /**
  * Icon Implementation, die das gezeichnete Icon dynamisch immer auf die Groesse
- * der Zielkomponente skaliert.
+ * der Zielkomponente skaliert. Dabei koennen als Quelle mehrere Aufloesungen
+ * desselben Bildes uebergeben werden, um den Skalierungsaufwand gering zu
+ * halten.
  * 
- * Rohversion - koennen wir nachher noch mit den verschieden grossen Icons
- * ergaenzen, so dass immer die bestmoegliche Aufloesung angezeigt wird.
  * 
  * @author Lutz Kleiber
  * 
  */
 public class DynamischSkalierendesIcon extends ImageIcon {
 
-    private final ImageIcon sourceIcon;
+    private final BufferedImageInVerschiedenenAufloesungen sourceImages;
+    private final ResourceManager resourceManager = ResourceManager.get();
     /** Aendert sich je nach Ausmassen der Zielkomponente: */
     private ImageIcon scaledImageIcon;
 
-    public DynamischSkalierendesIcon(final ImageIcon icon,
+    public DynamischSkalierendesIcon(final List<BufferedImage> bufferedImages,
             final int defaultWidth, final int defaultHeight) {
-        this.sourceIcon = icon;
+
+        this.sourceImages = new BufferedImageInVerschiedenenAufloesungen(
+                bufferedImages);
+        final BufferedImage naechstHoehereStartGroesse = sourceImages
+                .getNaechstHoehereAufloesung(defaultWidth);
+
         /**
          * Sofort in default Groesse skalieren, damit getIconWidth() und
          * getIconHeight() kalkulierbare Werte zurueckgeben.
          */
-        this.scaledImageIcon = getSkaliertesImageIcon(icon, defaultWidth,
-                defaultHeight);
+        this.scaledImageIcon = new ImageIcon(getScaledInstance(
+                naechstHoehereStartGroesse, defaultWidth, defaultHeight));
     }
 
     @Override
@@ -50,8 +62,8 @@ public class DynamischSkalierendesIcon extends ImageIcon {
          * Ausmasse von Zielkomponente auslesen und mit Ausmassen von
          * gespeichertem, skaliertem ImageIcon vergleichen:
          */
-        int targetWidth = targetComponent.getWidth() - 2;
-        int targetHeigth = targetComponent.getHeight() - 2;
+        int targetWidth = targetComponent.getWidth();
+        int targetHeigth = targetComponent.getHeight();
 
         boolean groesseIstSchonIdentisch = (targetWidth == scaledImageIcon
                 .getIconWidth() && targetHeigth == scaledImageIcon
@@ -63,7 +75,6 @@ public class DynamischSkalierendesIcon extends ImageIcon {
          * skalieren:
          */
         if (!groesseIstSchonIdentisch) {
-            // System.out.println("ImageIcon neu skalieren");
             /*
              * x und y fuer neue Groesse anpassen, da das Icon sonst nach dem
              * ersten Skalieren verschoben gezeichnet wird. x und y muessen um
@@ -97,24 +108,43 @@ public class DynamischSkalierendesIcon extends ImageIcon {
                 y = y + halbeeabnahme;
             }
 
-            /* Bisheriges skaliertes ImageIcon mit neuem ueberschreiben */
-            this.scaledImageIcon = getSkaliertesImageIcon(sourceIcon,
-                    targetWidth, targetHeigth);
+            /* Bild in naechsthoeherer Aufloesung zum skalieren laden */
+            final BufferedImage naechstHoehereAufloesung = sourceImages
+                    .getNaechstHoehereAufloesung(targetWidth);
+
+            /*
+             * Bild herunter skalieren und ImageIcon mit neu skaliertem Bild
+             * erzeugen
+             */
+            this.scaledImageIcon = new ImageIcon(getScaledInstance(
+                    naechstHoehereAufloesung, targetWidth, targetHeigth));
         }
         /* Hier hat scaledImage in jedem Fall die richtige Groesse */
         /* Wirkliches Zeichnen in Zielkomponente */
         scaledImageIcon.paintIcon(targetComponent, g, x, y);
     }
 
-    private static ImageIcon getSkaliertesImageIcon(final ImageIcon sourceIcon,
-            final int targetWidth, final int targetHeight) {
+    private static BufferedImage getScaledInstance(
+            final BufferedImage sourceImage, final int targetWidth,
+            final int targetHeight) {
+        System.out.println("Skaliere Quellimage der Groesse: "
+                + sourceImage.getWidth() + "X" + sourceImage.getHeight()
+                + " herunter auf " + targetWidth + "X" + targetHeight);
+        final int imageType;
+        if (sourceImage.getTransparency() == Transparency.OPAQUE) {
+            imageType = BufferedImage.TYPE_INT_RGB;
+        } else {
+            imageType = BufferedImage.TYPE_INT_ARGB;
+        }
 
-        /* Quellimage zum bearbeiten laden: */
-        final Image sourceImage = sourceIcon.getImage();
-        /* Skalierte Version erzeugen */
-        final Image scaledImage = sourceImage.getScaledInstance(targetWidth,
-                targetHeight, Image.SCALE_SMOOTH);
-        /* Skaliertes Image als IconImage zurueckgeben */
-        return new ImageIcon(scaledImage);
+        final BufferedImage result = new BufferedImage(targetWidth,
+                targetHeight, imageType);
+        final Graphics2D g2 = result.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(sourceImage, 0, 0, targetWidth, targetHeight, null);
+        g2.dispose();
+
+        return result;
     }
 }

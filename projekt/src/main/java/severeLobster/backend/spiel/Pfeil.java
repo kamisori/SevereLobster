@@ -1,6 +1,7 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
+import infrastructure.ResourceManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,12 +12,9 @@ import java.util.List;
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber
  */
-public class Pfeil extends Spielstein
-{
-private Pfeil()
-{
-	pfeilrichtung = PfeilrichtungEnumeration.NORD;
-}
+public class Pfeil extends Spielstein {
+    private final ResourceManager resourceManager = ResourceManager.get();
+
     private static final Pfeil NORD_PFEIL = new Pfeil(
             PfeilrichtungEnumeration.NORD);
     private static final Pfeil NORD_OST_PFEIL = new Pfeil(
@@ -54,6 +52,14 @@ private Pfeil()
     }
 
     private final PfeilrichtungEnumeration pfeilrichtung;
+
+    /**
+     * Default-Konstruktor nur fuer Serialisierung vorhanden
+     */
+    @Deprecated
+    private Pfeil() {
+        pfeilrichtung = PfeilrichtungEnumeration.NORD;
+    }
 
     /**
      * Statt des Konstruktors lieber die statischen Factory Methoden nehmen, da
@@ -114,7 +120,7 @@ private Pfeil()
 
     @Override
     public String toString() {
-        return "Pfeil:" + getPfeilrichtung().toString();
+        return resourceManager.getText("backend.pfeil") + getPfeilrichtung().toString();
     }
 
     @Override

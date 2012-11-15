@@ -2,12 +2,12 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.ResourceManager;
 
+import javax.swing.event.EventListenerList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.event.EventListenerList;
 
 /**
  * Spielfeld eines Spiels - verhaelt sich nach aussen wie ein zweidimensionales
@@ -19,7 +19,7 @@ import javax.swing.event.EventListenerList;
  * @author Lars Schlegelmilch, Lutz Kleiber, Christian Lobach, Paul Bruell
  */
 public class Spielfeld implements Serializable, ISpielfeldReadOnly {
-
+    private final ResourceManager resourceManager = ResourceManager.get();
     /**
      * Liste mit den fuer die Spielfeldinstanz angemeldeten
      * SpielfeldListenern(Observer).
@@ -49,10 +49,10 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     public Spielfeld(final IGotSpielModus gotSpielModus, final int breite,
             final int hoehe) {
         if (breite < 1 || hoehe < 1) {
-            throw new IllegalArgumentException("Nicht erlaubte Breite/Hoehe");
+            throw new IllegalArgumentException(resourceManager.getText("backend.spiel.not.allowed.size"));
         }
         if (null == gotSpielModus) {
-            throw new NullPointerException("Spiel ist null");
+            throw new NullPointerException(resourceManager.getText("backend.spiel.is.null"));
         }
         this.gotSpielModus = gotSpielModus;
         this.realSteine = new Spielstein[breite][hoehe];
@@ -125,7 +125,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * 
      * @return result Die Anzahl der Sterne auf dem Spielfeld.
      */
-    private int countSterne() {
+    protected int countSterne() {
         int result = 0;
         for (Spielstein[] zeile : realSteine) {
             for (Spielstein stein : zeile) {
@@ -324,8 +324,8 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     private void throwExceptionIfIndexOutOfBounds(final int x, final int y) {
         if ((x < 0) || (x > getBreite() - 1) || (y < 0) || (y > getHoehe() - 1)) {
             throw new ArrayIndexOutOfBoundsException(
-                    "Die uebergebenen Koordinaten X:" + x + " Y:" + y
-                            + " sind ausserhalb des Spielfelds.");
+                    resourceManager.getText("backend.spiel.given.coordinate") + " X:" + x + " Y:" + y
+                            + resourceManager.getText("backend.spiel.outside.playing.field"));
         }
     }
 

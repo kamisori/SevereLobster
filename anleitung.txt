@@ -1,0 +1,51 @@
+Sternenhimmel DELUXE
+
+Finden Sie alle Sterne in den tiefen der Galaxis
+
+von Paul Brüll, Christian Lobach, Lars Schlegelmilch, Fabian Wenisch, Lutz Kleiber und Stefan Frings
+2012 by projects developement
+
+Vom Universum hat vermutlich schon jeder gehört, aber das weite All durch Geschicklichkeit
+und vor allem Schnelligkeit zu erkunden ist erst mit diesem Spiel möglich.
+
+Ziel des Spiels:
+Alle Sterne in Sternenhimmel DELUXE in kürzester Zeit aufdecken, mit möglichst wenig Schritten
+versteht sich.
+
+Vorbereitung:
+Java Runtime Enviroment muss auf dem Rechner installiert sein. Verfügbar unter http://www.java.com
+
+Spielmodi:
+Ein einfaches Spiel kann über das Hauptmenü mit Klick auf "Neues Spiel starten" gestartet werden.
+"Eigenes Spiel starten", um ein lokales Spiel auszuwählen. "Online Archiv durchsuchen", um weitere
+Spiele aus dem Internet zu laden.
+
+Die Herausforderung ist die Kampagne, in dem mit jedem gelösten Sternenhimmel, der nächste
+freigeschaltet wird. In der Kampagne werden die Sternenhimmel zunehmend schwerer zu lösen sein.
+Viel Erfolg!
+
+Erster Blick auf das Spielfeld:
+Die Pfeile zeigen an, in welcher Himmelsrichtung sich Sterne befinden. Die Ziffern geben die Anzahl
+der Sterne der jeweiligen Spalte bzw. Zeile an.
+
+Spielen:
+Ein Linksklick mit der Maus auf ein Feld, setzt einen Stern, ein Rechtsklick einen Ausschluss.
+Durch einen erneuten Klick, wird die getroffene Auswahl rückgängig gemacht. Doch Vorsicht,
+jeder Klick wird als weiterer Lösungsschritt gezählt und vermindert die erreichbare Punktzahl.
+Ebenso wird bei der Endpunktezahl die Zeit beachtet. Je schneller ein Sternenhimmel aufgedeckt
+ist, desto mehr Punkte gibt es.
+
+Über die Menüleiste kann ein Spiel jederzeit unterbrochen und gespeichert werden, das Spiel
+eignet sich also perfekt für den Büroalltag.
+
+Während des Spiels kann mit dem Button "Zurück zum Fehler", bis zu dem Punkt zurückgesprungen
+werden, bei dem alle davor gesetzten Sterne und Ausschlüsse korrekt waren. Allerdings wird jedes
+zurückgesetzte Feld als weiterer Lösungsschritt gezählt.
+
+Tracking-Modus:
+Ist der Tracking-Modus aktiv, kann jederzeit ein Trackingpunkt gesetzt werden, zu denen
+nacheinander wieder zurückgesprungen werden kann. Hierbei wird ebenfalls jedes zurückgesetzte
+Feld als weiterer Lösungsschritt gezählt.
+
+Eigenes Puzzel erstellen:
+folgt...
