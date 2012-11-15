@@ -1,5 +1,6 @@
 package severeLobster.backend.command;
 
+import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.Spielstein;
 
@@ -46,15 +47,18 @@ public class PrimaerAktion implements Aktion {
         y_ = y;
         neuerSpielstein_ = spielstein;
         alterSpielstein_ = spiel_.getSpielstein(x, y);
-        spiel_.addSpielZug();
+        if (spiel_.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
+            spiel_.addSpielZug();
+        }
 
         return spiel_.setSpielstein(x_, y_, neuerSpielstein_);
     }
 
     @Override
     public boolean undo() {
-        spiel_.addSpielZug();
-
+        if (spiel_.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
+            spiel_.addSpielZug();
+        }
         return spiel_.setSpielstein(x_, y_, alterSpielstein_);
     }
 }

@@ -140,21 +140,33 @@ public class SternenSpielApplicationBackend {
      */
 
     public void startNewSpielFrom(final String spielname)
-            throws FileNotFoundException, IOException {
+            throws IOException {
         final Spiel newGame = Spiel.newSpiel(spielname);
         setSpiel(newGame);
     }
 
     public void loadSpielFrom(final String spielname)
-            throws FileNotFoundException, IOException {
+            throws IOException {
         final Spiel loadedSpiel = Spiel.loadSpiel(spielname,
                 SpielmodusEnumeration.SPIELEN);
         setSpiel(loadedSpiel);
     }
 
     public void saveCurrentSpielTo(final String spielname)
-            throws FileNotFoundException, IOException {
+            throws IOException {
         getSpiel().saveSpiel(spielname);
+    }
+
+    public void loadPuzzleFrom(final String puzzlename)
+            throws IOException {
+        final Spiel loadedPuzzle = Spiel.loadSpiel(puzzlename,
+                SpielmodusEnumeration.EDITIEREN);
+        setSpiel(loadedPuzzle);
+    }
+
+    public void saveCurrentPuzzleTo(final String puzzlename)
+            throws IOException {
+        getSpiel().saveSpiel(puzzlename);
     }
 
     public void setSpiel(final Spiel spiel) {

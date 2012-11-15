@@ -14,9 +14,9 @@ import infrastructure.constants.GlobaleKonstanten;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.frontend.dialogs.AboutDialog;
 import severeLobster.frontend.dialogs.ExitDialog;
-import severeLobster.frontend.dialogs.LoadGamePreview;
+import severeLobster.frontend.dialogs.LoadPuzzlePreview;
 import severeLobster.frontend.dialogs.NewGamePreview;
-import severeLobster.frontend.dialogs.SpielfeldgroessenDialog;
+import severeLobster.frontend.dialogs.*;
 import severeLobster.frontend.view.MainView;
 
 import javax.swing.JFileChooser;
@@ -61,7 +61,9 @@ public class MainFrame extends JMenuBar implements Runnable {
     private static JMenuItem puzzleCheck;
     private static JFileChooser loadGameChooser;
     private static JFileChooser newGameChooser;
+    private static JFileChooser loadPuzzleChooser;
     private JFileChooser saveGameChooser;
+    private JFileChooser savePuzzleChooser;
     public static JFrame frame;
     public static MainView mainPanel;
     private static Point m_Windowlocation;
@@ -171,22 +173,51 @@ public class MainFrame extends JMenuBar implements Runnable {
                         resourceManager.getText("puzzle.erstellen"))) {
                     Koordinaten koordinaten = SpielfeldgroessenDialog.show(frame);
                     mainPanel.addNewSpielfeld(koordinaten.getX(), koordinaten.getY());
-                    puzzleSave.setEnabled(true);
-                    puzzleSaveAs.setEnabled(true);
-                    puzzleFreigeben.setEnabled(true);
-                    puzzleCheck.setEnabled(true);
+                    controlEditierMenue(true);
+                    controlSpielMenue(false);
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("load.puzzle"))) {
-                    JOptionPane.showMessageDialog(frame,
-                            resourceManager.getText("menu.function.not.available"),
-                            "Under Construction", JOptionPane.WARNING_MESSAGE);
+                    int result = loadPuzzleChooser.showOpenDialog(frame);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        try {
+                            mainPanel
+                                    .getBackend()
+                                    .loadPuzzleFrom(
+                                            loadPuzzleChooser
+                                                    .getSelectedFile()
+                                                    .getName()
+                                                    .replace(
+                                                            "."
+                                                                    + GlobaleKonstanten.PUZZLE_DATEITYP,
+                                                            ""));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("save.puzzle"))) {
-                    JOptionPane.showMessageDialog(frame,
-                            resourceManager.getText("menu.function.not.available"),
-                            "Under Construction", JOptionPane.WARNING_MESSAGE);
+                    Spiel spiel = mainPanel.getCurrentSpiel();
+                    try {
+                        if (spiel.getSaveName() == null) {
+                            puzzleSpeichernUnter();
+                        } else {
+                            mainPanel.getBackend().saveCurrentPuzzleTo(
+                                    spiel.getSaveName());
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("save.as.puzzle"))) {
+                    try {
+                        puzzleSpeichernUnter();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.freigeben"))) {
@@ -292,8 +323,35 @@ public class MainFrame extends JMenuBar implements Runnable {
             mainPanel.addNewSpielfeld((newGameChooser.getSelectedFile()
                     .getName().replace("." + GlobaleKonstanten.PUZZLE_DATEITYP,
                     "")));
-            itemSave.setEnabled(true);
-            itemSaveAs.setEnabled(true);
+            controlSpielMenue(true);
+            controlEditierMenue(false);
+        }
+    }
+
+    /**
+     * Aktiviert oder Deaktivert die Controleigenschaften
+     * des Spiels
+     * @param enabled Menueoptionen aktivieren / deaktivieren
+     */
+    public static void controlSpielMenue(boolean enabled) {
+        if (itemSave != null && itemSaveAs != null) {
+            itemSave.setEnabled(enabled);
+            itemSaveAs.setEnabled(enabled);
+        }
+    }
+
+    /**
+     * Aktiviert oder Deaktivert die Controleigenschaften
+     * des Editiermodus
+     * @param enabled Menueoptionen aktivieren / deaktivieren
+     */
+    public static void controlEditierMenue(boolean enabled) {
+        if (puzzleSave != null && puzzleSaveAs != null
+                && puzzleCheck != null && puzzleFreigeben != null) {
+            puzzleSave.setEnabled(enabled);
+            puzzleSaveAs.setEnabled(enabled);
+            puzzleCheck.setEnabled(enabled);
+            puzzleFreigeben.setEnabled(enabled);
         }
     }
 
@@ -312,6 +370,24 @@ public class MainFrame extends JMenuBar implements Runnable {
         }
     }
 
+    /**
+     * Oeffnet den FileChooser, um das Puzzle unter einem gewissen Namen
+     * abzuspeichern
+     */
+    private void puzzleSpeichernUnter() throws IOException {
+        int result = savePuzzleChooser.showSaveDialog(frame);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            Spiel spiel = mainPanel.getCurrentSpiel();
+            String filename = savePuzzleChooser.getSelectedFile().getName()
+                    .replace("." + GlobaleKonstanten.PUZZLE_DATEITYP, "");
+            spiel.setSaveName(filename);
+            mainPanel.getBackend().saveCurrentPuzzleTo(filename);
+        }
+    }
+
+    /**
+     * Oeffnet den Beenden-Dialog
+     */
     public void spielBeenden() {
         int result = ExitDialog.show(frame);
         if (ExitDialog.beenden_option.equals(ExitDialog.options[result])) {
@@ -337,6 +413,16 @@ public class MainFrame extends JMenuBar implements Runnable {
                 resourceManager.getText("load.dialog.title"));
         loadGameChooser.setAccessory(new LoadGamePreview(loadGameChooser));
 
+        loadPuzzleChooser = initFileChooser(
+                GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
+                new SpielView(),
+                new FileNameExtensionFilter(resourceManager
+                        .getText("load.dialog.extension.description"),
+                        GlobaleKonstanten.PUZZLE_DATEITYP),
+                resourceManager.getText("load.dialog.text"),
+                resourceManager.getText("load.dialog.title"));
+        loadPuzzleChooser.setAccessory(new LoadPuzzlePreview(loadPuzzleChooser));
+
         newGameChooser = initFileChooser(
                 GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
                 new PuzzleView(),
@@ -353,6 +439,15 @@ public class MainFrame extends JMenuBar implements Runnable {
                 new FileNameExtensionFilter(resourceManager
                         .getText("save.dialog.extension.description"),
                         GlobaleKonstanten.SPIELSTAND_DATEITYP),
+                resourceManager.getText("save.dialog.text"),
+                resourceManager.getText("save.dialog.title"));
+
+        savePuzzleChooser = initFileChooser(
+                GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
+                new SpielView(),
+                new FileNameExtensionFilter(resourceManager
+                        .getText("save.dialog.extension.description"),
+                        GlobaleKonstanten.PUZZLE_DATEITYP),
                 resourceManager.getText("save.dialog.text"),
                 resourceManager.getText("save.dialog.title"));
 

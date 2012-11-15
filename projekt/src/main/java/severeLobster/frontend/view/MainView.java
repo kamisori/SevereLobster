@@ -45,6 +45,7 @@ public class MainView extends JPanel {
     public MainView() throws IOException {
         addMenuPanel();
         setVisible(true);
+        backend = new SternenSpielApplicationBackend();
     }
 
     /**
@@ -205,13 +206,13 @@ public class MainView extends JPanel {
                 }
             });
             JButton jbSpielErstellen = new JButton(resourceManager.getText("create.new.puzzle"));
-            JButton jbSpielBeenden = new JButton(resourceManager.getText("quit"));
-
             jpMenu.add(jlLogo);
             jpMenu.add(jbKampagneSpielen);
             jpMenu.add(jbSpielSpielen);
             jpMenu.add(jbSpielErstellen);
 
+            MainFrame.controlSpielMenue(false);
+            MainFrame.controlEditierMenue(false);
         }
         removeAll();
         add(jpMenu);
