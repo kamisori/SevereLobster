@@ -2,12 +2,11 @@ package severeLobster.backend.spiel;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import infrastructure.ResourceManager;
 import infrastructure.components.StoppUhr;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
-import severeLobster.backend.command.Aktion;
-import infrastructure.ResourceManager;
 
 import javax.swing.event.EventListenerList;
 import java.io.File;
@@ -38,6 +37,7 @@ public class Spiel implements IGotSpielModus {
     private ActionHistory spielZuege;
     // private Stack<Aktion> spielZuege;
     private Stack<ActionHistory> trackingPunkte;
+    private int anzahlZuege = 0;
 
     public StoppUhr getSpielStoppUhr() {
         return spielStoppUhr;

@@ -225,24 +225,18 @@
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
   <spielZuege serialization="custom">
     <unserializable-parents/>
-    <vector>
+    <linked-list>
+      <default/>
+      <int>0</int>
+    </linked-list>
+    <severeLobster.backend.spiel.ActionHistory>
       <default>
-        <capacityIncrement>0</capacityIncrement>
-        <elementCount>0</elementCount>
-        <elementData>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-          <null/>
-        </elementData>
+        <istVorTrackingPunkt__>false</istVorTrackingPunkt__>
+        <verursachtFehler__>false</verursachtFehler__>
+        <wurzel__>true</wurzel__>
+        <alternativeSpielzuege__/>
       </default>
-    </vector>
+    </severeLobster.backend.spiel.ActionHistory>
   </spielZuege>
   <trackingPunkte serialization="custom">
     <unserializable-parents/>
@@ -265,7 +259,6 @@
       </default>
     </vector>
   </trackingPunkte>
-  <letzterFehlerfreierSpielzug>0</letzterFehlerfreierSpielzug>
   <anzahlZuege>0</anzahlZuege>
   <spielZeit>Nicht begonnen</spielZeit>
 </severeLobster.backend.spiel.Spiel>

@@ -1,9 +1,9 @@
 package severeLobster.backend.spiel;
 
+import severeLobster.backend.command.Aktion;
+
 import java.util.LinkedList;
 import java.util.Vector;
-
-import severeLobster.backend.command.Aktion;
 
 public class ActionHistory extends LinkedList<ActionHistory> {
     Vector<ActionHistory> alternativeSpielzuege_;
@@ -57,7 +57,7 @@ public class ActionHistory extends LinkedList<ActionHistory> {
     public void zurueckZuLetztemFehlerfreiemZug(){
         ActionHistory letzterZugOhneFehler = null;
         int anzahlZuege = this.size();
-        for(int i = anzahlZuege; i >= 0; i--)
+        for(int i = anzahlZuege - 1; i >= 0; i--)
         {
             if(!this.get(i).verursachtFehler())
             {
@@ -78,7 +78,7 @@ public class ActionHistory extends LinkedList<ActionHistory> {
     public void zurueckZuLetztemCheckpoint(){
         ActionHistory letzterZugVorCheckpoint = null;
         int anzahlZuege = this.size();
-        for(int i = anzahlZuege; i >= 0; i--)
+        for(int i = anzahlZuege - 1; i >= 0; i--)
         {
             if(this.get(i).istVorTrackingPunkt())
             {
