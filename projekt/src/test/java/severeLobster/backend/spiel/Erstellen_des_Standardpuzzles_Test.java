@@ -193,6 +193,7 @@ public class Erstellen_des_Standardpuzzles_Test {
             throws IOException {
         Spiel geladenesSpiel = Spiel.loadSpiel("Standardspiel01",
                 SpielmodusEnumeration.EDITIEREN);
+        geladenesSpiel.setFreigegeben(true);
         geladenesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         geladenesSpiel.saveSpiel("Standardspiel01");
 

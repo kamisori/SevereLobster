@@ -33,6 +33,8 @@ public class Spiel implements IGotSpielModus {
     private SpielmodusEnumeration spielmodus = SpielmodusEnumeration.SPIELEN;
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
     private String saveName;
+    private boolean freigegeben;
+
     /** Tracking: */
     private ActionHistory spielZuege;
     private Stack<ActionHistoryObject> trackingPunkte;
@@ -55,7 +57,7 @@ public class Spiel implements IGotSpielModus {
      */
     public Spiel() {
         this(SpielmodusEnumeration.SPIELEN);
-
+        setFreigegeben(true);
     }
 
     /**
@@ -65,7 +67,9 @@ public class Spiel implements IGotSpielModus {
      *            Spielmodus des Spiels
      */
     public Spiel(SpielmodusEnumeration spielmodus) {
-
+        if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
+            setFreigegeben(true);
+        }
         this.spielmodus = spielmodus;
         this.currentSpielfeld = new Spielfeld(this, 10, 10);
         currentSpielfeld.addSpielfeldListener(innerSpielfeldListener);
@@ -218,7 +222,14 @@ public class Spiel implements IGotSpielModus {
      *             Wirft Exception, wenn Datei nicht vorhanden
      */
     public static Spiel newSpiel(String spielname) throws IOException {
-        Spiel neuesSpiel = loadSpiel(spielname, SpielmodusEnumeration.EDITIEREN);
+        XStream xstream = new XStream(new DomDriver());
+        String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
+        File verzeichnis = new File(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR, spielname
+                + dateiendung);
+        InputStream inputStream = new FileInputStream(verzeichnis);
+        Spiel neuesSpiel = (Spiel) xstream.fromXML(inputStream);
+        inputStream.close();
+
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         StoppUhr stoppUhr = new StoppUhr();
         stoppUhr.start();
@@ -266,7 +277,10 @@ public class Spiel implements IGotSpielModus {
      */
     public void setSpielmodus(final SpielmodusEnumeration spielmodus) {
         if (null != spielmodus) {
-
+            if (spielmodus.equals(SpielmodusEnumeration.SPIELEN) && !isFreigegeben()) {
+                throw new IllegalStateException("Spielmodus kann nicht geändert werden:" +
+                        "Spiel ist nicht freigegeben für Spielmodus!");
+            }
             this.spielmodus = spielmodus;
             fireSpielmodusChanged(spielmodus);
         }
@@ -439,6 +453,36 @@ public class Spiel implements IGotSpielModus {
         }
         // TODO: Formatierung der Zeit (Sekunden)
         return spielZeit;
+    }
+
+    public void gebeSpielFrei(String spielname) throws IOException {
+        setFreigegeben(true);
+
+        XStream xstream = new XStream(new DomDriver());
+        String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
+        File verzeichnis = new File(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR, spielname
+                + dateiendung);
+        OutputStream outputStream = new FileOutputStream(verzeichnis);
+        xstream.toXML(this, outputStream);
+        outputStream.close();
+    }
+
+    /**
+     * Prueft, ob ein Puzzle für das Spielen freigegeben ist
+     * @return freigegeben
+     */
+    public boolean isFreigegeben() {
+        return freigegeben;
+    }
+
+    public void setFreigegeben(boolean freigegeben) {
+        if (loesungswegUeberpruefen()) {
+            this.freigegeben = freigegeben;
+        }
+    }
+
+    public boolean loesungswegUeberpruefen() {
+        return true;
     }
 
 }
