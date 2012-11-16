@@ -24,7 +24,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
                         case NORD:
                             for (int curY = rows; curY >= 0; curY--) {
                                 if (!(input.getSpielstein(colums, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(colums,curY, new MoeglicherStern());
+                                    input.setSpielstein(colums,curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
@@ -32,7 +32,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
                         case NORDOST:
                             for (int curX = colums, curY = rows; curX < input.getBreite() && curY >= 0; curX++, curY-- ) {
                                 if (!(input.getSpielstein(curX, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,curY, new MoeglicherStern());
+                                    input.setSpielstein(curX,curY, MoeglicherStern.getInstance());
                                 }
                             }
 
@@ -41,7 +41,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
                         case OST:
                             for (int curX = colums; curX < input.getBreite(); curX++) {
                                 if (!(input.getSpielstein(curX,rows) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,rows, new MoeglicherStern());
+                                    input.setSpielstein(curX,rows, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
@@ -49,7 +49,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
                         case SUEDOST:
                             for (int curX = colums, curY = rows; curX < input.getBreite() && curY < input.getHoehe(); curX++, curY++ ) {
                                 if (!(input.getSpielstein(curX, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,curY, new MoeglicherStern());
+                                    input.setSpielstein(curX,curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
@@ -57,7 +57,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
                         case SUED:
                             for (int curY = rows; curY < input.getHoehe(); curY++) {
                                 if (!(input.getSpielstein(rows, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(rows,curY, new MoeglicherStern());
+                                    input.setSpielstein(rows,curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
@@ -65,7 +65,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
                         case SUEDWEST:
                             for (int curX = colums, curY = rows; curX >= 0 && curY < input.getHoehe(); curX--, curY++ ) {
                                 if (!(input.getSpielstein(curX, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,curY, new MoeglicherStern());
+                                    input.setSpielstein(curX,curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
@@ -73,7 +73,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
                         case WEST:
                             for (int curX = colums; curX >= 0; curX--) {
                                 if (!(input.getSpielstein(curX,rows) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,rows, new MoeglicherStern());
+                                    input.setSpielstein(curX,rows, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
@@ -81,7 +81,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
                         case NORDWEST:
                             for (int curX = colums, curY = rows; curX >= 0 && curY >= 0; curX--, curY-- ) {
                                 if (!(input.getSpielstein(curX, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,curY, new MoeglicherStern());
+                                    input.setSpielstein(curX,curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;

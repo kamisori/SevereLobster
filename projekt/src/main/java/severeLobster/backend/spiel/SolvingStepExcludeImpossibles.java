@@ -13,7 +13,7 @@ public class SolvingStepExcludeImpossibles implements SolvingStep {
         for (int colums = 0; colums < input.getBreite(); colums++) {
             for (int rows = 0; rows < input.getHoehe(); rows++) {
                 if (input.getSpielstein(colums, rows) instanceof KeinStein) {
-                    input.setSpielstein(colums, rows, new Ausschluss());
+                    input.setSpielstein(colums, rows, Ausschluss.getInstance());
                 }
 
             }

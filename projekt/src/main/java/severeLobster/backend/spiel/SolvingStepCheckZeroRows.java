@@ -15,7 +15,7 @@ public class SolvingStepCheckZeroRows implements SolvingStep {
                 for (int b = 0; b < input.getBreite(); b++) {
                     // ist der Platz frei?
                     if (!(input.getSpielstein(b, i) instanceof Pfeil)) {
-                        input.setSpielstein(b, i, new Ausschluss());
+                        input.setSpielstein(b, i, Ausschluss.getInstance());
                     }
                 }
 
