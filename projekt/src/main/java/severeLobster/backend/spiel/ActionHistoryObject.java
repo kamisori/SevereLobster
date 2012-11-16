@@ -24,7 +24,7 @@ public class ActionHistoryObject {
         alternativeSpielzuege_ = new Vector<LinkedList<ActionHistoryObject>>();
         spielZug_ = null;
         verursachtFehler_ = false;
-        istVorTrackingPunkt_ = true;
+        istVorTrackingPunkt_ = false;
     }
 
     public void setzeTrackingPunktNachDiesemZug(boolean istVorTrackingPunkt) {
