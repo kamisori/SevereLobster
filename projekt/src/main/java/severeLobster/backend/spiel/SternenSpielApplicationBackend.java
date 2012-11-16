@@ -6,9 +6,7 @@ import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.GewonnenDialog;
 
 import javax.swing.event.EventListenerList;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 
@@ -127,6 +125,11 @@ public class SternenSpielApplicationBackend {
             throws IOException {
         final Spiel newGame = Spiel.newSpiel(spielname);
         setSpiel(newGame);
+    }
+
+    public void puzzleFreigeben(String spielname)
+            throws IOException {
+        getSpiel().gebeSpielFrei(spielname);
     }
 
     public void loadSpielFrom(final String spielname)

@@ -32,7 +32,9 @@ public class Neues_Spiel_starten_Test {
         erstelltes_spielfeld = erstelles_puzzle.getSpielfeld();
         erstelltes_spielfeld.setSpielstein(0, 0, spielsteinStern);
         erstelltes_spielfeld.setSpielstein(0, 1, spielsteinKeinStern);
+        erstelles_puzzle.setFreigegeben(true);
         erstelles_puzzle.saveSpiel("neuesTestspiel01");
+        erstelles_puzzle.gebeSpielFrei("neuesTestspiel01");
     }
 
     @Test

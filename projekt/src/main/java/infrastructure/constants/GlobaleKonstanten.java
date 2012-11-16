@@ -1,7 +1,5 @@
 package infrastructure.constants;
 
-import severeLobster.frontend.application.StartApplication;
-
 import java.awt.Font;
 import java.io.File;
 
@@ -43,6 +41,12 @@ public abstract class GlobaleKonstanten {
     public static final File DEFAULT_PUZZLE_SAVE_DIR = getDefaultPuzzleSaveDir();
 
     /**
+     * Standardverzeichnis fuer gespeicherte freigegebene Puzzles
+     */
+    public static final File DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR = getDefaultFreigegebenePuzzleSaveDir();
+
+
+    /**
      * Gibt das Standardverzeichnis fuer gespeicherte Spiele zurueck - wenn es
      * nicht existiert, wird es angelegt
      * 
@@ -68,6 +72,25 @@ public abstract class GlobaleKonstanten {
      * @return Standardverzeichnis fuer gespeicherte erstelle Puzzle
      */
     private static File getDefaultPuzzleSaveDir() {
+        File spielverzeichnis = new File("./bin/edit");
+        boolean success = true;
+        if (!spielverzeichnis.exists()) {
+            success = spielverzeichnis.mkdir();
+        }
+        if (!success) {
+            return null;
+        } else {
+            return spielverzeichnis;
+        }
+    }
+
+    /**
+     * Gibt das Standardverzeichnis fuer gespeicherte freigegebene Puzzle zurueck -
+     * wenn es nicht existiert, wird es angelegt
+     *
+     * @return Standardverzeichnis fuer gespeicherte freigegebene Puzzle
+     */
+    private static File getDefaultFreigegebenePuzzleSaveDir() {
         File spielverzeichnis = new File("./bin/puzzles");
         boolean success = true;
         if (!spielverzeichnis.exists()) {

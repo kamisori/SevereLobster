@@ -195,12 +195,23 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.freigeben"))) {
-                    JOptionPane.showMessageDialog(frame,
-                            resourceManager.getText("menu.function.not.available"),
-                            "Under Construction", JOptionPane.WARNING_MESSAGE);
+                    String savename = mainPanel.getCurrentSpiel().getSaveName();
+                    if (savename == null) {
+                        JOptionPane.showMessageDialog(frame, "Puzzle bitte erst speichern!",
+                                "Puzzle speichern!", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        try {
+                            mainPanel.getBackend().puzzleFreigeben(savename);
+                            JOptionPane.showMessageDialog(frame, "Puzzle wurde erfolgreich zum Spielen freigegeben!",
+                                    "Puzzle nun für Spielmodus verfügbar!", JOptionPane.INFORMATION_MESSAGE);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("check.puzzle"))) {
+
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("hilfe.about"))) {
@@ -448,7 +459,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         loadPuzzleChooser.setAccessory(new LoadPuzzlePreview(loadPuzzleChooser));
 
         newGameChooser = initFileChooser(
-                GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR,
+                GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR,
                 new PuzzleView(),
                 new FileNameExtensionFilter(resourceManager
                         .getText("new.dialog.extension.description"),
