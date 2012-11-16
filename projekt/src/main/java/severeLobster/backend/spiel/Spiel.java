@@ -35,8 +35,7 @@ public class Spiel implements IGotSpielModus {
     private String saveName;
     /** Tracking: */
     private ActionHistory spielZuege;
-    // private Stack<Aktion> spielZuege;
-    private Stack<ActionHistory> trackingPunkte;
+    private Stack<ActionHistoryObject> trackingPunkte;
     private int anzahlZuege = 0;
 
     public StoppUhr getSpielStoppUhr() {
@@ -71,7 +70,7 @@ public class Spiel implements IGotSpielModus {
         this.currentSpielfeld = new Spielfeld(this, 10, 10);
         currentSpielfeld.addSpielfeldListener(innerSpielfeldListener);
         spielZuege = new ActionHistory();
-        trackingPunkte = new Stack<ActionHistory>();
+        trackingPunkte = new Stack<ActionHistoryObject>();
     }
 
     /**
@@ -397,8 +396,15 @@ public class Spiel implements IGotSpielModus {
         return spielZuege;
     }
 
-    public Stack<ActionHistory> getTrackingPunkte() {
+    public Stack<ActionHistoryObject> getTrackingPunkte() {
         return trackingPunkte;
+    }
+
+    public void entferneAlleTrackingPunkte(){
+        while(trackingPunkte.size() != 0)
+        {
+            trackingPunkte.pop().setzeTrackingPunktNachDiesemZug(false);
+        }
     }
 
     private class InnerSpielfeldListener implements ISpielfeldListener {

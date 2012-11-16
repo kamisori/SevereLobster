@@ -38,7 +38,7 @@ public class SternenSpielApplicationBackend {
     }
 
     public void setzeTrackingPunkt() {
-        ActionHistory current = currentlyPlayedSpiel.getSpielZuege().getCurrent();
+        ActionHistoryObject current = currentlyPlayedSpiel.getSpielZuege().getCurrent();
         current.setzeTrackingPunktNachDiesemZug(true);
         currentlyPlayedSpiel.getTrackingPunkte().push(current);
     }
@@ -49,15 +49,12 @@ public class SternenSpielApplicationBackend {
 
     public void zurueckZumLetztenTrackingPunkt() {
         currentlyPlayedSpiel.getSpielZuege().zurueckZuLetztemCheckpoint();
-        currentlyPlayedSpiel.getTrackingPunkte().pop().setzeTrackingPunktNachDiesemZug(false);
+        if (currentlyPlayedSpiel.getTrackingPunkte().size() > 0)
+            currentlyPlayedSpiel.getTrackingPunkte().pop().setzeTrackingPunktNachDiesemZug(false);
     }
 
     public void entferneAlleTrackingPunkte(){
-        Stack<ActionHistory> tP = currentlyPlayedSpiel.getTrackingPunkte();
-        while(tP.size() != 0)
-        {
-            tP.pop().setzeTrackingPunktNachDiesemZug(false);
-        }
+        currentlyPlayedSpiel.entferneAlleTrackingPunkte();
     }
 
     /**
@@ -82,7 +79,7 @@ public class SternenSpielApplicationBackend {
         boolean fehler;
         PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
         fehler = spielZug.execute(x, y, spielstein);
-        currentlyPlayedSpiel.getSpielZuege().add( new ActionHistory(spielZug,fehler,false) );
+        currentlyPlayedSpiel.getSpielZuege().neuerSpielzug(spielZug, fehler);
     }
 
     /***
