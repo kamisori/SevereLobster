@@ -18,7 +18,7 @@ public class SolvingStepCheckZeroColumns implements SolvingStep{
                 for(int h=0; h<input.getHoehe(); h++)
                 {
                     // ist der Platz frei?
-                    if(input.getSpielstein(i,h) instanceof KeinStein)
+                    if(!(input.getSpielstein(i,h) instanceof Pfeil) )
                     {
                         input.setSpielstein(i,h,new Ausschluss());
                     }
