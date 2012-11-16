@@ -7,15 +7,12 @@
 package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
+import infrastructure.components.FTPConnector;
 import infrastructure.components.Koordinaten;
 import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
 import severeLobster.backend.spiel.Spiel;
-import severeLobster.frontend.dialogs.AboutDialog;
-import severeLobster.frontend.dialogs.ExitDialog;
-import severeLobster.frontend.dialogs.LoadPuzzlePreview;
-import severeLobster.frontend.dialogs.NewGamePreview;
 import severeLobster.frontend.dialogs.*;
 import severeLobster.frontend.view.MainView;
 
@@ -67,6 +64,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     public static JFrame frame;
     public static MainView mainPanel;
     private static Point m_Windowlocation;
+    public static FTPConnector oFTP;
 
     private final ResourceManager resourceManager = ResourceManager.get();
 
@@ -158,10 +156,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.erstellen"))) {
-                    Koordinaten koordinaten = SpielfeldGroessenDialog.show(frame);
-                    mainPanel.addNewSpielfeld(koordinaten.getX(), koordinaten.getY());
-                    controlEditierMenue(true);
-                    controlSpielMenue(false);
+                	mainPanel.addSpielErstellenPanel();
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("load.puzzle"))) {

@@ -1,6 +1,7 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
+import infrastructure.components.Koordinaten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
@@ -8,6 +9,7 @@ import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 import severeLobster.frontend.controller.SpielmodusViewController;
 import severeLobster.frontend.controller.TrackingControllViewController;
+import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -205,7 +207,16 @@ public class MainView extends JPanel {
                 }
             });
             JButton jbSpielErstellen = new JButton(resourceManager.getText("create.new.puzzle"));
-            jpMenu.add(jlLogo);
+            jbSpielErstellen.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    try {
+                        addSpielErstellenPanel();
+                    } catch (Exception e) {
+                        removeAll();
+                        addMenuPanel();
+                    }
+                }
+            }); jpMenu.add(jlLogo);
             jpMenu.add(jbKampagneSpielen);
             jpMenu.add(jbSpielSpielen);
             jpMenu.add(jbSpielErstellen);
@@ -262,22 +273,34 @@ public class MainView extends JPanel {
         repaint();
     }
 
-    public void addOnlineSpielAuswahlPanel() {
-
+    public void addSpielErstellenPanel()
+    {
+        Koordinaten koordinaten = SpielfeldGroessenDialog.show(MainFrame.frame);
+        addNewSpielfeld(koordinaten.getX(), koordinaten.getY());
+    }
+    public void addOnlineSpielAuswahlPanel()
+{
+    	MainFrame.oFTP.connect();
+    	MainFrame.oFTP.updateFiles();
         JPanel jpAuswahl = new JPanel();
         jpAuswahl.setOpaque(false);
         jpAuswahl.setPreferredSize(new Dimension(700, 600));
         jpAuswahl.setMinimumSize(new Dimension(700, 600));
         jpAuswahl.setMaximumSize(new Dimension(700, 600));
         JPanel jpSpielfeldAuswahl = new JPanel();
-        GridLayout layout = new GridLayout(10, 5);
-        layout.setHgap(10);
+       
+        GridLayout layout = new GridLayout(MainFrame.oFTP.files.length, 1);
+        layout.setVgap(10);
         jpSpielfeldAuswahl.setLayout(layout);
         jpSpielfeldAuswahl.setOpaque(false);
-
+        /*
         for (int i = 0; i < 30; i++) {
             jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"
                     + (i + 1)));
+        }*/
+        for (int i=0;i<MainFrame.oFTP.files.length;i++)
+        {
+             jpSpielfeldAuswahl.add(new OnlinePuzzlePreviewView(MainFrame.oFTP.files[i].getName()));	
         }
         JPanel jpBottom = new JPanel();
         jpBottom.setOpaque(false);
