@@ -9,9 +9,9 @@ import infrastructure.ResourceManager;
 public class MoeglicherStern extends Spielstein {
 
     private final ResourceManager resourceManager = ResourceManager.get();
-    private static final Stern INSTANCE = new Stern();
+    private static final MoeglicherStern INSTANCE = new MoeglicherStern();
 
-    public static Stern getInstance() {
+    public static MoeglicherStern getInstance() {
         return INSTANCE;
     }
 
