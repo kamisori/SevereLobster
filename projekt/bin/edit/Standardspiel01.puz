@@ -32,10 +32,10 @@
       <property name="exception.invalid.size.column" value="Spaltenanzahl:"/>
       <property name="backend.spiel.not.allowed.size" value="Nicht erlaubte Breite/Höhe"/>
       <property name="win.start.new.game" value="Neues Spiel starten..."/>
-      <property name="back.to.main.menu" value="Zurück zum Hauptmenü"/>
       <property name="start.new.game" value="Neues Spiel starten"/>
-      <property name="spielfeldgroesse.hoehe" value="Höhe:"/>
+      <property name="back.to.main.menu" value="Zurück zum Hauptmenü"/>
       <property name="start.campaign" value="Kampagne starten"/>
+      <property name="spielfeldgroesse.hoehe" value="Höhe:"/>
       <property name="save.dialog.title" value="Spiel speichern"/>
       <property name="spiel.menu.text" value="Spielen"/>
       <property name="mittel.difficulty" value="Mittel"/>
@@ -58,9 +58,9 @@
       <property name="quit" value="Beenden"/>
       <property name="tracking.backToLastTrackingPoint" value="Zurück zum letzten Trackingpunkt"/>
       <property name="online.archive" value="Online Archiv"/>
+      <property name="backend.spiel.given.coordinate" value="Die uebergebenen Koordinaten"/>
       <property name="new.dialog.extension.description" value="Spieldatei (*.puz)"/>
       <property name="puzzle.save.dialog.extension.description" value="Gespeichertes Puzzle (*.puz)"/>
-      <property name="backend.spiel.given.coordinate" value="Die uebergebenen Koordinaten"/>
       <property name="puzzle.save.dialog.title" value="Puzzle speichern"/>
       <property name="exit.application.abbrechen.option" value="Abbrechen"/>
       <property name="splashscreen.text.2" value="berechnet..."/>
@@ -74,8 +74,8 @@
       <property name="exit.text" value="Beenden"/>
       <property name="save.as.text" value="Spiel speichern unter..."/>
       <property name="about.close" value="Schließen"/>
-      <property name="exception.icon.array.is.null" value="ImageIcon Array ist null!"/>
       <property name="save.as.puzzle" value="Puzzle speichern unter..."/>
+      <property name="exception.icon.array.is.null" value="ImageIcon Array ist null!"/>
       <property name="save.dialog.extension.description" value="Gespeichertes Spiel (*.sav)"/>
       <property name="mainFrame.title" value="Sternenhimmel Gruppe 3"/>
       <property name="new.dialog.text" value="Auswählen"/>
@@ -91,8 +91,8 @@
       <property name="spielfeldgroesse.input.size" value="Bitte geben Sie die Spielfeldgröße an:"/>
       <property name="backend.spiel.outside.playing.field" value="sind außerhalb des Spielfeldes."/>
       <property name="search.online.archive" value="Online Archiv durchsuchen"/>
-      <property name="puzzle.load.dialog.extension.description" value="Gespeichertes Puzzle (*.puz)"/>
       <property name="load.puzzle" value="Puzzle laden..."/>
+      <property name="puzzle.load.dialog.extension.description" value="Gespeichertes Puzzle (*.puz)"/>
     </propertyfile>
   </resourceManager>
   <listeners serialization="custom">
@@ -232,9 +232,9 @@
     </visibleSteine>
     <gotSpielModus class="severeLobster.backend.spiel.Spiel" reference="../.."/>
   </currentSpielfeld>
-  <spielmodus>SPIELEN</spielmodus>
+  <spielmodus>EDITIEREN</spielmodus>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
-  <freigegeben>true</freigegeben>
+  <freigegeben>false</freigegeben>
   <spielZuege>
     <spielzuege__>
       <severeLobster.backend.spiel.ActionHistoryObject>

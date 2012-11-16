@@ -6,6 +6,7 @@
       <property name="check.puzzle" value="Lösungweg prüfen..."/>
       <property name="load.dialog.extension.description" value="Gespeichertes Spiel (*.sav)"/>
       <property name="win.back.to.main.menu" value="Zurück ins Hauptmenü"/>
+      <property name="spielfeldgroesse.breite" value="Breite:"/>
       <property name="exception.simple.icon.factory.cannot.load.all.pictures" value="SimpleIconFactory kann nicht alle Bilder laden"/>
       <property name="exception.invalid.size" value="Ungültige Größenangabe:"/>
       <property name="menu.function.not.available" value="Diese Funktion ist nicht verfügbar!"/>
@@ -31,8 +32,9 @@
       <property name="exception.invalid.size.column" value="Spaltenanzahl:"/>
       <property name="backend.spiel.not.allowed.size" value="Nicht erlaubte Breite/Höhe"/>
       <property name="win.start.new.game" value="Neues Spiel starten..."/>
-      <property name="start.new.game" value="Neues Spiel starten"/>
       <property name="back.to.main.menu" value="Zurück zum Hauptmenü"/>
+      <property name="start.new.game" value="Neues Spiel starten"/>
+      <property name="spielfeldgroesse.hoehe" value="Höhe:"/>
       <property name="start.campaign" value="Kampagne starten"/>
       <property name="save.dialog.title" value="Spiel speichern"/>
       <property name="spiel.menu.text" value="Spielen"/>
@@ -71,8 +73,9 @@
       <property name="create.new.puzzle" value="Neues Puzzel erstellen"/>
       <property name="exit.text" value="Beenden"/>
       <property name="save.as.text" value="Spiel speichern unter..."/>
-      <property name="save.as.puzzle" value="Puzzle speichern unter..."/>
+      <property name="about.close" value="Schließen"/>
       <property name="exception.icon.array.is.null" value="ImageIcon Array ist null!"/>
+      <property name="save.as.puzzle" value="Puzzle speichern unter..."/>
       <property name="save.dialog.extension.description" value="Gespeichertes Spiel (*.sav)"/>
       <property name="mainFrame.title" value="Sternenhimmel Gruppe 3"/>
       <property name="new.dialog.text" value="Auswählen"/>
@@ -85,10 +88,11 @@
       <property name="win.quit" value="Beenden"/>
       <property name="save.text" value="Spiel speichern"/>
       <property name="exception.cant.delete.gamefile" value="Die Spieldatei konnte nicht gelöscht werden!"/>
+      <property name="spielfeldgroesse.input.size" value="Bitte geben Sie die Spielfeldgröße an:"/>
       <property name="backend.spiel.outside.playing.field" value="sind außerhalb des Spielfeldes."/>
       <property name="search.online.archive" value="Online Archiv durchsuchen"/>
-      <property name="load.puzzle" value="Puzzle laden..."/>
       <property name="puzzle.load.dialog.extension.description" value="Gespeichertes Puzzle (*.puz)"/>
+      <property name="load.puzzle" value="Puzzle laden..."/>
     </propertyfile>
   </resourceManager>
   <listeners serialization="custom">
@@ -230,12 +234,13 @@
   </currentSpielfeld>
   <spielmodus>EDITIEREN</spielmodus>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
+  <freigegeben>true</freigegeben>
   <spielZuege>
     <spielzuege__>
       <severeLobster.backend.spiel.ActionHistoryObject>
         <alternativeSpielzuege__/>
         <verursachtFehler__>false</verursachtFehler__>
-        <istVorTrackingPunkt__>true</istVorTrackingPunkt__>
+        <istVorTrackingPunkt__>false</istVorTrackingPunkt__>
       </severeLobster.backend.spiel.ActionHistoryObject>
     </spielzuege__>
   </spielZuege>
