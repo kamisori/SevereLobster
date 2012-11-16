@@ -290,7 +290,6 @@ public class MainView extends JPanel {
         JPanel jpSpielfeldAuswahl = new JPanel();
        
         GridLayout layout = new GridLayout(MainFrame.oFTP.files.length, 1);
-        layout.setVgap(10);
         jpSpielfeldAuswahl.setLayout(layout);
         jpSpielfeldAuswahl.setOpaque(false);
         /*

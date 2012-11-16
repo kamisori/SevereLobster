@@ -18,6 +18,7 @@ import severeLobster.frontend.view.MainView;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -26,6 +27,8 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Point;
@@ -65,7 +68,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     public static MainView mainPanel;
     private static Point m_Windowlocation;
     public static FTPConnector oFTP;
-
+public static JLabel jlOnlineSpiele = new JLabel();
     private final ResourceManager resourceManager = ResourceManager.get();
 
     /**
@@ -274,6 +277,9 @@ public class MainFrame extends JMenuBar implements Runnable {
         add(jm_Spiel);
         add(jm_Editieren);
         add(jm_Hilfe);
+        
+        jlOnlineSpiele.setEnabled(false);
+        add (jlOnlineSpiele,BorderLayout.EAST);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

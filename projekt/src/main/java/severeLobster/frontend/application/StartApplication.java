@@ -68,7 +68,6 @@ public class StartApplication extends JFrame implements Runnable {
             SC_MAIN = new Thread(new MainFrame());
           MainFrame.oFTP = new FTPConnector("ftp.strato.de",
                     "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);
-          MainFrame.oFTP.disconnect();
             
             Thread.sleep(2000);
         } catch (Exception e) {

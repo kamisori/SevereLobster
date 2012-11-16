@@ -1,7 +1,12 @@
 package infrastructure.components;
 
 import org.apache.commons.net.ftp.*;
+
+import severeLobster.frontend.application.MainFrame;
+
 import java.io.*;
+
+import javax.swing.JLabel;
 
 public class FTPConnector {
 	private FTPClient ftp;
@@ -17,6 +22,8 @@ public class FTPConnector {
 		this.password = password;
 		this.port = port;
 		connect();
+		updateFiles();
+		disconnect();
 	}
 
 	public void connect() {
@@ -54,12 +61,8 @@ public class FTPConnector {
 		try
 		{
 			files = ftp.listFiles();
-			System.out.println(files.length+" Spiele gefunden");
-			int i=0;
-			for (FTPFile f : files)
-			{
-				System.out.println(f.getName());
-			}
+			if(files.length>0)
+			MainFrame.jlOnlineSpiele.setText("| "+files.length+" Puzzles im Online Archiv verfügbar");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
