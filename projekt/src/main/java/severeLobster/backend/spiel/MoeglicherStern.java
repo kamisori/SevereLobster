@@ -22,7 +22,7 @@ public class MoeglicherStern extends Spielstein {
 
 
     public boolean equals(final Object obj) {
-        return (null != obj && obj instanceof Stern);
+        return (null != obj && obj instanceof MoeglicherStern);
     }
 
 }
