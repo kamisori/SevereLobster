@@ -14,11 +14,19 @@ public class SolvingStepCheckZeroColumns implements SolvingStep{
         {
             if(input.countSterneSpalte(i) == 0)
             {
-                //TODO: Alle Spielsteine dieser Spalte auf 0 setzen
+
+                for(int h=0; h<input.getHoehe(); h++)
+                {
+                    // ist der Platz frei?
+                    if(input.getSpielstein(i,h) instanceof KeinStein)
+                    {
+                        input.setSpielstein(i,h,new Ausschluss());
+                    }
+                }
 
             }
         }
 
-        return input; //TODO: geändertes Spielfeld zurückgeben
+        return input;
     }
 }

@@ -12,13 +12,20 @@ public class SolvingStepCheckZeroRows implements SolvingStep{
 
         for (int i = 0; i < input.getHoehe() ;i++)
         {
-            if(input.countSterneSpalte(i) == 0)
+            if(input.countSterneZeile(i) == 0)
             {
-                //TODO: Alle Spielsteine dieser Zeile auf 0 setzen
+                for(int b=0; b<input.getBreite(); b++)
+                {
+                    // ist der Platz frei?
+                    if(input.getSpielstein(b,i) instanceof KeinStein)
+                    {
+                        input.setSpielstein(b,i,new Ausschluss());
+                    }
+                }
 
             }
         }
 
-        return input;  //TODO: geändertes Spielfeld zurückgeben
+        return input;
     }
 }
