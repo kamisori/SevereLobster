@@ -22,6 +22,7 @@ public class TrackingControllView extends JPanel {
     private final JButton zurueckZumLetztenPunktBtn;
     private final JButton setzeTrackingPunktBtn;
     private final JButton zurueckZumFehlerBtn;
+    private final JPanel anzahlTrackingPunktePanel;
 
     public TrackingControllView() {
         setBackground(Color.BLACK);
@@ -53,6 +54,10 @@ public class TrackingControllView extends JPanel {
                 public void actionPerformed(ActionEvent arg0) {
                     getCurrentTrackingController()
                             .zurueckZumLetztenTrackingPunkt();
+                    if (anzahlTrackingPunktePanel.getComponentCount() > 0) {
+                        anzahlTrackingPunktePanel.remove(
+                                anzahlTrackingPunktePanel.getComponentCount() - 1);
+                    }
                 }
             });
             zurueckZumLetztenPunktBtn.setVisible(false);
@@ -73,6 +78,8 @@ public class TrackingControllView extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
                     getCurrentTrackingController().setzeTrackingPunkt();
+                    JLabel trackingIcon = new JLabel(resourceManager.getImageIcon("tracking.png"));
+                    anzahlTrackingPunktePanel.add(trackingIcon);
                 }
             });
             setzeTrackingPunktBtn.setVisible(false);
@@ -98,7 +105,13 @@ public class TrackingControllView extends JPanel {
             zurueckZumFehlerBtn.setOpaque(false);
             zurueckZumFehlerBtn.setVisible(true);
             this.add(zurueckZumFehlerBtn);
-
+        }
+        {
+            anzahlTrackingPunktePanel = new JPanel(new GridBagLayout());
+            anzahlTrackingPunktePanel.setPreferredSize(new Dimension(200, 40));
+            anzahlTrackingPunktePanel.setOpaque(false);
+            anzahlTrackingPunktePanel.setToolTipText("Gesetzte Trackingpunkte");
+            this.add(anzahlTrackingPunktePanel);
         }
 
     }

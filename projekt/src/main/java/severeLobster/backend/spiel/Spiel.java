@@ -39,15 +39,6 @@ public class Spiel implements IGotSpielModus {
     private ActionHistory spielZuege;
     private Stack<ActionHistoryObject> trackingPunkte;
     private int anzahlZuege = 0;
-
-    public StoppUhr getSpielStoppUhr() {
-        return spielStoppUhr;
-    }
-
-    public void setSpielStoppUhr(StoppUhr spielStoppUhr) {
-        this.spielStoppUhr = spielStoppUhr;
-    }
-
     private StoppUhr spielStoppUhr;
     private String spielZeit = resourceManager.getText("backend.spiel.nicht.begonnen");
 
@@ -95,6 +86,14 @@ public class Spiel implements IGotSpielModus {
 
     public Spielstein getSpielstein(int x, int y) {
         return currentSpielfeld.getSpielstein(x, y);
+    }
+
+    public StoppUhr getSpielStoppUhr() {
+        return spielStoppUhr;
+    }
+
+    public void setSpielStoppUhr(StoppUhr spielStoppUhr) {
+        this.spielStoppUhr = spielStoppUhr;
     }
 
     /**
