@@ -53,7 +53,7 @@ public class AboutDialog extends JDialog {
         box.setAlignmentX(0.5f);
         add(box);
 
-        JButton close = new JButton("Schließen");
+        JButton close = new JButton(resourceManager.getText("about.close"));
         close.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 dispose();
