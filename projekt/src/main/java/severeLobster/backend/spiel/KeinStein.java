@@ -23,7 +23,7 @@ public class KeinStein extends Spielstein {
 
     @Override
     public String toString() {
-        return "NullState";
+        return "Leeres Feld";
     }
 
     @Override

@@ -1,10 +1,6 @@
 package severeLobster.frontend.controller;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
-
-import java.awt.event.MouseEvent;
-import java.util.List;
-
 import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.ISpielfeldReadOnly;
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
@@ -15,6 +11,9 @@ import severeLobster.backend.spiel.Stern;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.view.PopupMenuForSpielsteinChoice;
 import severeLobster.frontend.view.SpielfeldDarstellung;
+
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 /**
  * Steuerung fuer SpielfeldView. Verbindet SternenSpielApplicationBackend und
@@ -78,15 +77,15 @@ public class SpielfeldDarstellungsSteuerung {
         /** Editiermodus: */
         if (!isSpielModus()) {
             if (isLeftClick(mouseEvent)) {
-                resetSpielsteinState(x, y);
-                return;
-            }
-            if (isRightClick(mouseEvent)) {
                 new PopupMenuForSpielsteinChoice(this,
                         listAvailableStates(x, y), x, y).show(
                         mouseEvent.getComponent(), mouseEvent.getX(),
                         mouseEvent.getY());
 
+                return;
+            }
+            if (isRightClick(mouseEvent)) {
+                resetSpielsteinState(x, y);
                 return;
             }
         }
