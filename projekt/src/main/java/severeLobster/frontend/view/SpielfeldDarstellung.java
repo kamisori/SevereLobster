@@ -314,6 +314,7 @@ public class SpielfeldDarstellung extends JPanel {
                     .getY()].setBorder(BorderFactory
                     .createLineBorder(Color.DARK_GRAY));
         }
+        this.hightlightedSpielsteine.clear();
     }
 
     /**
