@@ -37,6 +37,11 @@ public class MainView extends JPanel {
     private JPanel jpMenu = null;
     private JPanel jpKampagne = null;
     private JPanel jpSpielAuswahl = null;
+    /**
+     * Wird am Anfang initialisiert und je nach Methode immer wieder vom Panel
+     * genommen oder neu drauf gesetzt, aber nie wieder neu erzeugt.
+     */
+    private final SpielfeldDarstellung spielfeldDarstellung;
 
     private final SternenSpielApplicationBackend backend;
 
@@ -47,6 +52,8 @@ public class MainView extends JPanel {
     public MainView(final SternenSpielApplicationBackend backend)
             throws IOException {
         this.backend = backend;
+        this.spielfeldDarstellung = new SpielfeldDarstellung();
+        new SpielfeldDarstellungsSteuerung(spielfeldDarstellung, backend);
         addMenuPanel();
         setVisible(true);
     }
@@ -72,22 +79,20 @@ public class MainView extends JPanel {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        JPanel Spielfeld = new JPanel();
-        final SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
-        new SpielfeldDarstellungsSteuerung(spielfeldView, backend);
+        JPanel spielfeldUndInfoViewPanel = new JPanel();
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
         new SpielmodusViewController(spielmodusView, backend);
-        spielfeldView.setPreferredSize(new Dimension(500, 500));
+        this.spielfeldDarstellung.setPreferredSize(new Dimension(500, 500));
         final TrackingControllView trackingView = new TrackingControllView();
         final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
                 backend);
         trackingView.setTrackingControllViewController(trackingViewCtrl);
         JPanel spielinfo = new SpielinfoView(trackingView, backend);
-        Spielfeld.add(spielfeldView, BorderLayout.CENTER);
-        Spielfeld.add(spielinfo, BorderLayout.EAST);
-        Spielfeld.setOpaque(false);
+        spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung, BorderLayout.CENTER);
+        spielfeldUndInfoViewPanel.add(spielinfo, BorderLayout.EAST);
+        spielfeldUndInfoViewPanel.setOpaque(false);
         removeAll();
-        add(Spielfeld);
+        add(spielfeldUndInfoViewPanel);
         validate();
         repaint();
     }
@@ -108,14 +113,12 @@ public class MainView extends JPanel {
         backend.setSpiel(spiel);
 
         JPanel Spielfeld = new JPanel();
-        final SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
-        new SpielfeldDarstellungsSteuerung(spielfeldView, backend);
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
         new SpielmodusViewController(spielmodusView, backend);
-        spielfeldView.setPreferredSize(new Dimension(500, 500));
+        this.spielfeldDarstellung.setPreferredSize(new Dimension(500, 500));
         // JPanel spielinfo = new SpielinfoView(backend);
 
-        Spielfeld.add(spielfeldView, BorderLayout.CENTER);
+        Spielfeld.add(this.spielfeldDarstellung, BorderLayout.CENTER);
         // Spielfeld.add(spielinfo, BorderLayout.EAST);
 
         Spielfeld.setOpaque(false);
