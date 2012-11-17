@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.LayoutManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -17,6 +19,7 @@ import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 
 import infrastructure.ResourceManager;
+import infrastructure.components.Koordinaten;
 
 /**
  * Darstellung eines Spielfeldes mit den enthaltenen Spielsteinen. In dieser
@@ -48,6 +51,8 @@ public class SpielfeldDarstellung extends JPanel {
 
     /** Anzeige der Sternanzahl in den Zeilen */
     private JLabel[] sternAnzahlInZeilenAnzeigen;
+
+    private final List<Koordinaten> hightlightedSpielsteine = new LinkedList<Koordinaten>();
 
     /**
      * Erzeugt eine neue SpielfeldDarstellung mit einer Startgroesse von 1 x 1.
@@ -293,6 +298,21 @@ public class SpielfeldDarstellung extends JPanel {
                 .toString(neuerWert));
     }
 
+    public void highlightSpielstein(int x, int y) {
+        this.spielsteinDarstellungen[x][y].setBorder(BorderFactory
+                .createLineBorder(Color.yellow));
+        this.hightlightedSpielsteine.add(new Koordinaten(x, y));
+
+    }
+
+    public void unhighlightAll() {
+        for (Koordinaten currentKoordinate : this.hightlightedSpielsteine) {
+            this.spielsteinDarstellungen[currentKoordinate.getX()][currentKoordinate
+                    .getY()].setBorder(BorderFactory
+                    .createLineBorder(Color.DARK_GRAY));
+        }
+    }
+
     /**
      * SpielfeldDarstellungsSteuerung muss gesetzt werden, wenn Mausklicks
      * irgendwelche Folgen haben sollen. Ist nicht noetig um nur eine Vorschau
@@ -380,6 +400,18 @@ public class SpielfeldDarstellung extends JPanel {
                 getSpielfeldDarstellungsSteuerung().spielSteinClick(x, y,
                         mouseEvent);
             }
+
+            @Override
+            public void mouseEntered(final MouseEvent mouseEvent) {
+                getSpielfeldDarstellungsSteuerung().spielSteinEntered(x, y,
+                        mouseEvent);
+            }
+
+            @Override
+            public void mouseExited(final MouseEvent mouseEvent) {
+                getSpielfeldDarstellungsSteuerung().spielSteinExited(x, y,
+                        mouseEvent);
+            }
         });
         return result;
     }
@@ -424,4 +456,5 @@ public class SpielfeldDarstellung extends JPanel {
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setBackground(Color.DARK_GRAY);
     }
+
 }

@@ -5,6 +5,7 @@ import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.ISpielfeldReadOnly;
 import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
 import severeLobster.backend.spiel.KeinStein;
+import severeLobster.backend.spiel.Pfeil;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.backend.spiel.Stern;
@@ -194,6 +195,15 @@ public class SpielfeldDarstellungsSteuerung {
             spielfeldDarstellung.setAngezeigtesSpielfeld(spiel.getSpielfeld());
         }
 
+    }
+
+    public void spielSteinEntered(int x, int y, MouseEvent mouseEvent) {
+        spielfeldDarstellung.highlightSpielstein(x, y);
+        /* TODO Wenn Pfeil, Zeigerichtung highlighten */
+    }
+
+    public void spielSteinExited(int x, int y, MouseEvent mouseEvent) {
+        spielfeldDarstellung.unhighlightAll();
     }
 
 }
