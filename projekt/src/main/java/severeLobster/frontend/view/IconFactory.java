@@ -21,6 +21,8 @@ public abstract class IconFactory {
 
     public abstract Icon pfeilIcon(PfeilrichtungEnumeration richtung);
 
+    public abstract Icon disabledPfeilIcon(PfeilrichtungEnumeration richtung);
+
     public abstract Icon sternIcon();
 
     public abstract Icon ausschlussIcon();
@@ -43,5 +45,10 @@ public abstract class IconFactory {
 
         }
         return blankIcon();
+    }
+
+    public final Icon getDisabledIconForPfeil(final Pfeil pfeil) {
+
+            return disabledPfeilIcon(( pfeil).getPfeilrichtung());
     }
 }

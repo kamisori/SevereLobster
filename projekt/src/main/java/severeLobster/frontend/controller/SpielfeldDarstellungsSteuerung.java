@@ -1,14 +1,7 @@
 package severeLobster.frontend.controller;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
-import severeLobster.backend.spiel.Ausschluss;
-import severeLobster.backend.spiel.ISpielfeldReadOnly;
-import severeLobster.backend.spiel.ISternenSpielApplicationBackendListener;
-import severeLobster.backend.spiel.KeinStein;
-import severeLobster.backend.spiel.Spiel;
-import severeLobster.backend.spiel.Spielstein;
-import severeLobster.backend.spiel.Stern;
-import severeLobster.backend.spiel.SternenSpielApplicationBackend;
+import severeLobster.backend.spiel.*;
 import severeLobster.frontend.view.PopupMenuForSpielsteinChoice;
 import severeLobster.frontend.view.SpielfeldDarstellung;
 
@@ -34,8 +27,9 @@ public class SpielfeldDarstellungsSteuerung {
             /** Macht nichts */
         }
 
-        public void spielSteinClick(int x, int y, MouseEvent mouseEvent) {
+        public Spielstein spielSteinClick(int x, int y, MouseEvent mouseEvent) {
             /** Macht nichts */
+            return null;
         }
     };
 
@@ -63,32 +57,38 @@ public class SpielfeldDarstellungsSteuerung {
         backend.setSpielstein(x, y, spielstein);
     }
 
-    public void spielSteinClick(int x, int y, MouseEvent mouseEvent) {
+    /**
+     * Reagiert auf Klicks des Spielsteins
+     *
+     * @param x X-Koordinate des Spielsteins
+     * @param y Y-Koordinate des Spielsteins
+     * @param mouseEvent Mouseevent des Spielsteins
+     * @return Spielstein der geklickt wurde
+     */
+    public Spielstein spielSteinClick(int x, int y, MouseEvent mouseEvent) {
         if (isSpielModus()) {
-            if (isLeftClick(mouseEvent)) {
-                guessStern(x, y);
-                return;
-            }
-            if (isRightClick(mouseEvent)) {
-                guessAusschluss(x, y);
-                return;
+            if (!(getSpielstein(x, y) instanceof Pfeil)) {
+                if (isLeftClick(mouseEvent)) {
+                    guessStern(x, y);
+                }
+                else if (isRightClick(mouseEvent)) {
+                    guessAusschluss(x, y);
+                }
             }
         }
         /** Editiermodus: */
-        if (!isSpielModus()) {
+        else if (!isSpielModus()) {
             if (isLeftClick(mouseEvent)) {
                 new PopupMenuForSpielsteinChoice(this,
                         listAvailableStates(x, y), x, y).show(
                         mouseEvent.getComponent(), mouseEvent.getX(),
                         mouseEvent.getY());
-
-                return;
             }
-            if (isRightClick(mouseEvent)) {
+            else if (isRightClick(mouseEvent)) {
                 resetSpielsteinState(x, y);
-                return;
             }
         }
+        return getSpielstein(x, y);
     }
 
     private SpielmodusEnumeration getSpielmodus() {
