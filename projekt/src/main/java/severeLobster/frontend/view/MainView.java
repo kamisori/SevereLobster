@@ -10,6 +10,7 @@ import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 import severeLobster.frontend.controller.TrackingControllViewController;
 import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -86,13 +87,13 @@ public class MainView extends JPanel {
             e.printStackTrace();
         }
         JPanel spielfeldUndInfoViewPanel = new JPanel();
-        this.spielfeldDarstellung.setPreferredSize(new Dimension(500, 500));
-
+        spielfeldUndInfoViewPanel.setLayout(new BorderLayout());
         spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung,
                 BorderLayout.CENTER);
         spielfeldUndInfoViewPanel.add(this.spielInfoView, BorderLayout.EAST);
         spielfeldUndInfoViewPanel.setOpaque(false);
         removeAll();
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(spielfeldUndInfoViewPanel);
         validate();
         repaint();
@@ -112,14 +113,15 @@ public class MainView extends JPanel {
         spiel.initializeNewSpielfeld(x, y);
         backend.setSpiel(spiel);
 
-        JPanel Spielfeld = new JPanel();
-        this.spielfeldDarstellung.setPreferredSize(new Dimension(500, 500));
+        JPanel spielfeldCenteringPanel = new JPanel();
+        spielfeldCenteringPanel.setLayout(new BorderLayout());
+        spielfeldCenteringPanel.add(this.spielfeldDarstellung,
+                BorderLayout.CENTER);
 
-        Spielfeld.add(this.spielfeldDarstellung, BorderLayout.CENTER);
-
-        Spielfeld.setOpaque(false);
+        spielfeldCenteringPanel.setOpaque(false);
         removeAll();
-        add(Spielfeld);
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(spielfeldCenteringPanel);
         validate();
         repaint();
     }
