@@ -38,7 +38,8 @@ public class PuzzlePreviewView extends JPanel {
         JLabel spielfeldPreviewLabel = new JLabel();
         try {
             this.strPuzzleName = strPuzzleName;
-            SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
+            SternenSpielApplicationBackend backend = SternenSpielApplicationBackend
+                    .getInstance();
 
             backend.startNewSpielFrom(strPuzzleName);
 
@@ -63,10 +64,11 @@ public class PuzzlePreviewView extends JPanel {
              */
 
             JLabel jlName = new JLabel(strPuzzleName);
-            JLabel jlSchwierigkeit = new JLabel(resourceManager.getText("difficulty")
-                    + " " + spiel.getSchwierigkeitsgrad().toString());
-            JLabel jlFelder = new JLabel(resourceManager.getText("fields") + " "
-                    + spiel.getSpielfeld().getHoehe()
+            JLabel jlSchwierigkeit = new JLabel(
+                    resourceManager.getText("difficulty") + " "
+                            + spiel.getSchwierigkeitsgrad().toString());
+            JLabel jlFelder = new JLabel(resourceManager.getText("fields")
+                    + " " + spiel.getSpielfeld().getHoehe()
                     * spiel.getSpielfeld().getBreite());
 
             // Layout Hack
@@ -94,7 +96,8 @@ public class PuzzlePreviewView extends JPanel {
         } catch (Exception e) {
             spielfeldPreviewLabel.setIcon(resourceManager
                     .getImageIcon("Ausschluss_128.png"));
-            SpielfeldInfo.add(new JLabel(resourceManager.getText("not.available")));
+            SpielfeldInfo.add(new JLabel(resourceManager
+                    .getText("not.available")));
         }
         this.add(spielfeldPreviewLabel, BorderLayout.CENTER);
         this.add(SpielfeldInfo, BorderLayout.SOUTH);

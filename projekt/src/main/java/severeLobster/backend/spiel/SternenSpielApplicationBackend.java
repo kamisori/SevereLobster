@@ -1,34 +1,42 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.swing.event.EventListenerList;
+
 import severeLobster.backend.command.PrimaerAktion;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.GewonnenDialog;
-
-import javax.swing.event.EventListenerList;
-import java.io.IOException;
-import java.util.List;
-import java.util.Stack;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
  * Informationen, die von der GUI aufgerufen bzw angezeigt werden, sind ueber
  * diese Klasse zugaengich sein - Direkt oder gekapselt. Instanz benachrichtigt
  * angemeldete ISternenSpielApplicationBackendListener, wenn sich irgendetwas am
- * Zustand der Anwendung aendert.
+ * Zustand der Anwendung aendert. Es gibt von dieser Klasse nur eine Instanz
+ * (Singleton Pattern).
  * 
  * @author Lutz Kleiber, Paul Bruell
  * 
  */
 public class SternenSpielApplicationBackend {
 
+    /** Einzige Instanz */
+    private static final SternenSpielApplicationBackend UNIQUE_INSTANCE = new SternenSpielApplicationBackend();
     private final EventListenerList listeners = new EventListenerList();
     private final ISpielListener innerSpielListener = new InnerSpielListener();
     private Spiel currentlyPlayedSpiel;
 
-    public SternenSpielApplicationBackend() {
+    private SternenSpielApplicationBackend() {
         this.currentlyPlayedSpiel = new Spiel();
         currentlyPlayedSpiel.addSpielListener(innerSpielListener);
+    }
+
+    public static SternenSpielApplicationBackend getInstance() {
+        return UNIQUE_INSTANCE;
     }
 
     public Spiel getSpiel() {
@@ -36,7 +44,8 @@ public class SternenSpielApplicationBackend {
     }
 
     public void setzeTrackingPunkt() {
-        ActionHistoryObject current = currentlyPlayedSpiel.getSpielZuege().getCurrent();
+        ActionHistoryObject current = currentlyPlayedSpiel.getSpielZuege()
+                .getCurrent();
         current.setzeTrackingPunktNachDiesemZug(true);
         currentlyPlayedSpiel.getTrackingPunkte().push(current);
     }
@@ -48,21 +57,13 @@ public class SternenSpielApplicationBackend {
     public void zurueckZumLetztenTrackingPunkt() {
         currentlyPlayedSpiel.getSpielZuege().zurueckZuLetztemCheckpoint();
         if (currentlyPlayedSpiel.getTrackingPunkte().size() > 0)
-            currentlyPlayedSpiel.getTrackingPunkte().pop().setzeTrackingPunktNachDiesemZug(false);
+            currentlyPlayedSpiel.getTrackingPunkte().pop()
+                    .setzeTrackingPunktNachDiesemZug(false);
     }
 
-    public void entferneAlleTrackingPunkte(){
+    public void entferneAlleTrackingPunkte() {
         currentlyPlayedSpiel.entferneAlleTrackingPunkte();
     }
-
-    /**
-     * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
-     * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
-     * 
-     * 
-     * ANFANG
-     * 
-     */
 
     /***
      * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
@@ -110,46 +111,32 @@ public class SternenSpielApplicationBackend {
         return getSpiel().getSpielfeld().listAvailableStates(x, y);
     }
 
-    /**
-     * NEUE SCHNITTSTELLE, UM DAS SPIELFELD NICHT KOMPLETT NACH AUSSEN SICHTBAR
-     * MACHEN ZU MUESSEN UND DAS TRACKING HIER ODER IN SPIEL MACHEN ZU KOENNEN.
-     * 
-     * ENDE
-     * 
-     */
-
-    public void startNewSpielFrom(final String spielname)
-            throws IOException {
+    public void startNewSpielFrom(final String spielname) throws IOException {
         final Spiel newGame = Spiel.newSpiel(spielname);
         setSpiel(newGame);
     }
 
-    public void puzzleFreigeben(String spielname)
-            throws IOException {
+    public void puzzleFreigeben(String spielname) throws IOException {
         getSpiel().gebeSpielFrei(spielname);
     }
 
-    public void loadSpielFrom(final String spielname)
-            throws IOException {
+    public void loadSpielFrom(final String spielname) throws IOException {
         final Spiel loadedSpiel = Spiel.loadSpiel(spielname,
                 SpielmodusEnumeration.SPIELEN);
         setSpiel(loadedSpiel);
     }
 
-    public void saveCurrentSpielTo(final String spielname)
-            throws IOException {
+    public void saveCurrentSpielTo(final String spielname) throws IOException {
         getSpiel().saveSpiel(spielname);
     }
 
-    public void loadPuzzleFrom(final String puzzlename)
-            throws IOException {
+    public void loadPuzzleFrom(final String puzzlename) throws IOException {
         final Spiel loadedPuzzle = Spiel.loadSpiel(puzzlename,
                 SpielmodusEnumeration.EDITIEREN);
         setSpiel(loadedPuzzle);
     }
 
-    public void saveCurrentPuzzleTo(final String puzzlename)
-            throws IOException {
+    public void saveCurrentPuzzleTo(final String puzzlename) throws IOException {
         getSpiel().saveSpiel(puzzlename);
     }
 

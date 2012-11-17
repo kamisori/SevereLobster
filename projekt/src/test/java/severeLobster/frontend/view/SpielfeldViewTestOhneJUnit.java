@@ -38,7 +38,8 @@ public class SpielfeldViewTestOhneJUnit {
 
                 @Override
                 public void run() {
-                    final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
+                    final SternenSpielApplicationBackend backend = SternenSpielApplicationBackend
+                            .getInstance();
                     backend.getSpiel().initializeNewSpielfeld(SPIELFELD_BREITE,
                             SPIELFELD_HOEHE);
                     backend.getSpiel().setSpielmodus(

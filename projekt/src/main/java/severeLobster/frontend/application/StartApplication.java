@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import severeLobster.backend.spiel.SternenSpielApplicationBackend;
+
 import infrastructure.components.FTPConnector;
 
 import java.awt.Color;
@@ -23,6 +25,13 @@ public class StartApplication extends JFrame implements Runnable {
     private final ResourceManager resourceManager = ResourceManager.get();
 
     /**
+     * Die einzige Backend Instanz fuers gesamte Spiel. Wird in alle Klassen
+     * weitergegeben, die die Methoden brauchen. Bleibt durchgehend gleich. Wird
+     * niemals null.
+     */
+    private final SternenSpielApplicationBackend backend;
+
+    /**
      * Startet das Programm(startet Splaschreen und startet Initialisierung)
      * 
      * @param args
@@ -31,9 +40,26 @@ public class StartApplication extends JFrame implements Runnable {
      * @version 1.0 08.10.2012
      */
     public static void main(String[] args) {
-        Thread Splashscreen = new Thread(new StartApplication());
+        final SternenSpielApplicationBackend backend = SternenSpielApplicationBackend.getInstance();
+        Thread Splashscreen = new Thread(new StartApplication(backend));
         Splashscreen.start();
 
+    }
+
+    public StartApplication(final SternenSpielApplicationBackend backend) {
+        if (null == backend) {
+            throw new NullPointerException("Backend ist null");
+        }
+        this.backend = backend;
+    }
+
+    /**
+     * Liefert das Backend des Spiels - niemals null.
+     * 
+     * @return Das Backend des Spiels - niemals null.
+     */
+    public SternenSpielApplicationBackend getBackend() {
+        return this.backend;
     }
 
     /**
@@ -65,10 +91,10 @@ public class StartApplication extends JFrame implements Runnable {
 
         try {
             // TODO: Bilder & Sonstige Sachen laden
-            SC_MAIN = new Thread(new MainFrame());
-          MainFrame.oFTP = new FTPConnector("ftp.strato.de",
+            SC_MAIN = new Thread(new MainFrame(getBackend()));
+            MainFrame.oFTP = new FTPConnector("ftp.strato.de",
                     "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);
-            
+
             Thread.sleep(2000);
         } catch (Exception e) {
             dispose();

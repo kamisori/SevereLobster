@@ -25,7 +25,8 @@ import static severeLobster.backend.spiel.helper.matchers.PfeilMatcher.pfeil;
 public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
 
     private final SpielfeldDarstellung view = mock(SpielfeldDarstellung.class);
-    private final SternenSpielApplicationBackend backend = new SternenSpielApplicationBackend();
+    private final SternenSpielApplicationBackend backend = SternenSpielApplicationBackend
+            .getInstance();
     private final SpielfeldDarstellungsSteuerung controller = new SpielfeldDarstellungsSteuerung(
             view, backend);
 

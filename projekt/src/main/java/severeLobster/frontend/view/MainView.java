@@ -38,13 +38,15 @@ public class MainView extends JPanel {
     private JPanel jpKampagne = null;
     private JPanel jpSpielAuswahl = null;
 
+    private final SternenSpielApplicationBackend backend;
+
     public SternenSpielApplicationBackend getBackend() {
-        return backend;
+        return this.backend;
     }
 
-    private SternenSpielApplicationBackend backend;
-
-    public MainView() throws IOException {
+    public MainView(final SternenSpielApplicationBackend backend)
+            throws IOException {
+        this.backend = backend;
         addMenuPanel();
         setVisible(true);
     }
@@ -61,7 +63,6 @@ public class MainView extends JPanel {
      * @date 04.11.2012
      */
     public void addNewSpielfeld(String strPuzzleName) {
-        backend = new SternenSpielApplicationBackend();
         try {
             backend.startNewSpielFrom(strPuzzleName);
         } catch (FileNotFoundException e) {
@@ -92,16 +93,18 @@ public class MainView extends JPanel {
     }
 
     /**
-     * Erstellt ein neues SpiefeldPanel anhand der übergebenen Spielfeldgroesse aus
-     *
-     * @param x x-Achsengroesse des Spielfeldes
-     * @param y y-Achsengroesse des Spielfeldes
+     * Erstellt ein neues SpiefeldPanel anhand der übergebenen Spielfeldgroesse
+     * aus
+     * 
+     * @param x
+     *            x-Achsengroesse des Spielfeldes
+     * @param y
+     *            y-Achsengroesse des Spielfeldes
      */
     public void addNewSpielfeld(int x, int y) {
         Spiel spiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
         spiel.initializeNewSpielfeld(x, y);
 
-        backend = new SternenSpielApplicationBackend();
         backend.setSpiel(spiel);
 
         JPanel Spielfeld = new JPanel();
@@ -110,10 +113,10 @@ public class MainView extends JPanel {
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
         new SpielmodusViewController(spielmodusView, backend);
         spielfeldView.setPreferredSize(new Dimension(500, 500));
-        //JPanel spielinfo = new SpielinfoView(backend);
+        // JPanel spielinfo = new SpielinfoView(backend);
 
         Spielfeld.add(spielfeldView, BorderLayout.CENTER);
-        //Spielfeld.add(spielinfo, BorderLayout.EAST);
+        // Spielfeld.add(spielinfo, BorderLayout.EAST);
 
         Spielfeld.setOpaque(false);
         removeAll();
@@ -146,7 +149,8 @@ public class MainView extends JPanel {
             JPanel jpBottom = new JPanel();
             jpBottom.setOpaque(false);
             jpBottom.setPreferredSize(new Dimension(600, 30));
-            JButton jbBackToMenu = new JButton(resourceManager.getText("back.to.main.menu"));
+            JButton jbBackToMenu = new JButton(
+                    resourceManager.getText("back.to.main.menu"));
             jbBackToMenu.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
 
@@ -183,7 +187,8 @@ public class MainView extends JPanel {
             jpMenu.setOpaque(false);
             JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
             jlLogo.setMinimumSize(new Dimension(450, 200));
-            JButton jbKampagneSpielen = new JButton(resourceManager.getText("start.campaign"));
+            JButton jbKampagneSpielen = new JButton(
+                    resourceManager.getText("start.campaign"));
             jbKampagneSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
 
@@ -195,7 +200,8 @@ public class MainView extends JPanel {
                     }
                 }
             });
-            JButton jbSpielSpielen = new JButton(resourceManager.getText("start.new.game"));
+            JButton jbSpielSpielen = new JButton(
+                    resourceManager.getText("start.new.game"));
             jbSpielSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     try {
@@ -206,7 +212,8 @@ public class MainView extends JPanel {
                     }
                 }
             });
-            JButton jbSpielErstellen = new JButton(resourceManager.getText("create.new.puzzle"));
+            JButton jbSpielErstellen = new JButton(
+                    resourceManager.getText("create.new.puzzle"));
             jbSpielErstellen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     try {
@@ -216,7 +223,8 @@ public class MainView extends JPanel {
                         addMenuPanel();
                     }
                 }
-            }); jpMenu.add(jlLogo);
+            });
+            jpMenu.add(jlLogo);
             jpMenu.add(jbKampagneSpielen);
             jpMenu.add(jbSpielSpielen);
             jpMenu.add(jbSpielErstellen);
@@ -237,7 +245,8 @@ public class MainView extends JPanel {
             jpSpielAuswahl.setOpaque(false);
             JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
             jlLogo.setMinimumSize(new Dimension(450, 200));
-            JButton jbLokalSpielSpielen = new JButton(resourceManager.getText("start.own.game"));
+            JButton jbLokalSpielSpielen = new JButton(
+                    resourceManager.getText("start.own.game"));
             jbLokalSpielSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
 
@@ -273,38 +282,37 @@ public class MainView extends JPanel {
         repaint();
     }
 
-    public void addSpielErstellenPanel()
-    {
+    public void addSpielErstellenPanel() {
         Koordinaten koordinaten = SpielfeldGroessenDialog.show(MainFrame.frame);
         addNewSpielfeld(koordinaten.getX(), koordinaten.getY());
     }
-    public void addOnlineSpielAuswahlPanel()
-{
-    	MainFrame.oFTP.connect();
-    	MainFrame.oFTP.updateFiles();
+
+    public void addOnlineSpielAuswahlPanel() {
+        MainFrame.oFTP.connect();
+        MainFrame.oFTP.updateFiles();
         JPanel jpAuswahl = new JPanel();
         jpAuswahl.setOpaque(false);
         jpAuswahl.setPreferredSize(new Dimension(700, 600));
         jpAuswahl.setMinimumSize(new Dimension(700, 600));
         jpAuswahl.setMaximumSize(new Dimension(700, 600));
         JPanel jpSpielfeldAuswahl = new JPanel();
-       
+
         GridLayout layout = new GridLayout(MainFrame.oFTP.files.length, 1);
         jpSpielfeldAuswahl.setLayout(layout);
         jpSpielfeldAuswahl.setOpaque(false);
         /*
-        for (int i = 0; i < 30; i++) {
-            jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"
-                    + (i + 1)));
-        }*/
-        for (int i=0;i<MainFrame.oFTP.files.length;i++)
-        {
-             jpSpielfeldAuswahl.add(new OnlinePuzzlePreviewView(MainFrame.oFTP.files[i].getName()));	
+         * for (int i = 0; i < 30; i++) { jpSpielfeldAuswahl.add(new
+         * PuzzlePreviewView("Standardspiel0" + (i + 1))); }
+         */
+        for (int i = 0; i < MainFrame.oFTP.files.length; i++) {
+            jpSpielfeldAuswahl.add(new OnlinePuzzlePreviewView(
+                    MainFrame.oFTP.files[i].getName()));
         }
         JPanel jpBottom = new JPanel();
         jpBottom.setOpaque(false);
         jpBottom.setPreferredSize(new Dimension(600, 30));
-        JButton jbBackToMenu = new JButton(resourceManager.getText("back.to.main.menu"));
+        JButton jbBackToMenu = new JButton(
+                resourceManager.getText("back.to.main.menu"));
         jbBackToMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
 

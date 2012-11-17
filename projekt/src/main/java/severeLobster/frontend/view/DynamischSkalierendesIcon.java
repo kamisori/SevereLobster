@@ -127,9 +127,9 @@ public class DynamischSkalierendesIcon extends ImageIcon {
     private static BufferedImage getScaledInstance(
             final BufferedImage sourceImage, final int targetWidth,
             final int targetHeight) {
-        System.out.println("Skaliere Quellimage der Groesse: "
-                + sourceImage.getWidth() + "X" + sourceImage.getHeight()
-                + " herunter auf " + targetWidth + "X" + targetHeight);
+        // System.out.println("Skaliere Quellimage der Groesse: "
+        // + sourceImage.getWidth() + "X" + sourceImage.getHeight()
+        // + " herunter auf " + targetWidth + "X" + targetHeight);
         final int imageType;
         if (sourceImage.getTransparency() == Transparency.OPAQUE) {
             imageType = BufferedImage.TYPE_INT_RGB;

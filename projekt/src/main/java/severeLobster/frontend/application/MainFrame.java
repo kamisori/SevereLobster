@@ -8,25 +8,9 @@ package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
 import infrastructure.components.FTPConnector;
-import infrastructure.components.Koordinaten;
 import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
-import severeLobster.backend.spiel.Spiel;
-import severeLobster.frontend.dialogs.*;
-import severeLobster.frontend.view.MainView;
-
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -42,6 +26,27 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
+
+import severeLobster.backend.spiel.Spiel;
+import severeLobster.backend.spiel.SternenSpielApplicationBackend;
+import severeLobster.frontend.dialogs.AboutDialog;
+import severeLobster.frontend.dialogs.ExitDialog;
+import severeLobster.frontend.dialogs.LoadGamePreview;
+import severeLobster.frontend.dialogs.LoadPuzzlePreview;
+import severeLobster.frontend.dialogs.NewGamePreview;
+import severeLobster.frontend.view.MainView;
 
 /**
  * Initialisiert Grafiken
@@ -68,7 +73,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     public static MainView mainPanel;
     private static Point m_Windowlocation;
     public static FTPConnector oFTP;
-public static JLabel jlOnlineSpiele = new JLabel();
+    public static JLabel jlOnlineSpiele = new JLabel();
     private final ResourceManager resourceManager = ResourceManager.get();
 
     /**
@@ -77,13 +82,14 @@ public static JLabel jlOnlineSpiele = new JLabel();
      * @author Jean-Fabian Wenisch
      * @version 1.0 06.12.2010
      */
-    public MainFrame() throws IOException {
+    public MainFrame(final SternenSpielApplicationBackend backend)
+            throws IOException {
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         /*
          * Frame wird erzeugt
          */
         // ////////////////////////////////////////////////////////////////////////////////////////////////
-        mainPanel = new MainView();
+        mainPanel = new MainView(backend);
         frame = new JFrame(resourceManager.getText("mainFrame.title"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setIconImage(getToolkit().getImage(
@@ -159,13 +165,13 @@ public static JLabel jlOnlineSpiele = new JLabel();
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("puzzle.erstellen"))) {
-                	mainPanel.addSpielErstellenPanel();
+                    mainPanel.addSpielErstellenPanel();
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("load.puzzle"))) {
                     int result = loadPuzzleChooser.showOpenDialog(frame);
                     if (result == JFileChooser.APPROVE_OPTION) {
-                       loadPuzzle();
+                        loadPuzzle();
                     }
                 }
                 if (event.getActionCommand().equals(
@@ -195,13 +201,18 @@ public static JLabel jlOnlineSpiele = new JLabel();
                         resourceManager.getText("puzzle.freigeben"))) {
                     String savename = mainPanel.getCurrentSpiel().getSaveName();
                     if (savename == null) {
-                        JOptionPane.showMessageDialog(frame, "Puzzle bitte erst speichern!",
+                        JOptionPane.showMessageDialog(frame,
+                                "Puzzle bitte erst speichern!",
                                 "Puzzle speichern!", JOptionPane.ERROR_MESSAGE);
                     } else {
                         try {
                             mainPanel.getBackend().puzzleFreigeben(savename);
-                            JOptionPane.showMessageDialog(frame, "Puzzle wurde erfolgreich zum Spielen freigegeben!",
-                                    "Puzzle nun für Spielmodus verfügbar!", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane
+                                    .showMessageDialog(
+                                            frame,
+                                            "Puzzle wurde erfolgreich zum Spielen freigegeben!",
+                                            "Puzzle nun für Spielmodus verfügbar!",
+                                            JOptionPane.INFORMATION_MESSAGE);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -263,11 +274,14 @@ public static JLabel jlOnlineSpiele = new JLabel();
         puzzleCheck.setEnabled(false);
         puzzleCheck.addActionListener(menuAction);
 
-        jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.user.manual")));
+        jm_Hilfe.add(item = new JMenuItem(resourceManager
+                .getText("hilfe.user.manual")));
         item.addActionListener(menuAction);
-        jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.kontakt")));
+        jm_Hilfe.add(item = new JMenuItem(resourceManager
+                .getText("hilfe.kontakt")));
         item.addActionListener(menuAction);
-        jm_Hilfe.add(item = new JMenuItem(resourceManager.getText("hilfe.about")));
+        jm_Hilfe.add(item = new JMenuItem(resourceManager
+                .getText("hilfe.about")));
         item.addActionListener(menuAction);
 
         jm_Spiel.insertSeparator(4);
@@ -277,9 +291,9 @@ public static JLabel jlOnlineSpiele = new JLabel();
         add(jm_Spiel);
         add(jm_Editieren);
         add(jm_Hilfe);
-        
+
         jlOnlineSpiele.setEnabled(false);
-        add (jlOnlineSpiele,BorderLayout.EAST);
+        add(jlOnlineSpiele, BorderLayout.EAST);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -292,50 +306,34 @@ public static JLabel jlOnlineSpiele = new JLabel();
     }
 
     /**
-     * Laed ein Puzzle aus vorhandenen Spieldateien
-     * in das Spielfeld
+     * Laed ein Puzzle aus vorhandenen Spieldateien in das Spielfeld
      */
     private void loadPuzzle() {
         try {
-            String spielname = loadPuzzleChooser
-                    .getSelectedFile()
-                    .getName()
-                    .replace(
-                            "."
-                                    + GlobaleKonstanten.PUZZLE_DATEITYP,
-                            "");
+            String spielname = loadPuzzleChooser.getSelectedFile().getName()
+                    .replace("." + GlobaleKonstanten.PUZZLE_DATEITYP, "");
             if (mainPanel.getBackend() == null) {
                 mainPanel.addNewSpielfeld(spielname);
             }
 
-            mainPanel
-                    .getBackend()
-                    .loadPuzzleFrom(spielname);
+            mainPanel.getBackend().loadPuzzleFrom(spielname);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Laed ein Spiel aus vorhandenen Spieldateien
-     * in das Spielfeld
+     * Laed ein Spiel aus vorhandenen Spieldateien in das Spielfeld
      */
     private void loadSpiel() {
         try {
-            String spielname = loadGameChooser
-                    .getSelectedFile()
-                    .getName()
-                    .replace(
-                            "."
-                                    + GlobaleKonstanten.SPIELSTAND_DATEITYP,
-                            "");
+            String spielname = loadGameChooser.getSelectedFile().getName()
+                    .replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
             if (mainPanel.getBackend() == null) {
                 mainPanel.addNewSpielfeld(spielname);
             }
 
-            mainPanel
-                    .getBackend()
-                    .loadSpielFrom(spielname);
+            mainPanel.getBackend().loadSpielFrom(spielname);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -365,9 +363,10 @@ public static JLabel jlOnlineSpiele = new JLabel();
     }
 
     /**
-     * Aktiviert oder Deaktivert die Controleigenschaften
-     * des Spiels
-     * @param enabled Menueoptionen aktivieren / deaktivieren
+     * Aktiviert oder Deaktivert die Controleigenschaften des Spiels
+     * 
+     * @param enabled
+     *            Menueoptionen aktivieren / deaktivieren
      */
     public static void controlSpielMenue(boolean enabled) {
         if (itemSave != null && itemSaveAs != null) {
@@ -377,13 +376,14 @@ public static JLabel jlOnlineSpiele = new JLabel();
     }
 
     /**
-     * Aktiviert oder Deaktivert die Controleigenschaften
-     * des Editiermodus
-     * @param enabled Menueoptionen aktivieren / deaktivieren
+     * Aktiviert oder Deaktivert die Controleigenschaften des Editiermodus
+     * 
+     * @param enabled
+     *            Menueoptionen aktivieren / deaktivieren
      */
     public static void controlEditierMenue(boolean enabled) {
-        if (puzzleSave != null && puzzleSaveAs != null
-                && puzzleCheck != null && puzzleFreigeben != null) {
+        if (puzzleSave != null && puzzleSaveAs != null && puzzleCheck != null
+                && puzzleFreigeben != null) {
             puzzleSave.setEnabled(enabled);
             puzzleSaveAs.setEnabled(enabled);
             puzzleCheck.setEnabled(enabled);
@@ -457,7 +457,8 @@ public static JLabel jlOnlineSpiele = new JLabel();
                         GlobaleKonstanten.PUZZLE_DATEITYP),
                 resourceManager.getText("puzzle.load.dialog.text"),
                 resourceManager.getText("puzzle.load.dialog.title"));
-        loadPuzzleChooser.setAccessory(new LoadPuzzlePreview(loadPuzzleChooser));
+        loadPuzzleChooser
+                .setAccessory(new LoadPuzzlePreview(loadPuzzleChooser));
 
         newGameChooser = initFileChooser(
                 GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR,
