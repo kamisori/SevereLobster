@@ -105,7 +105,7 @@ public class Spiel implements IGotSpielModus {
         return getSpielfeld().getSchwierigkeitsgrad();
     }
 
-    /**
+    /*
      * Es darf nicht moeglich sein von aussen ein Spielfeld zu setzen, da bei
      * dem neuen Spielfeld der SPielmodus vom alten Spiel abhaengen wuerde,
      * durch das das Spielfeld erstellt wurde (IGotSpielmodus). Auf Aenderungen

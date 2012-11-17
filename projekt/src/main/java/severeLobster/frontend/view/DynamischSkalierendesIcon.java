@@ -62,8 +62,8 @@ public class DynamischSkalierendesIcon extends ImageIcon {
          * Ausmasse von Zielkomponente auslesen und mit Ausmassen von
          * gespeichertem, skaliertem ImageIcon vergleichen:
          */
-        int targetWidth = targetComponent.getWidth();
-        int targetHeigth = targetComponent.getHeight();
+        int targetWidth = targetComponent.getWidth()-2;
+        int targetHeigth = targetComponent.getHeight()-2;
 
         boolean groesseIstSchonIdentisch = (targetWidth == scaledImageIcon
                 .getIconWidth() && targetHeigth == scaledImageIcon

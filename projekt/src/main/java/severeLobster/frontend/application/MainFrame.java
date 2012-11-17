@@ -96,7 +96,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setBackground(Color.white);
-        frame.add(mainPanel);
+        frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
         frame.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 m_Windowlocation.x = e.getX();
