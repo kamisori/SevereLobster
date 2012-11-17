@@ -50,6 +50,10 @@ public class MainView extends JPanel {
         return this.backend;
     }
 
+    public SpielinfoView getSpielInfoView() {
+        return spielInfoView;
+    }
+
     public MainView(final SternenSpielApplicationBackend backend)
             throws IOException {
         this.backend = backend;

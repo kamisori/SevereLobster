@@ -26,6 +26,8 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
+import java.util.Locale;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -41,11 +43,7 @@ import javax.swing.filechooser.FileSystemView;
 
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
-import severeLobster.frontend.dialogs.AboutDialog;
-import severeLobster.frontend.dialogs.ExitDialog;
-import severeLobster.frontend.dialogs.LoadGamePreview;
-import severeLobster.frontend.dialogs.LoadPuzzlePreview;
-import severeLobster.frontend.dialogs.NewGamePreview;
+import severeLobster.frontend.dialogs.*;
 import severeLobster.frontend.view.MainView;
 
 /**
@@ -57,6 +55,7 @@ import severeLobster.frontend.view.MainView;
 public class MainFrame extends JMenuBar implements Runnable {
     public JMenu jm_Spiel;
     public JMenu jm_Editieren;
+    public JMenu jm_Optionen;
     public JMenu jm_Hilfe;
     private static JMenuItem itemSave;
     private static JMenuItem itemSaveAs;
@@ -120,6 +119,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         // ////////////////////////////////////////////////////////////////////////////////////////////////
         jm_Spiel = new JMenu(resourceManager.getText("spiel.menu.text"));
         jm_Editieren = new JMenu(resourceManager.getText("editieren.menu.text"));
+        jm_Optionen = new JMenu(resourceManager.getText("optionen.menu.text"));
         jm_Hilfe = new JMenu(resourceManager.getText("hilfe.menu.text"));
         m_Windowlocation = new Point();
         ActionListener menuAction = new ActionListener() {
@@ -223,8 +223,20 @@ public class MainFrame extends JMenuBar implements Runnable {
 
                 }
                 if (event.getActionCommand().equals(
+                        resourceManager.getText("optionen.sprache"))) {
+                    spracheAendern();
+                }
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("optionen.avatar"))) {
+                    avatarAendern();
+                }
+                if (event.getActionCommand().equals(
                         resourceManager.getText("hilfe.about"))) {
                     AboutDialog.showAboutDialog(frame);
+                }
+                if (event.getActionCommand().equals(
+                        resourceManager.getText("hilfe.user.manual"))) {
+                    anleitungOeffnen();
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("hilfe.kontakt"))) {
@@ -274,6 +286,12 @@ public class MainFrame extends JMenuBar implements Runnable {
         puzzleCheck.setEnabled(false);
         puzzleCheck.addActionListener(menuAction);
 
+        jm_Optionen.add(item = new JMenuItem(resourceManager
+                .getText("optionen.sprache")));
+        item.addActionListener(menuAction);
+        jm_Optionen.add(item = new JMenuItem(resourceManager
+                .getText("optionen.avatar")));
+        item.addActionListener(menuAction);
         jm_Hilfe.add(item = new JMenuItem(resourceManager
                 .getText("hilfe.user.manual")));
         item.addActionListener(menuAction);
@@ -290,6 +308,7 @@ public class MainFrame extends JMenuBar implements Runnable {
 
         add(jm_Spiel);
         add(jm_Editieren);
+        add(jm_Optionen);
         add(jm_Hilfe);
 
         jlOnlineSpiele.setEnabled(false);
@@ -303,6 +322,22 @@ public class MainFrame extends JMenuBar implements Runnable {
         });
 
         frame.setJMenuBar(this);
+    }
+
+    private void avatarAendern() {
+        URL result = new AvatarAendernDialog(frame).showDialog();
+        if (result != null) {
+            mainPanel.getSpielInfoView().changeAvatar(result);
+        }
+    }
+
+    private void spracheAendern() {
+        SpracheAendernDialog dialog = new SpracheAendernDialog(frame);
+        Locale result = dialog.showDialog();
+        if (result != null) {
+            frame.dispose();
+            StartApplication.restart(result);
+        }
     }
 
     /**
@@ -344,9 +379,27 @@ public class MainFrame extends JMenuBar implements Runnable {
         String message = "mailto:entwickler@nirako.de?subject=Kontakt%20Sternenhimmel%20Deluxe";
         URI uri = URI.create(message);
         try {
+            if (!Desktop.isDesktopSupported()) {
+                throw new IOException();
+            }
             desktop.mail(uri);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Kein Mail Client gefunden!",
+                    "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void anleitungOeffnen() {
+        Desktop desktop = Desktop.getDesktop();
+        File anleitungFile = new File(GlobaleKonstanten.DEFAULT_DOC_SAVE_DIR,
+                "index.html");
+        try {
+            if (!Desktop.isDesktopSupported()) {
+                throw new IOException();
+            }
+            desktop.open(anleitungFile.getCanonicalFile());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Anleitung konnte nicht geöffnet werden!",
                     "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -356,7 +409,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         if (result == JFileChooser.APPROVE_OPTION) {
             mainPanel.switchToSpielmodusPanelAndStartSpiel((newGameChooser.getSelectedFile()
                     .getName().replace("." + GlobaleKonstanten.PUZZLE_DATEITYP,
-                    "")));
+                            "")));
             controlSpielMenue(true);
             controlEditierMenue(false);
         }

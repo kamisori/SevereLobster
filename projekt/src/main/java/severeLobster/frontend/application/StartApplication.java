@@ -2,9 +2,7 @@ package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
 
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 
@@ -14,6 +12,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Locale;
 
 /**
  * 
@@ -39,17 +38,32 @@ public class StartApplication extends JFrame implements Runnable {
      * @author fwenisch
      * @version 1.0 08.10.2012
      */
+    private static Thread splahscreen;
+
     public static void main(String[] args) {
         final SternenSpielApplicationBackend backend = SternenSpielApplicationBackend.getInstance();
-        Thread Splashscreen = new Thread(new StartApplication(backend));
-        Splashscreen.start();
-
+        splahscreen = new Thread(new StartApplication(backend, Locale.GERMAN));
+        Locale.setDefault(Locale.GERMAN);
+        JComponent.setDefaultLocale(Locale.GERMAN);
+        splahscreen.start();
     }
 
-    public StartApplication(final SternenSpielApplicationBackend backend) {
+    public static void restart(Locale locale) {
+        /* Alten Thread beenden */
+        splahscreen.interrupt();
+        final SternenSpielApplicationBackend backend = SternenSpielApplicationBackend.getInstance();
+
+        splahscreen = new Thread(new StartApplication(backend, locale));
+        Locale.setDefault(locale);
+        JComponent.setDefaultLocale(locale);
+        splahscreen.start();
+    }
+
+    public StartApplication(final SternenSpielApplicationBackend backend, Locale locale) {
         if (null == backend) {
             throw new NullPointerException("Backend ist null");
         }
+        resourceManager.setLanguage(locale);
         this.backend = backend;
     }
 

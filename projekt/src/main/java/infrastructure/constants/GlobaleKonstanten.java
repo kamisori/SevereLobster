@@ -31,6 +31,11 @@ public abstract class GlobaleKonstanten {
     public static final String PUZZLE_DATEITYP = "puz";
 
     /**
+     * Standardverzeichnis fuer gespeicherte Docs
+     */
+    public static final File DEFAULT_DOC_SAVE_DIR = getDefaultDocsSaveDir();
+
+    /**
      * Standardverzeichnis fuer gespeicherte Spiele
      */
     public static final File DEFAULT_SPIEL_SAVE_DIR = getDefaultSpielSaveDir();
@@ -40,6 +45,8 @@ public abstract class GlobaleKonstanten {
      */
     public static final File DEFAULT_PUZZLE_SAVE_DIR = getDefaultPuzzleSaveDir();
 
+
+    public static final File USER_PROPERTIES = new File("./src/main/resources/infrastructure/user.properties");
     /**
      * Standardverzeichnis fuer gespeicherte freigegebene Puzzles
      */
@@ -62,6 +69,25 @@ public abstract class GlobaleKonstanten {
             return null;
         } else {
             return spielverzeichnis;
+        }
+    }
+
+    /**
+     * Gibt das Standardverzeichnis fuer Docs zurueck -
+     * wenn es nicht existiert, wird es angelegt
+     *
+     * @return Standardverzeichnis fuer Docs
+     */
+    private static File getDefaultDocsSaveDir() {
+        File docverzeichnis = new File("./bin/doc");
+        boolean success = true;
+        if (!docverzeichnis.exists()) {
+            success = docverzeichnis.mkdir();
+        }
+        if (!success) {
+            return null;
+        } else {
+            return docverzeichnis;
         }
     }
 

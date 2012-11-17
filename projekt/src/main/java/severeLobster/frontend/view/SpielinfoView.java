@@ -10,11 +10,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.net.URL;
 
 public class SpielinfoView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();
     private final SternenSpielApplicationBackend backend;
+    private URL avatar = resourceManager.getUserAvatar();
 
     public SpielinfoView(SternenSpielApplicationBackend backend) {
         setLayout(null);
@@ -36,6 +38,11 @@ public class SpielinfoView extends JPanel {
         setVisible(true);
     }
 
+    public void changeAvatar(URL avatar) {
+        this.avatar = avatar;
+        resourceManager.setAvatar(avatar);
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -46,8 +53,7 @@ public class SpielinfoView extends JPanel {
         int zugcount = backend.getSpiel().getAnzahlZuege();
         String strSpielZeit = backend.getSpiel().getSpielZeit();
 
-        Image sImage = getToolkit().getImage(
-                resourceManager.getGraphicURL("spielinfo_neu.jpg"));
+        Image sImage = getToolkit().getImage(avatar);
 
         /**
          * Ende Test von TrackingControllView
