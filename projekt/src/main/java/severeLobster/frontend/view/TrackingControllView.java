@@ -55,8 +55,9 @@ public class TrackingControllView extends JPanel {
                     getCurrentTrackingController()
                             .zurueckZumLetztenTrackingPunkt();
                     if (anzahlTrackingPunktePanel.getComponentCount() > 0) {
-                        anzahlTrackingPunktePanel.remove(
-                                anzahlTrackingPunktePanel.getComponentCount() - 1);
+                        anzahlTrackingPunktePanel
+                                .remove(anzahlTrackingPunktePanel
+                                        .getComponentCount() - 1);
                     }
                 }
             });
@@ -78,7 +79,8 @@ public class TrackingControllView extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
                     getCurrentTrackingController().setzeTrackingPunkt();
-                    JLabel trackingIcon = new JLabel(resourceManager.getImageIcon("tracking.png"));
+                    JLabel trackingIcon = new JLabel(resourceManager
+                            .getImageIcon("tracking.png"));
                     anzahlTrackingPunktePanel.add(trackingIcon);
                 }
             });
@@ -125,6 +127,11 @@ public class TrackingControllView extends JPanel {
 
     }
 
+    /**
+     * Wird vom TrackingControllViewController im Konstruktor aufgerufen.
+     * 
+     * @param controller
+     */
     public void setTrackingControllViewController(
             final TrackingControllViewController controller) {
         this.currentController = controller;

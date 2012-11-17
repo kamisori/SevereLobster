@@ -42,6 +42,8 @@ public class MainView extends JPanel {
      * genommen oder neu drauf gesetzt, aber nie wieder neu erzeugt.
      */
     private final SpielfeldDarstellung spielfeldDarstellung;
+    private final TrackingControllView trackingView;
+    private final SpielinfoView spielInfoView;
 
     private final SternenSpielApplicationBackend backend;
 
@@ -54,13 +56,18 @@ public class MainView extends JPanel {
         this.backend = backend;
         this.spielfeldDarstellung = new SpielfeldDarstellung();
         new SpielfeldDarstellungsSteuerung(spielfeldDarstellung, backend);
+
+        this.trackingView = new TrackingControllView();
+        new TrackingControllViewController(trackingView, backend);
+
+        this.spielInfoView = new SpielinfoView(this.trackingView, this.backend);
         addMenuPanel();
         setVisible(true);
     }
 
     /**
-     * Erstellt ein neues SpiefeldPanel anhand des übergebenen PuzzleNamens aus
-     * dem Resource Ordner
+     * Stellt das Spielmodus Panel dar und laedt ein Spiel anhand des uebergebenen
+     * PuzzleNamens aus dem Resource Ordner
      * 
      * @param strPuzzleName
      *            - Der Name des zu ladenen Puzzles (ohne ".puz")
@@ -69,7 +76,7 @@ public class MainView extends JPanel {
      * @author fwenisch
      * @date 04.11.2012
      */
-    public void addNewSpielfeld(String strPuzzleName) {
+    public void switchToSpielmodusPanelAndStartSpiel(String strPuzzleName) {
         try {
             backend.startNewSpielFrom(strPuzzleName);
         } catch (FileNotFoundException e) {
@@ -81,15 +88,12 @@ public class MainView extends JPanel {
         }
         JPanel spielfeldUndInfoViewPanel = new JPanel();
         final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
-        new SpielmodusViewController(spielmodusView, backend);
+        new SpielmodusViewController(spielmodusView, this.backend);
         this.spielfeldDarstellung.setPreferredSize(new Dimension(500, 500));
-        final TrackingControllView trackingView = new TrackingControllView();
-        final TrackingControllViewController trackingViewCtrl = new TrackingControllViewController(
-                backend);
-        trackingView.setTrackingControllViewController(trackingViewCtrl);
-        JPanel spielinfo = new SpielinfoView(trackingView, backend);
-        spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung, BorderLayout.CENTER);
-        spielfeldUndInfoViewPanel.add(spielinfo, BorderLayout.EAST);
+
+        spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung,
+                BorderLayout.CENTER);
+        spielfeldUndInfoViewPanel.add(this.spielInfoView, BorderLayout.EAST);
         spielfeldUndInfoViewPanel.setOpaque(false);
         removeAll();
         add(spielfeldUndInfoViewPanel);
@@ -98,28 +102,23 @@ public class MainView extends JPanel {
     }
 
     /**
-     * Erstellt ein neues SpiefeldPanel anhand der übergebenen Spielfeldgroesse
-     * aus
+     * Stellt das Edit Modus Panel mit einem Spielfeld der uebergebenen
+     * Spielfeldgroesse dar.
      * 
      * @param x
      *            x-Achsengroesse des Spielfeldes
      * @param y
      *            y-Achsengroesse des Spielfeldes
      */
-    public void addNewSpielfeld(int x, int y) {
+    public void switchToEditModusPanelAndCreateNewSpielfeld(int x, int y) {
         Spiel spiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
         spiel.initializeNewSpielfeld(x, y);
-
         backend.setSpiel(spiel);
 
         JPanel Spielfeld = new JPanel();
-        final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
-        new SpielmodusViewController(spielmodusView, backend);
         this.spielfeldDarstellung.setPreferredSize(new Dimension(500, 500));
-        // JPanel spielinfo = new SpielinfoView(backend);
 
         Spielfeld.add(this.spielfeldDarstellung, BorderLayout.CENTER);
-        // Spielfeld.add(spielinfo, BorderLayout.EAST);
 
         Spielfeld.setOpaque(false);
         removeAll();
@@ -129,7 +128,7 @@ public class MainView extends JPanel {
     }
 
     /**
-     * Fügt das KampagnenPanel hinzu
+     * Fuegt das KampagnenPanel hinzu
      * 
      * @author fwenisch
      * @date 10.11.2012
@@ -177,7 +176,7 @@ public class MainView extends JPanel {
     }
 
     /**
-     * Fügt das Hauptmenü hinzu
+     * Fuegt das Hauptmenue hinzu
      * 
      * @author fwenisch
      * @date 10.11.2012
@@ -287,7 +286,8 @@ public class MainView extends JPanel {
 
     public void addSpielErstellenPanel() {
         Koordinaten koordinaten = SpielfeldGroessenDialog.show(MainFrame.frame);
-        addNewSpielfeld(koordinaten.getX(), koordinaten.getY());
+        switchToEditModusPanelAndCreateNewSpielfeld(koordinaten.getX(),
+                koordinaten.getY());
     }
 
     public void addOnlineSpielAuswahlPanel() {

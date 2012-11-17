@@ -1,6 +1,7 @@
 package severeLobster.frontend.controller;
 
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
+import severeLobster.frontend.view.TrackingControllView;
 
 /**
  * Verbindung zwischen Tracking UI und der Schnittstelle im Backend, ueber die
@@ -11,8 +12,8 @@ import severeLobster.backend.spiel.SternenSpielApplicationBackend;
  */
 public class TrackingControllViewController {
 
-    public static final TrackingControllViewController NULL_OBJECT_INSTANCE = new TrackingControllViewController(
-            null) {
+    public static final TrackingControllViewController NULL_OBJECT_INSTANCE = new TrackingControllViewController() {
+
         public void setzeTrackingPunkt() {
             // Dummy
         }
@@ -26,11 +27,24 @@ public class TrackingControllViewController {
         }
     };
 
+    private final TrackingControllView trackingCtrlView;
     private final SternenSpielApplicationBackend backend;
 
+    /**
+     * Konstruktor nur für Null Instanz.
+     */
+    private TrackingControllViewController() {
+        this.trackingCtrlView = null;
+        this.backend = null;
+    }
+
     public TrackingControllViewController(
+            final TrackingControllView trackingCtrlView,
             final SternenSpielApplicationBackend backend) {
+
         this.backend = backend;
+        this.trackingCtrlView = trackingCtrlView;
+        trackingCtrlView.setTrackingControllViewController(this);
     }
 
     public void setzeTrackingPunkt() {
