@@ -91,7 +91,8 @@ public class SpielfeldDarstellung extends JPanel {
 
         if (null == newSpielfeld) {
 
-            throw new NullPointerException(resourceManager.getText("exception.playing.field.is.null"));
+            throw new NullPointerException(
+                    resourceManager.getText("exception.playing.field.is.null"));
         }
         final int spaltenAnzahl = newSpielfeld.getBreite();
         final int zeilenAnzahl = newSpielfeld.getHoehe();
@@ -143,9 +144,16 @@ public class SpielfeldDarstellung extends JPanel {
 
         if (anzahlSpalten < 1 || anzahlZeilen < 1) {
             throw new IllegalArgumentException(
-                    resourceManager.getText("exception.invalid.size") + " " +
-                    resourceManager.getText("exception.invalid.size.column") + " " + anzahlSpalten + " " +
-                    resourceManager.getText("exception.invalid.size.row") + " " + anzahlZeilen);
+                    resourceManager.getText("exception.invalid.size")
+                            + " "
+                            + resourceManager
+                                    .getText("exception.invalid.size.column")
+                            + " "
+                            + anzahlSpalten
+                            + " "
+                            + resourceManager
+                                    .getText("exception.invalid.size.row")
+                            + " " + anzahlZeilen);
         }
 
         /* Nimm alles bisherige aus dem Panel raus */
@@ -364,6 +372,7 @@ public class SpielfeldDarstellung extends JPanel {
     private JLabel createSpielsteinAnsicht(final int x, final int y) {
         final JLabel result = createLabel();
         result.setIcon(iconFactory.getIconForSpielstein(KeinStein.getInstance()));
+        result.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         result.addMouseListener(new MouseAdapter() {
             /*
              * Verhalten von mousePressed ist dynamischer als bei mouseClicked ,
@@ -404,9 +413,9 @@ public class SpielfeldDarstellung extends JPanel {
     }
 
     private static JLabel createSternAnzahlAnzeige() {
-        final JLabel result = createLabel();
-
-        result.setFont(new Font("Arial", Font.PLAIN, 25)); //TODO Dynamisch vergrößern
+        final JLabel result = new SkalierendeSchriftLabel();
+        initialisiereAllgemeinenLabelStilVon(result);
+        result.setFont(new Font("Arial", Font.PLAIN, 25));
         result.setForeground(Color.white);
         result.addMouseListener(new MouseAdapter() {
             @Override
@@ -426,6 +435,5 @@ public class SpielfeldDarstellung extends JPanel {
     private static void initialisiereAllgemeinenLabelStilVon(final JLabel label) {
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setBackground(Color.DARK_GRAY);
-        label.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
     }
 }
