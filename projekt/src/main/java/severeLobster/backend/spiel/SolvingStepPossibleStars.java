@@ -56,8 +56,8 @@ public class SolvingStepPossibleStars implements SolvingStep {
 
                         case SUED:
                             for (int curY = rows; curY < input.getHoehe(); curY++) {
-                                if (!(input.getSpielstein(rows, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(rows,curY, MoeglicherStern.getInstance());
+                                if (!(input.getSpielstein(colums, curY) instanceof Pfeil)) {
+                                    input.setSpielstein(colums,curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
