@@ -142,6 +142,39 @@ public class SimpleIconFactory extends IconFactory {
         return ausschlussIcon;
     }
 
+    @Override
+    // TODO Dunkelausgegraute PfeilIcons einbauen!!!
+    public Icon disabledPfeilIcon(PfeilrichtungEnumeration richtung) {
+        if (richtung == null) {
+            return ausschlussIcon;
+        }
+        if (richtung == PfeilrichtungEnumeration.SUED) {
+            return pfeilSouthIcon;
+        }
+        if (richtung == PfeilrichtungEnumeration.SUEDWEST) {
+            return pfeilSouthWestIcon;
+        }
+        if (richtung == PfeilrichtungEnumeration.WEST) {
+            return pfeilWestIcon;
+        }
+        if (richtung == PfeilrichtungEnumeration.NORDWEST) {
+            return pfeilNorthWestIcon;
+        }
+        if (richtung == PfeilrichtungEnumeration.NORD) {
+            return pfeilNorthIcon;
+        }
+        if (richtung == PfeilrichtungEnumeration.NORDOST) {
+            return pfeilNorthEastIcon;
+        }
+        if (richtung == PfeilrichtungEnumeration.OST) {
+            return pfeilEastIcon;
+        }
+        if (richtung == PfeilrichtungEnumeration.SUEDOST) {
+            return pfeilSouthEastIcon;
+        }
+        return ausschlussIcon;
+    }
+
     /***
      * Ganz dreist geklaut.
      * http://www.tutorials.de/java/238054-bild-drehen.html#post1241082

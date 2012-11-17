@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import severeLobster.backend.spiel.ISpielfeldReadOnly;
 import severeLobster.backend.spiel.KeinStein;
+import severeLobster.backend.spiel.Pfeil;
 import severeLobster.backend.spiel.Spielstein;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 
@@ -36,6 +37,8 @@ public class SpielfeldDarstellung extends JPanel {
     /** Default Icon Factory fuer Spielstein Icons */
     public static final IconFactory DEFAULT_ICON_FACTORY = AdvancedDynamicallyResizingIconFactory
             .getInstance();
+
+    private static boolean isZahlenanzahlAngeklickt = false;
 
     /** Icon Factory fuer Spielstein Icons */
     private IconFactory iconFactory = SpielfeldDarstellung.DEFAULT_ICON_FACTORY;
@@ -397,8 +400,12 @@ public class SpielfeldDarstellung extends JPanel {
              */
             @Override
             public void mousePressed(final MouseEvent mouseEvent) {
-                getSpielfeldDarstellungsSteuerung().spielSteinClick(x, y,
-                        mouseEvent);
+                Spielstein spielstein = getSpielfeldDarstellungsSteuerung()
+                        .spielSteinClick(x, y, mouseEvent);
+                if (spielstein instanceof Pfeil) {
+                    result.setIcon(iconFactory
+                            .getDisabledIconForPfeil((Pfeil) spielstein));
+                }
             }
 
             @Override
@@ -446,7 +453,13 @@ public class SpielfeldDarstellung extends JPanel {
         result.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                result.setEnabled(!result.isEnabled());
+                if (!isZahlenanzahlAngeklickt) {
+                    result.setForeground(Color.DARK_GRAY);
+                    isZahlenanzahlAngeklickt = true;
+                } else {
+                    result.setForeground(Color.white);
+                    isZahlenanzahlAngeklickt = false;
+                }
             }
         });
         return result;

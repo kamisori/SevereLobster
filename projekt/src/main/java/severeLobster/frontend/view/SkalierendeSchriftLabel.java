@@ -39,21 +39,21 @@ public class SkalierendeSchriftLabel extends JLabel {
     private static int getSchriftGroesseFuerFlaechenInhalt(
             final int flaechenInhalt) {
         if (flaechenInhalt >= 3000) {
-            return 25;
+            return 30;
         }
         if (flaechenInhalt >= 2500) {
-            return 20;
+            return 25;
         }
         if (flaechenInhalt >= 2025) {
-            return 16;
+            return 21;
         }
         if (flaechenInhalt >= 961) {
-            return 12;
+            return 17;
         }
         if (flaechenInhalt >= 300) {
-            return 10;
+            return 15;
         }
-        return 9;
+        return 14;
     }
 
 }
