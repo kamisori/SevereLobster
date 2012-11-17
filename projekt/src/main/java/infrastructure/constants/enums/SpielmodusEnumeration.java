@@ -3,8 +3,8 @@ package infrastructure.constants.enums;
 /**
  * Spielmodus Enumeration - Gibt an, in welchem Modus sich der Spieler bzw. das
  * aktuelle Spiel gerade befindet.
- * 
- * @author Lars Schlegelmilch
+ *
+ * @author Lars Schlegelmilch, Christian Lobach
  */
 public enum SpielmodusEnumeration {
 
@@ -18,5 +18,11 @@ public enum SpielmodusEnumeration {
      * Spielmodus: Editieren - Der Benutzer befindet sich im Editiermodus, indem
      * er ein eigenes Puzzle erstellt.
      */
-    EDITIEREN
+    EDITIEREN,
+
+    /**
+     * Spielmodus: Loesen - Das Spielfeld wird nur intern bearbeitet um nachher ein
+     * gelöstes Spielfeld rauszubekommen.
+     */
+    LOESEN
 }

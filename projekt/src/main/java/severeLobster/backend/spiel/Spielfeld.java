@@ -34,7 +34,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * immer auf den aktuellen Spielstand zu. Der Spielmodus definiert das
      * Verhalten von Spielfeld nach aussen.
      */
-    private final IGotSpielModus gotSpielModus;
+    private IGotSpielModus gotSpielModus;
 
     /**
      * Erstellt ein neues, leeres Spielfeld der angegebenen Groesse. Alle
@@ -180,8 +180,8 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     /**
      * Liefert den Spielstein an der angegebenen Position im Spielfeld.
      * Verhalten unterscheidet sich bei den unterschiedlichen Spielmodi. Beim
-     * Modus Spielen wird der sichtbare Stein zurueckgegeben. Beim Modus
-     * Editieren wird der reale Stein zurueckgegeben.
+     * Modus Spielen wird der sichtbare Stein zurueckgegeben. Bei den Modi
+     * Editieren und Loesen wird der reale Stein zurueckgegeben.
      * 
      * @param x
      *            X-Achsen Koordinatenwert
@@ -192,12 +192,24 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
             throws IndexOutOfBoundsException {
 
         throwExceptionIfIndexOutOfBounds(x, y);
-        if (isEditierModus()) {
+        if (isEditierModus() || gotSpielModus.getSpielmodus().equals(SpielmodusEnumeration.LOESEN)) {
             return realSteine[x][y];
         } else {
             return visibleSteine[x][y];
         }
     }
+
+    /**
+     * Der gotSpielModus muss geändert werden können, falls ein Spielfeld zum Lösen kopiert wird
+     * @param newGotSpielModus der neue gotSpielModus
+     *
+     */
+    public void setGotSpielModus(IGotSpielModus newGotSpielModus)
+    {
+        this.gotSpielModus = newGotSpielModus;
+    }
+
+
 
     /**
      * Setzt einen Spielstein an eine bestimmte Koordinate. Verhalten
@@ -230,7 +242,18 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         if (null == newStein) {
             newStein = KeinStein.getInstance();
         }
-        if (isEditierModus()) {
+        if (gotSpielModus.getSpielmodus().equals(SpielmodusEnumeration.LOESEN))
+        {
+            /**
+             * Im Loesen-Modus dürfen Stern, MoeglicherStern, Ausschluss und KeinStein gesetzt werden
+             * Observer müssen nicht benachrichtigt werden
+             */
+            if(newStein instanceof Stern || newStein instanceof MoeglicherStern || newStein instanceof Ausschluss || newStein instanceof KeinStein ){
+                realSteine[x][y] = newStein;
+            }
+
+        }
+        else if (isEditierModus()) {
             /**
              * Im Editiermodus duerfen Pfeil, Stern und KeinStein gesetzt werden
              */
