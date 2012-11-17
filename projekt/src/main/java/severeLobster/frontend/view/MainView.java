@@ -7,7 +7,6 @@ import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
-import severeLobster.frontend.controller.SpielmodusViewController;
 import severeLobster.frontend.controller.TrackingControllViewController;
 import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
 
@@ -66,8 +65,8 @@ public class MainView extends JPanel {
     }
 
     /**
-     * Stellt das Spielmodus Panel dar und laedt ein Spiel anhand des uebergebenen
-     * PuzzleNamens aus dem Resource Ordner
+     * Stellt das Spielmodus Panel dar und laedt ein Spiel anhand des
+     * uebergebenen PuzzleNamens aus dem Resource Ordner
      * 
      * @param strPuzzleName
      *            - Der Name des zu ladenen Puzzles (ohne ".puz")
@@ -87,8 +86,6 @@ public class MainView extends JPanel {
             e.printStackTrace();
         }
         JPanel spielfeldUndInfoViewPanel = new JPanel();
-        final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
-        new SpielmodusViewController(spielmodusView, this.backend);
         this.spielfeldDarstellung.setPreferredSize(new Dimension(500, 500));
 
         spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung,
