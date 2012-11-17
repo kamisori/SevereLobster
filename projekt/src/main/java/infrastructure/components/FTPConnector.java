@@ -8,7 +8,14 @@ import java.io.*;
 
 import javax.swing.JLabel;
 
-public class FTPConnector {
+/**
+ * Util zum Arbeiten mit dem FTP auf dem die Puzzles gespeichert werden
+ * @author JFW
+ * @date 17.11.2012
+ *
+ */
+public class FTPConnector 
+{
 	private FTPClient ftp;
 	private String server, username, password;
 	private int port;
@@ -53,6 +60,11 @@ public class FTPConnector {
 		}
 	}
 
+	/**
+	 * Aktualisiert das interne Array in dem alle verfügbaren Puzzles im Online Archiv gespeichert sind
+	 * @author JFW
+	 * @date 16.11.2012
+	 */
 	public void updateFiles() 
 	{
 		if (!ftp.isConnected()) {
@@ -62,11 +74,17 @@ public class FTPConnector {
 		{
 			files = ftp.listFiles();
 			if(files.length>0)
-			MainFrame.jlOnlineSpiele.setText("| "+files.length+" Puzzles im Online Archiv verfügbar");
+				MainFrame.jlOnlineSpiele.setText("| "+files.length+" Puzzles im Online Archiv verfügbar");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
 	}
+	/**
+	 * Methode zum Download eines einzelnen Puzzles
+	 * @param strPuzzleName - <String> PuzzleName auf dem FTP
+	 * @author JFW
+	 * @date 16.11.2012
+	 */
 	public void getFile(String strPuzzleName)
 	{
 		FTPFile f;
@@ -77,13 +95,13 @@ public class FTPConnector {
 			{
 				if(files[i].getName().equals(strPuzzleName))
 				{
-				f=files[i];
-				 file = new File("C:\\temp\\"+f.getName());
-				FileOutputStream fos = new FileOutputStream(file); 
-				ftp.retrieveFile( files[ i ].getName(), fos);
-				fos.close();
+					f=files[i];
+					file = new File("C:\\temp\\"+f.getName());
+					FileOutputStream fos = new FileOutputStream(file); 
+					ftp.retrieveFile( files[ i ].getName(), fos);
+					fos.close();
 				}
-				
+
 			}
 			if (file!=null)
 			{
@@ -97,5 +115,51 @@ public class FTPConnector {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Methode zum Upload der Puzzles
+	 * @param localSourceFile - <String> Lokale Datei
+	 * @param remoteResultFile - <String> Datei auf dem FTP-Server
+	 * @author JFW
+	 * @date	17.11.2012
+	 */
+	public  void upload( String localSourceFile, String remoteResultFile ) 
+	{
+		if (!ftp.isConnected()) 
+		{
+			connect();
+		}  
+		FileInputStream fis = null;
+		try {
+
+
+			fis = new FileInputStream( localSourceFile );
+			ftp.storeFile( remoteResultFile, fis );
+			System.out.println( ftp.getReplyString() );
+			ftp.logout();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Fehler beim Uploaden von "+localSourceFile);
+
+		}
+		finally 
+		{
+			try 
+			{ 
+				if( fis != null ) 
+				{ 
+					fis.close();
+				} 
+				ftp.disconnect();
+			} catch( IOException e )
+			{
+				System.out.println("Fehler beim Schließen der FTP-Verbindung aufgetreten");
+			}
+		}
+
+
+	}
+
+
 
 }
