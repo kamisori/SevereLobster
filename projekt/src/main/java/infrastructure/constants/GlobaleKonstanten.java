@@ -36,6 +36,11 @@ public abstract class GlobaleKonstanten {
     public static final File DEFAULT_DOC_SAVE_DIR = getDefaultDocsSaveDir();
 
     /**
+     * Standardverzeichnis fuer gespeicherte Docs
+     */
+    public static final File DEFAULT_CONF_SAVE_DIR = getDefaultConfigsSaveDir();
+
+    /**
      * Standardverzeichnis fuer gespeicherte Spiele
      */
     public static final File DEFAULT_SPIEL_SAVE_DIR = getDefaultSpielSaveDir();
@@ -46,7 +51,7 @@ public abstract class GlobaleKonstanten {
     public static final File DEFAULT_PUZZLE_SAVE_DIR = getDefaultPuzzleSaveDir();
 
 
-    public static final File USER_PROPERTIES = new File("./src/main/resources/infrastructure/user.properties");
+    public static final File USER_PROPERTIES = new File(DEFAULT_CONF_SAVE_DIR, "user.properties");
     /**
      * Standardverzeichnis fuer gespeicherte freigegebene Puzzles
      */
@@ -80,6 +85,25 @@ public abstract class GlobaleKonstanten {
      */
     private static File getDefaultDocsSaveDir() {
         File docverzeichnis = new File("./bin/doc");
+        boolean success = true;
+        if (!docverzeichnis.exists()) {
+            success = docverzeichnis.mkdir();
+        }
+        if (!success) {
+            return null;
+        } else {
+            return docverzeichnis;
+        }
+    }
+
+    /**
+     * Gibt das Standardverzeichnis fuer Cinfigs zurueck -
+     * wenn es nicht existiert, wird es angelegt
+     *
+     * @return Standardverzeichnis fuer Configs
+     */
+    private static File getDefaultConfigsSaveDir() {
+        File docverzeichnis = new File("./conf");
         boolean success = true;
         if (!docverzeichnis.exists()) {
             success = docverzeichnis.mkdir();

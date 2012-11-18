@@ -150,7 +150,14 @@ public class ResourceManager {
      * @return Userspezifische Properties
      */
     private InputStream getUserProperties() {
-        return getClass().getResourceAsStream("user.properties");
+        InputStream propertiesFile = null;
+        try {
+            propertiesFile = new FileInputStream
+                    (new File(GlobaleKonstanten.DEFAULT_CONF_SAVE_DIR, "user.properties"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return propertiesFile;
     }
 
     /**

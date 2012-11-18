@@ -275,7 +275,6 @@ public class MainView extends JPanel {
                     }
                 }
             });
-
             jpSpielAuswahl.add(jlLogo);
             jpSpielAuswahl.add(jbLokalSpielSpielen);
             jpSpielAuswahl.add(jbOnlineSpielSpielen);
@@ -291,6 +290,9 @@ public class MainView extends JPanel {
         Koordinaten koordinaten = SpielfeldGroessenDialog.show(MainFrame.frame);
         addEditModusPanelAndCreateNewSpielfeld(koordinaten.getX(),
                 koordinaten.getY());
+        MainFrame.controlSpielMenue(false);
+        MainFrame.controlEditierMenue(true);
+
     }
 
     public void addOnlineSpielAuswahlPanel() {

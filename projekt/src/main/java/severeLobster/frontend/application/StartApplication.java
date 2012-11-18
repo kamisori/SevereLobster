@@ -1,13 +1,13 @@
 package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
-
-import javax.swing.*;
-
+import infrastructure.components.FTPConnector;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 
-import infrastructure.components.FTPConnector;
-
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -42,9 +42,7 @@ public class StartApplication extends JFrame implements Runnable {
 
     public static void main(String[] args) {
         final SternenSpielApplicationBackend backend = SternenSpielApplicationBackend.getInstance();
-        splahscreen = new Thread(new StartApplication(backend, Locale.GERMAN));
-        Locale.setDefault(Locale.GERMAN);
-        JComponent.setDefaultLocale(Locale.GERMAN);
+        splahscreen = new Thread(new StartApplication(backend, null));
         splahscreen.start();
     }
 
@@ -64,6 +62,8 @@ public class StartApplication extends JFrame implements Runnable {
             throw new NullPointerException("Backend ist null");
         }
         resourceManager.setLanguage(locale);
+        Locale.setDefault(resourceManager.getLanguage());
+        JComponent.setDefaultLocale(resourceManager.getLanguage());
         this.backend = backend;
     }
 

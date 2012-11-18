@@ -165,7 +165,7 @@
                 <version>${maven.resource.plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-bin</id>
                         <phase>install</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -175,6 +175,22 @@
                             <resources>
                                 <resource>
                                     <directory>bin</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-conf</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.directory}/conf</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>conf</directory>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
