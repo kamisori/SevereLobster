@@ -2,7 +2,7 @@ package infrastructure.components;
 
 /**
  * Koordinatenspeicher
- *
+ * 
  * @author Lars Schlegelmilch
  */
 public class Koordinaten {
@@ -29,5 +29,11 @@ public class Koordinaten {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public static Koordinaten getSumme(final Koordinaten summand1,
+            final Koordinaten summand2) {
+        return new Koordinaten(summand1.getX() + summand2.getX(),
+                summand1.getY() + summand2.getY());
     }
 }

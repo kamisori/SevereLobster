@@ -1,5 +1,6 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.components.Koordinaten;
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.ResourceManager;
 
@@ -120,7 +121,8 @@ public class Pfeil extends Spielstein {
 
     @Override
     public String toString() {
-        return resourceManager.getText("backend.pfeil") + getPfeilrichtung().toString();
+        return resourceManager.getText("backend.pfeil")
+                + getPfeilrichtung().toString();
     }
 
     @Override
@@ -133,6 +135,38 @@ public class Pfeil extends Spielstein {
             if (((Pfeil) obj).pfeilrichtung.equals(this.pfeilrichtung)) {
                 result = true;
             }
+        }
+        return result;
+    }
+
+    public Koordinaten getRichtungsKoordinaten() {
+
+        final Koordinaten result;
+        switch (this.pfeilrichtung) {
+        case NORD:
+            result = new Koordinaten(0, -1);
+            break;
+        case NORDOST:
+            result = new Koordinaten(1, -1);
+            break;
+        case OST:
+            result = new Koordinaten(1, 0);
+            break;
+        case SUEDOST:
+            result = new Koordinaten(1, 1);
+            break;
+        case SUED:
+            result = new Koordinaten(0, 1);
+            break;
+        case SUEDWEST:
+            result = new Koordinaten(-1, 1);
+            break;
+        case WEST:
+            result = new Koordinaten(-1, 0);
+            break;
+        default: // NORDWEST
+            result = new Koordinaten(-1, -1);
+            break;
         }
         return result;
     }

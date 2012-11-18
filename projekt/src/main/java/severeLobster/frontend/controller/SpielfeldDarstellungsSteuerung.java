@@ -1,5 +1,6 @@
 package severeLobster.frontend.controller;
 
+import infrastructure.components.Koordinaten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Ausschluss;
 import severeLobster.backend.spiel.ISpielfeldReadOnly;
@@ -207,7 +208,24 @@ public class SpielfeldDarstellungsSteuerung {
 
     public void spielSteinEntered(int x, int y, MouseEvent mouseEvent) {
         spielfeldDarstellung.highlightSpielstein(x, y);
-        /* TODO Wenn Pfeil, Zeigerichtung highlighten */
+        /* Wenn Pfeil, Zeigerichtung highlighten */
+        final Spielstein stein = backend.getSpielstein(x, y);
+        if (stein instanceof Pfeil) {
+            final Pfeil pfeil = (Pfeil) stein;
+            final Koordinaten richtungsVektor = pfeil.getRichtungsKoordinaten();
+            final int spalten = spielfeldDarstellung
+                    .getAngezeigteSpaltenAnzahl();
+            final int zeilen = spielfeldDarstellung.getAngezeigteZeilenAnzahl();
+
+            Koordinaten aktK = new Koordinaten(x, y);
+            while (aktK.getX() > -1 && aktK.getX() < spalten
+                    && aktK.getY() < zeilen && aktK.getY() > -1) {
+                spielfeldDarstellung.highlightSpielstein(aktK.getX(),
+                        aktK.getY());
+                aktK = Koordinaten.getSumme(aktK, richtungsVektor);
+
+            }
+        }
     }
 
     public void spielSteinExited(int x, int y, MouseEvent mouseEvent) {
