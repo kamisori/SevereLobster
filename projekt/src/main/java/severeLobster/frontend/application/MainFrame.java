@@ -348,7 +348,7 @@ public class MainFrame extends JMenuBar implements Runnable {
             String spielname = loadPuzzleChooser.getSelectedFile().getName()
                     .replace("." + GlobaleKonstanten.PUZZLE_DATEITYP, "");
             if (mainPanel.getBackend() == null) {
-                mainPanel.switchToSpielmodusPanelAndStartSpiel(spielname);
+                mainPanel.addSpielmodusPanelAndStartSpiel(spielname);
             }
 
             mainPanel.getBackend().loadPuzzleFrom(spielname);
@@ -365,7 +365,7 @@ public class MainFrame extends JMenuBar implements Runnable {
             String spielname = loadGameChooser.getSelectedFile().getName()
                     .replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
             if (mainPanel.getBackend() == null) {
-                mainPanel.switchToSpielmodusPanelAndStartSpiel(spielname);
+                mainPanel.addSpielmodusPanelAndStartSpiel(spielname);
             }
 
             mainPanel.getBackend().loadSpielFrom(spielname);
@@ -407,7 +407,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     public static void neuesSpielOeffnen() {
         int result = newGameChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
-            mainPanel.switchToSpielmodusPanelAndStartSpiel((newGameChooser.getSelectedFile()
+            mainPanel.addSpielmodusPanelAndStartSpiel((newGameChooser.getSelectedFile()
                     .getName().replace("." + GlobaleKonstanten.PUZZLE_DATEITYP,
                             "")));
             controlSpielMenue(true);

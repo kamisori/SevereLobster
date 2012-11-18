@@ -80,7 +80,7 @@ public class MainView extends JPanel {
      * @author fwenisch
      * @date 04.11.2012
      */
-    public void switchToSpielmodusPanelAndStartSpiel(String strPuzzleName) {
+    public void addSpielmodusPanelAndStartSpiel(String strPuzzleName) {
         try {
             backend.startNewSpielFrom(strPuzzleName);
         } catch (FileNotFoundException e) {
@@ -112,7 +112,7 @@ public class MainView extends JPanel {
      * @param y
      *            y-Achsengroesse des Spielfeldes
      */
-    public void switchToEditModusPanelAndCreateNewSpielfeld(int x, int y) {
+    public void addEditModusPanelAndCreateNewSpielfeld(int x, int y) {
         Spiel spiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
         spiel.initializeNewSpielfeld(x, y);
         backend.setSpiel(spiel);
@@ -289,7 +289,7 @@ public class MainView extends JPanel {
 
     public void addSpielErstellenPanel() {
         Koordinaten koordinaten = SpielfeldGroessenDialog.show(MainFrame.frame);
-        switchToEditModusPanelAndCreateNewSpielfeld(koordinaten.getX(),
+        addEditModusPanelAndCreateNewSpielfeld(koordinaten.getX(),
                 koordinaten.getY());
     }
 
