@@ -101,6 +101,33 @@ public class SpielfeldDarstellungsSteuerung {
         return getSpielstein(x, y);
     }
 
+    public void spielSteinEntered(int x, int y, MouseEvent mouseEvent) {
+        spielfeldDarstellung.highlightSpielstein(x, y);
+        /* Wenn Pfeil, Zeigerichtung highlighten */
+        final Spielstein stein = backend.getSpielstein(x, y);
+        if (stein instanceof Pfeil) {
+            final Pfeil pfeil = (Pfeil) stein;
+            final Koordinaten richtungsVektor = pfeil.getRichtungsKoordinaten();
+            final int spalten = spielfeldDarstellung
+                    .getAngezeigteSpaltenAnzahl();
+            final int zeilen = spielfeldDarstellung.getAngezeigteZeilenAnzahl();
+
+            /* Gehe die Pfeilzeigerichtung ab und markiere jeden Spielstein */
+            Koordinaten aktK = new Koordinaten(x, y);
+            while (aktK.getX() > -1 && aktK.getX() < spalten
+                    && aktK.getY() < zeilen && aktK.getY() > -1) {
+                spielfeldDarstellung.highlightSpielstein(aktK.getX(),
+                        aktK.getY());
+                aktK = aktK.getSummeWith(richtungsVektor);
+
+            }
+        }
+    }
+
+    public void spielSteinExited(int x, int y, MouseEvent mouseEvent) {
+        spielfeldDarstellung.unhighlightAll();
+    }
+
     private SpielmodusEnumeration getSpielmodus() {
         return backend.getSpiel().getSpielmodus();
     }
@@ -203,33 +230,5 @@ public class SpielfeldDarstellungsSteuerung {
              */
             spielfeldDarstellung.setAngezeigtesSpielfeld(spiel.getSpielfeld());
         }
-
     }
-
-    public void spielSteinEntered(int x, int y, MouseEvent mouseEvent) {
-        spielfeldDarstellung.highlightSpielstein(x, y);
-        /* Wenn Pfeil, Zeigerichtung highlighten */
-        final Spielstein stein = backend.getSpielstein(x, y);
-        if (stein instanceof Pfeil) {
-            final Pfeil pfeil = (Pfeil) stein;
-            final Koordinaten richtungsVektor = pfeil.getRichtungsKoordinaten();
-            final int spalten = spielfeldDarstellung
-                    .getAngezeigteSpaltenAnzahl();
-            final int zeilen = spielfeldDarstellung.getAngezeigteZeilenAnzahl();
-
-            Koordinaten aktK = new Koordinaten(x, y);
-            while (aktK.getX() > -1 && aktK.getX() < spalten
-                    && aktK.getY() < zeilen && aktK.getY() > -1) {
-                spielfeldDarstellung.highlightSpielstein(aktK.getX(),
-                        aktK.getY());
-                aktK = Koordinaten.getSumme(aktK, richtungsVektor);
-
-            }
-        }
-    }
-
-    public void spielSteinExited(int x, int y, MouseEvent mouseEvent) {
-        spielfeldDarstellung.unhighlightAll();
-    }
-
 }
