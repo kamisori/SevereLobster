@@ -24,7 +24,7 @@ public class SpielinfoView extends JPanel {
     public SpielinfoView(SternenSpielApplicationBackend backend) {
         setLayout(null);
         this.backend = backend;
-        setBackground(Color.BLACK);
+        setOpaque(false);
         setPreferredSize(new Dimension(200, 500));
         setVisible(true);
     }
@@ -33,10 +33,9 @@ public class SpielinfoView extends JPanel {
             SternenSpielApplicationBackend backend) {
         setLayout(null);
         this.backend = backend;
-        setBackground(Color.BLACK);
-        JPanel trackingView = trackingControllView;
-        trackingView.setBounds(0, 365, 200, 131);
-        add(trackingView, BorderLayout.SOUTH);
+        setOpaque(false);
+        trackingControllView.setBounds(0, 365, 200, 131);
+        add(trackingControllView, BorderLayout.SOUTH);
         setPreferredSize(new Dimension(200, 500));
         setVisible(true);
     }
@@ -72,7 +71,6 @@ public class SpielinfoView extends JPanel {
         g2d.setColor(Color.YELLOW);
         g2d.drawString(System.getProperty("user.name"), 90, 80);
         g2d.setColor(Color.BLACK);
-
         g2d.drawString(resourceManager.getText("try") + " \t" + String.valueOf(zugcount), 30, 271);
         g2d.drawString(resourceManager.getText("time") + " \t" + strSpielZeit + " "
                    + resourceManager.getText("seconds"), 30, 321);
@@ -80,7 +78,7 @@ public class SpielinfoView extends JPanel {
             g2d.setColor(Color.RED);
             g2d.setFont(GlobaleKonstanten.FONT.deriveFont(Font.BOLD));
         }
-        g2d.drawString("Sterne:" + " \t" + String.valueOf(sterneGetippt) + " / "
+        g2d.drawString(resourceManager.getText("stars") + " \t" + String.valueOf(sterneGetippt) + " / "
                 + String.valueOf(sterne), 30, 221);
         validate();
         repaint();

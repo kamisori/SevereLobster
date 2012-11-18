@@ -44,6 +44,7 @@ public class MainView extends JPanel {
     private final SpielfeldDarstellung spielfeldDarstellung;
     private final TrackingControllView trackingView;
     private final SpielinfoView spielInfoView;
+    private final EditiermodusView editiermodusView;
 
     private final SternenSpielApplicationBackend backend;
 
@@ -65,6 +66,7 @@ public class MainView extends JPanel {
         new TrackingControllViewController(trackingView, backend);
 
         this.spielInfoView = new SpielinfoView(this.trackingView, this.backend);
+        this.editiermodusView = new EditiermodusView(this.backend);
         addMenuPanel();
         setVisible(true);
     }
@@ -121,7 +123,6 @@ public class MainView extends JPanel {
         spielfeldCenteringPanel.setLayout(new BorderLayout());
         spielfeldCenteringPanel.add(this.spielfeldDarstellung,
                 BorderLayout.CENTER);
-
         spielfeldCenteringPanel.setOpaque(false);
         removeAll();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -290,9 +291,21 @@ public class MainView extends JPanel {
         Koordinaten koordinaten = SpielfeldGroessenDialog.show(MainFrame.frame);
         addEditModusPanelAndCreateNewSpielfeld(koordinaten.getX(),
                 koordinaten.getY());
+
+        JPanel spielfeldUndInfoViewPanel = new JPanel();
+        spielfeldUndInfoViewPanel.setLayout(new BorderLayout());
+        spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung,
+                BorderLayout.CENTER);
+        spielfeldUndInfoViewPanel.add(this.editiermodusView, BorderLayout.EAST);
+        spielfeldUndInfoViewPanel.setOpaque(false);
+        removeAll();
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(spielfeldUndInfoViewPanel);
+        validate();
+        repaint();
+
         MainFrame.controlSpielMenue(false);
         MainFrame.controlEditierMenue(true);
-
     }
 
     public void addOnlineSpielAuswahlPanel() {
@@ -375,5 +388,9 @@ public class MainView extends JPanel {
 
     public Spiel getCurrentSpiel() {
         return backend.getSpiel();
+    }
+
+    public EditiermodusView getEditiermodusView() {
+        return editiermodusView;
     }
 }

@@ -19,6 +19,7 @@
       <property name="backend.pfeil" value="Pfeil:"/>
       <property name="tracking.an.aus.text" value="Tracking-Modus"/>
       <property name="hilfe.about" value="About"/>
+      <property name="stars" value="Sterne:"/>
       <property name="schwer.difficulty" value="Schwer"/>
       <property name="try" value="Versuche:"/>
       <property name="seconds" value="Sek."/>
@@ -36,9 +37,11 @@
       <property name="change.avatar.text" value="Bitte wählen Sie den gewünschten Avatar aus:"/>
       <property name="backend.spiel.not.allowed.size" value="Nicht erlaubte Breite/Höhe"/>
       <property name="win.start.new.game" value="Neues Spiel starten..."/>
+      <property name="actual.difficulty" value="Schwierigkeit:"/>
       <property name="back.to.main.menu" value="Zurück zum Hauptmenü"/>
       <property name="start.new.game" value="Neues Spiel starten"/>
-      <property name="change.language.warning.text" value="Applkation muss neu gestartet werden, nicht gesicherte Dateien gehen verloren. Fortfahren?"/>
+      <property name="star.count" value="Anzahl Sterne:"/>
+      <property name="change.language.warning.text" value="Applkation muss neu gestartet werden, ungesicherte Dateien gehen verloren. Fortfahren?"/>
       <property name="spielfeldgroesse.hoehe" value="Höhe:"/>
       <property name="start.campaign" value="Kampagne starten"/>
       <property name="save.dialog.title" value="Spiel speichern"/>
@@ -76,6 +79,7 @@
       <property name="splashscreen.text.1" value="Sternenkonstellation wird für"/>
       <property name="exception.invalid.size.row" value="Zeilenanzahl:"/>
       <property name="hilfe.menu.text" value="Hilfe"/>
+      <property name="puzzle.edit.title" value="Puzzle-Editor"/>
       <property name="not.available" value="Nicht verfügbar"/>
       <property name="leicht.difficulty" value="Leicht"/>
       <property name="exit.text" value="Beenden"/>
@@ -96,6 +100,7 @@
       <property name="exit.application.title" value="Beenden bestätigen"/>
       <property name="optionen.avatar" value="Avatar ändern..."/>
       <property name="win.quit" value="Beenden"/>
+      <property name="check.loesungsweg.btn.text" value="&lt;html&gt;&lt;body&gt;Lösungsweg&lt;br&gt;überprüfen&lt;/body&gt;&lt;/html&gt;"/>
       <property name="save.text" value="Spiel speichern"/>
       <property name="exception.cant.delete.gamefile" value="Die Spieldatei konnte nicht gelöscht werden!"/>
       <property name="spielfeldgroesse.input.size" value="Bitte geben Sie die Spielfeldgröße an:"/>
@@ -106,8 +111,8 @@
       <property name="load.puzzle" value="Puzzle laden..."/>
     </propertyfile>
     <userpropertyFile>
-      <property name="user.language" value="de"/>
-      <property name="user.avatar" value="spielinfo_w2.jpg"/>
+      <property name="user.language" value="en"/>
+      <property name="user.avatar" value="spielinfo_m2.jpg"/>
     </userpropertyFile>
   </resourceManager>
   <listeners serialization="custom">
@@ -281,5 +286,12 @@
     </vector>
   </trackingPunkte>
   <anzahlZuege>0</anzahlZuege>
-  <spielZeit>Nicht begonnen</spielZeit>
+  <spielStoppUhr>
+    <lZeit>0</lZeit>
+    <lZeitStart>0</lZeitStart>
+    <lZeitPause>0</lZeitPause>
+    <lZeitGoOn>0</lZeitGoOn>
+    <isStarted>false</isStarted>
+  </spielStoppUhr>
+  <spielZeit>--</spielZeit>
 </severeLobster.backend.spiel.Spiel>

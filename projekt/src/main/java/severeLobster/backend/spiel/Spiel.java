@@ -48,6 +48,7 @@ public class Spiel implements IGotSpielModus {
      */
     public Spiel() {
         this(SpielmodusEnumeration.SPIELEN);
+        setSpielStoppUhr(new StoppUhr());
         setFreigegeben(true);
     }
 
@@ -60,6 +61,7 @@ public class Spiel implements IGotSpielModus {
     public Spiel(SpielmodusEnumeration spielmodus) {
         if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
             setFreigegeben(true);
+            setSpielStoppUhr(new StoppUhr());
         }
         this.spielmodus = spielmodus;
         this.currentSpielfeld = new Spielfeld(this, 10, 10);
@@ -181,7 +183,9 @@ public class Spiel implements IGotSpielModus {
      *             Exception falls Datei nicht speicherbar
      */
     public void saveSpiel(String spielname) throws IOException {
-        getSpielStoppUhr().pause();
+        if (getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
+            getSpielStoppUhr().pause();
+        }
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + getDateiendung(getSpielmodus());
         File verzeichnis = new File(getVerzeichnis(getSpielmodus()), spielname
@@ -189,7 +193,9 @@ public class Spiel implements IGotSpielModus {
         OutputStream outputStream = new FileOutputStream(verzeichnis);
         xstream.toXML(this, outputStream);
         outputStream.close();
-        getSpielStoppUhr().goOn();
+        if (getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
+            getSpielStoppUhr().goOn();
+        }
     }
 
     /**
