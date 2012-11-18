@@ -3,14 +3,13 @@ package infrastructure.components;
 /**
  * StoppUhr Klasse zur Nachverfolgung der gespielten Zeit
  * 
- * @author fwenisch
- * @date 04.11.2012
+ * @author fwenisch, Lars Schlegelmilch
  */
-// TODO das reicht leider nicht aus, ein gespeichertes Spiel muss seine aktuelle
-// laufzeit mitspeichern
 public class StoppUhr {
     private long lZeit;
     private long lZeitStart;
+    private long lZeitPause;
+    private long lZeitGoOn = 0;
     private boolean isStarted = false;
 
     public void start() {
@@ -18,12 +17,26 @@ public class StoppUhr {
         isStarted = true;
     }
 
+    public void pause() {
+        if (isStarted) {
+            lZeitPause = System.currentTimeMillis();
+            isStarted = false;
+        }
+    }
+
+    public void goOn() {
+        if (!isStarted) {
+            lZeitGoOn = System.currentTimeMillis() - lZeitPause;
+            isStarted = true;
+        }
+    }
+
     public void stop() {
         isStarted = false;
     }
 
     private void update() {
-        lZeit = ((System.currentTimeMillis() - lZeitStart) / 1000);
+        lZeit = ((System.currentTimeMillis() - lZeitStart - lZeitGoOn) / 1000);
     }
 
     public long getZeit() {

@@ -40,7 +40,7 @@ public class Spiel implements IGotSpielModus {
     private Stack<ActionHistoryObject> trackingPunkte;
     private int anzahlZuege = 0;
     private StoppUhr spielStoppUhr;
-    private String spielZeit = resourceManager.getText("backend.spiel.nicht.begonnen");
+    private String spielZeit = "--";//resourceManager.getText("backend.spiel.nicht.begonnen");
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
@@ -181,6 +181,7 @@ public class Spiel implements IGotSpielModus {
      *             Exception falls Datei nicht speicherbar
      */
     public void saveSpiel(String spielname) throws IOException {
+        getSpielStoppUhr().pause();
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + getDateiendung(getSpielmodus());
         File verzeichnis = new File(getVerzeichnis(getSpielmodus()), spielname
@@ -188,6 +189,7 @@ public class Spiel implements IGotSpielModus {
         OutputStream outputStream = new FileOutputStream(verzeichnis);
         xstream.toXML(this, outputStream);
         outputStream.close();
+        getSpielStoppUhr().goOn();
     }
 
     /**
@@ -207,7 +209,9 @@ public class Spiel implements IGotSpielModus {
         InputStream inputStream = new FileInputStream(verzeichnis);
         Spiel spiel = (Spiel) xstream.fromXML(inputStream);
         inputStream.close();
-
+        if (SpielmodusEnumeration.SPIELEN.equals(spiel.getSpielmodus())) {
+            spiel.getSpielStoppUhr().goOn();
+        }
         return spiel;
     }
 

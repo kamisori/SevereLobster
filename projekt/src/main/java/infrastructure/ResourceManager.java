@@ -71,6 +71,14 @@ public class ResourceManager {
             e.printStackTrace();
         }
         userpropertyFile.put("user.language", locale.toString());
+        saveUserProperties();
+
+    }
+
+    /**
+     * Sichert die Userproperties
+     */
+    private void saveUserProperties() {
         OutputStream stream = null;
         try {
             stream = new FileOutputStream(GlobaleKonstanten.USER_PROPERTIES);
@@ -78,7 +86,15 @@ public class ResourceManager {
         } catch (IOException e) {
             System.out.println("Neue Benutzereinstellungen konnten nicht gesichert werden.");
         }
-
+        finally {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+            } catch (IOException e) {
+                System.out.println("Neue Benutzereinstellungen konnten nicht gesichert werden.");
+            }
+        }
     }
 
     /**
@@ -100,12 +116,7 @@ public class ResourceManager {
 
     public void setAvatar(URL value) {
         userpropertyFile.put("user.avatar", new File(value.getFile()).getName());
-        try {
-            OutputStream stream = new FileOutputStream(GlobaleKonstanten.USER_PROPERTIES);
-            userpropertyFile.store(stream, "User.properties");
-        } catch (IOException e) {
-            System.out.println("Neue Benutzereinstellungen konnten nicht gesichert werden.");
-        }
+        saveUserProperties();
     }
 
     public URL getUserAvatar() {

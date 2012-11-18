@@ -125,9 +125,25 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * 
      * @return result Die Anzahl der Sterne auf dem Spielfeld.
      */
-    protected int countSterne() {
+    public int countSterne() {
         int result = 0;
         for (Spielstein[] zeile : realSteine) {
+            for (Spielstein stein : zeile) {
+                if (stein instanceof Stern)
+                    result++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Zaehlt die getippten Sterne auf dem Spielfeld.
+     *
+     * @return result Die Anzahl der getippten Sterne auf dem Spielfeld.
+     */
+    public int countSterneGetippt() {
+        int result = 0;
+        for (Spielstein[] zeile : visibleSteine) {
             for (Spielstein stein : zeile) {
                 if (stein instanceof Stern)
                     result++;

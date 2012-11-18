@@ -142,8 +142,7 @@ public class TrackingControllView extends JPanel {
         super.paintComponent(g);
         Image sImage = getToolkit().getImage(
                 resourceManager.getGraphicURL("trackingview.jpg"));
-
-        g.drawImage(sImage, 0, 0, this);
+        g.drawImage(sImage, 0, -1, this);
         validate();
         repaint();
     }
