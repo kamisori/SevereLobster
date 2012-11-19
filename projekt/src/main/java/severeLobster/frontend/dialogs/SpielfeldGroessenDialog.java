@@ -6,25 +6,28 @@ package severeLobster.frontend.dialogs;
  * @author Lars Schlegelmilch
  */
 
+import com.jgoodies.validation.formatter.EmptyNumberFormatter;
 import infrastructure.ResourceManager;
 import infrastructure.components.Koordinaten;
 
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import java.awt.Frame;
+import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+import java.awt.*;
+import java.text.ParseException;
 
 public class SpielfeldGroessenDialog {
 
-    private static int[][] spielfeldgroesse;
     private final static ResourceManager resourceManager = ResourceManager.get();
 
 
     public static Koordinaten show(Frame owner) {
-        JTextField xAchse = new JTextField(5);
-        JTextField yAchse = new JTextField(5);
+        EmptyNumberFormatter numberFormatter = new EmptyNumberFormatter();
+        numberFormatter.setAllowsInvalid(false);
+
+        JFormattedTextField xAchse = new JFormattedTextField(numberFormatter);
+        JFormattedTextField yAchse = new JFormattedTextField(numberFormatter);
+        xAchse.setColumns(3);
+        yAchse.setColumns(3);
 
         JPanel myPanel = new JPanel();
         myPanel.add(new JLabel(resourceManager.getText("spielfeldgroesse.breite")));
@@ -36,7 +39,15 @@ public class SpielfeldGroessenDialog {
         int result = JOptionPane.showConfirmDialog(owner, myPanel,
                 resourceManager.getText("spielfeldgroesse.input.size"), JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-          return new Koordinaten(Integer.parseInt(xAchse.getText()), Integer.parseInt(yAchse.getText()));
+            int xWert = Integer.parseInt(xAchse.getText());
+            int yWert = Integer.parseInt(yAchse.getText());
+            if (xWert < 2 || yWert < 2 || xWert > 40 || yWert > 40) {
+                JOptionPane.showMessageDialog(owner, "Die angegebene Spielfeldgröße ist nicht gültig.",
+                        "Ungültige Spielfeldgröße", JOptionPane.ERROR_MESSAGE);
+                return null;
+            } else {
+                return new Koordinaten(xWert, yWert);
+            }
         }
         return null;
     }

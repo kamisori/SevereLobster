@@ -347,7 +347,11 @@ public class MainFrame extends JMenuBar implements Runnable {
     private void loadPuzzle() {
         String spielname = loadPuzzleChooser.getSelectedFile().getName()
                 .replace("." + GlobaleKonstanten.PUZZLE_DATEITYP, "");
-        mainPanel.addSpielmodusPanelAndStartSpiel(spielname, SpielmodusEnumeration.EDITIEREN, true);
+        try {
+            mainPanel.addSpielErstellenPanel(spielname);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -356,7 +360,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     private void loadSpiel() {
         String spielname = loadGameChooser.getSelectedFile().getName()
                 .replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
-        mainPanel.addSpielmodusPanelAndStartSpiel(spielname, SpielmodusEnumeration.SPIELEN, true);
+        mainPanel.addSpielmodusPanelAndStartSpiel(spielname, true);
     }
 
     private void kontaktMail() {
@@ -394,7 +398,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         if (result == JFileChooser.APPROVE_OPTION) {
             mainPanel.addSpielmodusPanelAndStartSpiel((newGameChooser.getSelectedFile()
                     .getName().replace("." + GlobaleKonstanten.PUZZLE_DATEITYP,
-                            "")), SpielmodusEnumeration.SPIELEN, false);
+                            "")), false);
             controlSpielMenue(true);
             controlEditierMenue(false);
         }

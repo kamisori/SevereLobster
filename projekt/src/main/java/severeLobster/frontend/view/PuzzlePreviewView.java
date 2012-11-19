@@ -82,8 +82,7 @@ public class PuzzlePreviewView extends JPanel {
                 public void actionPerformed(ActionEvent event) {
 
                     try {
-                        MainFrame.mainPanel.addSpielmodusPanelAndStartSpiel(getSpielName(),
-                                SpielmodusEnumeration.SPIELEN, false);
+                        MainFrame.mainPanel.addSpielmodusPanelAndStartSpiel(getSpielName(), false);
                     } catch (Exception ex) {
 
                     }

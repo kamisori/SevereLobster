@@ -83,23 +83,14 @@ public class MainView extends JPanel {
      * @date 04.11.2012
      */
     public void addSpielmodusPanelAndStartSpiel(String strPuzzleName,
-                                                SpielmodusEnumeration spielmodus,
                                                 boolean continueGame) {
         try {
-            if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
-                if (!continueGame) {
-                    backend.startNewSpielFrom(strPuzzleName);
-                } else {
-                    backend.loadSpielFrom(strPuzzleName);
-                }
+            if (!continueGame) {
+                backend.startNewSpielFrom(strPuzzleName);
             } else {
-                backend.loadPuzzleFrom(strPuzzleName);
+                backend.loadSpielFrom(strPuzzleName);
             }
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         JPanel spielfeldUndInfoViewPanel = new JPanel();
@@ -315,11 +306,27 @@ public class MainView extends JPanel {
         removeAll();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(spielfeldUndInfoViewPanel);
-        validate();
-        repaint();
-
         MainFrame.controlSpielMenue(false);
         MainFrame.controlEditierMenue(true);
+        validate();
+        repaint();
+    }
+
+    public void addSpielErstellenPanel(String spielname) throws IOException {
+        getBackend().loadPuzzleFrom(spielname);
+        JPanel spielfeldUndInfoViewPanel = new JPanel();
+        spielfeldUndInfoViewPanel.setLayout(new BorderLayout());
+        spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung,
+                BorderLayout.CENTER);
+        spielfeldUndInfoViewPanel.add(this.editiermodusView, BorderLayout.EAST);
+        spielfeldUndInfoViewPanel.setOpaque(false);
+        removeAll();
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(spielfeldUndInfoViewPanel);
+        MainFrame.controlSpielMenue(false);
+        MainFrame.controlEditierMenue(true);
+        validate();
+        repaint();
     }
 
     public void addOnlineSpielAuswahlPanel() {
