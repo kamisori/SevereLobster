@@ -41,6 +41,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import infrastructure.constants.enums.SpielmodusEnumeration;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.dialogs.*;
@@ -344,34 +345,18 @@ public class MainFrame extends JMenuBar implements Runnable {
      * Laed ein Puzzle aus vorhandenen Spieldateien in das Spielfeld
      */
     private void loadPuzzle() {
-        try {
-            String spielname = loadPuzzleChooser.getSelectedFile().getName()
-                    .replace("." + GlobaleKonstanten.PUZZLE_DATEITYP, "");
-            if (mainPanel.getBackend() == null) {
-                mainPanel.addSpielmodusPanelAndStartSpiel(spielname);
-            }
-
-            mainPanel.getBackend().loadPuzzleFrom(spielname);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String spielname = loadPuzzleChooser.getSelectedFile().getName()
+                .replace("." + GlobaleKonstanten.PUZZLE_DATEITYP, "");
+        mainPanel.addSpielmodusPanelAndStartSpiel(spielname, SpielmodusEnumeration.EDITIEREN, true);
     }
 
     /**
      * Laed ein Spiel aus vorhandenen Spieldateien in das Spielfeld
      */
     private void loadSpiel() {
-        try {
-            String spielname = loadGameChooser.getSelectedFile().getName()
-                    .replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
-            if (mainPanel.getBackend() == null) {
-                mainPanel.addSpielmodusPanelAndStartSpiel(spielname);
-            }
-
-            mainPanel.getBackend().loadSpielFrom(spielname);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String spielname = loadGameChooser.getSelectedFile().getName()
+                .replace("." + GlobaleKonstanten.SPIELSTAND_DATEITYP, "");
+        mainPanel.addSpielmodusPanelAndStartSpiel(spielname, SpielmodusEnumeration.SPIELEN, true);
     }
 
     private void kontaktMail() {
@@ -384,7 +369,7 @@ public class MainFrame extends JMenuBar implements Runnable {
             }
             desktop.mail(uri);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Kein Mail Client gefunden!",
+            JOptionPane.showMessageDialog(this, "Kein E-Mail Client gefunden!",
                     "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -409,7 +394,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         if (result == JFileChooser.APPROVE_OPTION) {
             mainPanel.addSpielmodusPanelAndStartSpiel((newGameChooser.getSelectedFile()
                     .getName().replace("." + GlobaleKonstanten.PUZZLE_DATEITYP,
-                            "")));
+                            "")), SpielmodusEnumeration.SPIELEN, false);
             controlSpielMenue(true);
             controlEditierMenue(false);
         }

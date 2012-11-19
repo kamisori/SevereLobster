@@ -82,9 +82,19 @@ public class MainView extends JPanel {
      * @author fwenisch
      * @date 04.11.2012
      */
-    public void addSpielmodusPanelAndStartSpiel(String strPuzzleName) {
+    public void addSpielmodusPanelAndStartSpiel(String strPuzzleName,
+                                                SpielmodusEnumeration spielmodus,
+                                                boolean continueGame) {
         try {
-            backend.startNewSpielFrom(strPuzzleName);
+            if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
+                if (!continueGame) {
+                    backend.startNewSpielFrom(strPuzzleName);
+                } else {
+                    backend.loadSpielFrom(strPuzzleName);
+                }
+            } else {
+                backend.loadPuzzleFrom(strPuzzleName);
+            }
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -101,6 +111,8 @@ public class MainView extends JPanel {
         removeAll();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(spielfeldUndInfoViewPanel);
+        MainFrame.controlSpielMenue(true);
+        MainFrame.controlEditierMenue(false);
         validate();
         repaint();
     }
@@ -127,6 +139,8 @@ public class MainView extends JPanel {
         removeAll();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(spielfeldCenteringPanel);
+        MainFrame.controlSpielMenue(false);
+        MainFrame.controlEditierMenue(true);
         validate();
         repaint();
     }
