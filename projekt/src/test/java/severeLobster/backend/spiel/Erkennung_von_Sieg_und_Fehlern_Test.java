@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * 
- * @author Ich glaub Christian, Lutz Kleiber
+ * @author Christian Lobach, Lutz Kleiber
  * 
  */
 public class Erkennung_von_Sieg_und_Fehlern_Test {
