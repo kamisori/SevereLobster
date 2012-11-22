@@ -57,6 +57,9 @@ public class Loesungs_Strategien_Test implements IGotSpielModus {
 
     }
 
+    /**
+     * Testet SolvingStepExcludeImpossibles
+     */
     @Test
     public void ausschluss_setzen_wo_kein_stern_sein_kann() {
 
@@ -96,12 +99,13 @@ public class Loesungs_Strategien_Test implements IGotSpielModus {
 
     @Test
     public void null_Spalten_ausschliessen() {
-
+        return;
     }
+
 
     @Test
     public void null_Zeilen_ausschliessen() {
-
+        return;
     }
 
     @Override
