@@ -203,16 +203,17 @@ public class MainFrame extends JMenuBar implements Runnable {
                     String savename = mainPanel.getCurrentSpiel().getSaveName();
                     if (savename == null) {
                         JOptionPane.showMessageDialog(frame,
-                                "Puzzle bitte erst speichern!",
-                                "Puzzle speichern!", JOptionPane.ERROR_MESSAGE);
+                                resourceManager.getText("mainFrame.freigabe.speichern"),
+                                resourceManager.getText("mainFrame.freigabe.speichern.title"),
+                                JOptionPane.ERROR_MESSAGE);
                     } else {
                         try {
                             mainPanel.getBackend().puzzleFreigeben(savename);
                             JOptionPane
                                     .showMessageDialog(
                                             frame,
-                                            "Puzzle wurde erfolgreich zum Spielen freigegeben!",
-                                            "Puzzle nun für Spielmodus verfügbar!",
+                                            resourceManager.getText("mainFrame.freigabe.freigegeben"),
+                                            resourceManager.getText("mainFrame.freigabe.freigegeben.title"),
                                             JOptionPane.INFORMATION_MESSAGE);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -373,8 +374,8 @@ public class MainFrame extends JMenuBar implements Runnable {
             }
             desktop.mail(uri);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Kein E-Mail Client gefunden!",
-                    "Fehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, resourceManager.getText("mainFrame.mail.error"),
+                    resourceManager.getText("mainFrame.mail.error.title"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -388,8 +389,8 @@ public class MainFrame extends JMenuBar implements Runnable {
             }
             desktop.open(anleitungFile.getCanonicalFile());
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Anleitung konnte nicht geöffnet werden!",
-                    "Fehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, resourceManager.getText("mainFrame.doku.error"),
+                    resourceManager.getText("mainFrame.doku.error.title"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

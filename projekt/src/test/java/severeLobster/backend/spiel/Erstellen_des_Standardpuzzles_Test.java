@@ -1,5 +1,6 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.components.StoppUhr;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.exceptions.SpielNichtLoeschbarException;
@@ -79,6 +80,7 @@ public class Erstellen_des_Standardpuzzles_Test {
     public void setUp() {
         standardspiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
         standardspiel.initializeNewSpielfeld(6, 6);
+        standardspiel.setSpielStoppUhr(new StoppUhr());
         spielfeld = standardspiel.getSpielfeld();
         spielsteineSetzen();
 

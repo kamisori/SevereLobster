@@ -88,6 +88,7 @@ public class FTPConnector
 	public void getFile(String strPuzzleName)
 	{
 		FTPFile f;
+		String strDownloadPath="bin/puzzles/";
 		try
 		{
 			File file =null;
@@ -96,7 +97,7 @@ public class FTPConnector
 				if(files[i].getName().equals(strPuzzleName))
 				{
 					f=files[i];
-					file = new File("C:\\temp\\"+f.getName());
+					file = new File(strDownloadPath+f.getName());
 					FileOutputStream fos = new FileOutputStream(file); 
 					ftp.retrieveFile( files[ i ].getName(), fos);
 					fos.close();
@@ -105,7 +106,7 @@ public class FTPConnector
 			}
 			if (file!=null)
 			{
-				System.out.println(strPuzzleName+ "wurde heruntergeladen");
+				System.out.println(strPuzzleName+ " wurde nach "+strDownloadPath+" heruntergeladen");
 			}
 			else
 				throw new Exception (strPuzzleName+ "wurde nicht gefunden");
