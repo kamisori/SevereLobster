@@ -34,7 +34,7 @@ public class SpielinfoView extends JPanel {
         setLayout(null);
         this.backend = backend;
         setOpaque(false);
-        trackingControllView.setBounds(0, 365, 200, 131);
+        trackingControllView.setBounds(0, 365, 200, 500);
         add(trackingControllView, BorderLayout.SOUTH);
         setPreferredSize(new Dimension(200, 500));
         setVisible(true);

@@ -111,8 +111,8 @@
       <property name="puzzle.load.dialog.extension.description" value="Gespeichertes Puzzle (*.puz)"/>
     </propertyfile>
     <userpropertyFile>
-      <property name="user.language" value="en"/>
-      <property name="user.avatar" value="spielinfo_m2.jpg"/>
+      <property name="user.language" value="de"/>
+      <property name="user.avatar" value="spielinfo_m1.jpg"/>
     </userpropertyFile>
   </resourceManager>
   <listeners serialization="custom">
