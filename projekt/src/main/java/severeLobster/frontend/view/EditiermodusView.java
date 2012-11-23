@@ -52,7 +52,7 @@ public class EditiermodusView extends JPanel {
         groesseAendernLabel.setOpaque(false);
         groesseAendernLabel.setLocation(15, 380);
         groesseAendernLabel.setVisible(true);
-        JButton groesseAendernBtn = new JButton("CHange"); //TODO durch Image ersetzen
+        JButton groesseAendernBtn = new JButton("Change"); //TODO durch Image ersetzen
         groesseAendernBtn.setSize(70, 50);
         groesseAendernBtn.setOpaque(false);
         groesseAendernBtn.setLocation(90, 380);
