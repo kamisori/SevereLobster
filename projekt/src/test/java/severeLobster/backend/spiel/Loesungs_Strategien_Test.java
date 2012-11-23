@@ -99,13 +99,59 @@ public class Loesungs_Strategien_Test implements IGotSpielModus {
 
     @Test
     public void null_Spalten_ausschliessen() {
-        return;
+        // Pfeile im Editiermodus setzen
+        spielfeld.setSpielstein(1, 0, Pfeil.getOstPfeil());
+        spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
+        spielfeld.setSpielstein(3, 1, Pfeil.getSuedWestPfeil());
+
+        // GotSpielmodus setzen, damit Spielmodus LOESEN ist
+        spielfeld.setGotSpielModus(this);
+
+        // Sterne setzen
+        spielfeld.setSpielstein(2,0, Stern.getInstance());
+        spielfeld.setSpielstein(0,2, Stern.getInstance());
+        spielfeld.setSpielstein(2,2, Stern.getInstance());
+
+        SolvingStep step = new SolvingStepCheckZeroColumns();
+        spielfeld = step.execute(spielfeld);
+
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(1,1));
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(1,2));
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(1,3));
+
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(3,0));
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(3,2));
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(3,3));
+
     }
 
 
     @Test
     public void null_Zeilen_ausschliessen() {
-        return;
+        // Pfeile im Editiermodus setzen
+        spielfeld.setSpielstein(1, 0, Pfeil.getOstPfeil());
+        spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
+        spielfeld.setSpielstein(3, 1, Pfeil.getSuedWestPfeil());
+
+        // GotSpielmodus setzen, damit Spielmodus LOESEN ist
+        spielfeld.setGotSpielModus(this);
+
+        // Sterne setzen
+        spielfeld.setSpielstein(2,0, Stern.getInstance());
+        spielfeld.setSpielstein(0,2, Stern.getInstance());
+        spielfeld.setSpielstein(2,2, Stern.getInstance());
+
+        SolvingStep step = new SolvingStepCheckZeroRows();
+        spielfeld = step.execute(spielfeld);
+
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(1,1));
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(2,1));
+
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(0,3));
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(1,3));
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(2,3));
+        assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(3,3));
+
     }
 
     @Override
