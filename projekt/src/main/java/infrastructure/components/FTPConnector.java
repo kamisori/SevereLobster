@@ -4,6 +4,8 @@ import org.apache.commons.net.ftp.*;
 
 import severeLobster.frontend.application.MainFrame;
 
+import infrastructure.constants.GlobaleKonstanten;
+
 import java.io.*;
 
 import javax.swing.JLabel;
@@ -43,7 +45,7 @@ public class FTPConnector
 
 			ftp.enterLocalPassiveMode();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Es konnte keine Verbindung zum FTP herstellt werden");
 		}
 	}
 
@@ -88,7 +90,6 @@ public class FTPConnector
 	public void getFile(String strPuzzleName)
 	{
 		FTPFile f;
-		String strDownloadPath="bin/puzzles/";
 		try
 		{
 			File file =null;
@@ -97,7 +98,7 @@ public class FTPConnector
 				if(files[i].getName().equals(strPuzzleName))
 				{
 					f=files[i];
-					file = new File(strDownloadPath+f.getName());
+					file = new File(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR+f.getName());
 					FileOutputStream fos = new FileOutputStream(file); 
 					ftp.retrieveFile( files[ i ].getName(), fos);
 					fos.close();
@@ -106,7 +107,7 @@ public class FTPConnector
 			}
 			if (file!=null)
 			{
-				System.out.println(strPuzzleName+ " wurde nach "+strDownloadPath+" heruntergeladen");
+				System.out.println(strPuzzleName+ " wurde heruntergeladen");
 			}
 			else
 				throw new Exception (strPuzzleName+ "wurde nicht gefunden");
@@ -125,6 +126,11 @@ public class FTPConnector
 	 */
 	public  void upload( String localSourceFile, String remoteResultFile ) 
 	{
+		int reply = javax.swing.JOptionPane.showConfirmDialog(null, "Puzzle uploaden?", "Online Archiv?",  javax.swing.JOptionPane.YES_NO_OPTION);
+		if (reply == javax.swing.JOptionPane.YES_OPTION)
+		{
+		   
+		
 		if (!ftp.isConnected()) 
 		{
 			connect();
@@ -157,10 +163,23 @@ public class FTPConnector
 				System.out.println("Fehler beim Schließen der FTP-Verbindung aufgetreten");
 			}
 		}
+		}
+		else
+			System.out.println("Upload wurde durch Benutzer abgebrochen");
+	}
+/**
+ * Gibt einen boolean zurück ob eine Verbindung hergestellt werden kann
+ * @return
+ */
+	public boolean isOnline()
+	{
+
+		connect();
+		if (ftp.isConnected())
+			return true;
+		else
+			return false;
 
 
 	}
-
-
-
 }
