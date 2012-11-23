@@ -42,8 +42,8 @@ public class SpielfeldGroessenDialog {
             int xWert = Integer.parseInt(xAchse.getText());
             int yWert = Integer.parseInt(yAchse.getText());
             if (xWert < 2 || yWert < 2 || xWert > 40 || yWert > 40) {
-                JOptionPane.showMessageDialog(owner, "Die angegebene Spielfeldgröße ist nicht gültig.",
-                        "Ungültige Spielfeldgröße", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(owner, resourceManager.getText("spielfeldgroesse.error"),
+                        resourceManager.getText("spielfeldgroesse.error.title"), JOptionPane.ERROR_MESSAGE);
                 return null;
             } else {
                 return new Koordinaten(xWert, yWert);
