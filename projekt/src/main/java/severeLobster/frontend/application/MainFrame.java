@@ -11,7 +11,28 @@ import infrastructure.components.FTPConnector;
 import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
+import severeLobster.backend.spiel.Spiel;
+import severeLobster.backend.spiel.SternenSpielApplicationBackend;
+import severeLobster.frontend.dialogs.AboutDialog;
+import severeLobster.frontend.dialogs.AvatarAendernDialog;
+import severeLobster.frontend.dialogs.ExitDialog;
+import severeLobster.frontend.dialogs.LoadGamePreview;
+import severeLobster.frontend.dialogs.LoadPuzzlePreview;
+import severeLobster.frontend.dialogs.NewGamePreview;
+import severeLobster.frontend.dialogs.SpracheAendernDialog;
+import severeLobster.frontend.view.MainView;
 
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -28,24 +49,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.Locale;
-
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
-
-import infrastructure.constants.enums.SpielmodusEnumeration;
-import severeLobster.backend.spiel.Spiel;
-import severeLobster.backend.spiel.SternenSpielApplicationBackend;
-import severeLobster.frontend.dialogs.*;
-import severeLobster.frontend.view.MainView;
 
 /**
  * Initialisiert Grafiken
@@ -208,6 +211,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                                 JOptionPane.ERROR_MESSAGE);
                     } else {
                         try {
+                            mainPanel.getBackend().saveCurrentPuzzleTo(savename);
                             mainPanel.getBackend().puzzleFreigeben(savename);
                             JOptionPane
                                     .showMessageDialog(
@@ -471,6 +475,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         int result = ExitDialog.show(frame);
         if (ExitDialog.beenden_option.equals(ExitDialog.options[result])) {
             frame.dispose();
+            System.exit(0);
         }
     }
 

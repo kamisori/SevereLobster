@@ -155,7 +155,7 @@ public class SpielfeldDarstellungsSteuerung {
         setSpielstein(nullState, x, y);
     }
 
-    private boolean isSpielModus() {
+    public boolean isSpielModus() {
         return getSpielmodus().equals(SpielmodusEnumeration.SPIELEN);
     }
 

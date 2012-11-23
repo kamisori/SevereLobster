@@ -409,7 +409,7 @@ public class SpielfeldDarstellung extends JPanel {
                         result.setIcon(iconFactory
                                 .getIconForSpielstein(spielstein));
                     }
-                    else {
+                    else if(getSpielfeldDarstellungsSteuerung().isSpielModus()) {
                     result.setIcon(iconFactory
                             .getDisabledIconForPfeil((Pfeil) spielstein));
                     }
