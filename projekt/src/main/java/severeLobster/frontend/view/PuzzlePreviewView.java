@@ -1,6 +1,7 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
+import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.graphics.GraphicUtils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -81,7 +82,7 @@ public class PuzzlePreviewView extends JPanel {
                 public void actionPerformed(ActionEvent event) {
 
                     try {
-                        MainFrame.mainPanel.addSpielmodusPanelAndStartSpiel(getSpielName());
+                        MainFrame.mainPanel.addSpielmodusPanelAndStartSpiel(getSpielName(), false);
                     } catch (Exception ex) {
 
                     }

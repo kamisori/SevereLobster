@@ -19,7 +19,7 @@ import severeLobster.frontend.dialogs.GewonnenDialog;
  * Zustand der Anwendung aendert. Es gibt von dieser Klasse nur eine Instanz
  * (Singleton Pattern).
  * 
- * @author Lutz Kleiber, Paul Bruell
+ * @author Lutz Kleiber, Paul Bruell, Lars Schlegelmilch
  * 
  */
 public class SternenSpielApplicationBackend {

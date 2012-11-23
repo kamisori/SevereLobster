@@ -40,7 +40,7 @@ public class Spiel implements IGotSpielModus {
     private Stack<ActionHistoryObject> trackingPunkte;
     private int anzahlZuege = 0;
     private StoppUhr spielStoppUhr;
-    private String spielZeit = "--";//resourceManager.getText("backend.spiel.nicht.begonnen");
+    private String spielZeit = "--";
 
     /**
      * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.

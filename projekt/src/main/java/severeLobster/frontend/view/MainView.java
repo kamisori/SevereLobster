@@ -82,14 +82,15 @@ public class MainView extends JPanel {
      * @author fwenisch
      * @date 04.11.2012
      */
-    public void addSpielmodusPanelAndStartSpiel(String strPuzzleName) {
+    public void addSpielmodusPanelAndStartSpiel(String strPuzzleName,
+                                                boolean continueGame) {
         try {
-            backend.startNewSpielFrom(strPuzzleName);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            if (!continueGame) {
+                backend.startNewSpielFrom(strPuzzleName);
+            } else {
+                backend.loadSpielFrom(strPuzzleName);
+            }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         JPanel spielfeldUndInfoViewPanel = new JPanel();
@@ -101,6 +102,8 @@ public class MainView extends JPanel {
         removeAll();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(spielfeldUndInfoViewPanel);
+        MainFrame.controlSpielMenue(true);
+        MainFrame.controlEditierMenue(false);
         validate();
         repaint();
     }
@@ -127,6 +130,8 @@ public class MainView extends JPanel {
         removeAll();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(spielfeldCenteringPanel);
+        MainFrame.controlSpielMenue(false);
+        MainFrame.controlEditierMenue(true);
         validate();
         repaint();
     }
@@ -301,11 +306,27 @@ public class MainView extends JPanel {
         removeAll();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         add(spielfeldUndInfoViewPanel);
-        validate();
-        repaint();
-
         MainFrame.controlSpielMenue(false);
         MainFrame.controlEditierMenue(true);
+        validate();
+        repaint();
+    }
+
+    public void addSpielErstellenPanel(String spielname) throws IOException {
+        getBackend().loadPuzzleFrom(spielname);
+        JPanel spielfeldUndInfoViewPanel = new JPanel();
+        spielfeldUndInfoViewPanel.setLayout(new BorderLayout());
+        spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung,
+                BorderLayout.CENTER);
+        spielfeldUndInfoViewPanel.add(this.editiermodusView, BorderLayout.EAST);
+        spielfeldUndInfoViewPanel.setOpaque(false);
+        removeAll();
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(spielfeldUndInfoViewPanel);
+        MainFrame.controlSpielMenue(false);
+        MainFrame.controlEditierMenue(true);
+        validate();
+        repaint();
     }
 
     public void addOnlineSpielAuswahlPanel() {
