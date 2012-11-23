@@ -11,6 +11,7 @@ import severeLobster.frontend.controller.TrackingControllViewController;
 import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,7 +27,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MainView extends JPanel {
@@ -192,14 +192,14 @@ public class MainView extends JPanel {
      */
     public void addMenuPanel() {
         if (jpMenu == null) {
+            ImageIcon icon = resourceManager.getImageIcon("Menu_Kampagne_starten.png");
             jpMenu = new JPanel();
             jpMenu.setPreferredSize(new Dimension(450, 450));
             jpMenu.setLayout(new GridLayout(5, 0));
             jpMenu.setOpaque(false);
             JLabel jlLogo = new JLabel(resourceManager.getImageIcon("Logo.png"));
             jlLogo.setMinimumSize(new Dimension(450, 200));
-            JButton jbKampagneSpielen = new JButton(
-                    resourceManager.getText("start.campaign"));
+            JButton jbKampagneSpielen = new JButton(icon);
             jbKampagneSpielen.setMaximumSize(new Dimension(450, 200));
             jbKampagneSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {

@@ -68,7 +68,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         }
     }
 
-    private int countPfeileZeile(int y) {
+    protected int countPfeileZeile(int y) {
         int result = 0;
         for (int i = 0; i < getBreite(); i++) {
             if (realSteine[i][y] instanceof Pfeil)
@@ -77,7 +77,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return result;
     }
 
-    private int countPfeileSpalte(int x) {
+    protected int countPfeileSpalte(int x) {
         int result = 0;
         for (int i = 0; i < getHoehe(); i++) {
             if (realSteine[x][i] instanceof Pfeil)
