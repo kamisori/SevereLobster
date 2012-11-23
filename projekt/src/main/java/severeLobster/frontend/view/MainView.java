@@ -154,7 +154,7 @@ public class MainView extends JPanel {
             jpSpielfeldAuswahl.setOpaque(false);
 
             for (int i = 0; i < 10; i++) {
-                jpSpielfeldAuswahl.add(new PuzzlePreviewView("Standardspiel0"
+                jpSpielfeldAuswahl.add(new PuzzlePreviewView("Kampagne0"
                         + (i + 1)));
             }
             JPanel jpBottom = new JPanel();
