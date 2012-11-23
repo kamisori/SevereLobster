@@ -19,6 +19,7 @@ public class AvatarAendernDialog extends JDialog {
     private final ImageIcon[] avatare = {
             resourceManager.getAvatarPreviewImageIcon("spielinfo_m1.jpg"),
             resourceManager.getAvatarPreviewImageIcon("spielinfo_m2.jpg"),
+            resourceManager.getAvatarPreviewImageIcon("spielinfo_m3.jpg"),
             resourceManager.getAvatarPreviewImageIcon("spielinfo_w1.jpg"),
             resourceManager.getAvatarPreviewImageIcon("spielinfo_w2.jpg"),
             resourceManager.getAvatarPreviewImageIcon("spielinfo_w3.jpg")
@@ -27,6 +28,7 @@ public class AvatarAendernDialog extends JDialog {
     private final URL[] avatarURLs = {
             resourceManager.getAvatarURL("spielinfo_m1.jpg"),
             resourceManager.getAvatarURL("spielinfo_m2.jpg"),
+            resourceManager.getAvatarURL("spielinfo_m3.jpg"),
             resourceManager.getAvatarURL("spielinfo_w1.jpg"),
             resourceManager.getAvatarURL("spielinfo_w2.jpg"),
             resourceManager.getAvatarURL("spielinfo_w3.jpg")
