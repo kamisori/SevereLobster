@@ -32,19 +32,33 @@ public class EditiermodusView extends JPanel {
         setOpaque(false);
         setPreferredSize(new Dimension(200, 500));
         setVisible(true);
-        JLabel l = new JLabel(resourceManager.getText("check.loesungsweg.btn.text"));
-        l.setForeground(Color.YELLOW);
-        l.setSize(80,50);
-        l.setOpaque(false);
-        l.setLocation(15, 288);
-        l.setVisible(true);
-        JButton t = new JButton("Check"); //TODO durch Image ersetzen
-        t.setSize(70,50);
-        t.setOpaque(false);
-        t.setLocation(90, 288);
-        t.setVisible(true);
-        add(l);
-        add(t);
+        JLabel loesungswegLabel = new JLabel(resourceManager.getText("check.loesungsweg.btn.text"));
+        loesungswegLabel.setForeground(Color.YELLOW);
+        loesungswegLabel.setSize(80, 50);
+        loesungswegLabel.setOpaque(false);
+        loesungswegLabel.setLocation(15, 288);
+        loesungswegLabel.setVisible(true);
+        JButton loesungswegBtn = new JButton("Check"); //TODO durch Image ersetzen
+        loesungswegBtn.setSize(70, 50);
+        loesungswegBtn.setOpaque(false);
+        loesungswegBtn.setLocation(90, 288);
+        loesungswegBtn.setVisible(true);
+        add(loesungswegLabel);
+        add(loesungswegBtn);
+
+        JLabel groesseAendernLabel = new JLabel(resourceManager.getText("change.size.btn.text"));
+        groesseAendernLabel.setForeground(Color.YELLOW);
+        groesseAendernLabel.setSize(80, 50);
+        groesseAendernLabel.setOpaque(false);
+        groesseAendernLabel.setLocation(15, 380);
+        groesseAendernLabel.setVisible(true);
+        JButton groesseAendernBtn = new JButton("CHange"); //TODO durch Image ersetzen
+        groesseAendernBtn.setSize(70, 50);
+        groesseAendernBtn.setOpaque(false);
+        groesseAendernBtn.setLocation(90, 380);
+        groesseAendernBtn.setVisible(true);
+        add(groesseAendernLabel);
+        add(groesseAendernBtn);
     }
 
     @Override

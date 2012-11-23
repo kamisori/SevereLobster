@@ -10,13 +10,12 @@
       <property name="spielfeldgroesse.breite" value="Breite:"/>
       <property name="exception.simple.icon.factory.cannot.load.all.pictures" value="SimpleIconFactory kann nicht alle Bilder laden"/>
       <property name="exception.invalid.size" value="Ungültige Größenangabe:"/>
-      <property name="menu.function.not.available" value="Diese Funktion ist nicht verfügbar!"/>
       <property name="play" value="Spielen"/>
       <property name="exception.playing.field.is.null" value="Spielfeld ist null"/>
       <property name="hilfe.user.manual" value="Anleitung"/>
-      <property name="backend.pfeil" value="Pfeil:"/>
       <property name="puzzle.save.dialog.text" value="Speichern"/>
       <property name="load.dialog.text" value="Laden"/>
+      <property name="backend.pfeil" value="Pfeil:"/>
       <property name="tracking.an.aus.text" value="Tracking-Modus"/>
       <property name="stars" value="Sterne:"/>
       <property name="hilfe.about" value="About"/>
@@ -26,11 +25,11 @@
       <property name="tracking.backToMistake" value="Zurück zum Fehler"/>
       <property name="neues.spiel.text" value="Neues Spiel..."/>
       <property name="start.own.game" value="Eigenes Spiel starten"/>
+      <property name="change.size.btn.text" value="&lt;html&gt;&lt;body&gt;Größe&lt;br&gt;ändern&lt;/body&gt;&lt;/html&gt;"/>
       <property name="version" value="0.3"/>
       <property name="language.english" value="Englisch"/>
       <property name="editieren.menu.text" value="Editieren"/>
       <property name="new.dialog.title" value="Neues Spiel wählen"/>
-      <property name="backend.spiel.nicht.begonnen" value="Nicht begonnen"/>
       <property name="change.avatar.title" value="Avatar auswählen"/>
       <property name="puzzle.load.dialog.invalid.format" value="Ungültiges Spielformat"/>
       <property name="change.avatar.text" value="Bitte wählen Sie den gewünschten Avatar aus:"/>
@@ -87,12 +86,10 @@
       <property name="save.as.text" value="Spiel speichern unter..."/>
       <property name="about.close" value="Schließen"/>
       <property name="save.as.puzzle" value="Puzzle speichern unter..."/>
-      <property name="exception.icon.array.is.null" value="ImageIcon Array ist null!"/>
       <property name="save.dialog.extension.description" value="Gespeichertes Spiel (*.sav)"/>
       <property name="change.language.warning.title" value="Applikation muss neu gestartet werden"/>
       <property name="mainFrame.title" value="Sternenhimmel Gruppe 3"/>
       <property name="new.dialog.text" value="Auswählen"/>
-      <property name="exception.buffered.image.is.null" value="BufferedImage Array ist null!&quot;"/>
       <property name="load.text" value="Spiel fortsetzen..."/>
       <property name="puzzle.load.dialog.title" value="Puzzle laden"/>
       <property name="puzzle.load.dialog.text" value="Laden"/>
@@ -101,6 +98,7 @@
       <property name="optionen.avatar" value="Avatar ändern..."/>
       <property name="win.quit" value="Beenden"/>
       <property name="check.loesungsweg.btn.text" value="&lt;html&gt;&lt;body&gt;Lösungsweg&lt;br&gt;überprüfen&lt;/body&gt;&lt;/html&gt;"/>
+      <property name="backend.moeglicher.stern" value="Mglicher Stern"/>
       <property name="save.text" value="Spiel speichern"/>
       <property name="exception.cant.delete.gamefile" value="Die Spieldatei konnte nicht gelöscht werden!"/>
       <property name="spielfeldgroesse.input.size" value="Bitte geben Sie die Spielfeldgröße an:"/>
@@ -112,7 +110,7 @@
     </propertyfile>
     <userpropertyFile>
       <property name="user.language" value="de"/>
-      <property name="user.avatar" value="spielinfo_m1.jpg"/>
+      <property name="user.avatar" value="spielinfo_m2.jpg"/>
     </userpropertyFile>
   </resourceManager>
   <listeners serialization="custom">

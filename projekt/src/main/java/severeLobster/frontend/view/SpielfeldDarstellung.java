@@ -404,8 +404,15 @@ public class SpielfeldDarstellung extends JPanel {
                 Spielstein spielstein = getSpielfeldDarstellungsSteuerung()
                         .spielSteinClick(x, y, mouseEvent);
                 if (spielstein instanceof Pfeil) {
+                    if (result.getIcon().equals(iconFactory
+                            .getDisabledIconForPfeil((Pfeil) spielstein))) {
+                        result.setIcon(iconFactory
+                                .getIconForSpielstein(spielstein));
+                    }
+                    else {
                     result.setIcon(iconFactory
                             .getDisabledIconForPfeil((Pfeil) spielstein));
+                    }
                 }
             }
 

@@ -1,15 +1,14 @@
 package severeLobster.frontend.view;
 
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 import infrastructure.ResourceManager;
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * Factory Implementation fuer das Simple Icon Paket.
@@ -55,6 +54,15 @@ public class SimpleIconFactory extends IconFactory {
     protected ImageIcon pfeilNorthEastIcon;
     protected ImageIcon pfeilEastIcon;
     protected ImageIcon pfeilSouthEastIcon;
+
+    protected ImageIcon pfeilSouthIcon_deaktivert;
+    protected ImageIcon pfeilSouthWestIcon_deaktivert;
+    protected ImageIcon pfeilWestIcon_deaktivert;
+    protected ImageIcon pfeilNorthWestIcon_deaktivert;
+    protected ImageIcon pfeilNorthIcon_deaktivert;
+    protected ImageIcon pfeilNorthEastIcon_deaktivert;
+    protected ImageIcon pfeilEastIcon_deaktivert;
+    protected ImageIcon pfeilSouthEastIcon_deaktivert;
 
     protected SimpleIconFactory() {
 
@@ -143,37 +151,37 @@ public class SimpleIconFactory extends IconFactory {
     }
 
     @Override
-    // TODO Dunkelausgegraute PfeilIcons einbauen!!!
     public Icon disabledPfeilIcon(PfeilrichtungEnumeration richtung) {
         if (richtung == null) {
             return ausschlussIcon;
         }
         if (richtung == PfeilrichtungEnumeration.SUED) {
-            return pfeilSouthIcon;
+            return pfeilSouthIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.SUEDWEST) {
-            return pfeilSouthWestIcon;
+            return pfeilSouthWestIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.WEST) {
-            return pfeilWestIcon;
+            return pfeilWestIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.NORDWEST) {
-            return pfeilNorthWestIcon;
+            return pfeilNorthWestIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.NORD) {
-            return pfeilNorthIcon;
+            return pfeilNorthIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.NORDOST) {
-            return pfeilNorthEastIcon;
+            return pfeilNorthEastIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.OST) {
-            return pfeilEastIcon;
+            return pfeilEastIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.SUEDOST) {
-            return pfeilSouthEastIcon;
+            return pfeilSouthEastIcon_deaktivert;
         }
         return ausschlussIcon;
     }
+
 
     /***
      * Ganz dreist geklaut.

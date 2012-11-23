@@ -10,10 +10,12 @@ import com.jgoodies.validation.formatter.EmptyNumberFormatter;
 import infrastructure.ResourceManager;
 import infrastructure.components.Koordinaten;
 
-import javax.swing.*;
-import javax.swing.text.MaskFormatter;
-import java.awt.*;
-import java.text.ParseException;
+import javax.swing.Box;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.Frame;
 
 public class SpielfeldGroessenDialog {
 
