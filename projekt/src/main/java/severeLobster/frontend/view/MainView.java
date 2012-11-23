@@ -200,6 +200,7 @@ public class MainView extends JPanel {
             jlLogo.setMinimumSize(new Dimension(450, 200));
             JButton jbKampagneSpielen = new JButton(
                     resourceManager.getText("start.campaign"));
+            jbKampagneSpielen.setMaximumSize(new Dimension(450, 200));
             jbKampagneSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
 
@@ -213,6 +214,8 @@ public class MainView extends JPanel {
             });
             JButton jbSpielSpielen = new JButton(
                     resourceManager.getText("start.new.game"));
+            jbSpielSpielen.setMaximumSize(new Dimension(450, 200));
+            
             jbSpielSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     try {
@@ -225,6 +228,8 @@ public class MainView extends JPanel {
             });
             JButton jbSpielErstellen = new JButton(
                     resourceManager.getText("create.new.puzzle"));
+            jbSpielErstellen.setMaximumSize(new Dimension(450, 200));
+            
             jbSpielErstellen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     try {
