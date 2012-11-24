@@ -258,9 +258,8 @@
         <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
       </severeLobster.backend.spiel.Spielstein-array>
     </visibleSteine>
-    <gotSpielModus class="severeLobster.backend.spiel.Spiel" reference="../.."/>
+    <spielmodus>SPIELEN</spielmodus>
   </currentSpielfeld>
-  <spielmodus>SPIELEN</spielmodus>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
   <freigegeben>true</freigegeben>
   <spielZuege>
@@ -296,7 +295,7 @@
   <anzahlZuege>0</anzahlZuege>
   <spielStoppUhr>
     <summeDerBisherigenMessungen>0</summeDerBisherigenMessungen>
-    <aktuelleMessungAbsoluterStartZeitpunkt>1353753613062</aktuelleMessungAbsoluterStartZeitpunkt>
+    <aktuelleMessungAbsoluterStartZeitpunkt>1353762645375</aktuelleMessungAbsoluterStartZeitpunkt>
     <messungLaeuft>false</messungLaeuft>
   </spielStoppUhr>
   <spielZeit>--</spielZeit>

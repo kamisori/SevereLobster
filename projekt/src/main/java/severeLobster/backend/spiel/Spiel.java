@@ -27,12 +27,11 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
-public class Spiel implements IGotSpielModus {
+public class Spiel {
     private final ResourceManager resourceManager = ResourceManager.get();
     private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
-    private SpielmodusEnumeration spielmodus = SpielmodusEnumeration.SPIELEN;
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
     private String saveName;
     private boolean freigegeben;
@@ -65,8 +64,7 @@ public class Spiel implements IGotSpielModus {
             setFreigegeben(true);
             getSpielStoppUhr().start();
         }
-        this.spielmodus = spielmodus;
-        this.currentSpielfeld = new Spielfeld(this, 10, 10);
+        this.currentSpielfeld = new Spielfeld(spielmodus, 10, 10);
         currentSpielfeld.addSpielfeldListener(innerSpielfeldListener);
         spielZuege = new ActionHistory();
         trackingPunkte = new Stack<ActionHistoryObject>();
@@ -141,16 +139,14 @@ public class Spiel implements IGotSpielModus {
         if (null != listeningSpielfeld) {
             listeningSpielfeld.removeSpielfeldListener(innerSpielfeldListener);
         }
-        final Spielfeld newSpielfeld = new Spielfeld(this, x, y);
+        final Spielfeld newSpielfeld = new Spielfeld(getSpielmodus(), x, y);
         newSpielfeld.addSpielfeldListener(innerSpielfeldListener);
         this.currentSpielfeld = newSpielfeld;
         fireSpielfeldChanged(currentSpielfeld);
     }
 
-    // Implementiert IGotSpielModus.
-    @Override
     public SpielmodusEnumeration getSpielmodus() {
-        return spielmodus;
+        return getSpielfeld().getSpielmodus();
     }
 
     /**
@@ -307,9 +303,8 @@ public class Spiel implements IGotSpielModus {
             {
                 getSpielStoppUhr().stop();
             }
-
-            this.spielmodus = neuerSpielmodus;
-            fireSpielmodusChanged(neuerSpielmodus);
+            /* Aenderung feuert durch Kopplung auch die Listener von Spiel */
+            getSpielfeld().setSpielmodus(neuerSpielmodus);
         }
     }
 
@@ -453,6 +448,12 @@ public class Spiel implements IGotSpielModus {
         public void spielsteinChanged(Spielfeld spielfeld, int x, int y,
                 Spielstein changedStein) {
             fireSpielsteinChanged(spielfeld, x, y, changedStein);
+        }
+
+        @Override
+        public void spielmodusChanged(Spielfeld spielfeld,
+                SpielmodusEnumeration neuerSpielmodus) {
+            fireSpielmodusChanged(neuerSpielmodus);
         }
     }
 
