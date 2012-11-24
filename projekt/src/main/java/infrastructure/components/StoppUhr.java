@@ -1,48 +1,77 @@
 package infrastructure.components;
 
 /**
- * StoppUhr Klasse zur Nachverfolgung der gespielten Zeit
+ * StoppUhr Klasse zur Nachverfolgung der gespielten Zeit. Vor dem Serialisieren
+ * von Instanzen dieser Klasse muss manuell stop() aufgerufen werden, wenn
+ * gerade eine Messung läuft, da die Messung sonst weiter läuft.
  * 
- * @author fwenisch, Lars Schlegelmilch
+ * @author fwenisch, Lars Schlegelmilch, Lutz Kleiber
  */
 public class StoppUhr {
-    private long lZeit;
-    private long lZeitStart;
-    private long lZeitPause;
-    private long lZeitGoOn = 0;
-    private boolean isStarted = false;
 
-    public void start() {
-        lZeitStart = System.currentTimeMillis();
-        isStarted = true;
-    }
+    /**
+     * Die Summe der Millisekunden aus den bisherigen Messungen. Hat nichts mit
+     * der aktuell laufenden Messung zu tun. Ist ein relativer Zeitraum (bsp:
+     * 135 Millisekunden) und kein Zeitpunkt.
+     */
+    private long summeDerBisherigenMessungen = 0L;
 
-    public void pause() {
-        if (isStarted) {
-            lZeitPause = System.currentTimeMillis();
-            isStarted = false;
+    /** Zeitpunkt des Starts der aktuell laufenden Messung. */
+    private long aktuelleMessungAbsoluterStartZeitpunkt = 0L;
+
+    private boolean messungLaeuft = false;
+
+    /**
+     * Startet die Messung oder setzt die gestoppte Messung fort. Wenn bereits
+     * eine Messung laeuft, die noch nicht gestoppt wurde, hat der Aufruf keine
+     * Auswirkungen.
+     */
+    public synchronized void start() {
+
+        if (!messungLaeuft) {
+            this.aktuelleMessungAbsoluterStartZeitpunkt = System
+                    .currentTimeMillis();
+            messungLaeuft = true;
         }
     }
 
-    public void goOn() {
-        if (!isStarted) {
-            lZeitGoOn = System.currentTimeMillis() - lZeitPause;
-            isStarted = true;
+    /**
+     * Stoppt die Messung. Die Messung kann mit start() spaeter fortgesetzt
+     * werden. Wenn gerade keine Messung läuft, hat der Aufruf keine
+     * Auswirkungen.
+     */
+    public synchronized void stop() {
+        if (messungLaeuft) {
+            messungLaeuft = false;
+            final long aktuelleMessungAbsoluterJetztZeitpunkt = System
+                    .currentTimeMillis();
+            final long waehrendAktuellerMessungVergangeneZeit = aktuelleMessungAbsoluterJetztZeitpunkt
+                    - this.aktuelleMessungAbsoluterStartZeitpunkt;
+            this.summeDerBisherigenMessungen += waehrendAktuellerMessungVergangeneZeit;
         }
     }
 
-    public void stop() {
-        isStarted = false;
-    }
+    /**
+     * Gibt die aktuelle Anzeige der Stoppuhr zurueck. Beruecksichtigt auch eine
+     * eventuell gerade laufende Messung.
+     * 
+     * @return Die während aller Messungen bis zum aktuellen Zeitpunkt vergangen
+     *         Sekunden.
+     */
+    public long getSekunden() {
 
-    private void update() {
-        lZeit = ((System.currentTimeMillis() - lZeitStart - lZeitGoOn) / 1000);
-    }
+        long millisSumme = summeDerBisherigenMessungen;
+        if (messungLaeuft) {
+            /*
+             * Addiere zur komplett vergangenen Zeit der alten Messungen die
+             * während der aktuellen Messung bis hierhin vergangene Zeit.
+             */
+            final long aktuelleMessungAbsoluterJetztZeitpunkt = System
+                    .currentTimeMillis();
+            millisSumme += (aktuelleMessungAbsoluterJetztZeitpunkt - this.aktuelleMessungAbsoluterStartZeitpunkt);
 
-    public long getZeit() {
-        if (isStarted)
-            update();
-        return lZeit;
+        }
+        /* Millisekunden in Sekunden umrechnen */
+        return (millisSumme / 1000);
     }
-
 }
