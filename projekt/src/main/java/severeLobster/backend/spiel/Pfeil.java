@@ -34,7 +34,7 @@ public class Pfeil extends Spielstein {
             PfeilrichtungEnumeration.NORDWEST);
 
     /**
-     * Es wird immer dieselbst Liste zurueckgegeben, daher muss sie
+     * Es wird immer dieselbe Liste zurueckgegeben, daher muss sie
      * unveraenderbar sein.
      */
     private static final List<Pfeil> ALLE_MOEGLICHEN_PFEIL_INSTANZEN;
@@ -169,6 +169,16 @@ public class Pfeil extends Spielstein {
             break;
         }
         return result;
+    }
+
+    @Override
+    public Spielstein createNewCopy() {
+        /*
+         * Pfeile haben konstante Attribute und koennten auch als Singletons
+         * angeboten werden, daher einfach nur die aktuelle Instanz auf dem die
+         * Methode aufgerufen wird zurueckgeben
+         */
+        return this;
     }
 
 }

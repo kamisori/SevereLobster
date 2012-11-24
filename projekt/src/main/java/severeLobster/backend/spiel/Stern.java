@@ -24,4 +24,10 @@ public class Stern extends Spielstein {
     public boolean equals(final Object obj) {
         return (null != obj && obj instanceof Stern);
     }
+
+    @Override
+    public Spielstein createNewCopy() {
+        /* Da es nur eine Instanz gibt, einfach die Instanz zurueckgeben */
+        return Stern.getInstance();
+    }
 }

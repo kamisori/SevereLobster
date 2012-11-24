@@ -30,4 +30,10 @@ public class KeinStein extends Spielstein {
     public boolean equals(final Object obj) {
         return (null != obj && obj instanceof KeinStein);
     }
+
+    @Override
+    public Spielstein createNewCopy() {
+        /* Da es nur eine Instanz gibt, einfach die Instanz zurueckgeben */
+        return KeinStein.getInstance();
+    }
 }

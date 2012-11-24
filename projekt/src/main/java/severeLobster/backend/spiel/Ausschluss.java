@@ -30,4 +30,10 @@ public class Ausschluss extends Spielstein {
         return (null != obj && obj instanceof Ausschluss);
     }
 
+    @Override
+    public Spielstein createNewCopy() {
+        /* Da es nur eine Instanz gibt, einfach die Instanz zurueckgeben */
+        return Ausschluss.getInstance();
+    }
+
 }

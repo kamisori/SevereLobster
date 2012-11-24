@@ -19,4 +19,10 @@ public abstract class Spielstein {
     @Override
     public abstract boolean equals(Object obj);
 
+    /**
+     * Gibt eine Kopie dieses Spielsteins zurueck.
+     * 
+     * @return Eine Kopie des Spielstein, niemals null.
+     */
+    public abstract Spielstein createNewCopy();
 }

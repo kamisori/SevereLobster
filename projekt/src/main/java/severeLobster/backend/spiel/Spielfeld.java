@@ -57,7 +57,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         this.realSteine = new Spielstein[breite][hoehe];
         this.visibleSteine = new Spielstein[breite][hoehe];
 
-        /** Beide Feldansichten mit KeinStein Spielsteinen fuellen */
+        /* Beide Feldansichten mit KeinStein Spielsteinen fuellen */
         for (int hoeheIndex = 0; hoeheIndex < hoehe; hoeheIndex++) {
 
             for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
@@ -67,6 +67,65 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
                         .getInstance();
             }
         }
+    }
+
+    /**
+     * Kopie Konstruktor. Erstellt ein neues Spielfeld, das den gleichen Zustand
+     * hat, wie das uebergebene Spielfeld. Kopiert bisher nur den Zustand von
+     * Spiel- und Editiermodus. - nicht von Loesen.
+     * 
+     * @param quellSpielfeld
+     */
+    public Spielfeld(final Spielfeld quellSpielfeld) {
+        this(quellSpielfeld, quellSpielfeld.getBreite(), quellSpielfeld
+                .getHoehe());
+    }
+
+    /**
+     * Kopie Konstruktor. Erstellt ein neues Spielfeld der angegebenen Groesse
+     * und kopiert den Zustand des uebergebenen Spielfeldes, soweit das bei den
+     * Groessenunterschieden moeglich ist . Kopiert nur die Zustaende von Spiel-
+     * und Editiermodus. - nicht von Loesen.
+     * 
+     * @param quellSpielfeld
+     */
+    public Spielfeld(final Spielfeld quellSpielfeld, final int breite,
+            final int hoehe) {
+
+        /*
+         * Erstelle ein leeres Spielfeld der angegebenen Groesse. Der Spielmodus
+         * des neuen Spielfeldes wird mit dem aktuellen Spielmodus des alten
+         * Spielfeldes initialisiert.
+         */
+        this(quellSpielfeld.getSpielmodus(), breite, hoehe);
+
+        final SpielmodusEnumeration quellSpielfeldAnfangsSpielmodus = quellSpielfeld
+                .getSpielmodus();
+
+        /*
+         * Uebertrage den Inhalt des Quellspielfeldes in das neu erstellte
+         * Spielfeld, soweit das bei den Groessenunterschieden moeglich ist.
+         * Durchlaufe das neue Spielfeld und hole den Spielstein mit den jeweils
+         * gleichen Koordinaten aus dem Quellspielfeld.
+         */
+        /* Modus SPIELEN: */
+        {
+            this.setSpielmodus(SpielmodusEnumeration.SPIELEN);
+            quellSpielfeld.setSpielmodus(SpielmodusEnumeration.SPIELEN);
+
+            Spielfeld.kopiereSichtbarenZustand(quellSpielfeld, this);
+        }
+        /* Modus EDITIEREN: */
+        {
+            this.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+            quellSpielfeld.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+
+            Spielfeld.kopiereSichtbarenZustand(quellSpielfeld, this);
+        }
+        /* Spielmodi zurueck auf Anfang */
+        this.setSpielmodus(quellSpielfeldAnfangsSpielmodus);
+        quellSpielfeld.setSpielmodus(quellSpielfeldAnfangsSpielmodus);
+
     }
 
     protected int countPfeileZeile(int y) {
@@ -514,4 +573,72 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return false;
     }
 
+    /**
+     * Liest den aktuell ueber {@link getSpielstein()} sichtbaren Zustand aus
+     * quellSpielfeld und schreibt ihn ueber {@link setSpielstein()} in das
+     * zielSpielfeld. Da die Sichtbarkeit und das Verhalten der Setzbarkeit vom
+     * jeweils eingestellten Spielmodus abhängig sind, muss dieser vor dem
+     * Aufruf der Methode auf den gewuenschten Wert gesetzt werden. Die
+     * Spielmodi der uebergebenen Spielfelder werden nicht veraendert. Das
+     * Quellspielfeld wird nicht veraendert.
+     * 
+     * @param quellSpielfeld
+     * @param zielSpielfeld
+     */
+    public static void kopiereSichtbarenZustand(final Spielfeld quellSpielfeld,
+            final Spielfeld zielSpielfeld) {
+        Spielstein quellSpielstein;
+        for (int hoeheIndex = 0; hoeheIndex < zielSpielfeld.getHoehe()
+                && hoeheIndex < quellSpielfeld.getHoehe(); hoeheIndex++) {
+
+            for (int breiteIndex = 0; breiteIndex < zielSpielfeld.getBreite()
+                    && breiteIndex < quellSpielfeld.getBreite(); breiteIndex++) {
+
+                quellSpielstein = quellSpielfeld.getSpielstein(breiteIndex,
+                        hoeheIndex);
+                /*
+                 * Erstelle Kopie des Spielsteins und setze ihn in das neue
+                 * Spielfeld
+                 */
+                zielSpielfeld.setSpielstein(breiteIndex, hoeheIndex,
+                        quellSpielstein.createNewCopy());
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+
+        if (null != obj && obj instanceof Spielfeld) {
+
+            final Spielfeld verglSpielfeld = (Spielfeld) obj;
+
+            if (this.getBreite() == verglSpielfeld.getBreite()
+                    && this.getHoehe() == verglSpielfeld.getHoehe()) {
+
+                for (int hoeheIndex = 0; hoeheIndex < this.getHoehe(); hoeheIndex++) {
+
+                    for (int breiteIndex = 0; breiteIndex < this.getBreite(); breiteIndex++) {
+
+                        /*
+                         * Sobald ein Stein nicht identisch ist, gib false
+                         * zurueck und verlasse Schleife vorzeitig
+                         */
+                        if (!this.getSpielstein(breiteIndex, hoeheIndex)
+                                .equals(verglSpielfeld.getSpielstein(
+                                        breiteIndex, hoeheIndex))) {
+
+                            return false;
+                        }
+                    }
+                }
+                /*
+                 * Wenn Schleife nicht vorzeitig verlassen wurde, waren alle
+                 * Steine identisch
+                 */
+                return true;
+            }
+        }
+        return false;
+    }
 }
