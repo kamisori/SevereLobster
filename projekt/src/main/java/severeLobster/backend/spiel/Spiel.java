@@ -41,7 +41,8 @@ public class Spiel implements IGotSpielModus {
     private ActionHistory spielZuege;
     private Stack<ActionHistoryObject> trackingPunkte;
     private int anzahlZuege = 0;
-    private StoppUhr spielStoppUhr;
+
+    private final StoppUhr spielStoppUhr;
     private String spielZeit = "--";
 
     /**
@@ -50,8 +51,6 @@ public class Spiel implements IGotSpielModus {
      */
     public Spiel() {
         this(SpielmodusEnumeration.SPIELEN);
-        setSpielStoppUhr(new StoppUhr());
-        setFreigegeben(true);
     }
 
     /**
@@ -61,9 +60,10 @@ public class Spiel implements IGotSpielModus {
      *            Spielmodus des Spiels
      */
     public Spiel(SpielmodusEnumeration spielmodus) {
+        this.spielStoppUhr = new StoppUhr();
         if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
             setFreigegeben(true);
-            setSpielStoppUhr(new StoppUhr());
+            getSpielStoppUhr().start();
         }
         this.spielmodus = spielmodus;
         this.currentSpielfeld = new Spielfeld(this, 10, 10);
@@ -93,11 +93,25 @@ public class Spiel implements IGotSpielModus {
     }
 
     public StoppUhr getSpielStoppUhr() {
-        return spielStoppUhr;
-    }
 
-    public void setSpielStoppUhr(StoppUhr spielStoppUhr) {
-        this.spielStoppUhr = spielStoppUhr;
+        /*
+         * SpielstoppUhr wird bei dieser Version als Member beim Erstellen
+         * gesetzt und ist dann konstant. Wenn StopUhr null ist, ist die Instanz
+         * eine alte Version der Klasse.
+         */
+        if (null == spielStoppUhr) {
+            /* Exception Block temporaer, bis alles angepasst ist. */
+            try {
+                /* Braucht net uebesetzt zu werden */
+                throw new NullPointerException(
+                        "Spiel Klasse hat sich geaendert und ist mit geladenem Spiel nicht mehr kompatibel. Gespeichertes Spiel muss mit neuer Klassenversion neu erstellt werden.");
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+        }
+        return spielStoppUhr;
     }
 
     /**
@@ -108,17 +122,6 @@ public class Spiel implements IGotSpielModus {
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
         return getSpielfeld().getSchwierigkeitsgrad();
     }
-
-    /*
-     * Es darf nicht moeglich sein von aussen ein Spielfeld zu setzen, da bei
-     * dem neuen Spielfeld der SPielmodus vom alten Spiel abhaengen wuerde,
-     * durch das das Spielfeld erstellt wurde (IGotSpielmodus). Auf Aenderungen
-     * beim Spielmodus in dieser Instanz wuerde das Spielfeld entsprechend nicht
-     * reagieren.
-     */
-    // public void setSpielfeld(Spielfeld spielfeld) {
-    // currentSpielfeld = spielfeld;
-    // }
 
     public Spielfeld getSpielfeld() {
         return currentSpielfeld;
@@ -242,9 +245,7 @@ public class Spiel implements IGotSpielModus {
         inputStream.close();
 
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        StoppUhr stoppUhr = new StoppUhr();
-        stoppUhr.start();
-        neuesSpiel.setSpielStoppUhr(stoppUhr);
+        neuesSpiel.getSpielStoppUhr().start();
         return neuesSpiel;
     }
 
@@ -283,19 +284,32 @@ public class Spiel implements IGotSpielModus {
     /**
      * Setzt den Spielmodus des aktuellen Spiels
      * 
-     * @param spielmodus
+     * @param neuerSpielmodus
      *            Spielmodus des Spiels
      */
-    public void setSpielmodus(final SpielmodusEnumeration spielmodus) {
-        if (null != spielmodus) {
-            if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)
-                    && !isFreigegeben()) {
-                throw new IllegalStateException(
-                        "Spielmodus kann nicht geändert werden:"
-                                + "Spiel ist nicht freigegeben für Spielmodus!");
+    public void setSpielmodus(final SpielmodusEnumeration neuerSpielmodus) {
+        if (null != neuerSpielmodus) {
+
+            if (neuerSpielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
+
+                if (!isFreigegeben()) {
+                    throw new IllegalStateException(
+                            "Spielmodus kann nicht geändert werden:"
+                                    + "Spiel ist nicht freigegeben für Spielmodus!");
+                }
+                /*
+                 * Uhr wird nur gestartet, wenn auch wirklich auf Spielmodus
+                 * SPIELEN gesetzt werden kann. Andernfalls wurde die Methode
+                 * zuvor bereits durch die Exception verlassen
+                 */
+                getSpielStoppUhr().start();
+            } else // neuer spielmodus ist EDITIEREN
+            {
+                getSpielStoppUhr().stop();
             }
-            this.spielmodus = spielmodus;
-            fireSpielmodusChanged(spielmodus);
+
+            this.spielmodus = neuerSpielmodus;
+            fireSpielmodusChanged(neuerSpielmodus);
         }
     }
 
