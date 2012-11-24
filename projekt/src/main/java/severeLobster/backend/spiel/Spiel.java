@@ -1,14 +1,11 @@
 package severeLobster.backend.spiel;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import infrastructure.ResourceManager;
 import infrastructure.components.StoppUhr;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 
-import javax.swing.event.EventListenerList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,6 +13,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Stack;
+
+import javax.swing.event.EventListenerList;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
@@ -113,7 +115,6 @@ public class Spiel implements IGotSpielModus {
      * durch das das Spielfeld erstellt wurde (IGotSpielmodus). Auf Aenderungen
      * beim Spielmodus in dieser Instanz wuerde das Spielfeld entsprechend nicht
      * reagieren.
-     * 
      */
     // public void setSpielfeld(Spielfeld spielfeld) {
     // currentSpielfeld = spielfeld;
@@ -163,7 +164,7 @@ public class Spiel implements IGotSpielModus {
             int groesse = currentSpielfeld.getBreite()
                     * currentSpielfeld.getHoehe();
             long faktor = (long) (groesse / (fehlversuche + 1));
-            int sekunden = (int) spielStoppUhr.getZeit();
+            int sekunden = (int) spielStoppUhr.getSekunden();
             int score = (int) (faktor) * 1000 - sekunden;
             if (score <= 0) {
                 return 1;
@@ -184,7 +185,7 @@ public class Spiel implements IGotSpielModus {
      */
     public void saveSpiel(String spielname) throws IOException {
         if (getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-            getSpielStoppUhr().pause();
+            getSpielStoppUhr().stop();
         }
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + getDateiendung(getSpielmodus());
@@ -194,7 +195,7 @@ public class Spiel implements IGotSpielModus {
         xstream.toXML(this, outputStream);
         outputStream.close();
         if (getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-            getSpielStoppUhr().goOn();
+            getSpielStoppUhr().start();
         }
     }
 
@@ -216,7 +217,7 @@ public class Spiel implements IGotSpielModus {
         Spiel spiel = (Spiel) xstream.fromXML(inputStream);
         inputStream.close();
         if (SpielmodusEnumeration.SPIELEN.equals(spiel.getSpielmodus())) {
-            spiel.getSpielStoppUhr().goOn();
+            spiel.getSpielStoppUhr().start();
         }
         return spiel;
     }
@@ -233,8 +234,9 @@ public class Spiel implements IGotSpielModus {
     public static Spiel newSpiel(String spielname) throws IOException {
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
-        File verzeichnis = new File(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR, spielname
-                + dateiendung);
+        File verzeichnis = new File(
+                GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR,
+                spielname + dateiendung);
         InputStream inputStream = new FileInputStream(verzeichnis);
         Spiel neuesSpiel = (Spiel) xstream.fromXML(inputStream);
         inputStream.close();
@@ -286,9 +288,11 @@ public class Spiel implements IGotSpielModus {
      */
     public void setSpielmodus(final SpielmodusEnumeration spielmodus) {
         if (null != spielmodus) {
-            if (spielmodus.equals(SpielmodusEnumeration.SPIELEN) && !isFreigegeben()) {
-                throw new IllegalStateException("Spielmodus kann nicht geändert werden:" +
-                        "Spiel ist nicht freigegeben für Spielmodus!");
+            if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)
+                    && !isFreigegeben()) {
+                throw new IllegalStateException(
+                        "Spielmodus kann nicht geändert werden:"
+                                + "Spiel ist nicht freigegeben für Spielmodus!");
             }
             this.spielmodus = spielmodus;
             fireSpielmodusChanged(spielmodus);
@@ -423,9 +427,8 @@ public class Spiel implements IGotSpielModus {
         return trackingPunkte;
     }
 
-    public void entferneAlleTrackingPunkte(){
-        while(trackingPunkte.size() != 0)
-        {
+    public void entferneAlleTrackingPunkte() {
+        while (trackingPunkte.size() != 0) {
             trackingPunkte.pop().setzeTrackingPunktNachDiesemZug(false);
         }
     }
@@ -458,7 +461,7 @@ public class Spiel implements IGotSpielModus {
 
     public String getSpielZeit() {
         if (getSpielStoppUhr() != null) {
-            spielZeit = String.valueOf(getSpielStoppUhr().getZeit());
+            spielZeit = String.valueOf(getSpielStoppUhr().getSekunden());
         }
         // TODO: Formatierung der Zeit (Sekunden)
         return spielZeit;
@@ -469,8 +472,9 @@ public class Spiel implements IGotSpielModus {
 
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
-        File verzeichnis = new File(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR, spielname
-                + dateiendung);
+        File verzeichnis = new File(
+                GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR,
+                spielname + dateiendung);
         OutputStream outputStream = new FileOutputStream(verzeichnis);
         xstream.toXML(this, outputStream);
         outputStream.close();
@@ -478,6 +482,7 @@ public class Spiel implements IGotSpielModus {
 
     /**
      * Prueft, ob ein Puzzle für das Spielen freigegeben ist
+     * 
      * @return freigegeben
      */
     public boolean isFreigegeben() {
