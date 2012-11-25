@@ -1,8 +1,8 @@
 package severeLobster.backend.spiel;
 
-import infrastructure.components.FTPConnector;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,264 +26,274 @@ import severeLobster.frontend.dialogs.GewonnenDialog;
  */
 public class SternenSpielApplicationBackend {
 
-	/** Einzige Instanz */
-	private static final SternenSpielApplicationBackend UNIQUE_INSTANCE = new SternenSpielApplicationBackend();
-	private final EventListenerList listeners = new EventListenerList();
-	private final ISpielListener innerSpielListener = new InnerSpielListener();
-	private Spiel currentlyPlayedSpiel;
+    /** Einzige Instanz */
+    private static final SternenSpielApplicationBackend UNIQUE_INSTANCE = new SternenSpielApplicationBackend();
+    private final EventListenerList listeners = new EventListenerList();
+    private final ISpielListener innerSpielListener = new InnerSpielListener();
+    private Spiel currentlyPlayedSpiel;
 
-	private SternenSpielApplicationBackend() {
-		this.currentlyPlayedSpiel = new Spiel();
-		currentlyPlayedSpiel.addSpielListener(innerSpielListener);
-	}
+    private SternenSpielApplicationBackend() {
+        this.currentlyPlayedSpiel = new Spiel();
+        currentlyPlayedSpiel.addSpielListener(innerSpielListener);
+    }
 
-	public static SternenSpielApplicationBackend getInstance() {
-		return UNIQUE_INSTANCE;
-	}
+    public static SternenSpielApplicationBackend getInstance() {
+        return UNIQUE_INSTANCE;
+    }
 
-	public Spiel getSpiel() {
-		return this.currentlyPlayedSpiel;
-	}
+    public Spiel getSpiel() {
+        return this.currentlyPlayedSpiel;
+    }
 
-	public void setzeTrackingPunkt() {
-		ActionHistoryObject current = currentlyPlayedSpiel.getSpielZuege()
-				.getCurrent();
-		current.setzeTrackingPunktNachDiesemZug(true);
-		currentlyPlayedSpiel.getTrackingPunkte().push(current);
-	}
+    public void setzeTrackingPunkt() {
+        ActionHistoryObject current = currentlyPlayedSpiel.getSpielZuege()
+                .getCurrent();
+        current.setzeTrackingPunktNachDiesemZug(true);
+        currentlyPlayedSpiel.getTrackingPunkte().push(current);
+    }
 
-	public void zurueckZumLetztenFehlerfreienSpielzug() {
-		currentlyPlayedSpiel.getSpielZuege().zurueckZuLetztemFehlerfreiemZug();
-	}
+    public void zurueckZumLetztenFehlerfreienSpielzug() {
+        currentlyPlayedSpiel.getSpielZuege().zurueckZuLetztemFehlerfreiemZug();
+    }
 
-	public void zurueckZumLetztenTrackingPunkt() {
-		currentlyPlayedSpiel.getSpielZuege().zurueckZuLetztemCheckpoint();
-		if (currentlyPlayedSpiel.getTrackingPunkte().size() > 0)
-			currentlyPlayedSpiel.getTrackingPunkte().pop()
-			.setzeTrackingPunktNachDiesemZug(false);
-	}
+    public void zurueckZumLetztenTrackingPunkt() {
+        currentlyPlayedSpiel.getSpielZuege().zurueckZuLetztemCheckpoint();
+        if (currentlyPlayedSpiel.getTrackingPunkte().size() > 0)
+            currentlyPlayedSpiel.getTrackingPunkte().pop()
+                    .setzeTrackingPunktNachDiesemZug(false);
+    }
 
-	public void entferneAlleTrackingPunkte() {
-		currentlyPlayedSpiel.entferneAlleTrackingPunkte();
-	}
+    public void entferneAlleTrackingPunkte() {
+        currentlyPlayedSpiel.entferneAlleTrackingPunkte();
+    }
 
-	/***
-	 * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
-	 * wie: Spielfeld.setSpielstein().
-	 * 
-	 * @param x
-	 * @param y
-	 * @param spielstein
-	 */
-	public void setSpielstein(final int x, final int y,
-			final Spielstein spielstein) {
-		boolean fehler;
-		PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
-		fehler = spielZug.execute(x, y, spielstein);
-		currentlyPlayedSpiel.getSpielZuege().neuerSpielzug(spielZug, fehler);
-	}
+    /***
+     * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
+     * wie: Spielfeld.setSpielstein().
+     * 
+     * @param x
+     * @param y
+     * @param spielstein
+     */
+    public void setSpielstein(final int x, final int y,
+            final Spielstein spielstein) {
+        boolean fehler;
+        PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
+        fehler = spielZug.execute(x, y, spielstein);
+        currentlyPlayedSpiel.getSpielZuege().neuerSpielzug(spielZug, fehler);
+    }
 
-	/***
-	 * Gibt vom aktuellen Spielfeld den Spielstein an der Stelle.
-	 * 
-	 * @param x
-	 * @param y
-	 */
-	public Spielstein getSpielstein(final int x, final int y) {
-		return getSpiel().getSpielfeld().getSpielstein(x, y);
-	}
+    /***
+     * Gibt vom aktuellen Spielfeld den Spielstein an der Stelle.
+     * 
+     * @param x
+     * @param y
+     */
+    public Spielstein getSpielstein(final int x, final int y) {
+        return getSpiel().getSpielfeld().getSpielstein(x, y);
+    }
 
-	public int getSpielfeldBreite() {
-		return getSpiel().getSpielfeld().getBreite();
-	}
+    public int getSpielfeldBreite() {
+        return getSpiel().getSpielfeld().getBreite();
+    }
 
-	public int getSpielfeldHoehe() {
-		return getSpiel().getSpielfeld().getHoehe();
-	}
+    public int getSpielfeldHoehe() {
+        return getSpiel().getSpielfeld().getHoehe();
+    }
 
-	public int getCountSterneSpale(final int x) {
-		return getSpiel().getSpielfeld().countSterneSpalte(x);
-	}
+    public int getCountSterneSpale(final int x) {
+        return getSpiel().getSpielfeld().countSterneSpalte(x);
+    }
 
-	public int getCountSterneZeile(final int y) {
-		return getSpiel().getSpielfeld().countSterneZeile(y);
-	}
+    public int getCountSterneZeile(final int y) {
+        return getSpiel().getSpielfeld().countSterneZeile(y);
+    }
 
-	public List<? extends Spielstein> listAvailableStates(int x, int y) {
-		return getSpiel().getSpielfeld().listAvailableStates(x, y);
-	}
+    public List<? extends Spielstein> listAvailableStates(int x, int y) {
+        return getSpiel().getSpielfeld().listAvailableStates(x, y);
+    }
 
-	public void startNewSpielFrom(final String spielname) throws IOException {
-		final Spiel newGame = Spiel.newSpiel(spielname);
-		setSpiel(newGame);
-	}
+    public void startNewSpielFrom(final String spielname) throws IOException,
+            LoesungswegNichtEindeutigException {
+        final Spiel newGame = Spiel.newSpiel(spielname);
+        setSpiel(newGame);
+    }
 
-	public void puzzleFreigeben(String spielname) throws IOException {
-		getSpiel().gebeSpielFrei(spielname);
-		try
-		{
-			if(MainFrame.oFTP.isOnline())
-			{
-				MainFrame.oFTP.upload(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR+"\\"+spielname+".puz",spielname+"-"+getSpiel().getSchwierigkeitsgrad()+"-"+(getSpiel().getSpielfeld().getBreite()*getSpiel().getSpielfeld().getHoehe())+System.getProperty("user.name")+"-.puz");
-				MainFrame.oFTP.updateFiles();
-			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Fehler beim Upload "+ e.toString());
-		}
-	}
+    public void puzzleFreigeben(String spielname)
+            throws LoesungswegNichtEindeutigException, IOException {
+        getSpiel().gebeSpielFrei(spielname);
+        try {
+            if (MainFrame.oFTP.isOnline()) {
+                MainFrame.oFTP
+                        .upload(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR
+                                + "\\" + spielname + ".puz",
+                                spielname
+                                        + "-"
+                                        + getSpiel().getSchwierigkeitsgrad()
+                                        + "-"
+                                        + (getSpiel().getSpielfeld()
+                                                .getBreite() * getSpiel()
+                                                .getSpielfeld().getHoehe())
+                                        + System.getProperty("user.name")
+                                        + "-.puz");
+                MainFrame.oFTP.updateFiles();
+            }
 
-	public void loadSpielFrom(final String spielname) throws IOException {
-		final Spiel loadedSpiel = Spiel.loadSpiel(spielname,
-				SpielmodusEnumeration.SPIELEN);
-		setSpiel(loadedSpiel);
-	}
+        } catch (Exception e) {
+            System.out.println("Fehler beim Upload " + e.toString());
+        }
+    }
 
-	public void saveCurrentSpielTo(final String spielname) throws IOException {
-		getSpiel().saveSpiel(spielname);
-	}
+    public void loadSpielFrom(final String spielname) throws IOException {
+        final Spiel loadedSpiel = Spiel.loadSpiel(spielname,
+                SpielmodusEnumeration.SPIELEN);
+        setSpiel(loadedSpiel);
+    }
 
-	public void loadPuzzleFrom(final String puzzlename) throws IOException {
-		final Spiel loadedPuzzle = Spiel.loadSpiel(puzzlename,
-				SpielmodusEnumeration.EDITIEREN);
-		setSpiel(loadedPuzzle);
-	}
+    public void saveCurrentSpielTo(final String spielname) throws IOException {
+        getSpiel().saveSpiel(spielname);
+    }
 
-	public void saveCurrentPuzzleTo(final String puzzlename) throws IOException {
-		getSpiel().saveSpiel(puzzlename);
-	}
+    public void loadPuzzleFrom(final String puzzlename) throws IOException {
+        final Spiel loadedPuzzle = Spiel.loadSpiel(puzzlename,
+                SpielmodusEnumeration.EDITIEREN);
+        setSpiel(loadedPuzzle);
+    }
 
-	public void setSpiel(final Spiel spiel) {
-		final Spiel currentlyListenedSpiel = getSpiel();
-		if (null != currentlyListenedSpiel) {
-			currentlyListenedSpiel.removeSpielListener(innerSpielListener);
-		}
-		spiel.addSpielListener(innerSpielListener);
-		this.currentlyPlayedSpiel = spiel;
-		fireSpielChanged(spiel);
-	}
+    public void saveCurrentPuzzleTo(final String puzzlename) throws IOException {
+        getSpiel().saveSpiel(puzzlename);
+    }
 
-	/**
-	 * Fuegt listener zu der Liste hinzu.
-	 * 
-	 * @param listener
-	 *            ISpielfeldListener
-	 */
-	public void addApplicationBackendListener(
-			final ISternenSpielApplicationBackendListener listener) {
-		listeners.add(ISternenSpielApplicationBackendListener.class, listener);
-	}
+    public void setSpiel(final Spiel spiel) {
+        final Spiel currentlyListenedSpiel = getSpiel();
+        if (null != currentlyListenedSpiel) {
+            currentlyListenedSpiel.removeSpielListener(innerSpielListener);
+        }
+        spiel.addSpielListener(innerSpielListener);
+        this.currentlyPlayedSpiel = spiel;
+        fireSpielChanged(spiel);
+    }
 
-	/**
-	 * Entfernt listener von der Liste.
-	 * 
-	 * @param listener
-	 *            ISpielsteinListener
-	 */
-	public void removeApplicationBackendListener(
-			final ISternenSpielApplicationBackendListener listener) {
-		listeners.remove(ISternenSpielApplicationBackendListener.class,
-				listener);
-	}
+    /**
+     * Fuegt listener zu der Liste hinzu.
+     * 
+     * @param listener
+     *            ISpielfeldListener
+     */
+    public void addApplicationBackendListener(
+            final ISternenSpielApplicationBackendListener listener) {
+        listeners.add(ISternenSpielApplicationBackendListener.class, listener);
+    }
 
-	private void fireSpielChanged(Spiel spiel) {
-		/** Gibt ein Array zurueck, das nicht null ist */
-		final Object[] currentListeners = listeners.getListenerList();
-		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-			if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
-				((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
-				.spielChanged(this, spiel);
-			}
-		}
-	}
+    /**
+     * Entfernt listener von der Liste.
+     * 
+     * @param listener
+     *            ISpielsteinListener
+     */
+    public void removeApplicationBackendListener(
+            final ISternenSpielApplicationBackendListener listener) {
+        listeners.remove(ISternenSpielApplicationBackendListener.class,
+                listener);
+    }
 
-	private void fireSpielmodusChanged(final Spiel spiel,
-			final SpielmodusEnumeration newSpielmodus) {
+    private void fireSpielChanged(Spiel spiel) {
+        /** Gibt ein Array zurueck, das nicht null ist */
+        final Object[] currentListeners = listeners.getListenerList();
+        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+            if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
+                ((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
+                        .spielChanged(this, spiel);
+            }
+        }
+    }
 
-		/** Gibt ein Array zurueck, das nicht null ist */
-		final Object[] currentListeners = listeners.getListenerList();
-		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-			if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
-				((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
-				.spielmodusChanged(this, spiel, newSpielmodus);
-			}
-		}
-	}
+    private void fireSpielmodusChanged(final Spiel spiel,
+            final SpielmodusEnumeration newSpielmodus) {
 
-	private void fireSpielsteinChanged(final Spiel spiel,
-			final Spielfeld spielfeld, final int x, final int y,
-			Spielstein newStein) {
+        /** Gibt ein Array zurueck, das nicht null ist */
+        final Object[] currentListeners = listeners.getListenerList();
+        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+            if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
+                ((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
+                        .spielmodusChanged(this, spiel, newSpielmodus);
+            }
+        }
+    }
 
-		/** Gibt ein Array zurueck, das nicht null ist */
-		final Object[] currentListeners = listeners.getListenerList();
-		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-			if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
-				((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
-				.spielsteinChanged(this, spiel, spielfeld, x, y,
-						newStein);
-			}
-		}
-	}
+    private void fireSpielsteinChanged(final Spiel spiel,
+            final Spielfeld spielfeld, final int x, final int y,
+            Spielstein newStein) {
 
-	private void fireSpielfeldChanged(final Spiel spiel,
-			final Spielfeld newSpielfeld) {
+        /** Gibt ein Array zurueck, das nicht null ist */
+        final Object[] currentListeners = listeners.getListenerList();
+        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+            if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
+                ((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
+                        .spielsteinChanged(this, spiel, spielfeld, x, y,
+                                newStein);
+            }
+        }
+    }
 
-		/** Gibt ein Array zurueck, das nicht null ist */
-		final Object[] currentListeners = listeners.getListenerList();
-		for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
-			if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
-				((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
-				.spielfeldChanged(this, spiel, newSpielfeld);
-			}
-		}
-	}
+    private void fireSpielfeldChanged(final Spiel spiel,
+            final Spielfeld newSpielfeld) {
 
-	/**
-	 * Zur Weiterleitung.
-	 * 
-	 * @author Lutz Kleiber
-	 * 
-	 */
-	private class InnerSpielListener implements ISpielListener {
+        /** Gibt ein Array zurueck, das nicht null ist */
+        final Object[] currentListeners = listeners.getListenerList();
+        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+            if (currentListeners[i] == ISternenSpielApplicationBackendListener.class) {
+                ((ISternenSpielApplicationBackendListener) currentListeners[i + 1])
+                        .spielfeldChanged(this, spiel, newSpielfeld);
+            }
+        }
+    }
 
-		@Override
-		public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
-				int y, Spielstein newStein) {
-			fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
-			if (spiel.isSolved()
-					&& spiel.getSpielmodus().equals(
-							SpielmodusEnumeration.SPIELEN)) {
-				{
-					int result = GewonnenDialog.show(null,
-							spiel.getHighscore(), spiel.getSpielZeit(),
-							spiel.getAnzahlZuege());
-					if (GewonnenDialog.neues_spiel_starten
-							.equals(GewonnenDialog.options[result])) {
-						MainFrame.neuesSpielOeffnen();
-					} else if (GewonnenDialog.zurueck_zum_menue
-							.equals(GewonnenDialog.options[result])) {
-						MainFrame.mainPanel.addMenuPanel();
+    /**
+     * Zur Weiterleitung.
+     * 
+     * @author Lutz Kleiber
+     * 
+     */
+    private class InnerSpielListener implements ISpielListener {
 
-					} else if (GewonnenDialog.spiel_beenden
-							.equals(GewonnenDialog.options[result])) {
-						System.exit(0);
-					}
-				}
-			}
-		}
+        @Override
+        public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
+                int y, Spielstein newStein) {
+            fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
+            if (spiel.isSolved()
+                    && spiel.getSpielmodus().equals(
+                            SpielmodusEnumeration.SPIELEN)) {
+                {
+                    int result = GewonnenDialog.show(null,
+                            spiel.getHighscore(), spiel.getSpielZeit(),
+                            spiel.getAnzahlZuege());
+                    if (GewonnenDialog.neues_spiel_starten
+                            .equals(GewonnenDialog.options[result])) {
+                        MainFrame.neuesSpielOeffnen();
+                    } else if (GewonnenDialog.zurueck_zum_menue
+                            .equals(GewonnenDialog.options[result])) {
+                        MainFrame.mainPanel.addMenuPanel();
 
-		@Override
-		public void spielfeldChanged(Spiel spiel, Spielfeld newSpielfeld) {
-			fireSpielfeldChanged(spiel, newSpielfeld);
-		}
+                    } else if (GewonnenDialog.spiel_beenden
+                            .equals(GewonnenDialog.options[result])) {
+                        System.exit(0);
+                    }
+                }
+            }
+        }
 
-		@Override
-		public void spielmodusChanged(Spiel spiel,
-				SpielmodusEnumeration newSpielmodus) {
-			fireSpielmodusChanged(spiel, newSpielmodus);
-		}
+        @Override
+        public void spielfeldChanged(Spiel spiel, Spielfeld newSpielfeld) {
+            fireSpielfeldChanged(spiel, newSpielfeld);
+        }
 
-	}
+        @Override
+        public void spielmodusChanged(Spiel spiel,
+                SpielmodusEnumeration newSpielmodus) {
+            fireSpielmodusChanged(spiel, newSpielmodus);
+        }
+
+    }
 
 }

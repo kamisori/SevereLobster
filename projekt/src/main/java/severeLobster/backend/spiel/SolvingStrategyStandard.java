@@ -1,6 +1,7 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
 /**
  * Soll ein Spielfeld lösen.
@@ -17,7 +18,15 @@ public class SolvingStrategyStandard implements SolvingStrategy {
     public Spielfeld solve(Spielfeld input) {
 
         Spielfeld solvedField = input;
-        solvedField.setSpielmodus(SpielmodusEnumeration.LOESEN);
+        try {
+            solvedField.setSpielmodus(SpielmodusEnumeration.LOESEN);
+        } catch (LoesungswegNichtEindeutigException e) {
+            /*
+             * Try-Catch nur formal. Vorerst wird die Exception nur beim
+             * Umstellen auf Spielmodus geworfen.
+             */
+            e.printStackTrace();
+        }
 
         SolvingStep[] steps;
         steps = new SolvingStep[] { new SolvingStepPossibleStars(),

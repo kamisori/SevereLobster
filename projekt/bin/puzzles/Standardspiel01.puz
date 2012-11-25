@@ -258,11 +258,10 @@
         <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
       </severeLobster.backend.spiel.Spielstein-array>
     </visibleSteine>
-    <spielmodus>EDITIEREN</spielmodus>
+    <spielmodus>SPIELEN</spielmodus>
   </currentSpielfeld>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
   <saveName>Standardspiel01</saveName>
-  <freigegeben>true</freigegeben>
   <spielZuege>
     <spielzuege__>
       <severeLobster.backend.spiel.ActionHistoryObject>

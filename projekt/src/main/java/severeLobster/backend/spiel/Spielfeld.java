@@ -2,6 +2,7 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 import infrastructure.ResourceManager;
 
 import javax.swing.event.EventListenerList;
@@ -30,11 +31,17 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     /** Geratene bzw. im Spielmodus sichtbare Steine: */
     private final Spielstein[][] visibleSteine;
 
-    private SpielmodusEnumeration spielmodus;
+    /*
+     * Ist protected, damit man beim Kopie Konstruktor die Modi aendern kann,
+     * ohne ueber die Methode setSpielmodus() gehen zu muessen, bei der die
+     * Loesbarkeit ueberprueft wird.
+     */
+    protected SpielmodusEnumeration spielmodus = SpielmodusEnumeration.EDITIEREN;
 
     /**
      * Erstellt ein neues, leeres Spielfeld der angegebenen Groesse. Alle
-     * Feldelemente sind mit KeinStein Instanzen initialisiert.
+     * Feldelemente sind mit KeinStein Instanzen initialisiert. Nach dem
+     * erstellen ist man im Spielmodus EDITIEREN.
      * 
      * 
      * @param breite
@@ -42,18 +49,12 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * @param hoehe
      *            Hoehe des Spielfeldes
      */
-    public Spielfeld(final SpielmodusEnumeration spielModus, final int breite,
-            final int hoehe) {
+    public Spielfeld(final int breite, final int hoehe) {
 
         if (breite < 1 || hoehe < 1) {
             throw new IllegalArgumentException(
                     resourceManager.getText("backend.spiel.not.allowed.size"));
         }
-        if (null == spielModus) {
-            /* Braucht nicht uebersetzt zu werden, da nur fuer Testphase */
-            throw new NullPointerException("Spielmodus ist null");
-        }
-        this.spielmodus = spielModus;
         this.realSteine = new Spielstein[breite][hoehe];
         this.visibleSteine = new Spielstein[breite][hoehe];
 
@@ -97,7 +98,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
          * des neuen Spielfeldes wird mit dem aktuellen Spielmodus des alten
          * Spielfeldes initialisiert.
          */
-        this(quellSpielfeld.getSpielmodus(), breite, hoehe);
+        this(breite, hoehe);
 
         final SpielmodusEnumeration quellSpielfeldAnfangsSpielmodus = quellSpielfeld
                 .getSpielmodus();
@@ -110,21 +111,21 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
          */
         /* Modus SPIELEN: */
         {
-            this.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-            quellSpielfeld.setSpielmodus(SpielmodusEnumeration.SPIELEN);
+            this.spielmodus = SpielmodusEnumeration.SPIELEN;
+            quellSpielfeld.spielmodus = SpielmodusEnumeration.SPIELEN;
 
             Spielfeld.kopiereSichtbarenZustand(quellSpielfeld, this);
         }
         /* Modus EDITIEREN: */
         {
-            this.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-            quellSpielfeld.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+            this.spielmodus = SpielmodusEnumeration.EDITIEREN;
+            quellSpielfeld.spielmodus = SpielmodusEnumeration.EDITIEREN;
 
             Spielfeld.kopiereSichtbarenZustand(quellSpielfeld, this);
         }
         /* Spielmodi zurueck auf Anfang */
-        this.setSpielmodus(quellSpielfeldAnfangsSpielmodus);
-        quellSpielfeld.setSpielmodus(quellSpielfeldAnfangsSpielmodus);
+        this.spielmodus = quellSpielfeldAnfangsSpielmodus;
+        quellSpielfeld.spielmodus = quellSpielfeldAnfangsSpielmodus;
 
     }
 
@@ -280,10 +281,30 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         }
     }
 
-    public void setSpielmodus(final SpielmodusEnumeration neuerSpielmodus) {
+    /**
+     * Setzt den Spielmodus auf den uebergebenen Wert, wenn dies moeglich ist.
+     * Wenn der neue Spielmodus Spielen ist, wird das Spielfeld auf loebarkeit
+     * ueberprueft. Sollte der Loesungsweg nicht eindeutig sein, wird eine
+     * LoesungswegNichtEindeutigException geworfen und der Spielmodus wird nicht
+     * veraendert.
+     * 
+     * @param neuerSpielmodus
+     * @throws LoesungswegNichtEindeutigException
+     */
+    public void setSpielmodus(final SpielmodusEnumeration neuerSpielmodus)
+            throws LoesungswegNichtEindeutigException {
         if (null == neuerSpielmodus) {
             /* Braucht nicht uebersetzt zu werden, da nur fuer Testphase */
             throw new NullPointerException("Spielmodus ist null");
+        }
+        /*
+         * Bei Umstellen auf Spielmodus muss der Loesungsweg eindeutig sein. Die
+         * Logik hier ersetzt das vorige freigeben in Spiel.
+         */
+        if (neuerSpielmodus.equals(SpielmodusEnumeration.SPIELEN)
+                && !loesungswegUeberpruefen()) {
+            throw new LoesungswegNichtEindeutigException(
+                    "Spielmodus kann nicht auf Spielen geaendert werden, da das Spielfeld nicht eindeutig loesbar ist.");
         }
         this.spielmodus = neuerSpielmodus;
         fireSpielmodusChanged(neuerSpielmodus);
@@ -571,6 +592,10 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
             }
         }
         return false;
+    }
+
+    public boolean loesungswegUeberpruefen() {
+        return true;
     }
 
     /**

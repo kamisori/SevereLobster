@@ -403,8 +403,8 @@
   <anzahlZuege>0</anzahlZuege>
   <spielStoppUhr>
     <summeDerBisherigenMessungen>0</summeDerBisherigenMessungen>
-    <aktuelleMessungAbsoluterStartZeitpunkt>1353838451781</aktuelleMessungAbsoluterStartZeitpunkt>
-    <messungLaeuft>true</messungLaeuft>
+    <aktuelleMessungAbsoluterStartZeitpunkt>1353838451609</aktuelleMessungAbsoluterStartZeitpunkt>
+    <messungLaeuft>false</messungLaeuft>
   </spielStoppUhr>
   <spielZeit>--</spielZeit>
 </severeLobster.backend.spiel.Spiel>

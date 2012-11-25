@@ -2,6 +2,7 @@ package severeLobster.backend.spiel;
 
 import static org.junit.Assert.assertEquals;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,8 @@ public class Loesungs_Strategien_Test {
 
     @Before
     public void setUp() throws Exception {
-        testSpiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
+        testSpiel = new Spiel();
+        testSpiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
         testSpiel.initializeNewSpielfeld(4, 4);
         spielfeld = testSpiel.getSpielfeld();
     }
@@ -24,9 +26,10 @@ public class Loesungs_Strategien_Test {
     /**
      * Testet SolvingStepPossibleStars, welche mögliche Sterne als solche
      * markieren soll
+     * @throws LoesungswegNichtEindeutigException 
      */
     @Test
-    public void moegliche_Sterne_markieren() {
+    public void moegliche_Sterne_markieren() throws LoesungswegNichtEindeutigException {
 
         spielfeld.setSpielstein(1, 0, Pfeil.getOstPfeil()); // Pfeil 1
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil()); // Pfeil 2
@@ -62,9 +65,10 @@ public class Loesungs_Strategien_Test {
 
     /**
      * Testet SolvingStepExcludeImpossibles
+     * @throws LoesungswegNichtEindeutigException 
      */
     @Test
-    public void ausschluss_setzen_wo_kein_stern_sein_kann() {
+    public void ausschluss_setzen_wo_kein_stern_sein_kann() throws LoesungswegNichtEindeutigException {
 
         // Pfeile im Editiermodus setzen
         spielfeld.setSpielstein(1, 0, Pfeil.getOstPfeil());
@@ -100,7 +104,7 @@ public class Loesungs_Strategien_Test {
     }
 
     @Test
-    public void null_Spalten_ausschliessen() {
+    public void null_Spalten_ausschliessen() throws LoesungswegNichtEindeutigException {
         // Pfeile im Editiermodus setzen
         spielfeld.setSpielstein(1, 0, Pfeil.getOstPfeil());
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
@@ -128,7 +132,7 @@ public class Loesungs_Strategien_Test {
     }
 
     @Test
-    public void null_Zeilen_ausschliessen() {
+    public void null_Zeilen_ausschliessen() throws LoesungswegNichtEindeutigException {
         // Pfeile im Editiermodus setzen
         spielfeld.setSpielstein(1, 0, Pfeil.getOstPfeil());
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
@@ -155,7 +159,7 @@ public class Loesungs_Strategien_Test {
     }
 
     @Test
-    public void ein_Stern_ein_Pfeil_in_Spalte() {
+    public void ein_Stern_ein_Pfeil_in_Spalte() throws LoesungswegNichtEindeutigException {
         // Pfeile im Editiermodus setzen
         spielfeld.setSpielstein(1, 0, Pfeil.getOstPfeil());
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
@@ -177,7 +181,8 @@ public class Loesungs_Strategien_Test {
     }
 
     @Test
-    public void ein_Stern_ein_Pfeil_in_Zeile() {
+    public void ein_Stern_ein_Pfeil_in_Zeile()
+            throws LoesungswegNichtEindeutigException {
         // Pfeile im Editiermodus setzen
         spielfeld.setSpielstein(1, 0, Pfeil.getOstPfeil());
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());

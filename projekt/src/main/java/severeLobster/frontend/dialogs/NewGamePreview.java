@@ -2,6 +2,7 @@ package severeLobster.frontend.dialogs;
 
 import infrastructure.ResourceManager;
 import infrastructure.constants.GlobaleKonstanten;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 import infrastructure.graphics.GraphicUtils;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.frontend.view.SpielfeldDarstellung;
@@ -73,6 +74,9 @@ public class NewGamePreview extends JPanel implements PropertyChangeListener {
                     spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
                 } catch (IOException e) {
                     System.out.println(resourceManager.getText("load.dialog.invalid.format"));
+                } catch (LoesungswegNichtEindeutigException e) {
+                 // TODO Vernuenftig loesen
+                    e.printStackTrace();
                 }
                 if (spiel != null) {
                     schwierigkeitsgradTitle.setText(resourceManager

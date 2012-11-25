@@ -5,6 +5,7 @@ import infrastructure.components.StoppUhr;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +35,6 @@ public class Spiel {
     private Spielfeld currentSpielfeld;
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
     private String saveName;
-    private boolean freigegeben;
 
     /** Tracking: */
     private ActionHistory spielZuege;
@@ -45,26 +45,15 @@ public class Spiel {
     private String spielZeit = "--";
 
     /**
-     * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
-     * Spielfeld wird mit Standardfeld initialisiert.
-     */
-    public Spiel() {
-        this(SpielmodusEnumeration.SPIELEN);
-    }
-
-    /**
-     * Spielfeld wird mit Standardfeld initialisiert.
+     * Spielfeld wird mit Standardfeld initialisiert. Nach der Erstellung ist
+     * man im Spielmodus Editieren.
      * 
      * @param spielmodus
      *            Spielmodus des Spiels
      */
-    public Spiel(SpielmodusEnumeration spielmodus) {
+    public Spiel() {
         this.spielStoppUhr = new StoppUhr();
-        if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
-            setFreigegeben(true);
-            getSpielStoppUhr().start();
-        }
-        this.currentSpielfeld = new Spielfeld(spielmodus, 10, 10);
+        this.currentSpielfeld = new Spielfeld(10, 10);
         currentSpielfeld.addSpielfeldListener(innerSpielfeldListener);
         spielZuege = new ActionHistory();
         trackingPunkte = new Stack<ActionHistoryObject>();
@@ -139,7 +128,7 @@ public class Spiel {
         if (null != listeningSpielfeld) {
             listeningSpielfeld.removeSpielfeldListener(innerSpielfeldListener);
         }
-        final Spielfeld newSpielfeld = new Spielfeld(getSpielmodus(), x, y);
+        final Spielfeld newSpielfeld = new Spielfeld(x, y);
         newSpielfeld.addSpielfeldListener(innerSpielfeldListener);
         this.currentSpielfeld = newSpielfeld;
         fireSpielfeldChanged(currentSpielfeld);
@@ -229,8 +218,10 @@ public class Spiel {
      * @return Erstelltes Spiel im Spielmodus
      * @throws IOException
      *             Wirft Exception, wenn Datei nicht vorhanden
+     * @throws LoesungswegNichtEindeutigException
      */
-    public static Spiel newSpiel(String spielname) throws IOException {
+    public static Spiel newSpiel(String spielname) throws IOException,
+            LoesungswegNichtEindeutigException {
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
         File verzeichnis = new File(
@@ -282,30 +273,25 @@ public class Spiel {
      * 
      * @param neuerSpielmodus
      *            Spielmodus des Spiels
+     * @throws LoesungswegNichtEindeutigException
      */
-    public void setSpielmodus(final SpielmodusEnumeration neuerSpielmodus) {
-        if (null != neuerSpielmodus) {
+    public void setSpielmodus(final SpielmodusEnumeration neuerSpielmodus)
+            throws LoesungswegNichtEindeutigException {
 
-            if (neuerSpielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
-
-                if (!isFreigegeben()) {
-                    throw new IllegalStateException(
-                            "Spielmodus kann nicht geändert werden:"
-                                    + "Spiel ist nicht freigegeben für Spielmodus!");
-                }
-                /*
-                 * Uhr wird nur gestartet, wenn auch wirklich auf Spielmodus
-                 * SPIELEN gesetzt werden kann. Andernfalls wurde die Methode
-                 * zuvor bereits durch die Exception verlassen
-                 */
-                getSpielStoppUhr().start();
-            } else // neuer spielmodus ist EDITIEREN
-            {
-                getSpielStoppUhr().stop();
-            }
-            /* Aenderung feuert durch Kopplung auch die Listener von Spiel */
-            getSpielfeld().setSpielmodus(neuerSpielmodus);
+        /* Aenderung feuert durch Kopplung auch die Listener von Spiel */
+        getSpielfeld().setSpielmodus(neuerSpielmodus);
+        if (neuerSpielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
+            /*
+             * Uhr wird nur gestartet, wenn auch wirklich auf Spielmodus SPIELEN
+             * gesetzt werden kann. Andernfalls wurde die Methode zuvor bereits
+             * durch die Exception verlassen
+             */
+            getSpielStoppUhr().start();
+        } else // neuer spielmodus ist EDITIEREN
+        {
+            getSpielStoppUhr().stop();
         }
+
     }
 
     private void fireSpielsteinChanged(final Spielfeld spielfeld, final int x,
@@ -482,9 +468,9 @@ public class Spiel {
         return spielZeit;
     }
 
-    public void gebeSpielFrei(String spielname) throws IOException {
-        setFreigegeben(true);
-
+    public void gebeSpielFrei(String spielname) throws IOException,
+            LoesungswegNichtEindeutigException {
+        getSpielfeld().setSpielmodus(SpielmodusEnumeration.SPIELEN);
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
         File verzeichnis = new File(
@@ -493,25 +479,6 @@ public class Spiel {
         OutputStream outputStream = new FileOutputStream(verzeichnis);
         xstream.toXML(this, outputStream);
         outputStream.close();
-    }
-
-    /**
-     * Prueft, ob ein Puzzle für das Spielen freigegeben ist
-     * 
-     * @return freigegeben
-     */
-    public boolean isFreigegeben() {
-        return freigegeben;
-    }
-
-    public void setFreigegeben(boolean freigegeben) {
-        if (loesungswegUeberpruefen()) {
-            this.freigegeben = freigegeben;
-        }
-    }
-
-    public boolean loesungswegUeberpruefen() {
-        return true;
     }
 
 }

@@ -262,7 +262,6 @@
   </currentSpielfeld>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
   <saveName>Standardspiel01</saveName>
-  <freigegeben>false</freigegeben>
   <spielZuege>
     <spielzuege__>
       <severeLobster.backend.spiel.ActionHistoryObject>

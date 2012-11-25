@@ -1,15 +1,5 @@
 package severeLobster.backend.spiel;
 
-import infrastructure.components.StoppUhr;
-import infrastructure.constants.GlobaleKonstanten;
-import infrastructure.constants.enums.SpielmodusEnumeration;
-import infrastructure.exceptions.SpielNichtLoeschbarException;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-
 import static infrastructure.constants.enums.PfeilrichtungEnumeration.NORDOST;
 import static infrastructure.constants.enums.PfeilrichtungEnumeration.NORDWEST;
 import static infrastructure.constants.enums.PfeilrichtungEnumeration.OST;
@@ -21,6 +11,16 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static severeLobster.backend.spiel.helper.matchers.PfeilMatcher.pfeil;
 import static severeLobster.backend.spiel.helper.matchers.SpielMatcher.spiel;
+import infrastructure.constants.GlobaleKonstanten;
+import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
+import infrastructure.exceptions.SpielNichtLoeschbarException;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Dieser Unittest erstellt ein Standardpuzzle, welches spielbar ist und eine
@@ -77,8 +77,9 @@ public class Erstellen_des_Standardpuzzles_Test {
     }
 
     @Before
-    public void setUp() {
-        standardspiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
+    public void setUp() throws LoesungswegNichtEindeutigException {
+        standardspiel = new Spiel();
+        standardspiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
         standardspiel.initializeNewSpielfeld(6, 6);
         spielfeld = standardspiel.getSpielfeld();
         spielsteineSetzen();
@@ -191,10 +192,9 @@ public class Erstellen_des_Standardpuzzles_Test {
 
     @Test
     public void das_erstellte_standardspiel_kann_zum_spielen_freigegeben_werden()
-            throws IOException {
+            throws IOException, LoesungswegNichtEindeutigException {
         Spiel geladenesSpiel = Spiel.loadSpiel("Standardspiel01",
                 SpielmodusEnumeration.EDITIEREN);
-        geladenesSpiel.setFreigegeben(true);
         geladenesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         geladenesSpiel.saveSpiel("Standardspiel01");
 

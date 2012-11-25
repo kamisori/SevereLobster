@@ -2,6 +2,7 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 import infrastructure.exceptions.SpielNichtLoeschbarException;
 import org.junit.After;
 import org.junit.Before;
@@ -26,20 +27,21 @@ public class Neues_Spiel_starten_Test {
     private final Spielstein spielsteinKeinStern = KeinStein.getInstance();
 
     @Before
-    public void setUp() throws IOException {
-        erstelles_puzzle = new Spiel(SpielmodusEnumeration.EDITIEREN);
+    public void setUp() throws IOException, LoesungswegNichtEindeutigException {
+        erstelles_puzzle = new Spiel();
+        erstelles_puzzle.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
         erstelles_puzzle.initializeNewSpielfeld(10, 9);
         erstelltes_spielfeld = erstelles_puzzle.getSpielfeld();
         erstelltes_spielfeld.setSpielstein(0, 0, spielsteinStern);
         erstelltes_spielfeld.setSpielstein(0, 1, spielsteinKeinStern);
-        erstelles_puzzle.setFreigegeben(true);
+        erstelles_puzzle.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         erstelles_puzzle.saveSpiel("neuesTestspiel01");
         erstelles_puzzle.gebeSpielFrei("neuesTestspiel01");
     }
 
     @Test
     public void ein_neues_spiel_befindet_sich_im_spielmodus()
-            throws IOException {
+            throws IOException, LoesungswegNichtEindeutigException {
         Spiel neuesSpiel = Spiel.newSpiel("neuesTestspiel01");
         assertTrue(neuesSpiel.getSpielmodus().equals(
                 SpielmodusEnumeration.SPIELEN));

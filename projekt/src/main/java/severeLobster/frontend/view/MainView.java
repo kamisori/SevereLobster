@@ -3,6 +3,7 @@ package severeLobster.frontend.view;
 import infrastructure.ResourceManager;
 import infrastructure.components.Koordinaten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.application.MainFrame;
@@ -83,7 +84,7 @@ public class MainView extends JPanel {
      * @date 04.11.2012
      */
     public void addSpielmodusPanelAndStartSpiel(String strPuzzleName,
-                                                boolean continueGame) {
+            boolean continueGame) {
         try {
             if (!continueGame) {
                 backend.startNewSpielFrom(strPuzzleName);
@@ -91,6 +92,9 @@ public class MainView extends JPanel {
                 backend.loadSpielFrom(strPuzzleName);
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LoesungswegNichtEindeutigException e) {
+            // TODO Vernuenftig loesen
             e.printStackTrace();
         }
         JPanel spielfeldUndInfoViewPanel = new JPanel();
@@ -118,7 +122,7 @@ public class MainView extends JPanel {
      *            y-Achsengroesse des Spielfeldes
      */
     public void addEditModusPanelAndCreateNewSpielfeld(int x, int y) {
-        Spiel spiel = new Spiel(SpielmodusEnumeration.EDITIEREN);
+        Spiel spiel = new Spiel();
         spiel.initializeNewSpielfeld(x, y);
         backend.setSpiel(spiel);
 
@@ -192,7 +196,8 @@ public class MainView extends JPanel {
      */
     public void addMenuPanel() {
         if (jpMenu == null) {
-            ImageIcon icon = resourceManager.getImageIcon("Menu_Kampagne_starten.png");
+            ImageIcon icon = resourceManager
+                    .getImageIcon("Menu_Kampagne_starten.png");
             jpMenu = new JPanel();
             jpMenu.setPreferredSize(new Dimension(450, 450));
             jpMenu.setLayout(new GridLayout(5, 0));
@@ -215,7 +220,7 @@ public class MainView extends JPanel {
             JButton jbSpielSpielen = new JButton(
                     resourceManager.getText("start.new.game"));
             jbSpielSpielen.setMaximumSize(new Dimension(450, 200));
-            
+
             jbSpielSpielen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     try {
@@ -229,7 +234,7 @@ public class MainView extends JPanel {
             JButton jbSpielErstellen = new JButton(
                     resourceManager.getText("create.new.puzzle"));
             jbSpielErstellen.setMaximumSize(new Dimension(450, 200));
-            
+
             jbSpielErstellen.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     try {

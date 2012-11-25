@@ -1,6 +1,8 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +21,8 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
 
     @Before
     public void setUp() throws Exception {
-        testSpiel = new Spiel(SpielmodusEnumeration.SPIELEN);
+        testSpiel = new Spiel();
+        testSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         testSpiel.initializeNewSpielfeld(4, 4);
         spielfeld = testSpiel.getSpielfeld();
     }
@@ -27,9 +30,12 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
     /**
      * Prueft ob ein Spielfeld geloest wurde, bei dem das Getippte exakt dem
      * realen Spielfeld entspricht
+     * 
+     * @throws LoesungswegNichtEindeutigException
      */
     @Test
-    public void erfolgreich_beendetes_spiel_erkennen() {
+    public void erfolgreich_beendetes_spiel_erkennen()
+            throws LoesungswegNichtEindeutigException {
 
         // Stern da, Stern getippt
         switchToEditor();
@@ -59,20 +65,22 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
 
     }
 
-    private void switchToSpielen() {
+    private void switchToSpielen() throws LoesungswegNichtEindeutigException {
         this.testSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
     }
 
-    private void switchToEditor() {
+    private void switchToEditor() throws LoesungswegNichtEindeutigException {
         this.testSpiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
     }
 
     /**
      * Prueft ob ein Spielfeld geloest wurde. Hier wurde explizit ein Ausschluss
      * verwendet.
+     * 
+     * @throws LoesungswegNichtEindeutigException
      */
     @Test
-    public void erfolgreich_beendetes_spiel_mit_ausschluss_erkennen() {
+    public void erfolgreich_beendetes_spiel_mit_ausschluss_erkennen() throws LoesungswegNichtEindeutigException {
 
         // Stern da, Stern getippt
         switchToEditor();
@@ -105,9 +113,10 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
     /**
      * Prueft ob Fehler vorliegen. Hier wurde ein Stern noch nicht gefunden. Die
      * Methode muss false zurueckgeben, da noch kein Fehler vorliegt.
+     * @throws LoesungswegNichtEindeutigException 
      */
     @Test
-    public void stern_noch_nicht_getippt_erkennen() {
+    public void stern_noch_nicht_getippt_erkennen() throws LoesungswegNichtEindeutigException {
 
         // Stern da, kein Stern getippt
         // (hier darf kein Fehler auftreten, da noch nicht ausgeschlossen wurde,
@@ -141,9 +150,10 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
 
     /**
      * Prueft ob Fehler vorliegen. Hier wurde ein Stern getippt, wo keiner ist.
+     * @throws LoesungswegNichtEindeutigException 
      */
     @Test
-    public void stern_zuviel_erkennen() {
+    public void stern_zuviel_erkennen() throws LoesungswegNichtEindeutigException {
 
         // Stern da, Stern getippt
         switchToEditor();

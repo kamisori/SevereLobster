@@ -2,6 +2,8 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
+
 import org.junit.Before;
 import org.junit.Test;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
@@ -33,7 +35,7 @@ public class Zurueck_zum_letzten_fehlerfreien_Spielzug_Test {
     private Spiel spiel;
 
     @Before
-    public void setUp() {
+    public void setUp() throws LoesungswegNichtEindeutigException {
 
         spiel = backend.getSpiel();
         spiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);

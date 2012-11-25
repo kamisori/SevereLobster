@@ -261,7 +261,6 @@
     <spielmodus>SPIELEN</spielmodus>
   </currentSpielfeld>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
-  <freigegeben>true</freigegeben>
   <spielZuege>
     <spielzuege__>
       <severeLobster.backend.spiel.ActionHistoryObject>
@@ -295,7 +294,7 @@
   <anzahlZuege>0</anzahlZuege>
   <spielStoppUhr>
     <summeDerBisherigenMessungen>0</summeDerBisherigenMessungen>
-    <aktuelleMessungAbsoluterStartZeitpunkt>1353779265578</aktuelleMessungAbsoluterStartZeitpunkt>
+    <aktuelleMessungAbsoluterStartZeitpunkt>1353838490031</aktuelleMessungAbsoluterStartZeitpunkt>
     <messungLaeuft>false</messungLaeuft>
   </spielStoppUhr>
   <spielZeit>--</spielZeit>
