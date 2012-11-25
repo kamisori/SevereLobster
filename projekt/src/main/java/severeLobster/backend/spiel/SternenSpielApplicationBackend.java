@@ -67,6 +67,10 @@ public class SternenSpielApplicationBackend {
         currentlyPlayedSpiel.entferneAlleTrackingPunkte();
     }
 
+    public void aendereSpielfeldGroesse(int x, int y) {
+        getSpiel().aendereSpielfeldGroesse(x, y);
+    }
+
     /***
      * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
      * wie: Spielfeld.setSpielstein().

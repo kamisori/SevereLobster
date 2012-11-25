@@ -124,14 +124,28 @@ public class Spiel {
      *            Laenge der y-Achse
      */
     public void initializeNewSpielfeld(final int x, final int y) {
-        final Spielfeld listeningSpielfeld = getSpielfeld();
-        if (null != listeningSpielfeld) {
-            listeningSpielfeld.removeSpielfeldListener(innerSpielfeldListener);
-        }
+
         final Spielfeld newSpielfeld = new Spielfeld(x, y);
+        setSpielfeld(newSpielfeld);
+    }
+
+    public void aendereSpielfeldGroesse(final int x, final int y) {
+        final Spielfeld neuesSpielfeld = new Spielfeld(getSpielfeld(), x, y);
+        setSpielfeld(neuesSpielfeld);
+    }
+
+    private void setSpielfeld(final Spielfeld newSpielfeld) {
+        final SpielmodusEnumeration oldSpielmodus = getSpielmodus();
+        final Spielfeld oldSpielfeld = getSpielfeld();
+        if (null != oldSpielfeld) {
+            oldSpielfeld.removeSpielfeldListener(innerSpielfeldListener);
+        }
         newSpielfeld.addSpielfeldListener(innerSpielfeldListener);
         this.currentSpielfeld = newSpielfeld;
         fireSpielfeldChanged(currentSpielfeld);
+        if (oldSpielmodus != getSpielmodus()) {
+            fireSpielmodusChanged(getSpielmodus());
+        }
     }
 
     public SpielmodusEnumeration getSpielmodus() {
