@@ -500,9 +500,11 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
              */
             final List<Spielstein> editierModusList = new ArrayList<Spielstein>(
                     11);
-            editierModusList.add(new KeinStein());
             editierModusList.add(new Stern());
             editierModusList.addAll(Pfeil.listAlleMoeglichenPfeile());
+            editierModusList.add(new KeinStein());
+            /* Stein, der bereits gesetzt ist, nicht zur Auswahl stellen */
+            editierModusList.remove(getSpielstein(x, y));
             return editierModusList;
         } else {
             /** Spielmodus */
