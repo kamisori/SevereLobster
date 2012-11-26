@@ -308,6 +308,13 @@ public class SpielfeldDarstellung extends JPanel {
 
     }
 
+    public void highlightSpielsteinInPfeilrichtung(int x, int y) {
+        this.spielsteinDarstellungen[x][y].setBorder(BorderFactory
+                .createLineBorder(Color.WHITE));
+        this.hightlightedSpielsteine.add(new Koordinaten(x, y));
+
+    }
+
     public void unhighlightAll() {
         for (Koordinaten currentKoordinate : this.hightlightedSpielsteine) {
             this.spielsteinDarstellungen[currentKoordinate.getX()][currentKoordinate
@@ -404,14 +411,16 @@ public class SpielfeldDarstellung extends JPanel {
                 Spielstein spielstein = getSpielfeldDarstellungsSteuerung()
                         .spielSteinClick(x, y, mouseEvent);
                 if (spielstein instanceof Pfeil) {
-                    if (result.getIcon().equals(iconFactory
-                            .getDisabledIconForPfeil((Pfeil) spielstein))) {
+                    if (result
+                            .getIcon()
+                            .equals(iconFactory
+                                    .getDisabledIconForPfeil((Pfeil) spielstein))) {
                         result.setIcon(iconFactory
                                 .getIconForSpielstein(spielstein));
-                    }
-                    else if(getSpielfeldDarstellungsSteuerung().isSpielModus()) {
-                    result.setIcon(iconFactory
-                            .getDisabledIconForPfeil((Pfeil) spielstein));
+                    } else if (getSpielfeldDarstellungsSteuerung()
+                            .isSpielModus()) {
+                        result.setIcon(iconFactory
+                                .getDisabledIconForPfeil((Pfeil) spielstein));
                     }
                 }
             }
