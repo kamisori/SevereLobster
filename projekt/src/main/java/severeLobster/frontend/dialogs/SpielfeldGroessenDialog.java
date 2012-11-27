@@ -46,7 +46,7 @@ public class SpielfeldGroessenDialog {
             if (xWert < 2 || yWert < 2 || xWert > 40 || yWert > 40) {
                 JOptionPane.showMessageDialog(owner, resourceManager.getText("spielfeldgroesse.error"),
                         resourceManager.getText("spielfeldgroesse.error.title"), JOptionPane.ERROR_MESSAGE);
-                return null;
+               return show(owner);
             } else {
                 return new Koordinaten(xWert, yWert);
             }

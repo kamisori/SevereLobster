@@ -304,6 +304,9 @@ public class MainView extends JPanel {
 
     public void addSpielErstellenPanel() {
         Koordinaten koordinaten = SpielfeldGroessenDialog.show(MainFrame.frame);
+        if (koordinaten == null)  {
+            return;
+        }
         addEditModusPanelAndCreateNewSpielfeld(koordinaten.getX(),
                 koordinaten.getY());
 
