@@ -21,6 +21,7 @@ public class Loesungs_Strategien_Test {
         testSpiel.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
         testSpiel.initializeNewSpielfeld(4, 4);
         spielfeld = testSpiel.getSpielfeld();
+        spielfeld.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
     }
 
     /**
@@ -110,7 +111,7 @@ public class Loesungs_Strategien_Test {
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
         spielfeld.setSpielstein(3, 1, Pfeil.getSuedWestPfeil());
 
-        // GotSpielmodus setzen, damit Spielmodus LOESEN ist
+        // Spielmodus auf LOESEN setzen
         spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
 
         // Sterne setzen
@@ -138,7 +139,7 @@ public class Loesungs_Strategien_Test {
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
         spielfeld.setSpielstein(3, 1, Pfeil.getSuedWestPfeil());
 
-        // GotSpielmodus setzen, damit Spielmodus LOESEN ist
+        // Spielmodus auf LOESEN setzen
         spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
 
         // Sterne setzen
@@ -165,13 +166,13 @@ public class Loesungs_Strategien_Test {
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
         spielfeld.setSpielstein(3, 1, Pfeil.getSuedWestPfeil());
 
-        // GotSpielmodus setzen, damit Spielmodus LOESEN ist
-        spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
-
         // Sterne setzen
         spielfeld.setSpielstein(2, 0, Stern.getInstance());
         spielfeld.setSpielstein(0, 2, Stern.getInstance());
         spielfeld.setSpielstein(2, 2, Stern.getInstance());
+
+        // Spielmodus auf LOESEN setzen
+        spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
 
         SolvingStep step = new SolvingStepExcludeBehindInColumn();
         spielfeld = step.execute(spielfeld);
@@ -188,13 +189,13 @@ public class Loesungs_Strategien_Test {
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
         spielfeld.setSpielstein(3, 1, Pfeil.getSuedWestPfeil());
 
-        // GotSpielmodus setzen, damit Spielmodus LOESEN ist
-        spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
-
         // Sterne setzen
         spielfeld.setSpielstein(2, 0, Stern.getInstance());
         spielfeld.setSpielstein(0, 2, Stern.getInstance());
         spielfeld.setSpielstein(2, 2, Stern.getInstance());
+
+        // Spielmodus auf LOESEN setzen
+        spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
 
         SolvingStep step = new SolvingStepExcludeBehindInRow();
         spielfeld = step.execute(spielfeld);
