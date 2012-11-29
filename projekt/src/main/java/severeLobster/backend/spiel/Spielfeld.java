@@ -273,8 +273,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
             throws IndexOutOfBoundsException {
 
         throwExceptionIfIndexOutOfBounds(x, y);
-        if (isEditierModus()
-                || getSpielmodus().equals(SpielmodusEnumeration.LOESEN)) {
+        if (isEditierModus()) {
             return realSteine[x][y];
         } else {
             return visibleSteine[x][y];
@@ -341,7 +340,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         if (null == newStein) {
             newStein = KeinStein.getInstance();
         }
-        if (getSpielmodus().equals(SpielmodusEnumeration.LOESEN)) {
+        if (isLoesenModus()) {
             /**
              * Im Loesen-Modus dürfen Stern, MoeglicherStern, Ausschluss und
              * KeinStein gesetzt werden Observer müssen nicht benachrichtigt
@@ -351,7 +350,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
                     || newStein instanceof MoeglicherStern
                     || newStein instanceof Ausschluss
                     || newStein instanceof KeinStein) {
-                realSteine[x][y] = newStein;
+                visibleSteine[x][y] = newStein;
             }
 
         } else if (isEditierModus()) {
@@ -539,6 +538,14 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      */
     private boolean isEditierModus() {
         return getSpielmodus().equals(SpielmodusEnumeration.EDITIEREN);
+    }
+
+    /**
+     * analog zu isEditierModus() nur für den Modus LOESEN.
+     * @return true, wenn der Spielmodus LOESEN ist.
+     */
+    private boolean isLoesenModus() {
+        return getSpielmodus().equals(SpielmodusEnumeration.LOESEN);
     }
 
     /**
