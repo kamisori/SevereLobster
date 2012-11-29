@@ -36,10 +36,9 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
     @Before
     public void setUp() throws LoesungswegNichtEindeutigException {
         spiel = new Spiel();
-        spiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         spiel.initializeNewSpielfeld(10, 9);
+        spiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         spielfeld = spiel.getSpielfeld();
-
         spielfeld.setSpielstein(0, 0, spielsteinStern);
         spielfeld.setSpielstein(0, 1, spielsteinAusschluss);
 
@@ -54,7 +53,7 @@ public class Speichern_und_Laden_eines_Spiels_ist_erfolgreich_Test {
 
     @Test
     public void ein_gespeichertes_Spiel_speichert_seine_Attribute_mit()
-            throws IOException {
+            throws IOException, LoesungswegNichtEindeutigException {
         spiel.saveSpiel("testSpiel01");
         Spiel geladenesSpiel = Spiel.loadSpiel("testSpiel01",
                 SpielmodusEnumeration.SPIELEN);

@@ -10,12 +10,8 @@ import com.jgoodies.validation.formatter.EmptyNumberFormatter;
 import infrastructure.ResourceManager;
 import infrastructure.components.Koordinaten;
 
-import javax.swing.Box;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import java.awt.Frame;
+import javax.swing.*;
+import java.awt.*;
 
 public class SpielfeldGroessenDialog {
 
@@ -41,12 +37,19 @@ public class SpielfeldGroessenDialog {
         int result = JOptionPane.showConfirmDialog(owner, myPanel,
                 resourceManager.getText("spielfeldgroesse.input.size"), JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            int xWert = Integer.parseInt(xAchse.getText());
-            int yWert = Integer.parseInt(yAchse.getText());
+            int xWert;
+            int yWert;
+            try {
+                xWert = Integer.parseInt(xAchse.getText());
+                yWert = Integer.parseInt(yAchse.getText());
+            } catch (NumberFormatException e) {
+                xWert = 0;
+                yWert = 0;
+            }
             if (xWert < 2 || yWert < 2 || xWert > 40 || yWert > 40) {
                 JOptionPane.showMessageDialog(owner, resourceManager.getText("spielfeldgroesse.error"),
                         resourceManager.getText("spielfeldgroesse.error.title"), JOptionPane.ERROR_MESSAGE);
-               return show(owner);
+                return show(owner);
             } else {
                 return new Koordinaten(xWert, yWert);
             }

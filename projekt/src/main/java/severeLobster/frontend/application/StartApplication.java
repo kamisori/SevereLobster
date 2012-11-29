@@ -3,6 +3,7 @@ package severeLobster.frontend.application;
 import infrastructure.ResourceManager;
 import infrastructure.components.FTPConnector;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
+import severeLobster.frontend.view.MainView;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -106,9 +107,8 @@ public class StartApplication extends JFrame implements Runnable {
         try {
             // TODO: Bilder & Sonstige Sachen laden
             SC_MAIN = new Thread(new MainFrame(getBackend()));
-            MainFrame.oFTP = new FTPConnector("ftp.strato.de",
+            MainView.ftpConnector = new FTPConnector("ftp.strato.de",
                     "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);
-
             Thread.sleep(2000);
         } catch (Exception e) {
             dispose();

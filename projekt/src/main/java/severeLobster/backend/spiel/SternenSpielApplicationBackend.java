@@ -1,5 +1,6 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.components.FTPConnector;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.exceptions.LoesungswegNichtEindeutigException;
@@ -12,6 +13,7 @@ import javax.swing.event.EventListenerList;
 import severeLobster.backend.command.PrimaerAktion;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.GewonnenDialog;
+import severeLobster.frontend.view.MainView;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
@@ -126,21 +128,24 @@ public class SternenSpielApplicationBackend {
     public void puzzleFreigeben(String spielname)
             throws LoesungswegNichtEindeutigException, IOException {
         getSpiel().gebeSpielFrei(spielname);
+    }
+
+    public void uploadPuzzle(String spielname) {
         try {
-            if (MainFrame.oFTP.isOnline()) {
-                MainFrame.oFTP
+            if (MainView.ftpConnector.isOnline()) {
+                MainView.ftpConnector
                         .upload(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR
-                                + "\\" + spielname + ".puz",
+                                + "\\" + spielname + GlobaleKonstanten.PUZZLE_DATEITYP,
                                 spielname
                                         + "-"
                                         + getSpiel().getSchwierigkeitsgrad()
                                         + "-"
                                         + (getSpiel().getSpielfeld()
-                                                .getBreite() * getSpiel()
-                                                .getSpielfeld().getHoehe())
+                                        .getBreite() * getSpiel()
+                                        .getSpielfeld().getHoehe())
                                         + System.getProperty("user.name")
-                                        + "-.puz");
-                MainFrame.oFTP.updateFiles();
+                                        + "-" + GlobaleKonstanten.PUZZLE_DATEITYP);
+                MainView.ftpConnector.updateFiles();
             }
 
         } catch (Exception e) {
