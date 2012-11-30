@@ -112,12 +112,20 @@ public class SpielfeldDarstellungsSteuerung {
                     .getAngezeigteSpaltenAnzahl();
             final int zeilen = spielfeldDarstellung.getAngezeigteZeilenAnzahl();
 
-            /* Gehe die Pfeilzeigerichtung ab und markiere jeden Spielstein */
+            /* Gehe die Pfeilzeigerichtung ab und markiere die Spielsteine */
             Koordinaten aktK = new Koordinaten(x, y);
+            aktK = aktK.getSummeWith(richtungsVektor);
             while (aktK.getX() > -1 && aktK.getX() < spalten
                     && aktK.getY() < zeilen && aktK.getY() > -1) {
-                spielfeldDarstellung.highlightSpielstein(aktK.getX(),
-                        aktK.getY());
+                /*
+                 * Nur Spielsteine in Pfeilrichtung highlighten, die selbst
+                 * keine Pfeile sind.
+                 */
+                if (!(backend.getSpielstein(aktK.getX(), aktK.getY()) instanceof Pfeil)) {
+                    spielfeldDarstellung.highlightSpielsteinInPfeilrichtung(
+                            aktK.getX(), aktK.getY());
+
+                }
                 aktK = aktK.getSummeWith(richtungsVektor);
 
             }
@@ -155,7 +163,7 @@ public class SpielfeldDarstellungsSteuerung {
         setSpielstein(nullState, x, y);
     }
 
-    private boolean isSpielModus() {
+    public boolean isSpielModus() {
         return getSpielmodus().equals(SpielmodusEnumeration.SPIELEN);
     }
 

@@ -2,6 +2,7 @@ package severeLobster.backend.spiel;
 
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 import infrastructure.ResourceManager;
 
 import javax.swing.event.EventListenerList;
@@ -29,16 +30,18 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     private final Spielstein[][] realSteine;
     /** Geratene bzw. im Spielmodus sichtbare Steine: */
     private final Spielstein[][] visibleSteine;
-    /**
-     * Spielmodus ist aussen gesetzt, und Spielfeld greift ueber das Interface
-     * immer auf den aktuellen Spielstand zu. Der Spielmodus definiert das
-     * Verhalten von Spielfeld nach aussen.
+
+    /*
+     * Ist protected, damit man beim Kopie Konstruktor die Modi aendern kann,
+     * ohne ueber die Methode setSpielmodus() gehen zu muessen, bei der die
+     * Loesbarkeit ueberprueft wird.
      */
-    private IGotSpielModus gotSpielModus;
+    protected SpielmodusEnumeration spielmodus = SpielmodusEnumeration.EDITIEREN;
 
     /**
      * Erstellt ein neues, leeres Spielfeld der angegebenen Groesse. Alle
-     * Feldelemente sind mit KeinStein Instanzen initialisiert.
+     * Feldelemente sind mit KeinStein Instanzen initialisiert. Nach dem
+     * erstellen ist man im Spielmodus EDITIEREN.
      * 
      * 
      * @param breite
@@ -46,21 +49,20 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * @param hoehe
      *            Hoehe des Spielfeldes
      */
-    public Spielfeld(final IGotSpielModus gotSpielModus, final int breite,
-            final int hoehe) {
+    public Spielfeld(final int breite, final int hoehe) {
+
         if (breite < 1 || hoehe < 1) {
-            throw new IllegalArgumentException(resourceManager.getText("backend.spiel.not.allowed.size"));
+            throw new IllegalArgumentException(
+                    resourceManager.getText("backend.spiel.not.allowed.size"));
         }
-        if (null == gotSpielModus) {
-            throw new NullPointerException(resourceManager.getText("backend.spiel.is.null"));
-        }
-        this.gotSpielModus = gotSpielModus;
         this.realSteine = new Spielstein[breite][hoehe];
         this.visibleSteine = new Spielstein[breite][hoehe];
 
-        /** Beide Feldansichten mit KeinStein Spielsteinen fuellen */
+        /* Beide Feldansichten mit KeinStein Spielsteinen fuellen */
         for (int hoeheIndex = 0; hoeheIndex < hoehe; hoeheIndex++) {
+
             for (int breiteIndex = 0; breiteIndex < breite; breiteIndex++) {
+
                 realSteine[breiteIndex][hoeheIndex] = KeinStein.getInstance();
                 visibleSteine[breiteIndex][hoeheIndex] = KeinStein
                         .getInstance();
@@ -68,7 +70,66 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         }
     }
 
-    private int countPfeileZeile(int y) {
+    /**
+     * Kopie Konstruktor. Erstellt ein neues Spielfeld, das den gleichen Zustand
+     * hat, wie das uebergebene Spielfeld. Kopiert bisher nur den Zustand von
+     * Spiel- und Editiermodus. - nicht von Loesen.
+     * 
+     * @param quellSpielfeld
+     */
+    public Spielfeld(final Spielfeld quellSpielfeld) {
+        this(quellSpielfeld, quellSpielfeld.getBreite(), quellSpielfeld
+                .getHoehe());
+    }
+
+    /**
+     * Kopie Konstruktor. Erstellt ein neues Spielfeld der angegebenen Groesse
+     * und kopiert den Zustand des uebergebenen Spielfeldes, soweit das bei den
+     * Groessenunterschieden moeglich ist . Kopiert nur die Zustaende von Spiel-
+     * und Editiermodus. - nicht von Loesen.
+     * 
+     * @param quellSpielfeld
+     */
+    public Spielfeld(final Spielfeld quellSpielfeld, final int breite,
+            final int hoehe) {
+
+        /*
+         * Erstelle ein leeres Spielfeld der angegebenen Groesse. Der Spielmodus
+         * des neuen Spielfeldes wird mit dem aktuellen Spielmodus des alten
+         * Spielfeldes initialisiert.
+         */
+        this(breite, hoehe);
+
+        final SpielmodusEnumeration quellSpielfeldAnfangsSpielmodus = quellSpielfeld
+                .getSpielmodus();
+
+        /*
+         * Uebertrage den Inhalt des Quellspielfeldes in das neu erstellte
+         * Spielfeld, soweit das bei den Groessenunterschieden moeglich ist.
+         * Durchlaufe das neue Spielfeld und hole den Spielstein mit den jeweils
+         * gleichen Koordinaten aus dem Quellspielfeld.
+         */
+        /* Modus SPIELEN: */
+        {
+            this.spielmodus = SpielmodusEnumeration.SPIELEN;
+            quellSpielfeld.spielmodus = SpielmodusEnumeration.SPIELEN;
+
+            Spielfeld.kopiereSichtbarenZustand(quellSpielfeld, this);
+        }
+        /* Modus EDITIEREN: */
+        {
+            this.spielmodus = SpielmodusEnumeration.EDITIEREN;
+            quellSpielfeld.spielmodus = SpielmodusEnumeration.EDITIEREN;
+
+            Spielfeld.kopiereSichtbarenZustand(quellSpielfeld, this);
+        }
+        /* Spielmodi zurueck auf Anfang */
+        this.spielmodus = quellSpielfeldAnfangsSpielmodus;
+        quellSpielfeld.spielmodus = quellSpielfeldAnfangsSpielmodus;
+
+    }
+
+    protected int countPfeileZeile(int y) {
         int result = 0;
         for (int i = 0; i < getBreite(); i++) {
             if (realSteine[i][y] instanceof Pfeil)
@@ -77,7 +138,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return result;
     }
 
-    private int countPfeileSpalte(int x) {
+    protected int countPfeileSpalte(int x) {
         int result = 0;
         for (int i = 0; i < getHoehe(); i++) {
             if (realSteine[x][i] instanceof Pfeil)
@@ -138,7 +199,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
 
     /**
      * Zaehlt die getippten Sterne auf dem Spielfeld.
-     *
+     * 
      * @return result Die Anzahl der getippten Sterne auf dem Spielfeld.
      */
     public int countSterneGetippt() {
@@ -191,6 +252,10 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
                                      // rechteckige Spielfelder
     }
 
+    public SpielmodusEnumeration getSpielmodus() {
+        return this.spielmodus;
+    }
+
     /**
      * Liefert den Spielstein an der angegebenen Position im Spielfeld.
      * Verhalten unterscheidet sich bei den unterschiedlichen Spielmodi. Beim
@@ -206,7 +271,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
             throws IndexOutOfBoundsException {
 
         throwExceptionIfIndexOutOfBounds(x, y);
-        if (isEditierModus() || gotSpielModus.getSpielmodus().equals(SpielmodusEnumeration.LOESEN)) {
+        if (isEditierModus()) {
             return realSteine[x][y];
         } else {
             return visibleSteine[x][y];
@@ -214,16 +279,33 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     }
 
     /**
-     * Der gotSpielModus muss geändert werden können, falls ein Spielfeld zum Lösen kopiert wird
-     * @param newGotSpielModus der neue gotSpielModus
-     *
+     * Setzt den Spielmodus auf den uebergebenen Wert, wenn dies moeglich ist.
+     * Wenn der neue Spielmodus Spielen ist, wird das Spielfeld auf loebarkeit
+     * ueberprueft. Sollte der Loesungsweg nicht eindeutig sein, wird eine
+     * LoesungswegNichtEindeutigException geworfen und der Spielmodus wird nicht
+     * veraendert.
+     * 
+     * @param neuerSpielmodus
+     * @throws LoesungswegNichtEindeutigException
      */
-    public void setGotSpielModus(IGotSpielModus newGotSpielModus)
-    {
-        this.gotSpielModus = newGotSpielModus;
+    public void setSpielmodus(final SpielmodusEnumeration neuerSpielmodus)
+            throws LoesungswegNichtEindeutigException {
+        if (null == neuerSpielmodus) {
+            /* Braucht nicht uebersetzt zu werden, da nur fuer Testphase */
+            throw new NullPointerException("Spielmodus ist null");
+        }
+        /*
+         * Bei Umstellen auf Spielmodus muss der Loesungsweg eindeutig sein. Die
+         * Logik hier ersetzt das vorige freigeben in Spiel.
+         */
+        if (neuerSpielmodus.equals(SpielmodusEnumeration.SPIELEN)
+                && !loesungswegUeberpruefen()) {
+            throw new LoesungswegNichtEindeutigException(
+                    "Spielmodus kann nicht auf Spielen geaendert werden, da das Spielfeld nicht eindeutig loesbar ist.");
+        }
+        this.spielmodus = neuerSpielmodus;
+        fireSpielmodusChanged(neuerSpielmodus);
     }
-
-
 
     /**
      * Setzt einen Spielstein an eine bestimmte Koordinate. Verhalten
@@ -256,18 +338,20 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         if (null == newStein) {
             newStein = KeinStein.getInstance();
         }
-        if (gotSpielModus.getSpielmodus().equals(SpielmodusEnumeration.LOESEN))
-        {
+        if (isLoesenModus()) {
             /**
-             * Im Loesen-Modus dürfen Stern, MoeglicherStern, Ausschluss und KeinStein gesetzt werden
-             * Observer müssen nicht benachrichtigt werden
+             * Im Loesen-Modus dürfen Stern, MoeglicherStern, Ausschluss und
+             * KeinStein gesetzt werden Observer müssen nicht benachrichtigt
+             * werden
              */
-            if(newStein instanceof Stern || newStein instanceof MoeglicherStern || newStein instanceof Ausschluss || newStein instanceof KeinStein ){
-                realSteine[x][y] = newStein;
+            if (newStein instanceof Stern
+                    || newStein instanceof MoeglicherStern
+                    || newStein instanceof Ausschluss
+                    || newStein instanceof KeinStein) {
+                visibleSteine[x][y] = newStein;
             }
 
-        }
-        else if (isEditierModus()) {
+        } else if (isEditierModus()) {
             /**
              * Im Editiermodus duerfen Pfeil, Stern und KeinStein gesetzt werden
              */
@@ -335,6 +419,30 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     }
 
     /**
+     * Benachrichtigt alle Listener dieses Spielsfelds ueber den neuen
+     * Spielmodus. Implementation ist glaube ich aus JComponent oder Component
+     * kopiert.
+     * 
+     * @param neuerSpielmodus
+     *            - Der neue Spielmodus, der an die Listener mitgeteilt wird.
+     */
+    private void fireSpielmodusChanged(
+            final SpielmodusEnumeration neuerSpielmodus) {
+
+        /** Gibt ein Array zurueck, das nicht null ist */
+        final Object[] currentListeners = listeners.getListenerList();
+        /**
+         * Rufe die Listener auf, die als ISpielfeldListener angemeldet sind.
+         */
+        for (int i = currentListeners.length - 2; i >= 0; i -= 2) {
+            if (currentListeners[i] == ISpielfeldListener.class) {
+                ((ISpielfeldListener) currentListeners[i + 1])
+                        .spielmodusChanged(this, neuerSpielmodus);
+            }
+        }
+    }
+
+    /**
      * Fuegt den angegebenen Listener zu der Liste hinzu.
      * 
      * @param listener
@@ -361,8 +469,13 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     private void throwExceptionIfIndexOutOfBounds(final int x, final int y) {
         if ((x < 0) || (x > getBreite() - 1) || (y < 0) || (y > getHoehe() - 1)) {
             throw new ArrayIndexOutOfBoundsException(
-                    resourceManager.getText("backend.spiel.given.coordinate") + " X:" + x + " Y:" + y
-                            + resourceManager.getText("backend.spiel.outside.playing.field"));
+                    resourceManager.getText("backend.spiel.given.coordinate")
+                            + " X:"
+                            + x
+                            + " Y:"
+                            + y
+                            + resourceManager
+                                    .getText("backend.spiel.outside.playing.field"));
         }
     }
 
@@ -384,9 +497,11 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
              */
             final List<Spielstein> editierModusList = new ArrayList<Spielstein>(
                     11);
-            editierModusList.add(new KeinStein());
             editierModusList.add(new Stern());
             editierModusList.addAll(Pfeil.listAlleMoeglichenPfeile());
+            editierModusList.add(new KeinStein());
+            /* Stein, der bereits gesetzt ist, nicht zur Auswahl stellen */
+            editierModusList.remove(getSpielstein(x, y));
             return editierModusList;
         } else {
             /** Spielmodus */
@@ -420,8 +535,15 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * @return True, wenn der Spielmodus EDITIEREN ist.
      */
     private boolean isEditierModus() {
-        return gotSpielModus.getSpielmodus().equals(
-                SpielmodusEnumeration.EDITIEREN);
+        return getSpielmodus().equals(SpielmodusEnumeration.EDITIEREN);
+    }
+
+    /**
+     * analog zu isEditierModus() nur für den Modus LOESEN.
+     * @return true, wenn der Spielmodus LOESEN ist.
+     */
+    private boolean isLoesenModus() {
+        return getSpielmodus().equals(SpielmodusEnumeration.LOESEN);
     }
 
     /**
@@ -479,4 +601,76 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return false;
     }
 
+    public boolean loesungswegUeberpruefen() {
+        return true;
+    }
+
+    /**
+     * Liest den aktuell ueber {@link getSpielstein()} sichtbaren Zustand aus
+     * quellSpielfeld und schreibt ihn ueber {@link setSpielstein()} in das
+     * zielSpielfeld. Da die Sichtbarkeit und das Verhalten der Setzbarkeit vom
+     * jeweils eingestellten Spielmodus abhängig sind, muss dieser vor dem
+     * Aufruf der Methode auf den gewuenschten Wert gesetzt werden. Die
+     * Spielmodi der uebergebenen Spielfelder werden nicht veraendert. Das
+     * Quellspielfeld wird nicht veraendert.
+     * 
+     * @param quellSpielfeld
+     * @param zielSpielfeld
+     */
+    public static void kopiereSichtbarenZustand(final Spielfeld quellSpielfeld,
+            final Spielfeld zielSpielfeld) {
+        Spielstein quellSpielstein;
+        for (int hoeheIndex = 0; hoeheIndex < zielSpielfeld.getHoehe()
+                && hoeheIndex < quellSpielfeld.getHoehe(); hoeheIndex++) {
+
+            for (int breiteIndex = 0; breiteIndex < zielSpielfeld.getBreite()
+                    && breiteIndex < quellSpielfeld.getBreite(); breiteIndex++) {
+
+                quellSpielstein = quellSpielfeld.getSpielstein(breiteIndex,
+                        hoeheIndex);
+                /*
+                 * Erstelle Kopie des Spielsteins und setze ihn in das neue
+                 * Spielfeld
+                 */
+                zielSpielfeld.setSpielstein(breiteIndex, hoeheIndex,
+                        quellSpielstein.createNewCopy());
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+
+        if (null != obj && obj instanceof Spielfeld) {
+
+            final Spielfeld verglSpielfeld = (Spielfeld) obj;
+
+            if (this.getBreite() == verglSpielfeld.getBreite()
+                    && this.getHoehe() == verglSpielfeld.getHoehe()) {
+
+                for (int hoeheIndex = 0; hoeheIndex < this.getHoehe(); hoeheIndex++) {
+
+                    for (int breiteIndex = 0; breiteIndex < this.getBreite(); breiteIndex++) {
+
+                        /*
+                         * Sobald ein Stein nicht identisch ist, gib false
+                         * zurueck und verlasse Schleife vorzeitig
+                         */
+                        if (!this.getSpielstein(breiteIndex, hoeheIndex)
+                                .equals(verglSpielfeld.getSpielstein(
+                                        breiteIndex, hoeheIndex))) {
+
+                            return false;
+                        }
+                    }
+                }
+                /*
+                 * Wenn Schleife nicht vorzeitig verlassen wurde, waren alle
+                 * Steine identisch
+                 */
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -1,6 +1,7 @@
 package severeLobster.frontend.view;
 
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
 import java.awt.BorderLayout;
 
@@ -9,7 +10,6 @@ import javax.swing.SwingUtilities;
 
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
-import severeLobster.frontend.controller.SpielmodusViewController;
 
 /**
  * Test fuer SpielfeldView, SpielmodusView und Spielfeld. Einfaches Frame, das
@@ -42,19 +42,18 @@ public class SpielfeldViewTestOhneJUnit {
                             .getInstance();
                     backend.getSpiel().initializeNewSpielfeld(SPIELFELD_BREITE,
                             SPIELFELD_HOEHE);
-                    backend.getSpiel().setSpielmodus(
-                            SpielmodusEnumeration.EDITIEREN);
+                    try {
+                        backend.getSpiel().setSpielmodus(
+                                SpielmodusEnumeration.EDITIEREN);
+                    } catch (LoesungswegNichtEindeutigException e) {
+                        e.printStackTrace();
+                    }
                     final SpielfeldDarstellung view = new SpielfeldDarstellung();
                     new SpielfeldDarstellungsSteuerung(view, backend);
-
-                    final SpielmodusViewPanel spielmodusView = new SpielmodusViewPanel();
-                    new SpielmodusViewController(spielmodusView, backend);
 
                     final JFrame frame = new JFrame();
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     frame.getContentPane().add(view, BorderLayout.CENTER);
-                    frame.getContentPane().add(spielmodusView,
-                            BorderLayout.SOUTH);
                     frame.pack();
                     frame.setVisible(true);
                 }

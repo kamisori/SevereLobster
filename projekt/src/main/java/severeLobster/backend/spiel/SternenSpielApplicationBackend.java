@@ -1,6 +1,9 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.components.FTPConnector;
+import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,6 +13,7 @@ import javax.swing.event.EventListenerList;
 import severeLobster.backend.command.PrimaerAktion;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.GewonnenDialog;
+import severeLobster.frontend.view.MainView;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
@@ -65,6 +69,10 @@ public class SternenSpielApplicationBackend {
         currentlyPlayedSpiel.entferneAlleTrackingPunkte();
     }
 
+    public void aendereSpielfeldGroesse(int x, int y) {
+        getSpiel().aendereSpielfeldGroesse(x, y);
+    }
+
     /***
      * Setzt beim aktuellen Spielfeld einen Stein. Verhalten ist nach aussen so
      * wie: Spielfeld.setSpielstein().
@@ -111,13 +119,38 @@ public class SternenSpielApplicationBackend {
         return getSpiel().getSpielfeld().listAvailableStates(x, y);
     }
 
-    public void startNewSpielFrom(final String spielname) throws IOException {
+    public void startNewSpielFrom(final String spielname) throws IOException,
+            LoesungswegNichtEindeutigException {
         final Spiel newGame = Spiel.newSpiel(spielname);
         setSpiel(newGame);
     }
 
-    public void puzzleFreigeben(String spielname) throws IOException {
+    public void puzzleFreigeben(String spielname)
+            throws LoesungswegNichtEindeutigException, IOException {
         getSpiel().gebeSpielFrei(spielname);
+    }
+
+    public void uploadPuzzle(String spielname) {
+        try {
+            if (MainView.ftpConnector.isOnline()) {
+                MainView.ftpConnector
+                        .upload(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR
+                                + "\\" + spielname + GlobaleKonstanten.PUZZLE_DATEITYP,
+                                spielname
+                                        + "-"
+                                        + getSpiel().getSchwierigkeitsgrad()
+                                        + "-"
+                                        + (getSpiel().getSpielfeld()
+                                        .getBreite() * getSpiel()
+                                        .getSpielfeld().getHoehe())
+                                        + System.getProperty("user.name")
+                                        + "-" + GlobaleKonstanten.PUZZLE_DATEITYP);
+                MainView.ftpConnector.updateFiles();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Fehler beim Upload " + e.toString());
+        }
     }
 
     public void loadSpielFrom(final String spielname) throws IOException {

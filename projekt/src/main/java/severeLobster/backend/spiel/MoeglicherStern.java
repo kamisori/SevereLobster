@@ -25,5 +25,12 @@ public class MoeglicherStern extends Spielstein {
         return (null != obj && obj instanceof MoeglicherStern);
     }
 
+
+    @Override
+    public Spielstein createNewCopy() {
+        /* Da es nur eine Instanz gibt, einfach die Instanz zurueckgeben */
+        return MoeglicherStern.getInstance();
+    }
+
 }
 

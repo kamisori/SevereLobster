@@ -1,14 +1,12 @@
 package severeLobster.backend.spiel;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import infrastructure.ResourceManager;
 import infrastructure.components.StoppUhr;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
+import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
-import javax.swing.event.EventListenerList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,6 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Stack;
+
+import javax.swing.event.EventListenerList;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
@@ -25,46 +28,32 @@ import java.util.Stack;
  * 
  * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
-public class Spiel implements IGotSpielModus {
+public class Spiel {
     private final ResourceManager resourceManager = ResourceManager.get();
     private final EventListenerList listeners = new EventListenerList();
     /** Spielfeld wird vom Spiel erstellt oder geladen. */
     private Spielfeld currentSpielfeld;
-    private SpielmodusEnumeration spielmodus = SpielmodusEnumeration.SPIELEN;
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
     private String saveName;
-    private boolean freigegeben;
 
     /** Tracking: */
     private ActionHistory spielZuege;
     private Stack<ActionHistoryObject> trackingPunkte;
     private int anzahlZuege = 0;
-    private StoppUhr spielStoppUhr;
+
+    private final StoppUhr spielStoppUhr;
     private String spielZeit = "--";
 
     /**
-     * Default constructor. Nach dem erstellen ist man im Spielmodus.Spielen.
-     * Spielfeld wird mit Standardfeld initialisiert.
-     */
-    public Spiel() {
-        this(SpielmodusEnumeration.SPIELEN);
-        setSpielStoppUhr(new StoppUhr());
-        setFreigegeben(true);
-    }
-
-    /**
-     * Spielfeld wird mit Standardfeld initialisiert.
+     * Spielfeld wird mit Standardfeld initialisiert. Nach der Erstellung ist
+     * man im Spielmodus Editieren.
      * 
      * @param spielmodus
      *            Spielmodus des Spiels
      */
-    public Spiel(SpielmodusEnumeration spielmodus) {
-        if (spielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
-            setFreigegeben(true);
-            setSpielStoppUhr(new StoppUhr());
-        }
-        this.spielmodus = spielmodus;
-        this.currentSpielfeld = new Spielfeld(this, 10, 10);
+    public Spiel() {
+        this.spielStoppUhr = new StoppUhr();
+        this.currentSpielfeld = new Spielfeld(10, 10);
         currentSpielfeld.addSpielfeldListener(innerSpielfeldListener);
         spielZuege = new ActionHistory();
         trackingPunkte = new Stack<ActionHistoryObject>();
@@ -91,11 +80,25 @@ public class Spiel implements IGotSpielModus {
     }
 
     public StoppUhr getSpielStoppUhr() {
-        return spielStoppUhr;
-    }
 
-    public void setSpielStoppUhr(StoppUhr spielStoppUhr) {
-        this.spielStoppUhr = spielStoppUhr;
+        /*
+         * SpielstoppUhr wird bei dieser Version als Member beim Erstellen
+         * gesetzt und ist dann konstant. Wenn StopUhr null ist, ist die Instanz
+         * eine alte Version der Klasse.
+         */
+        if (null == spielStoppUhr) {
+            /* Exception Block temporaer, bis alles angepasst ist. */
+            try {
+                /* Braucht net uebesetzt zu werden */
+                throw new NullPointerException(
+                        "Spiel Klasse hat sich geaendert und ist mit geladenem Spiel nicht mehr kompatibel. Gespeichertes Spiel muss mit neuer Klassenversion neu erstellt werden.");
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+        }
+        return spielStoppUhr;
     }
 
     /**
@@ -106,18 +109,6 @@ public class Spiel implements IGotSpielModus {
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
         return getSpielfeld().getSchwierigkeitsgrad();
     }
-
-    /*
-     * Es darf nicht moeglich sein von aussen ein Spielfeld zu setzen, da bei
-     * dem neuen Spielfeld der SPielmodus vom alten Spiel abhaengen wuerde,
-     * durch das das Spielfeld erstellt wurde (IGotSpielmodus). Auf Aenderungen
-     * beim Spielmodus in dieser Instanz wuerde das Spielfeld entsprechend nicht
-     * reagieren.
-     * 
-     */
-    // public void setSpielfeld(Spielfeld spielfeld) {
-    // currentSpielfeld = spielfeld;
-    // }
 
     public Spielfeld getSpielfeld() {
         return currentSpielfeld;
@@ -133,20 +124,32 @@ public class Spiel implements IGotSpielModus {
      *            Laenge der y-Achse
      */
     public void initializeNewSpielfeld(final int x, final int y) {
-        final Spielfeld listeningSpielfeld = getSpielfeld();
-        if (null != listeningSpielfeld) {
-            listeningSpielfeld.removeSpielfeldListener(innerSpielfeldListener);
+
+        final Spielfeld newSpielfeld = new Spielfeld(x, y);
+        setSpielfeld(newSpielfeld);
+    }
+
+    public void aendereSpielfeldGroesse(final int x, final int y) {
+        final Spielfeld neuesSpielfeld = new Spielfeld(getSpielfeld(), x, y);
+        setSpielfeld(neuesSpielfeld);
+    }
+
+    private void setSpielfeld(final Spielfeld newSpielfeld) {
+        final SpielmodusEnumeration oldSpielmodus = getSpielmodus();
+        final Spielfeld oldSpielfeld = getSpielfeld();
+        if (null != oldSpielfeld) {
+            oldSpielfeld.removeSpielfeldListener(innerSpielfeldListener);
         }
-        final Spielfeld newSpielfeld = new Spielfeld(this, x, y);
         newSpielfeld.addSpielfeldListener(innerSpielfeldListener);
         this.currentSpielfeld = newSpielfeld;
         fireSpielfeldChanged(currentSpielfeld);
+        if (oldSpielmodus != getSpielmodus()) {
+            fireSpielmodusChanged(getSpielmodus());
+        }
     }
 
-    // Implementiert IGotSpielModus.
-    @Override
     public SpielmodusEnumeration getSpielmodus() {
-        return spielmodus;
+        return getSpielfeld().getSpielmodus();
     }
 
     /**
@@ -163,7 +166,7 @@ public class Spiel implements IGotSpielModus {
             int groesse = currentSpielfeld.getBreite()
                     * currentSpielfeld.getHoehe();
             long faktor = (long) (groesse / (fehlversuche + 1));
-            int sekunden = (int) spielStoppUhr.getZeit();
+            int sekunden = (int) spielStoppUhr.getSekunden();
             int score = (int) (faktor) * 1000 - sekunden;
             if (score <= 0) {
                 return 1;
@@ -184,7 +187,7 @@ public class Spiel implements IGotSpielModus {
      */
     public void saveSpiel(String spielname) throws IOException {
         if (getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-            getSpielStoppUhr().pause();
+            getSpielStoppUhr().stop();
         }
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + getDateiendung(getSpielmodus());
@@ -194,7 +197,7 @@ public class Spiel implements IGotSpielModus {
         xstream.toXML(this, outputStream);
         outputStream.close();
         if (getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
-            getSpielStoppUhr().goOn();
+            getSpielStoppUhr().start();
         }
     }
 
@@ -216,7 +219,7 @@ public class Spiel implements IGotSpielModus {
         Spiel spiel = (Spiel) xstream.fromXML(inputStream);
         inputStream.close();
         if (SpielmodusEnumeration.SPIELEN.equals(spiel.getSpielmodus())) {
-            spiel.getSpielStoppUhr().goOn();
+            spiel.getSpielStoppUhr().start();
         }
         return spiel;
     }
@@ -229,20 +232,21 @@ public class Spiel implements IGotSpielModus {
      * @return Erstelltes Spiel im Spielmodus
      * @throws IOException
      *             Wirft Exception, wenn Datei nicht vorhanden
+     * @throws LoesungswegNichtEindeutigException
      */
-    public static Spiel newSpiel(String spielname) throws IOException {
+    public static Spiel newSpiel(String spielname) throws IOException,
+            LoesungswegNichtEindeutigException {
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
-        File verzeichnis = new File(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR, spielname
-                + dateiendung);
+        File verzeichnis = new File(
+                GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR,
+                spielname + dateiendung);
         InputStream inputStream = new FileInputStream(verzeichnis);
         Spiel neuesSpiel = (Spiel) xstream.fromXML(inputStream);
         inputStream.close();
 
         neuesSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        StoppUhr stoppUhr = new StoppUhr();
-        stoppUhr.start();
-        neuesSpiel.setSpielStoppUhr(stoppUhr);
+        neuesSpiel.getSpielStoppUhr().start();
         return neuesSpiel;
     }
 
@@ -281,18 +285,27 @@ public class Spiel implements IGotSpielModus {
     /**
      * Setzt den Spielmodus des aktuellen Spiels
      * 
-     * @param spielmodus
+     * @param neuerSpielmodus
      *            Spielmodus des Spiels
+     * @throws LoesungswegNichtEindeutigException
      */
-    public void setSpielmodus(final SpielmodusEnumeration spielmodus) {
-        if (null != spielmodus) {
-            if (spielmodus.equals(SpielmodusEnumeration.SPIELEN) && !isFreigegeben()) {
-                throw new IllegalStateException("Spielmodus kann nicht geändert werden:" +
-                        "Spiel ist nicht freigegeben für Spielmodus!");
-            }
-            this.spielmodus = spielmodus;
-            fireSpielmodusChanged(spielmodus);
+    public void setSpielmodus(final SpielmodusEnumeration neuerSpielmodus)
+            throws LoesungswegNichtEindeutigException {
+
+        /* Aenderung feuert durch Kopplung auch die Listener von Spiel */
+        getSpielfeld().setSpielmodus(neuerSpielmodus);
+        if (neuerSpielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
+            /*
+             * Uhr wird nur gestartet, wenn auch wirklich auf Spielmodus SPIELEN
+             * gesetzt werden kann. Andernfalls wurde die Methode zuvor bereits
+             * durch die Exception verlassen
+             */
+            getSpielStoppUhr().start();
+        } else // neuer spielmodus ist EDITIEREN
+        {
+            getSpielStoppUhr().stop();
         }
+
     }
 
     private void fireSpielsteinChanged(final Spielfeld spielfeld, final int x,
@@ -423,9 +436,8 @@ public class Spiel implements IGotSpielModus {
         return trackingPunkte;
     }
 
-    public void entferneAlleTrackingPunkte(){
-        while(trackingPunkte.size() != 0)
-        {
+    public void entferneAlleTrackingPunkte() {
+        while (trackingPunkte.size() != 0) {
             trackingPunkte.pop().setzeTrackingPunktNachDiesemZug(false);
         }
     }
@@ -436,6 +448,12 @@ public class Spiel implements IGotSpielModus {
         public void spielsteinChanged(Spielfeld spielfeld, int x, int y,
                 Spielstein changedStein) {
             fireSpielsteinChanged(spielfeld, x, y, changedStein);
+        }
+
+        @Override
+        public void spielmodusChanged(Spielfeld spielfeld,
+                SpielmodusEnumeration neuerSpielmodus) {
+            fireSpielmodusChanged(neuerSpielmodus);
         }
     }
 
@@ -458,40 +476,23 @@ public class Spiel implements IGotSpielModus {
 
     public String getSpielZeit() {
         if (getSpielStoppUhr() != null) {
-            spielZeit = String.valueOf(getSpielStoppUhr().getZeit());
+            spielZeit = String.valueOf(getSpielStoppUhr().getSekunden());
         }
         // TODO: Formatierung der Zeit (Sekunden)
         return spielZeit;
     }
 
-    public void gebeSpielFrei(String spielname) throws IOException {
-        setFreigegeben(true);
-
+    public void gebeSpielFrei(String spielname) throws IOException,
+            LoesungswegNichtEindeutigException {
+        getSpielfeld().setSpielmodus(SpielmodusEnumeration.SPIELEN);
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
-        File verzeichnis = new File(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR, spielname
-                + dateiendung);
+        File verzeichnis = new File(
+                GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR,
+                spielname + dateiendung);
         OutputStream outputStream = new FileOutputStream(verzeichnis);
         xstream.toXML(this, outputStream);
         outputStream.close();
-    }
-
-    /**
-     * Prueft, ob ein Puzzle für das Spielen freigegeben ist
-     * @return freigegeben
-     */
-    public boolean isFreigegeben() {
-        return freigegeben;
-    }
-
-    public void setFreigegeben(boolean freigegeben) {
-        if (loesungswegUeberpruefen()) {
-            this.freigegeben = freigegeben;
-        }
-    }
-
-    public boolean loesungswegUeberpruefen() {
-        return true;
     }
 
 }

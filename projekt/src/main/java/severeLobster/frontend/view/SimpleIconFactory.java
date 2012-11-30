@@ -1,15 +1,14 @@
 package severeLobster.frontend.view;
 
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 import infrastructure.ResourceManager;
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * Factory Implementation fuer das Simple Icon Paket.
@@ -56,16 +55,28 @@ public class SimpleIconFactory extends IconFactory {
     protected ImageIcon pfeilEastIcon;
     protected ImageIcon pfeilSouthEastIcon;
 
+    protected ImageIcon pfeilSouthIcon_deaktivert;
+    protected ImageIcon pfeilSouthWestIcon_deaktivert;
+    protected ImageIcon pfeilWestIcon_deaktivert;
+    protected ImageIcon pfeilNorthWestIcon_deaktivert;
+    protected ImageIcon pfeilNorthIcon_deaktivert;
+    protected ImageIcon pfeilNorthEastIcon_deaktivert;
+    protected ImageIcon pfeilEastIcon_deaktivert;
+    protected ImageIcon pfeilSouthEastIcon_deaktivert;
+
     protected SimpleIconFactory() {
 
-        sternIcon = resourceManager.getImageIcon("SternIcon24.png");
+        sternIcon = resourceManager.getImageIcon("Stern_Popup.png");
         ausschlussIcon = resourceManager.getImageIcon("AusschlussIcon24.png");
-        blankIcon = resourceManager.getImageIcon("BlankIcon24.png");
+        blankIcon = resourceManager.getImageIcon("Blank_Popup.png");
 
-        final BufferedImage pfeilSouthBuffImage;
+        final BufferedImage pfeilNorthBuffImage;
+        final BufferedImage pfeilNorthEastBuffImage;
         try {
-            pfeilSouthBuffImage = resourceManager
-                    .getIconAsBufferedImage("PfeilIcon24.png");
+            pfeilNorthBuffImage = resourceManager
+                    .getIconAsBufferedImage("Pfeil_0_Popup.png");
+            pfeilNorthEastBuffImage = resourceManager
+                    .getIconAsBufferedImage("Pfeil_45_Popup.png");
         } catch (IOException e) {
             e.printStackTrace();
             // Wenn das fehlschlaegt ist was kaputt
@@ -73,21 +84,22 @@ public class SimpleIconFactory extends IconFactory {
                     resourceManager.getText("exception.simple.icon.factory.cannot.load.all.pictures"));
         }
 
-        pfeilSouthIcon = new ImageIcon(pfeilSouthBuffImage);
-        pfeilSouthWestIcon = new ImageIcon(getRotatedImageOf(
-                pfeilSouthBuffImage, 45));
-        pfeilWestIcon = new ImageIcon(
-                getRotatedImageOf(pfeilSouthBuffImage, 90));
-        pfeilNorthWestIcon = new ImageIcon(getRotatedImageOf(
-                pfeilSouthBuffImage, 135));
-        pfeilNorthIcon = new ImageIcon(getRotatedImageOf(pfeilSouthBuffImage,
-                180));
-        pfeilNorthEastIcon = new ImageIcon(getRotatedImageOf(
-                pfeilSouthBuffImage, 225));
-        pfeilEastIcon = new ImageIcon(getRotatedImageOf(pfeilSouthBuffImage,
+        pfeilNorthIcon = new ImageIcon(pfeilNorthBuffImage);
+        pfeilEastIcon = new ImageIcon(
+                getRotatedImageOf(pfeilNorthBuffImage, 90));
+        pfeilWestIcon = new ImageIcon(getRotatedImageOf(pfeilNorthBuffImage,
                 270));
+        pfeilSouthIcon = new ImageIcon(getRotatedImageOf(pfeilNorthBuffImage,
+                180));
+        pfeilNorthWestIcon = new ImageIcon(getRotatedImageOf(
+                pfeilNorthEastBuffImage, 270));
+        pfeilSouthWestIcon = new ImageIcon(getRotatedImageOf(
+                pfeilNorthEastBuffImage,
+                180));
         pfeilSouthEastIcon = new ImageIcon(getRotatedImageOf(
-                pfeilSouthBuffImage, 315));
+                pfeilNorthEastBuffImage, 90));
+        pfeilNorthEastIcon = new ImageIcon(getRotatedImageOf(
+                pfeilNorthEastBuffImage, 0));
 
     }
 
@@ -143,37 +155,37 @@ public class SimpleIconFactory extends IconFactory {
     }
 
     @Override
-    // TODO Dunkelausgegraute PfeilIcons einbauen!!!
     public Icon disabledPfeilIcon(PfeilrichtungEnumeration richtung) {
         if (richtung == null) {
             return ausschlussIcon;
         }
         if (richtung == PfeilrichtungEnumeration.SUED) {
-            return pfeilSouthIcon;
+            return pfeilSouthIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.SUEDWEST) {
-            return pfeilSouthWestIcon;
+            return pfeilSouthWestIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.WEST) {
-            return pfeilWestIcon;
+            return pfeilWestIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.NORDWEST) {
-            return pfeilNorthWestIcon;
+            return pfeilNorthWestIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.NORD) {
-            return pfeilNorthIcon;
+            return pfeilNorthIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.NORDOST) {
-            return pfeilNorthEastIcon;
+            return pfeilNorthEastIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.OST) {
-            return pfeilEastIcon;
+            return pfeilEastIcon_deaktivert;
         }
         if (richtung == PfeilrichtungEnumeration.SUEDOST) {
-            return pfeilSouthEastIcon;
+            return pfeilSouthEastIcon_deaktivert;
         }
         return ausschlussIcon;
     }
+
 
     /***
      * Ganz dreist geklaut.

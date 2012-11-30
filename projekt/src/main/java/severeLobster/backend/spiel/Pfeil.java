@@ -1,11 +1,10 @@
 package severeLobster.backend.spiel;
 
+import infrastructure.ResourceManager;
 import infrastructure.components.Koordinaten;
 import infrastructure.constants.enums.PfeilrichtungEnumeration;
-import infrastructure.ResourceManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,25 +31,6 @@ public class Pfeil extends Spielstein {
             PfeilrichtungEnumeration.WEST);
     private static final Pfeil NORD_WEST_PFEIL = new Pfeil(
             PfeilrichtungEnumeration.NORDWEST);
-
-    /**
-     * Es wird immer dieselbst Liste zurueckgegeben, daher muss sie
-     * unveraenderbar sein.
-     */
-    private static final List<Pfeil> ALLE_MOEGLICHEN_PFEIL_INSTANZEN;
-    static {
-        final List<Pfeil> modifiableList = new ArrayList<Pfeil>(8);
-        modifiableList.add(NORD_PFEIL);
-        modifiableList.add(NORD_OST_PFEIL);
-        modifiableList.add(OST_PFEIL);
-        modifiableList.add(SUED_OST_PFEIL);
-        modifiableList.add(SUED_PFEIL);
-        modifiableList.add(SUED_WEST_PFEIL);
-        modifiableList.add(WEST_PFEIL);
-        modifiableList.add(NORD_WEST_PFEIL);
-        ALLE_MOEGLICHEN_PFEIL_INSTANZEN = Collections
-                .unmodifiableList(modifiableList);
-    }
 
     private final PfeilrichtungEnumeration pfeilrichtung;
 
@@ -109,14 +89,19 @@ public class Pfeil extends Spielstein {
         return NORD_WEST_PFEIL;
     }
 
-    /**
-     * Liste ist unveraenderbar. Aenderungsversuche fuehren zu einer
-     * UnsupportedOperationException.
-     * 
-     * @return Alle moeglichen Pfeilvarianten
-     */
     public static List<Pfeil> listAlleMoeglichenPfeile() {
-        return ALLE_MOEGLICHEN_PFEIL_INSTANZEN;
+
+        final List<Pfeil> modifiableList = new ArrayList<Pfeil>(8);
+        modifiableList.add(NORD_PFEIL);
+        modifiableList.add(NORD_OST_PFEIL);
+        modifiableList.add(OST_PFEIL);
+        modifiableList.add(SUED_OST_PFEIL);
+        modifiableList.add(SUED_PFEIL);
+        modifiableList.add(SUED_WEST_PFEIL);
+        modifiableList.add(WEST_PFEIL);
+        modifiableList.add(NORD_WEST_PFEIL);
+
+        return modifiableList;
     }
 
     @Override
@@ -169,6 +154,16 @@ public class Pfeil extends Spielstein {
             break;
         }
         return result;
+    }
+
+    @Override
+    public Spielstein createNewCopy() {
+        /*
+         * Pfeile haben konstante Attribute und koennten auch als Singletons
+         * angeboten werden, daher einfach nur die aktuelle Instanz auf dem die
+         * Methode aufgerufen wird zurueckgeben
+         */
+        return this;
     }
 
 }

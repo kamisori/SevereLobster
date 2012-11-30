@@ -1,6 +1,6 @@
 package infrastructure.constants;
 
-import java.awt.Font;
+import java.awt.*;
 import java.io.File;
 
 /**
@@ -39,6 +39,11 @@ public abstract class GlobaleKonstanten {
      * Standardverzeichnis fuer gespeicherte Docs
      */
     public static final File DEFAULT_CONF_SAVE_DIR = getDefaultConfigsSaveDir();
+
+    /**
+     * Mindestgroesse der Applikation
+     */
+    public static final Dimension MINIMUM_APP_SIZE = new Dimension(800, 600);
 
     /**
      * Standardverzeichnis fuer gespeicherte Spiele
