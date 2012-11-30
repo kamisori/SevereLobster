@@ -128,7 +128,7 @@
       <property name="load.puzzle" value="Puzzle laden..."/>
     </propertyfile>
     <userpropertyFile>
-      <property name="user.language" value="de"/>
+      <property name="user.language" value="en"/>
       <property name="user.avatar" value="spielinfo_m3.jpg"/>
     </userpropertyFile>
   </resourceManager>
@@ -303,7 +303,7 @@
   <anzahlZuege>0</anzahlZuege>
   <spielStoppUhr>
     <summeDerBisherigenMessungen>0</summeDerBisherigenMessungen>
-    <aktuelleMessungAbsoluterStartZeitpunkt>1354215123713</aktuelleMessungAbsoluterStartZeitpunkt>
+    <aktuelleMessungAbsoluterStartZeitpunkt>1354266045321</aktuelleMessungAbsoluterStartZeitpunkt>
     <messungLaeuft>false</messungLaeuft>
   </spielStoppUhr>
   <spielZeit>--</spielZeit>

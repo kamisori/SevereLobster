@@ -128,7 +128,7 @@
       <property name="puzzle.load.dialog.extension.description" value="Gespeichertes Puzzle (*.puz)"/>
     </propertyfile>
     <userpropertyFile>
-      <property name="user.language" value="de"/>
+      <property name="user.language" value="en"/>
       <property name="user.avatar" value="spielinfo_m3.jpg"/>
     </userpropertyFile>
   </resourceManager>

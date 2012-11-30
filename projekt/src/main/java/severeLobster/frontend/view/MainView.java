@@ -12,8 +12,23 @@ import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 import severeLobster.frontend.controller.TrackingControllViewController;
 import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -136,7 +151,7 @@ public class MainView extends JPanel {
             jpMenu.setLayout(new BoxLayout(jpMenu, BoxLayout.Y_AXIS));
 
             ImageIcon iconSpiel = resourceManager.getImageIcon("Menu_neues_Spiel.png");
-            ImageIcon iconLaden = resourceManager.getImageIcon("Menu_blank.png");
+            ImageIcon iconLaden = resourceManager.getImageIcon("Menu_Spiel_fortsetzen.png");
             ImageIcon iconErstellen = resourceManager.getImageIcon("Menu_Puzzle_erstellen.png");
 
             MenuButton neuesSpiel = new MenuButton(iconSpiel, iconSpiel, iconSpiel);
@@ -215,61 +230,69 @@ public class MainView extends JPanel {
     }
 
     public void addOnlineSpielAuswahlPanel() {
+
         ftpConnector.connect();
-        ftpConnector.connect();
-        ftpConnector.updateFiles();
-        JPanel jpAuswahl = new JPanel();
-        jpAuswahl.setOpaque(false);
-        jpAuswahl.setPreferredSize(new Dimension(700, 600));
-        jpAuswahl.setMinimumSize(new Dimension(700, 600));
-        jpAuswahl.setMaximumSize(new Dimension(700, 600));
-        JPanel jpSpielfeldAuswahl = new JPanel();
 
-        GridLayout layout = new GridLayout(ftpConnector.files.length, 1);
-        jpSpielfeldAuswahl.setLayout(layout);
-        jpSpielfeldAuswahl.setOpaque(false);
+        if (ftpConnector.isOnline()) {
+            ftpConnector.updateFiles();
+            JPanel jpAuswahl = new JPanel();
+            jpAuswahl.setOpaque(false);
+            jpAuswahl.setPreferredSize(new Dimension(700, 600));
+            jpAuswahl.setMinimumSize(new Dimension(700, 600));
+            jpAuswahl.setMaximumSize(new Dimension(700, 600));
+            JPanel jpSpielfeldAuswahl = new JPanel();
 
-        for (int i = 0; i < ftpConnector.files.length; i++) {
-            jpSpielfeldAuswahl.add(new OnlinePuzzlePreviewView(this,
-                    ftpConnector.files[i].getName(), ftpConnector));
-        }
-        JPanel jpBottom = new JPanel();
-        jpBottom.setOpaque(false);
-        jpBottom.setPreferredSize(new Dimension(600, 30));
-        JButton jbBackToMenu = new JButton(
-                resourceManager.getText("back.to.main.menu"));
-        jbBackToMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            GridLayout layout = new GridLayout(ftpConnector.files.length, 1);
+            jpSpielfeldAuswahl.setLayout(layout);
+            jpSpielfeldAuswahl.setOpaque(false);
 
-                try {
-                    addMenuPanel();
-                } catch (Exception e) {
-                    removeAll();
-                    addMenuPanel();
-                }
+            for (int i = 0; i < ftpConnector.files.length; i++) {
+                jpSpielfeldAuswahl.add(new OnlinePuzzlePreviewView(this,
+                        ftpConnector.files[i].getName(), ftpConnector));
             }
-        });
-        jpBottom.add(jbBackToMenu);
-        JScrollPane jpScroll = new JScrollPane();
-        jpScroll.setOpaque(false);
-        jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jpScroll.getViewport().add(jpSpielfeldAuswahl);
-        jpScroll.setPreferredSize(new Dimension(700, 400));
-        jpScroll.getViewport().setOpaque(false);
-        JLabel jlUeberschrift = new JLabel();
-        jlUeberschrift.setPreferredSize(new Dimension(700, 50));
-        jlUeberschrift.setForeground(Color.YELLOW);
-        jlUeberschrift.setFont(new Font("Verdana", 0, 36));
-        jlUeberschrift.setHorizontalAlignment(JLabel.CENTER);
-        jlUeberschrift.setText(resourceManager.getText("online.archive"));
-        jpAuswahl.add(jlUeberschrift, BorderLayout.NORTH);
-        jpAuswahl.add(jpScroll, BorderLayout.CENTER);
-        jpAuswahl.add(jpBottom, BorderLayout.SOUTH);
+            JPanel jpBottom = new JPanel();
+            jpBottom.setOpaque(false);
+            jpBottom.setPreferredSize(new Dimension(600, 30));
+            JButton jbBackToMenu = new JButton(
+                    resourceManager.getText("back.to.main.menu"));
+            jbBackToMenu.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
 
-        removeAll();
-        add(jpAuswahl);
-        validate();
-        repaint();
+                    try {
+                        addMenuPanel();
+                    } catch (Exception e) {
+                        removeAll();
+                        addMenuPanel();
+                    }
+                }
+            });
+            jpBottom.add(jbBackToMenu);
+            JScrollPane jpScroll = new JScrollPane();
+            jpScroll.setOpaque(false);
+            jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            jpScroll.getViewport().add(jpSpielfeldAuswahl);
+            jpScroll.setPreferredSize(new Dimension(700, 400));
+            jpScroll.getViewport().setOpaque(false);
+            JLabel jlUeberschrift = new JLabel();
+            jlUeberschrift.setPreferredSize(new Dimension(700, 50));
+            jlUeberschrift.setForeground(Color.YELLOW);
+            jlUeberschrift.setFont(new Font("Verdana", 0, 36));
+            jlUeberschrift.setHorizontalAlignment(JLabel.CENTER);
+            jlUeberschrift.setText(resourceManager.getText("online.archive"));
+            jpAuswahl.add(jlUeberschrift, BorderLayout.NORTH);
+            jpAuswahl.add(jpScroll, BorderLayout.CENTER);
+            jpAuswahl.add(jpBottom, BorderLayout.SOUTH);
+
+            removeAll();
+            add(jpAuswahl);
+            validate();
+            repaint();
+        } else {
+            JOptionPane.showMessageDialog(MainFrame.frame,
+                    resourceManager.getText("online.archive.no.connection.body"),
+                    resourceManager.getText("online.archive.no.connection.title"),
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     @Override

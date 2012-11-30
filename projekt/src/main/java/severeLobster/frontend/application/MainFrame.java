@@ -7,7 +7,6 @@
 package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
-import infrastructure.components.FTPConnector;
 import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
@@ -23,6 +22,7 @@ import severeLobster.frontend.dialogs.NewGamePreview;
 import severeLobster.frontend.dialogs.SpracheAendernDialog;
 import severeLobster.frontend.view.MainView;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,7 +34,10 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -65,6 +68,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     private static JMenuItem puzzleSaveAs;
     private static JMenuItem puzzleFreigeben;
     private static JMenuItem puzzleCheck;
+    private static JMenuItem optionenFadenkreuz;
     private static JFileChooser loadGameChooser;
     private static JFileChooser newGameChooser;
     private static JFileChooser loadPuzzleChooser;
@@ -239,6 +243,11 @@ public class MainFrame extends JMenuBar implements Runnable {
                     spracheAendern();
                 }
                 if (event.getActionCommand().equals(
+                        resourceManager.getText("optionen.fadenkreuz"))) {
+                    optionenFadenkreuz.setEnabled(optionenFadenkreuz.isEnabled());
+                    //TODO Fadenkreuz anzeigen
+                }
+                if (event.getActionCommand().equals(
                         resourceManager.getText("optionen.avatar"))) {
                     avatarAendern();
                 }
@@ -304,6 +313,9 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.sprache")));
         item.addActionListener(menuAction);
+        jm_Optionen.add(optionenFadenkreuz = new JCheckBoxMenuItem(resourceManager
+                .getText("optionen.fadenkreuz")));
+        optionenFadenkreuz.addActionListener(menuAction);
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.avatar")));
         item.addActionListener(menuAction);
