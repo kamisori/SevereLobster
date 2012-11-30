@@ -160,21 +160,19 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * @return Schwierigkeitsgrad des Spielfeldes
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
-        // QUICKFIX
         try {
             float sterne = countSterne();
             float pfeile = countPfeile();
             float spielfeldFlaeche = getBreite() * getHoehe();
 
-            float sterndichte = sterne / spielfeldFlaeche;
-            float pfeildichte = pfeile / spielfeldFlaeche;
-            float pfeilSternVerhaeltnis = pfeile / sterne;
-            double schwierigkeit = (pfeilSternVerhaeltnis)
-                    * (sterndichte + pfeildichte) * 100.0;
+            double schwierigkeit = pfeile * pfeile;
+            schwierigkeit += pfeile * sterne;
+            schwierigkeit /= sterne * spielfeldFlaeche * spielfeldFlaeche;
+            schwierigkeit *= 100;
 
-            if (schwierigkeit > 100.0)
+            if (schwierigkeit > 70.0)
                 return SchwierigkeitsgradEnumeration.LEICHT;
-            else if (schwierigkeit > 30.0)
+            else if (schwierigkeit > 25.0)
                 return SchwierigkeitsgradEnumeration.MITTEL;
             else
                 return SchwierigkeitsgradEnumeration.SCHWER;
