@@ -150,6 +150,7 @@ public class MainView extends JPanel {
             jpMenu.setOpaque(false);
             jpMenu.setLayout(new BoxLayout(jpMenu, BoxLayout.Y_AXIS));
 
+            ImageIcon logo = resourceManager.getImageIcon("logo_menu.png");
             ImageIcon iconSpiel = resourceManager.getImageIcon("Menu_neues_Spiel.png");
             ImageIcon iconLaden = resourceManager.getImageIcon("Menu_Spiel_fortsetzen.png");
             ImageIcon iconErstellen = resourceManager.getImageIcon("Menu_Puzzle_erstellen.png");
@@ -179,6 +180,7 @@ public class MainView extends JPanel {
             MainFrame.controlSpielMenue(false);
             MainFrame.controlEditierMenue(false);
 
+            jpMenu.add(new JLabel(logo));
             jpMenu.add(neuesSpiel);
             jpMenu.add(spielLaden);
             jpMenu.add(puzzleErstellen);

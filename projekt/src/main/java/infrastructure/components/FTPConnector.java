@@ -161,7 +161,6 @@ public class FTPConnector {
      * @return Wurde eine Verbindung hergestellt?
      */
     public boolean isOnline() {
-        connect();
         return ftp.isConnected();
     }
 }

@@ -213,6 +213,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                                             resourceManager
                                                     .getText("mainFrame.freigabe.freigegeben.title"),
                                             JOptionPane.INFORMATION_MESSAGE);
+                            if (MainView.ftpConnector.isOnline()) {
                         int reply = javax.swing.JOptionPane.showConfirmDialog(frame,
                                 resourceManager.getText("mainFrame.upload.body"),
                                 resourceManager.getText("mainFrame.upload.title"),
@@ -220,6 +221,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                         if (reply == JOptionPane.YES_OPTION) {
                             mainPanel.getBackend().uploadPuzzle(savename);
                         }
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (LoesungswegNichtEindeutigException e) {
