@@ -28,14 +28,36 @@ public class SolvingStrategyStandard implements SolvingStrategy {
             e.printStackTrace();
         }
 
-        SolvingStep[] steps;
-        steps = new SolvingStep[] { new SolvingStepPossibleStars(),
+        // Einmal-Schritte ausführen
+        SolvingStep[] initialSteps = new SolvingStep[] { new SolvingStepPossibleStars(),
                 new SolvingStepExcludeImpossibles(),
                 new SolvingStepCheckZeroColumns(),
                 new SolvingStepCheckZeroRows() };
 
-        for (SolvingStep currentStep : steps) {
+        for (SolvingStep currentStep : initialSteps) {
             solvedField = currentStep.execute(input);
+        }
+
+        // Schritte ausführen die mehrmals aufgerufen werden
+        SolvingStep [] stepsPerRound = new SolvingStep[] {
+
+
+        };
+
+        Spielfeld before = solvedField;
+
+        for (SolvingStep currentStep : stepsPerRound) {
+            solvedField = currentStep.execute(input);
+        }
+
+        /**
+         * Wenn sich in einem Spielfeld nach einem Durchlauf nichts geaendert hat,
+         * ist das Spiel nicht lösbar
+         */
+        if (solvedField.equals(before))
+        {
+            // NICHT EINDEUTIG LÖSBAR!
+            // evtl. raten um anzuzeigen wo es nicht eindeutig ist
         }
 
         return solvedField;
