@@ -133,9 +133,9 @@ public class SternenSpielApplicationBackend {
     public void uploadPuzzle(String spielname) {
         try {
             if (MainView.ftpConnector.isOnline()) {
-                MainView.ftpConnector
+            	MainView.ftpConnector
                         .upload(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR
-                                + "\\" + spielname + GlobaleKonstanten.PUZZLE_DATEITYP,
+                                + "\\" + spielname+"." + GlobaleKonstanten.PUZZLE_DATEITYP,
                                 spielname
                                         + "-"
                                         + getSpiel().getSchwierigkeitsgrad()
@@ -143,6 +143,7 @@ public class SternenSpielApplicationBackend {
                                         + (getSpiel().getSpielfeld()
                                         .getBreite() * getSpiel()
                                         .getSpielfeld().getHoehe())
+                                        + "-"
                                         + System.getProperty("user.name")
                                         + "-" + GlobaleKonstanten.PUZZLE_DATEITYP);
                 MainView.ftpConnector.updateFiles();
