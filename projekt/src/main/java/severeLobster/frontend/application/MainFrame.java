@@ -421,7 +421,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     private void anleitungOeffnen() {
         Desktop desktop = Desktop.getDesktop();
         File anleitungFile = new File(GlobaleKonstanten.DEFAULT_DOC_SAVE_DIR,
-                "index.html");
+                "Sternenhimmel DELUXE.html");
         try {
             if (!Desktop.isDesktopSupported()) {
                 throw new IOException();
