@@ -1,13 +1,18 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.components.FTPConnector;
+import infrastructure.components.AudioPlayer;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.event.EventListenerList;
 
 import severeLobster.backend.command.PrimaerAktion;
@@ -275,9 +280,17 @@ public class SternenSpielApplicationBackend {
                     && spiel.getSpielmodus().equals(
                             SpielmodusEnumeration.SPIELEN)) {
                 {
+                	try {
+                		AudioPlayer.playWinSound();
+                	}  catch (Exception e) 
+                	{
+                		System.out.println("Sound wird überbewertet");
+                		System.out.println(e.toString());
+                	}
                     int result = GewonnenDialog.show(null,
                             spiel.getHighscore(), spiel.getSpielZeit(),
                             spiel.getAnzahlZuege());
+
                     if (GewonnenDialog.neues_spiel_starten
                             .equals(GewonnenDialog.options[result])) {
                         MainFrame.neuesSpielOeffnen();

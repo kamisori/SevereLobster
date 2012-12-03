@@ -62,6 +62,7 @@ public abstract class GlobaleKonstanten {
      */
     public static final File DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR = getDefaultFreigegebenePuzzleSaveDir();
 
+    public static final String DEFAULT_SOUND_DIR = getDefaultSoundDir();
 
     /**
      * Gibt das Standardverzeichnis fuer gespeicherte Spiele zurueck - wenn es
@@ -156,5 +157,10 @@ public abstract class GlobaleKonstanten {
         } else {
             return spielverzeichnis;
         }
+    }
+    private static String getDefaultSoundDir() {
+     
+            return "./bin/sound";
+        
     }
 }
