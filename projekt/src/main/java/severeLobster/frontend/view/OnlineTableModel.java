@@ -15,7 +15,7 @@ class OnlineTableModel implements TableModel{
 
 	public void updateData(  )
 	{
-		// Das wird der Index des Vehikels werden
+		
 		int index = Spiele.size();
 		for(int i=0;i<MainView.ftpConnector.files.length;i++)
 		{

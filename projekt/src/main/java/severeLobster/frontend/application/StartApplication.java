@@ -109,12 +109,14 @@ public class StartApplication extends JFrame implements Runnable {
             SC_MAIN = new Thread(new MainFrame(getBackend()));
             MainView.ftpConnector = new FTPConnector("ftp.strato.de",
                     "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);
+            
             Thread.sleep(2000);
         } catch (Exception e) {
             dispose();
             e.printStackTrace();
         } finally {
             dispose();
+            MainView.ftpConnector.connect();
             SC_MAIN.start();
         }
     }

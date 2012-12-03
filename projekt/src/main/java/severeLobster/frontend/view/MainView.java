@@ -50,7 +50,6 @@ public class MainView extends JPanel {
     private final TrackingControllView trackingView;
     private final SpielinfoView spielInfoView;
     private final EditiermodusView editiermodusView;
-    private final OnlineTableModel model = new OnlineTableModel();
     private final SternenSpielApplicationBackend backend;
 
     public SternenSpielApplicationBackend getBackend() {
@@ -300,6 +299,7 @@ public class MainView extends JPanel {
           //  oPreviewPanel.add(new OnlinePuzzlePreviewView(this,"Standardspiel01.puz",ftpConnector));
             oPreviewPanel.add(new PuzzlePreviewView("Standardspiel01"));
             oPreviewPanel.setPreferredSize(new Dimension(700, 200));
+            OnlineTableModel model = new OnlineTableModel();
             JTable table = new OnlineTable( model ,	oPreviewPanel);
            
 
