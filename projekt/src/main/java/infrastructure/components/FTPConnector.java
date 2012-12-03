@@ -108,12 +108,13 @@ public class FTPConnector {
 								resourceManager.getText("online.archive.already.there.title"),
 								resourceManager.getText("online.archive.already.there.body"),
 								JOptionPane.ERROR_MESSAGE);
+							} 
 					 */
-				} else {
+				
 					FileOutputStream fos = new FileOutputStream(file);
 					success = ftp.retrieveFile(file1.getName(), fos);
 					fos.close();
-				}
+				
 			}
 
 		}
