@@ -246,8 +246,13 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("optionen.fadenkreuz"))) {
-                    optionenFadenkreuz.setEnabled(optionenFadenkreuz.isEnabled());
-                    //TODO Fadenkreuz anzeigen
+                    if (optionenFadenkreuz.isSelected()) {
+                        //TODO Fadenkreuz anzeigen
+                    }
+                    else {
+                        //TODO Fadenkreuz ausblenden
+                    }
+
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("optionen.avatar"))) {
@@ -312,12 +317,13 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Extras.add(item = new JMenuItem(resourceManager
                 .getText("download.puzzles")));
         item.addActionListener(menuAction);
+        jm_Optionen.add(optionenFadenkreuz = new JCheckBoxMenuItem(resourceManager
+                .getText("optionen.fadenkreuz")));
+        optionenFadenkreuz.setSelected(true);
+        optionenFadenkreuz.addActionListener(menuAction);
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.sprache")));
         item.addActionListener(menuAction);
-        jm_Optionen.add(optionenFadenkreuz = new JCheckBoxMenuItem(resourceManager
-                .getText("optionen.fadenkreuz")));
-        optionenFadenkreuz.addActionListener(menuAction);
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.avatar")));
         item.addActionListener(menuAction);

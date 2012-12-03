@@ -32,6 +32,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Locale;
 
 public class MainView extends JPanel {
 
@@ -151,18 +152,50 @@ public class MainView extends JPanel {
             jpMenu.setLayout(new BoxLayout(jpMenu, BoxLayout.Y_AXIS));
 
             ImageIcon logo = resourceManager.getImageIcon("logo_menu.png");
-            ImageIcon iconSpiel = resourceManager.getImageIcon("Menu_neues_Spiel.png");
-            ImageIcon iconLaden = resourceManager.getImageIcon("Menu_Spiel_fortsetzen.png");
-            ImageIcon iconErstellen = resourceManager.getImageIcon("Menu_Puzzle_erstellen.png");
+            ImageIcon iconSpiel;
+            ImageIcon iconSpielRollover;
+            ImageIcon iconSpielClicked;
+            ImageIcon iconLaden;
+            ImageIcon iconLadenRollover;
+            ImageIcon iconLadenClicked;
 
-            MenuButton neuesSpiel = new MenuButton(iconSpiel, iconSpiel, iconSpiel);
+            ImageIcon iconErstellen;
+            ImageIcon iconErstellenRollover;
+            ImageIcon iconErstellenClicked;
+
+            if (resourceManager.getLanguage().equals(Locale.GERMAN)) {
+                iconSpiel = resourceManager.getImageIcon("menu_neu.png");
+                iconSpielRollover = resourceManager.getImageIcon("menu_neu_rollover.png");
+                iconSpielClicked = resourceManager.getImageIcon("menu_neu_clicked.png");
+                iconLaden = resourceManager.getImageIcon("menu_load.png");
+                iconLadenRollover = resourceManager.getImageIcon("menu_load_rollover.png");
+                iconLadenClicked = resourceManager.getImageIcon("menu_load_clicked.png");
+
+                iconErstellen = resourceManager.getImageIcon("menu_edit.png");
+                iconErstellenRollover = resourceManager.getImageIcon("menu_edit_rollover.png");
+                iconErstellenClicked = resourceManager.getImageIcon("menu_edit_clicked.png");
+            } else {
+                iconSpiel = resourceManager.getImageIcon("menu_neu_en.png");
+                iconSpielRollover = resourceManager.getImageIcon("menu_neu_rollover_en.png");
+                iconSpielClicked = resourceManager.getImageIcon("menu_neu_clicked_en.png");
+                iconLaden = resourceManager.getImageIcon("menu_load_en.png");
+                iconLadenRollover = resourceManager.getImageIcon("menu_load_rollover_en.png");
+                iconLadenClicked = resourceManager.getImageIcon("menu_load_clicked_en.png");
+
+                iconErstellen = resourceManager.getImageIcon("menu_edit_en.png");
+                iconErstellenRollover = resourceManager.getImageIcon("menu_edit_rollover_en.png");
+                iconErstellenClicked = resourceManager.getImageIcon("menu_edit_clicked_en.png");
+
+            }
+
+            MenuButton neuesSpiel = new MenuButton(iconSpiel, iconSpielRollover, iconSpielClicked);
             neuesSpiel.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     MainFrame.neuesSpielOeffnen();
                 }
             });
-            MenuButton spielLaden = new MenuButton(iconLaden, iconLaden, iconLaden);
+            MenuButton spielLaden = new MenuButton(iconLaden, iconLadenRollover, iconLadenClicked);
             spielLaden.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -170,7 +203,7 @@ public class MainView extends JPanel {
                 }
             });
 
-            MenuButton puzzleErstellen = new MenuButton(iconErstellen, iconErstellen, iconErstellen);
+            MenuButton puzzleErstellen = new MenuButton(iconErstellen, iconErstellenRollover, iconErstellenClicked);
             puzzleErstellen.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -179,8 +212,8 @@ public class MainView extends JPanel {
             });
             MainFrame.controlSpielMenue(false);
             MainFrame.controlEditierMenue(false);
-
-            jpMenu.add(new JLabel(logo));
+            MenuButton t = new MenuButton(logo, logo, logo);
+            jpMenu.add(t);
             jpMenu.add(neuesSpiel);
             jpMenu.add(spielLaden);
             jpMenu.add(puzzleErstellen);

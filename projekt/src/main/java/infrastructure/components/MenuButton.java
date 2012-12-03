@@ -1,8 +1,7 @@
 package infrastructure.components;
 
-import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.Icon;
+import javax.swing.JButton;
 
 /**
  * @author Lars Schlegelmilch
@@ -16,23 +15,8 @@ public class MenuButton extends JButton {
         setOpaque(false);
         setContentAreaFilled(false);
         setIcon(defaultIcon);
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setIcon(defaultIcon);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setIcon(rolloverIcon);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                setIcon(pressedIcon);
-            }
-        });
+        setRolloverIcon(rolloverIcon);
+        setPressedIcon(pressedIcon);
     }
 
 

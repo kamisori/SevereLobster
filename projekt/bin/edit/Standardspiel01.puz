@@ -26,6 +26,7 @@
       <property name="hilfe.about" value="About"/>
       <property name="schwer.difficulty" value="Schwer"/>
       <property name="try" value="Versuche:"/>
+      <property name="online.archive.no.connection.title" value="Keine Verbindung"/>
       <property name="seconds" value="Sek."/>
       <property name="tracking.backToMistake" value="Zurück zum Fehler"/>
       <property name="mainFrame.freigabe.freigegeben.title" value="Puzzle nun für Spielmodus verfügbar!"/>
@@ -51,8 +52,8 @@
       <property name="start.campaign" value="Kampagne starten"/>
       <property name="spielfeldgroesse.hoehe" value="Höhe:"/>
       <property name="save.dialog.title" value="Spiel speichern"/>
-      <property name="spiel.menu.text" value="Spielen"/>
       <property name="mittel.difficulty" value="Mittel"/>
+      <property name="spiel.menu.text" value="Spielen"/>
       <property name="new.dialog.difficulty" value="Schwierigkeitsgrad:"/>
       <property name="spielfeldgroesse.error" value="Die angegebene Spielfeldgröße ist nicht gültig!"/>
       <property name="optionen.menu.text" value="Optionen"/>
@@ -61,6 +62,7 @@
       <property name="win.title" value="Herzlichen Glückwunsch!"/>
       <property name="backend.stern" value="Stern"/>
       <property name="mainFrame.freigabe.speichern.title" value="Puzzle speichern!"/>
+      <property name="optionen.fadenkreuz" value="Fadenkreuz"/>
       <property name="time" value="Zeit:"/>
       <property name="fields" value="Felder:"/>
       <property name="change.language.text" value="Bitte wählen Sie die gewünschte Sprache aus"/>
@@ -113,6 +115,7 @@
       <property name="optionen.avatar" value="Avatar ändern..."/>
       <property name="download.puzzles" value="Puzzles herunterladen..."/>
       <property name="online.archive.download.success.body" value="Puzzle heruntergeladen"/>
+      <property name="online.archive.no.connection.body" value="Es konnte keine Verbindung zum Online-Archiv hergestellt werden!"/>
       <property name="win.quit" value="Beenden"/>
       <property name="check.loesungsweg.btn.text" value="&lt;html&gt;&lt;body&gt;Lösungsweg&lt;br&gt;überprüfen&lt;/body&gt;&lt;/html&gt;"/>
       <property name="backend.moeglicher.stern" value="Mglicher Stern"/>
@@ -128,8 +131,8 @@
       <property name="puzzle.load.dialog.extension.description" value="Gespeichertes Puzzle (*.puz)"/>
     </propertyfile>
     <userpropertyFile>
-      <property name="user.language" value="en"/>
-      <property name="user.avatar" value="spielinfo_m3.jpg"/>
+      <property name="user.language" value="de"/>
+      <property name="user.avatar" value="spielinfo_m1.jpg"/>
     </userpropertyFile>
   </resourceManager>
   <listeners serialization="custom">

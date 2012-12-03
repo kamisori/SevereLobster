@@ -43,7 +43,7 @@ public abstract class GlobaleKonstanten {
     /**
      * Mindestgroesse der Applikation
      */
-    public static final Dimension MINIMUM_APP_SIZE = new Dimension(800, 600);
+    public static final Dimension MINIMUM_APP_SIZE = new Dimension(850, 650);
 
     /**
      * Standardverzeichnis fuer gespeicherte Spiele
