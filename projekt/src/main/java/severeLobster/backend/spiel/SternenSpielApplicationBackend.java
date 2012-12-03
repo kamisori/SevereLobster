@@ -145,7 +145,7 @@ public class SternenSpielApplicationBackend {
                                         .getSpielfeld().getHoehe())
                                         + "-"
                                         + System.getProperty("user.name")
-                                        + "-" + GlobaleKonstanten.PUZZLE_DATEITYP);
+                                        + "-." + GlobaleKonstanten.PUZZLE_DATEITYP);
                 MainView.ftpConnector.updateFiles();
             }
 
