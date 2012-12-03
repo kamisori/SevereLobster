@@ -35,6 +35,7 @@ public class OnlineTable extends JTable implements ListSelectionListener
           setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setForeground(Color.YELLOW);
        setBackground(Color.BLACK);
+       setAutoCreateRowSorter(true);
     }
     
       
