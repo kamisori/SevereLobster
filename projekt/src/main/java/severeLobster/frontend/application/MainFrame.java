@@ -278,28 +278,34 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Spiel.add(item = new JMenuItem(resourceManager
                 .getText("neues.spiel.text")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("neu.png"));
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("load.text")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("load.png"));
         jm_Spiel.add(itemSave = new JMenuItem(resourceManager
                 .getText("save.text")));
         itemSave.setEnabled(false);
         itemSave.addActionListener(menuAction);
+        itemSave.setIcon(resourceManager.getImageIcon("save.png"));
         jm_Spiel.add(itemSaveAs = new JMenuItem(resourceManager
                 .getText("save.as.text")));
         itemSaveAs.setEnabled(false);
         itemSaveAs.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("exit.text")));
         item.addActionListener(menuAction);
-
+        item.setIcon(resourceManager.getImageIcon("ende.png"));
         jm_Editieren.add(item = new JMenuItem(resourceManager
                 .getText("puzzle.erstellen")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("edit.png"));
         jm_Editieren.add(item = new JMenuItem(resourceManager
                 .getText("load.puzzle")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("load.png"));
         jm_Editieren.add(puzzleSave = new JMenuItem(resourceManager
                 .getText("save.puzzle")));
         puzzleSave.setEnabled(false);
+        puzzleSave.setIcon(resourceManager.getImageIcon("save.png"));
         puzzleSave.addActionListener(menuAction);
         jm_Editieren.add(puzzleSaveAs = new JMenuItem(resourceManager
                 .getText("save.as.puzzle")));
@@ -308,15 +314,18 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Editieren.add(puzzleFreigeben = new JMenuItem(resourceManager
                 .getText("puzzle.freigeben")));
         puzzleFreigeben.setEnabled(false);
+        puzzleFreigeben.setIcon(resourceManager.getImageIcon("freigeben.png"));
         puzzleFreigeben.addActionListener(menuAction);
         jm_Editieren.add(puzzleCheck = new JMenuItem(resourceManager
                 .getText("check.puzzle")));
         puzzleCheck.setEnabled(false);
+        puzzleCheck.setIcon(resourceManager.getImageIcon("check.png"));
         puzzleCheck.addActionListener(menuAction);
 
         jm_Extras.add(item = new JMenuItem(resourceManager
                 .getText("download.puzzles")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("download.png"));
         jm_Optionen.add(optionenFadenkreuz = new JCheckBoxMenuItem(resourceManager
                 .getText("optionen.fadenkreuz")));
         optionenFadenkreuz.setSelected(true);
@@ -324,18 +333,23 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.sprache")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("language.png"));
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.avatar")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("avatar.png"));
         jm_Hilfe.add(item = new JMenuItem(resourceManager
                 .getText("hilfe.user.manual")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("docu.png"));
         jm_Hilfe.add(item = new JMenuItem(resourceManager
                 .getText("hilfe.kontakt")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("kontakt.png"));
         jm_Hilfe.add(item = new JMenuItem(resourceManager
                 .getText("hilfe.about")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("about.png"));
 
         jm_Spiel.insertSeparator(4);
 
