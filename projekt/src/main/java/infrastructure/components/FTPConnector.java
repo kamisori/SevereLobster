@@ -99,70 +99,75 @@ public class FTPConnector {
 				if (file1.getName().equals(strPuzzleName)) {
 					f = file1;
 					file = new File(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR, f.getName());
+					/**
+					 * Hier wird radikal alles überschrieben, was bei 3 nicht im Papierkorb ist
+					 * -> Unnötig da anderes Konzept für OnlineSpiele
+					 * @author fwenisch
 					if (file.exists()) {
 						JOptionPane.showMessageDialog(owner,
 								resourceManager.getText("online.archive.already.there.title"),
 								resourceManager.getText("online.archive.already.there.body"),
 								JOptionPane.ERROR_MESSAGE);
-					} else {
-						FileOutputStream fos = new FileOutputStream(file);
-						success = ftp.retrieveFile(file1.getName(), fos);
-						fos.close();
-					}
+					 */
+				} else {
+					FileOutputStream fos = new FileOutputStream(file);
+					success = ftp.retrieveFile(file1.getName(), fos);
+					fos.close();
 				}
-
 			}
-			if (success) {
-				/*
-				
+
+		}
+		if (success) {
+			/*
+
                 JOptionPane.showMessageDialog(owner, resourceManager.getText("online.archive.download.success.body"),
                         resourceManager.getText("online.archive.download.success.title"),
                         JOptionPane.INFORMATION_MESSAGE);
-				 */
-				System.out.println(strPuzzleName+" heruntergeladen");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			 */
+			System.out.println(strPuzzleName+" heruntergeladen");
 		}
+	} catch (Exception e) {
+		e.printStackTrace();
 	}
+}
 
-	/**
-	 * Methode zum Upload der Puzzles
-	 *
-	 * @param localSourceFile  - <String> Lokale Datei
-	 * @param remoteResultFile - <String> Datei auf dem FTP-Server
-	 * @author JFW
-	 * @date 17.11.2012
-	 */
-	public void upload(String localSourceFile, String remoteResultFile) {
-		if (!ftp.isConnected()) {
-			connect();
-		}
-		FileInputStream fis = null;
+/**
+ * Methode zum Upload der Puzzles
+ *
+ * @param localSourceFile  - <String> Lokale Datei
+ * @param remoteResultFile - <String> Datei auf dem FTP-Server
+ * @author JFW
+ * @date 17.11.2012
+ */
+public void upload(String localSourceFile, String remoteResultFile) {
+	if (!ftp.isConnected()) {
+		connect();
+	}
+	FileInputStream fis = null;
+	try {
+		fis = new FileInputStream(localSourceFile);
+		ftp.storeFile(remoteResultFile, fis);
+		System.out.println(ftp.getReplyString());
+		ftp.logout();
+	} catch (Exception e) {
+		System.out.println("Fehler beim Uploaden von " + localSourceFile);
+
+	} finally {
 		try {
-			fis = new FileInputStream(localSourceFile);
-			ftp.storeFile(remoteResultFile, fis);
-			System.out.println(ftp.getReplyString());
-			ftp.logout();
-		} catch (Exception e) {
-			System.out.println("Fehler beim Uploaden von " + localSourceFile);
-
-		} finally {
-			try {
-				if (fis != null) {
-					fis.close();
-				}
-				ftp.disconnect();
-			} catch (IOException e) {
-				System.out.println("Fehler beim Schließen der FTP-Verbindung aufgetreten");
+			if (fis != null) {
+				fis.close();
 			}
+			ftp.disconnect();
+		} catch (IOException e) {
+			System.out.println("Fehler beim Schließen der FTP-Verbindung aufgetreten");
 		}
 	}
+}
 
-	/**
-	 * @return Wurde eine Verbindung hergestellt?
-	 */
-	public boolean isOnline() {
-		return ftp.isConnected();
-	}
+/**
+ * @return Wurde eine Verbindung hergestellt?
+ */
+public boolean isOnline() {
+	return ftp.isConnected();
+}
 }
