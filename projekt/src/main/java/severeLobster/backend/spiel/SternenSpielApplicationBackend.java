@@ -47,6 +47,21 @@ public class SternenSpielApplicationBackend {
         return this.currentlyPlayedSpiel;
     }
 
+    public void zeitrafferSetup()
+    {
+        currentlyPlayedSpiel.getSpielZuege().zeitrafferSetup();
+    }
+
+    public boolean zeitrafferSchritt()
+    {
+        return currentlyPlayedSpiel.getSpielZuege().zeitrafferSchritt();
+    }
+
+    public void zeitrafferCleanup()
+    {
+        currentlyPlayedSpiel.getSpielZuege().zeitrafferCleanup();
+    }
+
     public void setzeTrackingPunkt() {
         ActionHistoryObject current = currentlyPlayedSpiel.getSpielZuege()
                 .getCurrent();

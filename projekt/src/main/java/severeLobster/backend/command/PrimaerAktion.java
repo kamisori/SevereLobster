@@ -55,6 +55,16 @@ public class PrimaerAktion implements Aktion {
     }
 
     @Override
+    public void redo() {
+        spiel_.setSpielstein(x_, y_, neuerSpielstein_);
+    }
+
+    @Override
+    public void reundo() {
+        spiel_.setSpielstein(x_, y_, alterSpielstein_);
+    }
+
+    @Override
     public boolean undo() {
         if (spiel_.getSpielmodus().equals(SpielmodusEnumeration.SPIELEN) &&
                 !(alterSpielstein_ instanceof Pfeil)) {
