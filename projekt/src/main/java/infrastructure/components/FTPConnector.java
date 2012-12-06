@@ -6,8 +6,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import severeLobster.frontend.application.MainFrame;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -60,8 +59,7 @@ public class FTPConnector {
 			}
 			ftp.disconnect();
 			System.out.println("Disconnected from " + server);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ignored) {
 		}
 	}
 
@@ -80,8 +78,7 @@ public class FTPConnector {
 			if (files.length > 0)
 				MainFrame.jlOnlineSpiele.setText("| " + files.length + " " +
 						resourceManager.getText("online.archive.count.text"));
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ignored) {
 		}
 	}
 
