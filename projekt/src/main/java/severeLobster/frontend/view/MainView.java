@@ -12,11 +12,27 @@ import severeLobster.frontend.controller.SpielfeldDarstellungsSteuerung;
 import severeLobster.frontend.controller.TrackingControllViewController;
 import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Locale;
 
 public class MainView extends JPanel {
 
@@ -33,7 +49,6 @@ public class MainView extends JPanel {
     private final TrackingControllView trackingView;
     private final SpielinfoView spielInfoView;
     private final EditiermodusView editiermodusView;
-
     private final SternenSpielApplicationBackend backend;
 
     public SternenSpielApplicationBackend getBackend() {
@@ -135,18 +150,51 @@ public class MainView extends JPanel {
             jpMenu.setOpaque(false);
             jpMenu.setLayout(new BoxLayout(jpMenu, BoxLayout.Y_AXIS));
 
-            ImageIcon iconSpiel = resourceManager.getImageIcon("Menu_neues_Spiel.png");
-            ImageIcon iconLaden = resourceManager.getImageIcon("Menu_blank.png");
-            ImageIcon iconErstellen = resourceManager.getImageIcon("Menu_Puzzle_erstellen.png");
+            ImageIcon logo = resourceManager.getImageIcon("logo_menu.png");
+            ImageIcon iconSpiel;
+            ImageIcon iconSpielRollover;
+            ImageIcon iconSpielClicked;
+            ImageIcon iconLaden;
+            ImageIcon iconLadenRollover;
+            ImageIcon iconLadenClicked;
 
-            MenuButton neuesSpiel = new MenuButton(iconSpiel, iconSpiel, iconSpiel);
+            ImageIcon iconErstellen;
+            ImageIcon iconErstellenRollover;
+            ImageIcon iconErstellenClicked;
+
+            if (resourceManager.getLanguage().equals(Locale.GERMAN)) {
+                iconSpiel = resourceManager.getImageIcon("menu_neu.png");
+                iconSpielRollover = resourceManager.getImageIcon("menu_neu_rollover.png");
+                iconSpielClicked = resourceManager.getImageIcon("menu_neu_clicked.png");
+                iconLaden = resourceManager.getImageIcon("menu_load.png");
+                iconLadenRollover = resourceManager.getImageIcon("menu_load_rollover.png");
+                iconLadenClicked = resourceManager.getImageIcon("menu_load_clicked.png");
+
+                iconErstellen = resourceManager.getImageIcon("menu_edit.png");
+                iconErstellenRollover = resourceManager.getImageIcon("menu_edit_rollover.png");
+                iconErstellenClicked = resourceManager.getImageIcon("menu_edit_clicked.png");
+            } else {
+                iconSpiel = resourceManager.getImageIcon("menu_neu_en.png");
+                iconSpielRollover = resourceManager.getImageIcon("menu_neu_rollover_en.png");
+                iconSpielClicked = resourceManager.getImageIcon("menu_neu_clicked_en.png");
+                iconLaden = resourceManager.getImageIcon("menu_load_en.png");
+                iconLadenRollover = resourceManager.getImageIcon("menu_load_rollover_en.png");
+                iconLadenClicked = resourceManager.getImageIcon("menu_load_clicked_en.png");
+
+                iconErstellen = resourceManager.getImageIcon("menu_edit_en.png");
+                iconErstellenRollover = resourceManager.getImageIcon("menu_edit_rollover_en.png");
+                iconErstellenClicked = resourceManager.getImageIcon("menu_edit_clicked_en.png");
+
+            }
+
+            MenuButton neuesSpiel = new MenuButton(iconSpiel, iconSpielRollover, iconSpielClicked);
             neuesSpiel.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     MainFrame.neuesSpielOeffnen();
                 }
             });
-            MenuButton spielLaden = new MenuButton(iconLaden, iconLaden, iconLaden);
+            MenuButton spielLaden = new MenuButton(iconLaden, iconLadenRollover, iconLadenClicked);
             spielLaden.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -154,21 +202,22 @@ public class MainView extends JPanel {
                 }
             });
 
-            MenuButton puzzleErstellen = new MenuButton(iconErstellen, iconErstellen, iconErstellen);
+            MenuButton puzzleErstellen = new MenuButton(iconErstellen, iconErstellenRollover, iconErstellenClicked);
             puzzleErstellen.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     addSpielErstellenPanel();
                 }
             });
-            MainFrame.controlSpielMenue(false);
-            MainFrame.controlEditierMenue(false);
-
+            MenuButton t = new MenuButton(logo, logo, logo);
+            jpMenu.add(t);
             jpMenu.add(neuesSpiel);
             jpMenu.add(spielLaden);
             jpMenu.add(puzzleErstellen);
         }
         add(jpMenu);
+        MainFrame.controlSpielMenue(false);
+        MainFrame.controlEditierMenue(false);
 
         validate();
         repaint();
@@ -215,61 +264,92 @@ public class MainView extends JPanel {
     }
 
     public void addOnlineSpielAuswahlPanel() {
+
         ftpConnector.connect();
-        ftpConnector.connect();
-        ftpConnector.updateFiles();
-        JPanel jpAuswahl = new JPanel();
-        jpAuswahl.setOpaque(false);
-        jpAuswahl.setPreferredSize(new Dimension(700, 600));
-        jpAuswahl.setMinimumSize(new Dimension(700, 600));
-        jpAuswahl.setMaximumSize(new Dimension(700, 600));
-        JPanel jpSpielfeldAuswahl = new JPanel();
 
-        GridLayout layout = new GridLayout(ftpConnector.files.length, 1);
-        jpSpielfeldAuswahl.setLayout(layout);
-        jpSpielfeldAuswahl.setOpaque(false);
+        if (ftpConnector.isOnline()) {
+            ftpConnector.connect();
+            ftpConnector.connect();
+            ftpConnector.updateFiles();
+            JPanel jpAuswahl = new JPanel();
+            jpAuswahl.setOpaque(false);
+            jpAuswahl.setPreferredSize(new Dimension(700, 600));
+            jpAuswahl.setMinimumSize(new Dimension(700, 600));
+            jpAuswahl.setMaximumSize(new Dimension(700, 600));
+          
+    /*
+            GridLayout layout = new GridLayout(ftpConnector.files.length, 1);
+              JPanel jpSpielfeldAuswahl = new JPanel();
+            jpSpielfeldAuswahl.setLayout(layout);
+            jpSpielfeldAuswahl.setOpaque(false);
 
-        for (int i = 0; i < ftpConnector.files.length; i++) {
-            jpSpielfeldAuswahl.add(new OnlinePuzzlePreviewView(this,
-                    ftpConnector.files[i].getName(), ftpConnector));
-        }
-        JPanel jpBottom = new JPanel();
-        jpBottom.setOpaque(false);
-        jpBottom.setPreferredSize(new Dimension(600, 30));
-        JButton jbBackToMenu = new JButton(
-                resourceManager.getText("back.to.main.menu"));
-        jbBackToMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+            for (int i = 0; i < ftpConnector.files.length; i++) {
+                jpSpielfeldAuswahl.add(new OnlinePuzzlePreviewView(this,
+                        ftpConnector.files[i].getName(), ftpConnector));
+            }*/
+            
+            
+            // Das JTable initialisieren
+            JPanel oTablepanel = new JPanel();
+            oTablepanel.setBackground(Color.BLACK);
+            oTablepanel.setPreferredSize(new Dimension(700, 400));
+            JPanel oPreviewPanel = new JPanel();
+            oPreviewPanel.setOpaque(false);
+          //  oPreviewPanel.add(new OnlinePuzzlePreviewView(this,"Standardspiel01.puz",ftpConnector));
+            oPreviewPanel.add(new PuzzlePreviewView("Standardspiel01"));
+            oPreviewPanel.setPreferredSize(new Dimension(700, 200));
+            OnlineTableModel model = new OnlineTableModel();
+            JTable table = new OnlineTable( model ,	oPreviewPanel);
+           
 
-                try {
-                    addMenuPanel();
-                } catch (Exception e) {
-                    removeAll();
-                    addMenuPanel();
+
+            JPanel jpBottom = new JPanel();
+            jpBottom.setOpaque(false);
+            jpBottom.setPreferredSize(new Dimension(600, 30));
+            JButton jbBackToMenu = new JButton(
+                    resourceManager.getText("back.to.main.menu"));
+            jbBackToMenu.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+
+                    try {
+                        addMenuPanel();
+                    } catch (Exception e) {
+                        removeAll();
+                        addMenuPanel();
+                    }
                 }
-            }
-        });
-        jpBottom.add(jbBackToMenu);
-        JScrollPane jpScroll = new JScrollPane();
-        jpScroll.setOpaque(false);
-        jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jpScroll.getViewport().add(jpSpielfeldAuswahl);
-        jpScroll.setPreferredSize(new Dimension(700, 400));
-        jpScroll.getViewport().setOpaque(false);
-        JLabel jlUeberschrift = new JLabel();
-        jlUeberschrift.setPreferredSize(new Dimension(700, 50));
-        jlUeberschrift.setForeground(Color.YELLOW);
-        jlUeberschrift.setFont(new Font("Verdana", 0, 36));
-        jlUeberschrift.setHorizontalAlignment(JLabel.CENTER);
-        jlUeberschrift.setText(resourceManager.getText("online.archive"));
-        jpAuswahl.add(jlUeberschrift, BorderLayout.NORTH);
-        jpAuswahl.add(jpScroll, BorderLayout.CENTER);
-        jpAuswahl.add(jpBottom, BorderLayout.SOUTH);
+            });
+            jpBottom.add(jbBackToMenu);
+            
+            JScrollPane jpScroll = new JScrollPane();
+            jpScroll.setOpaque(false);
+            jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            jpScroll.getViewport().add(table);
+            jpScroll.setPreferredSize(new Dimension(700, 200));
+            jpScroll.getViewport().setOpaque(false);
+            oTablepanel.add(jpScroll,BorderLayout.CENTER);
+            oTablepanel.add(oPreviewPanel,BorderLayout.CENTER);
+            	
+            JLabel jlUeberschrift = new JLabel();
+            jlUeberschrift.setPreferredSize(new Dimension(700, 50));
+            jlUeberschrift.setForeground(Color.YELLOW);
+            jlUeberschrift.setFont(new Font("Verdana", 0, 36));
+            jlUeberschrift.setHorizontalAlignment(JLabel.CENTER);
+            jlUeberschrift.setText(resourceManager.getText("online.archive"));
+            jpAuswahl.add(jlUeberschrift, BorderLayout.NORTH);
+            jpAuswahl.add(oTablepanel, BorderLayout.CENTER);
+            jpAuswahl.add(jpBottom, BorderLayout.SOUTH);
 
-        removeAll();
-        add(jpAuswahl);
-        validate();
-        repaint();
+            removeAll();
+            add(jpAuswahl);
+            validate();
+            repaint();
+        } else {
+            JOptionPane.showMessageDialog(MainFrame.frame,
+                    resourceManager.getText("online.archive.no.connection.body"),
+                    resourceManager.getText("online.archive.no.connection.title"),
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     @Override

@@ -1,0 +1,521 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<title>Sternenhimmel DELUXE- Table of Contents</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="HelpNDoc Personal Edition 3.7.1.482">
+	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/silver-theme/jquery-ui-1.8.12.custom.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/dynatree/chm/ui.dynatree.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="css/toc.css" />
+	<!--[if lte IE 8]>
+		<link type="text/css" rel="stylesheet" media="all" href="css/ielte8.css" />
+	<![endif]-->
+	<style type="text/css">
+		#tabs .ui-widget-header
+		{
+			background-color: #EFEFEF;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/jquery.dynatree.min.js"></script>
+	<script type="text/javascript" src="js/hndjsse.js"></script>
+	<script type="text/javascript">
+	
+		var bSearchDataLoaded = false;
+		var sHelpIdToActivate = '';
+	
+		$(document).ready(function()
+		{
+			var sAnchorName = '';
+			try { sAnchorName = top.location.href.substring(top.location.href.lastIndexOf("#") + 1, top.location.href.length); }
+			catch(err) { sAnchorName = ''; }
+			var nSelectedTab = 0;
+			if (sAnchorName == '_index') nSelectedTab = 1
+			else if (sAnchorName == '_search') nSelectedTab = 2;			
+			$("#tabs").tabs({
+				selected: nSelectedTab,
+				select: function(event, ui) { HideKwPopup(); }
+			});
+			
+			// Toc
+			if ($("#tab-toc").length) {
+				$("#tab-toc").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onActivate: function(node){
+						if ($("#tab-keywords").length && $("#tab-keywords").dynatree && $("#tab-keywords").dynatree("getTree") && $("#tab-keywords").dynatree("getTree").activateKey)
+							$("#tab-keywords").dynatree("getTree").activateKey(null);
+						if(node.data.href && node.data.href != '#'){
+							window.open(node.data.href, node.data.target);
+						}
+					}
+				});
+				// Expand all nodes if required
+				$("#tab-toc").dynatree("getRoot").visit(function(node){
+						node.expand(true);
+					});
+				// Select the active help id
+				if (sHelpIdToActivate != '') $("#tab-toc").dynatree("getTree").activateKey(sHelpIdToActivate);
+			}
+			
+			// Keywords
+			
+			if ($("#tab-keywords").length) {
+				$("#tab-keywords").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onClick: function(node, event){
+						HideKwPopup();
+						if (node.data && node.data.click)
+						{
+							var aRefList = null;
+							eval('aRefList=' + node.data.click);
+							if (ShowKwPopup(node.li, aRefList))
+							{
+								if ($("#tab-toc") && $("#tab-toc").dynatree && $("#tab-toc").dynatree("getTree") && $("#tab-toc").dynatree("getTree").activateKey)
+									$("#tab-toc").dynatree("getTree").activateKey(null);
+								if(node.data.href && node.data.href != '#'){
+									window.open(node.data.href, node.data.target);
+								}
+							}
+						}
+					}
+				});
+				// Expand all nodes if required
+				$("#tab-keywords").dynatree("getRoot").visit(function(node){
+						node.expand(true);
+					});
+				}
+			
+			// Load search data
+			$.getScript("js/searchdata.js",	function() {
+				bSearchDataLoaded = true;
+			});
+		});
+		
+		$('body').click(function() {
+			HideKwPopup();
+		});
+		
+		function SelectTocItem(sHelpId)
+		{
+			if ($("#tab-toc").length && $("#tab-toc").dynatree && $("#tab-toc").dynatree("getTree") && $("#tab-toc").dynatree("getTree").getNodeByKey) {
+				$("#tab-toc").dynatree("getTree").getNodeByKey(sHelpId).activateSilently();
+			}
+			else {
+				sHelpIdToActivate = sHelpId;
+			}
+		}
+		
+		function HideKwPopup()
+		{
+			if($("#popupMenu")) $("#popupMenu").remove();
+		}
+		
+		function ShowKwPopup(oSender, aLinks)
+		{
+			HideKwPopup();
+			if (!aLinks || !aLinks.length || aLinks.length == 0) return false
+			else if (aLinks.length == 1) return true
+			else
+			{
+				var oParentDiv = document.createElement("DIV");
+				oParentDiv.id = "popupMenu";
+				var oLink = null;
+				// Close button
+				oLink = document.createElement("SPAN");
+				oLink.className = "close-button";
+				oLink.innerHTML = "X";
+				oLink.href = "#";
+				oLink.onclick = HideKwPopup;
+				oParentDiv.appendChild(oLink);
+				// Items
+				for (var nCnt=0; nCnt<aLinks.length; nCnt++)
+				{
+					oLink = document.createElement("A");
+					oLink.innerHTML = aLinks[nCnt][0];
+					oLink.href = aLinks[nCnt][1];
+					oLink.target = "FrameMain";
+					oLink.onclick = HideKwPopup;
+					oParentDiv.appendChild(oLink);
+				}
+				document.body.appendChild(oParentDiv);
+				var pos = $(oSender).offset(); 
+				var height = $(oSender).height();
+				$(oParentDiv).css({
+					"left": (pos.left+20) + "px",
+					"top": (pos.top + height + 5) + "px"
+				});
+				$(oParentDiv).show();
+				return false;
+			}
+		}
+		
+		function PerformSearch()
+		{
+			sValue = $("#search_value").val();
+			$("#search_results").html('Searching...');
+			var oSearchEngine = new HndJsSe;
+			oSearchEngine.ParseInput(sValue);			
+			oSearchEngine.PerformSearch();
+			if (!oSearchEngine.aResults || !oSearchEngine.aResults.length)
+			{
+				$("#search_results").html('No results found.');
+			}
+			else
+			{
+				$("#search_results").html('<div id="search_results_content"></div>');
+				var oUl = $("#search_results_content").append("<ul id='lr'></ul>").find("ul");
+				for (var nCnt = 0; nCnt < oSearchEngine.aResults.length; nCnt++)
+				{
+					oUl.append("<li><a href='" + aTl[oSearchEngine.aResults[nCnt]][0] + "?search=" + escape(sValue) + "' target='FrameMain'>" + unescape(aTl[oSearchEngine.aResults[nCnt]][1]) + "</a></li>");
+				}
+				// Tree
+				$("#search_results_content").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onActivate: function(node){
+						if ($("#search_results_content") && $("#search_results_content").dynatree && $("#search_results_content").dynatree("getTree") && $("#search_results_content").dynatree("getTree").activateKey)
+							$("#search_results_content").dynatree("getTree").activateKey(null);
+						if(node.data.href && node.data.href != '#'){
+							window.open(node.data.href, node.data.target);
+						}
+					}
+				});
+			}
+		}
+	</script>
+</head>
+
+<body>
+
+	<div id="tabs">
+		<ul>
+			<li><a href="#tab-toc">Contents</a></li>
+			<li><a href="#tab-keywords">Index</a></li>
+			<li><a href="#tab-search">Search</a></li>
+			</ul>
+		<div id="tab-toc">
+			<ul id="toc" class="">
+
+				<li class="folder" id="Einleitung" data="">
+							<a
+							href="Einleitung.html"
+							target="FrameMain">
+								Einleitung</a>
+
+				<ul><li class="" id="Systemanforderungen" data="">
+							<a
+							href="Systemanforderungen.html"
+							target="FrameMain">
+								Systemanforderungen</a>
+
+				</li></ul></li><li class="folder" id="Spielen" data="">
+							<a
+							href="Spielen.html"
+							target="FrameMain">
+								Spielen</a>
+
+				<ul><li class="" id="ZieldesSpiels" data="">
+							<a
+							href="ZieldesSpiels.html"
+							target="FrameMain">
+								Ziel des Spiels</a>
+
+				</li><li class="" id="Hauptmen" data="">
+							<a
+							href="Hauptmen.html"
+							target="FrameMain">
+								Hauptmen&uuml;</a>
+
+				</li><li class="" id="Spielfeld" data="">
+							<a
+							href="Spielfeld.html"
+							target="FrameMain">
+								Spielfeld</a>
+
+				</li><li class="" id="Spielen1" data="">
+							<a
+							href="Spielen1.html"
+							target="FrameMain">
+								Spielen</a>
+
+				</li><li class="" id="Spielspeichern" data="">
+							<a
+							href="Spielspeichern.html"
+							target="FrameMain">
+								Spiel speichern</a>
+
+				</li><li class="" id="Spielfortsetzen" data="">
+							<a
+							href="Spielfortsetzen.html"
+							target="FrameMain">
+								Spiel fortsetzen</a>
+
+				</li><li class="" id="ZurckzumFehler" data="">
+							<a
+							href="ZurckzumFehler.html"
+							target="FrameMain">
+								Zur&uuml;ck zum Fehler</a>
+
+				</li><li class="" id="TrackingModus" data="">
+							<a
+							href="TrackingModus.html"
+							target="FrameMain">
+								Tracking-Modus</a>
+
+				</li></ul></li><li class="folder" id="PuzzleEditor" data="">
+							<a
+							href="PuzzleEditor.html"
+							target="FrameMain">
+								Puzzle-Editor</a>
+
+				<ul><li class="" id="Puzzleerstellen" data="">
+							<a
+							href="Puzzleerstellen.html"
+							target="FrameMain">
+								Puzzle erstellen</a>
+
+				</li><li class="" id="Puzzlespeichern" data="">
+							<a
+							href="Puzzlespeichern.html"
+							target="FrameMain">
+								Puzzle speichern</a>
+
+				</li><li class="" id="Puzzleladen" data="">
+							<a
+							href="Puzzleladen.html"
+							target="FrameMain">
+								Puzzle laden</a>
+
+				</li></ul></li><li class="folder" id="Extras" data="">
+							<a
+							href="Extras.html"
+							target="FrameMain">
+								Extras</a>
+
+				<ul><li class="" id="Puzzleherunterladen" data="">
+							<a
+							href="Puzzleherunterladen.html"
+							target="FrameMain">
+								Puzzle herunterladen</a>
+
+				</li></ul></li><li class="folder" id="Einstellungen" data="">
+							<a
+							href="Einstellungen.html"
+							target="FrameMain">
+								Einstellungen</a>
+
+				<ul><li class="" id="Sprache" data="">
+							<a
+							href="Sprache.html"
+							target="FrameMain">
+								Sprache</a>
+
+				</li><li class="" id="Fadenkreuz" data="">
+							<a
+							href="Fadenkreuz.html"
+							target="FrameMain">
+								Fadenkreuz</a>
+
+				</li><li class="" id="Avatar" data="">
+							<a
+							href="Avatar.html"
+							target="FrameMain">
+								Avatar</a>
+
+				</li></ul></li><li class="folder" id="Hilfe" data="">
+							<a
+							href="Hilfe.html"
+							target="FrameMain">
+								Hilfe</a>
+
+				<ul><li class="" id="Kontakt" data="">
+							<a
+							href="Kontakt.html"
+							target="FrameMain">
+								Kontakt</a>
+
+				</li><li class="" id="About" data="">
+							<a
+							href="About.html"
+							target="FrameMain">
+								About</a>
+
+				</li></ul></li></ul>
+		</div>
+		
+		<div id="tab-keywords">
+			<ul id="keywords">
+
+				<li class="folder" data="click:'[[\'Einstellungen\',\'Einstellungen.html\'],[\'Sprache\',\'Sprache.html\'],[\'Fadenkreuz\',\'Fadenkreuz.html\'],[\'Avatar\',\'Avatar.html\']]'">
+							<a
+								href="Einstellungen.html"
+								target="FrameMain"
+								onClick="[['Einstellungen','Einstellungen.html'],['Sprache','Sprache.html'],['Fadenkreuz','Fadenkreuz.html'],['Avatar','Avatar.html']]"
+								>
+								Einstellungen</a>
+
+				<ul><li class="file" data="click:'[[\'Einstellungen\',\'Einstellungen.html\'],[\'Avatar\',\'Avatar.html\']]'">
+							<a
+								href="Einstellungen.html"
+								target="FrameMain"
+								onClick="[['Einstellungen','Einstellungen.html'],['Avatar','Avatar.html']]"
+								>
+								Avatar</a>
+
+				</li><li class="file" data="click:'[[\'Einstellungen\',\'Einstellungen.html\'],[\'Fadenkreuz\',\'Fadenkreuz.html\']]'">
+							<a
+								href="Einstellungen.html"
+								target="FrameMain"
+								onClick="[['Einstellungen','Einstellungen.html'],['Fadenkreuz','Fadenkreuz.html']]"
+								>
+								Fadenkreuz</a>
+
+				</li><li class="file" data="click:'[[\'Puzzle herunterladen\',\'Puzzleherunterladen.html\']]'">
+							<a
+								href="Puzzleherunterladen.html"
+								target="FrameMain"
+								onClick="[['Puzzle herunterladen','Puzzleherunterladen.html']]"
+								>
+								Puzzle herunterladen</a>
+
+				</li><li class="file" data="click:'[[\'Einstellungen\',\'Einstellungen.html\'],[\'Sprache\',\'Sprache.html\']]'">
+							<a
+								href="Einstellungen.html"
+								target="FrameMain"
+								onClick="[['Einstellungen','Einstellungen.html'],['Sprache','Sprache.html']]"
+								>
+								Sprache</a>
+
+				</li></ul></li><li class="folder" data="click:'[[\'Kontakt\',\'Kontakt.html\']]'">
+							<a
+								href="Kontakt.html"
+								target="FrameMain"
+								onClick="[['Kontakt','Kontakt.html']]"
+								>
+								Hilfe</a>
+
+				<ul><li class="file" data="click:'[[\'Systemanforderungen\',\'Systemanforderungen.html\']]'">
+							<a
+								href="Systemanforderungen.html"
+								target="FrameMain"
+								onClick="[['Systemanforderungen','Systemanforderungen.html']]"
+								>
+								Systemanforderung</a>
+
+				</li></ul></li><li class="folder" data="click:'[[\'Puzzle erstellen\',\'Puzzleerstellen.html\'],[\'Puzzle speichern\',\'Puzzlespeichern.html\'],[\'Puzzle laden\',\'Puzzleladen.html\']]'">
+							<a
+								href="Puzzleerstellen.html"
+								target="FrameMain"
+								onClick="[['Puzzle erstellen','Puzzleerstellen.html'],['Puzzle speichern','Puzzlespeichern.html'],['Puzzle laden','Puzzleladen.html']]"
+								>
+								Puzzle-Editor</a>
+
+				<ul><li class="file" data="click:'[[\'Puzzle erstellen\',\'Puzzleerstellen.html\']]'">
+							<a
+								href="Puzzleerstellen.html"
+								target="FrameMain"
+								onClick="[['Puzzle erstellen','Puzzleerstellen.html']]"
+								>
+								Puzzle erstellen</a>
+
+				</li><li class="file" data="click:'[[\'Puzzle laden\',\'Puzzleladen.html\']]'">
+							<a
+								href="Puzzleladen.html"
+								target="FrameMain"
+								onClick="[['Puzzle laden','Puzzleladen.html']]"
+								>
+								Puzzle laden</a>
+
+				</li><li class="file" data="click:'[[\'Puzzle speichern\',\'Puzzlespeichern.html\']]'">
+							<a
+								href="Puzzlespeichern.html"
+								target="FrameMain"
+								onClick="[['Puzzle speichern','Puzzlespeichern.html']]"
+								>
+								Puzzle speichern</a>
+
+				</li></ul></li><li class="folder" data="click:'[[\'Spielen\',\'Spielen1.html\'],[\'Spiel speichern\',\'Spielspeichern.html\'],[\'Spiel fortsetzen\',\'Spielfortsetzen.html\']]'">
+							<a
+								href="Spielen1.html"
+								target="FrameMain"
+								onClick="[['Spielen','Spielen1.html'],['Spiel speichern','Spielspeichern.html'],['Spiel fortsetzen','Spielfortsetzen.html']]"
+								>
+								Spielen</a>
+
+				<ul><li class="file" data="click:'[[\'Zur&uuml;ck zum Fehler\',\'ZurckzumFehler.html\']]'">
+							<a
+								href="ZurckzumFehler.html"
+								target="FrameMain"
+								onClick="[['Zur&uuml;ck zum Fehler','ZurckzumFehler.html']]"
+								>
+								Fehler</a>
+
+				</li><li class="file" data="click:'[[\'Hauptmen&uuml;\',\'Hauptmen.html\']]'">
+							<a
+								href="Hauptmen.html"
+								target="FrameMain"
+								onClick="[['Hauptmen&uuml;','Hauptmen.html']]"
+								>
+								Hauptmenü</a>
+
+				</li><li class="file" data="click:'[[\'Spiel fortsetzen\',\'Spielfortsetzen.html\']]'">
+							<a
+								href="Spielfortsetzen.html"
+								target="FrameMain"
+								onClick="[['Spiel fortsetzen','Spielfortsetzen.html']]"
+								>
+								Spiel fortsetzen</a>
+
+				</li><li class="file" data="click:'[[\'Spiel speichern\',\'Spielspeichern.html\']]'">
+							<a
+								href="Spielspeichern.html"
+								target="FrameMain"
+								onClick="[['Spiel speichern','Spielspeichern.html']]"
+								>
+								Spiel speichern</a>
+
+				</li><li class="file" data="click:'[[\'Spielfeld\',\'Spielfeld.html\']]'">
+							<a
+								href="Spielfeld.html"
+								target="FrameMain"
+								onClick="[['Spielfeld','Spielfeld.html']]"
+								>
+								Spielfeld</a>
+
+				</li><li class="file" data="click:'[[\'Tracking-Modus\',\'TrackingModus.html\']]'">
+							<a
+								href="TrackingModus.html"
+								target="FrameMain"
+								onClick="[['Tracking-Modus','TrackingModus.html']]"
+								>
+								Tracking-Modus</a>
+
+				</li></ul></li></ul>
+		</div>
+		
+		<div id="tab-search">
+			<form onsubmit="PerformSearch(); return false;">
+				<label for="search_value">Search:</label>
+				<input id="search_value" name="search_value"></input>
+				<input type="submit" value="Search"/>
+			</form>
+			<div id="search_results"></div>
+		</div>
+		
+		</div>
+    
+</body>
+
+</html>
+

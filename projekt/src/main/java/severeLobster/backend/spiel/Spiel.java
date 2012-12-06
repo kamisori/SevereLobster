@@ -493,6 +493,7 @@ public class Spiel {
         OutputStream outputStream = new FileOutputStream(verzeichnis);
         xstream.toXML(this, outputStream);
         outputStream.close();
+        setSpielmodus(SpielmodusEnumeration.EDITIEREN);
     }
 
 }

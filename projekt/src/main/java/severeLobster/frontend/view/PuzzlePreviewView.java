@@ -4,8 +4,10 @@ import infrastructure.ResourceManager;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.graphics.GraphicUtils;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,86 +31,94 @@ import severeLobster.frontend.application.MainFrame;
  * 
  */
 public class PuzzlePreviewView extends JPanel {
-    private final ResourceManager resourceManager = ResourceManager.get();
-    private String strPuzzleName = null;
+	private final ResourceManager resourceManager = ResourceManager.get();
+	private String strPuzzleName = null;
 
-    PuzzlePreviewView(String strPuzzleName) {
-        JPanel SpielfeldInfo = new JPanel();
-        SpielfeldInfo.setLayout(new FlowLayout());
-        SpielfeldInfo.setPreferredSize(new Dimension(150, 100));
-        JLabel spielfeldPreviewLabel = new JLabel();
-        try {
-            this.strPuzzleName = strPuzzleName;
-            SternenSpielApplicationBackend backend = SternenSpielApplicationBackend
-                    .getInstance();
+	PuzzlePreviewView(String strPuzzleName) {
+		JPanel SpielfeldInfo = new JPanel();
+		JLabel spielfeldPreviewLabel = new JLabel();
+		try {
+			this.strPuzzleName = strPuzzleName;
+			SternenSpielApplicationBackend backend = SternenSpielApplicationBackend
+					.getInstance();
 
-            backend.startNewSpielFrom(strPuzzleName);
+			backend.startNewSpielFrom(strPuzzleName);
 
-            Spiel spiel = backend.getSpiel();
-            SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
-            spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
-            spielfeldView.setSize(200, 200);
-            BufferedImage bufferedImage = GraphicUtils
-                    .createComponentShot(spielfeldView);
-            bufferedImage = GraphicUtils.getScaledIconImage(bufferedImage, 100,
-                    100);
+			Spiel spiel = backend.getSpiel();
+			SpielfeldDarstellung spielfeldView = new SpielfeldDarstellung();
+			spielfeldView.setAngezeigtesSpielfeld(spiel.getSpielfeld());
+			spielfeldView.setSize(200, 200);
+			BufferedImage bufferedImage = GraphicUtils
+					.createComponentShot(spielfeldView);
+			bufferedImage = GraphicUtils.getScaledIconImage(bufferedImage, 100,
+					100);
 
-            spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
-            /*
-             * 
-             * JLabel schwierigkeitsgradTitle = new JLabel(""); JLabel
-             * schwierigkeitsgradValue = new JLabel("");
-             * schwierigkeitsgradTitle.
-             * setText(resourceManager.getText("load.dialog.difficulty"));
-             * schwierigkeitsgradValue
-             * .setText(spiel.getSchwierigkeitsgrad().toString());
-             */
+			spielfeldPreviewLabel.setIcon(new ImageIcon(bufferedImage));
+			/*
+			 * 
+			 * JLabel schwierigkeitsgradTitle = new JLabel(""); JLabel
+			 * schwierigkeitsgradValue = new JLabel("");
+			 * schwierigkeitsgradTitle.
+			 * setText(resourceManager.getText("load.dialog.difficulty"));
+			 * schwierigkeitsgradValue
+			 * .setText(spiel.getSchwierigkeitsgrad().toString());
+			 */
 
-            JLabel jlName = new JLabel(strPuzzleName);
-            JLabel jlSchwierigkeit = new JLabel(
-                    resourceManager.getText("difficulty") + " "
-                            + spiel.getSchwierigkeitsgrad().toString());
-            JLabel jlFelder = new JLabel(resourceManager.getText("fields")
-                    + " " + spiel.getSpielfeld().getHoehe()
-                    * spiel.getSpielfeld().getBreite());
+			JLabel jlName = new JLabel("Spielname: "+ strPuzzleName.substring(0,strPuzzleName.indexOf('-')));
+			while(jlName.getText().length()<55)
+				jlName.setText(jlName.getText()+" ");
+			jlName.setForeground(Color.YELLOW);
+			jlName.setFont(new Font("Verdana", 0, 18));
+			JLabel jlSchwierigkeit = new JLabel(
+					resourceManager.getText("difficulty") + " "
+					+ spiel.getSchwierigkeitsgrad().toString());
+			while(jlSchwierigkeit.getText().length()<55)
+				jlSchwierigkeit.setText(jlSchwierigkeit.getText()+" ");
+			jlSchwierigkeit.setForeground(Color.YELLOW);
+			jlSchwierigkeit.setFont(new Font("Verdana", 0, 18));
+			JLabel jlFelder = new JLabel(resourceManager.getText("fields")
+					+ " " + spiel.getSpielfeld().getHoehe()
+					* spiel.getSpielfeld().getBreite());
+			while(jlFelder.getText().length()<55)
+				jlFelder.setText(jlFelder.getText()+" ");
+			jlFelder.setForeground(Color.YELLOW);
+			jlFelder.setFont(new Font("Verdana", 0, 18));
 
-            // Layout Hack
-            while (jlFelder.getText().length() < 30) {
-                jlFelder.setText(jlFelder.getText() + " ");
-                jlFelder.setText(" " + jlFelder.getText());
-            }
-            JButton jbSSpielen = new JButton(resourceManager.getText("play"));
-            jbSSpielen.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
 
-                    try {
-                        MainFrame.mainPanel.addSpielmodusPanelAndStartSpiel(getSpielName(), false);
-                    } catch (Exception ex) {
+			JButton jbSSpielen = new JButton(resourceManager.getText("play"));
+			jbSSpielen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
 
-                    }
-                }
-            });
-            SpielfeldInfo.add(jlName);
-            SpielfeldInfo.add(jlSchwierigkeit);
-            SpielfeldInfo.add(jlFelder);
-            SpielfeldInfo.add(jbSSpielen);
+					try {
+						MainFrame.mainPanel.addSpielmodusPanelAndStartSpiel(getSpielName(), false);
+					} catch (Exception ex) {
 
-            // SpielfeldInfo.setOpaque(false);
-        } catch (Exception e) {
-            spielfeldPreviewLabel.setIcon(resourceManager
-                    .getImageIcon("Ausschluss_128.png"));
-            SpielfeldInfo.add(new JLabel(resourceManager
-                    .getText("not.available")));
-        }
-        this.add(spielfeldPreviewLabel, BorderLayout.CENTER);
-        this.add(SpielfeldInfo, BorderLayout.SOUTH);
-        this.setPreferredSize(new Dimension(128, 200));
-        this.setOpaque(false);
-        this.setVisible(true);
+					}
+				}
+			});
+			jbSSpielen.setPreferredSize(new Dimension (500,50));
+			SpielfeldInfo.setPreferredSize(new Dimension (500,200));
+			SpielfeldInfo.add(jlName);
+			SpielfeldInfo.add(jlSchwierigkeit);
+			SpielfeldInfo.add(jlFelder);
+			SpielfeldInfo.add(jbSSpielen);
+			SpielfeldInfo.setOpaque(false);
 
-    }
+		} catch (Exception e) {
+			spielfeldPreviewLabel.setIcon(resourceManager
+					.getImageIcon("Ausschluss_128.png"));
+			SpielfeldInfo.add(new JLabel(resourceManager
+					.getText("not.available")));
+		}
+		this.add(spielfeldPreviewLabel, BorderLayout.WEST);
+		this.add(SpielfeldInfo, BorderLayout.CENTER);
+		this.setPreferredSize(new Dimension(700, 200));
+		this.setOpaque(false);
+		this.setVisible(true);
 
-    private String getSpielName() {
-        return strPuzzleName;
-    }
+	}
+
+	private String getSpielName() {
+		return strPuzzleName;
+	}
 }

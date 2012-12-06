@@ -1,13 +1,18 @@
 package severeLobster.backend.spiel;
 
 import infrastructure.components.FTPConnector;
+import infrastructure.components.AudioPlayer;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.event.EventListenerList;
 
 import severeLobster.backend.command.PrimaerAktion;
@@ -33,6 +38,7 @@ public class SternenSpielApplicationBackend {
     private final EventListenerList listeners = new EventListenerList();
     private final ISpielListener innerSpielListener = new InnerSpielListener();
     private Spiel currentlyPlayedSpiel;
+    private boolean zeigeFadenkreuz;
 
     private SternenSpielApplicationBackend() {
         this.currentlyPlayedSpiel = new Spiel();
@@ -150,16 +156,20 @@ public class SternenSpielApplicationBackend {
             if (MainView.ftpConnector.isOnline()) {
                 MainView.ftpConnector
                         .upload(GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR
-                                + "\\" + spielname + GlobaleKonstanten.PUZZLE_DATEITYP,
+                                + "\\"
+                                + spielname
+                                + "."
+                                + GlobaleKonstanten.PUZZLE_DATEITYP,
                                 spielname
                                         + "-"
                                         + getSpiel().getSchwierigkeitsgrad()
                                         + "-"
                                         + (getSpiel().getSpielfeld()
-                                        .getBreite() * getSpiel()
-                                        .getSpielfeld().getHoehe())
-                                        + System.getProperty("user.name")
-                                        + "-" + GlobaleKonstanten.PUZZLE_DATEITYP);
+                                                .getBreite() * getSpiel()
+                                                .getSpielfeld().getHoehe())
+                                        + "-" + System.getProperty("user.name")
+                                        + "-."
+                                        + GlobaleKonstanten.PUZZLE_DATEITYP);
                 MainView.ftpConnector.updateFiles();
             }
 
@@ -289,9 +299,16 @@ public class SternenSpielApplicationBackend {
                     && spiel.getSpielmodus().equals(
                             SpielmodusEnumeration.SPIELEN)) {
                 {
+                    try {
+                        AudioPlayer.playWinSound();
+                    } catch (Exception e) {
+                        System.out.println("Sound wird überbewertet");
+                        System.out.println(e.toString());
+                    }
                     int result = GewonnenDialog.show(null,
                             spiel.getHighscore(), spiel.getSpielZeit(),
                             spiel.getAnzahlZuege());
+
                     if (GewonnenDialog.neues_spiel_starten
                             .equals(GewonnenDialog.options[result])) {
                         MainFrame.neuesSpielOeffnen();
@@ -318,6 +335,14 @@ public class SternenSpielApplicationBackend {
             fireSpielmodusChanged(spiel, newSpielmodus);
         }
 
+    }
+
+    public void setFadenkreuzAktiviert(boolean newValue) {
+        this.zeigeFadenkreuz = newValue;
+    }
+
+    public boolean istFadenkreuzAktiviert() {
+        return this.zeigeFadenkreuz;
     }
 
 }

@@ -248,8 +248,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     }
 
     public int getHoehe() {
-        return realSteine[0].length; // TODO Das funktioniert erstmal nur fuer
-                                     // rechteckige Spielfelder
+        return realSteine[0].length;
     }
 
     public SpielmodusEnumeration getSpielmodus() {
@@ -357,6 +356,13 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
              */
             if (newStein instanceof Pfeil || newStein instanceof Stern
                     || newStein instanceof KeinStein) {
+
+                /**
+                 * Visible in jedem Fall auf leer setzen, da hier vorher evtl
+                 * ein Pfeil von realSteine uebertragen wurde.
+                 */
+                visibleSteine[x][y] = KeinStein.getInstance();
+
                 /** Neuen Stein in der realen Schicht setzen */
                 realSteine[x][y] = newStein;
                 if (newStein instanceof Pfeil) {
@@ -540,6 +546,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
 
     /**
      * analog zu isEditierModus() nur für den Modus LOESEN.
+     * 
      * @return true, wenn der Spielmodus LOESEN ist.
      */
     private boolean isLoesenModus() {

@@ -12,76 +12,76 @@ public class SolvingStepPossibleStars implements SolvingStep {
     @Override
     public Spielfeld execute(Spielfeld input) {
 
-        for (int colums = 0; colums < input.getBreite(); colums++) {
+        for (int columns = 0; columns < input.getBreite(); columns++) {
             for (int rows = 0; rows < input.getHoehe(); rows++) {
 
-                if (input.getSpielstein(colums, rows) instanceof Pfeil) {
+                if (input.getSpielstein(columns, rows) instanceof Pfeil) {
 
-                    Pfeil currentPfeil = (Pfeil) input.getSpielstein(colums, rows);
+                    Pfeil currentPfeil = (Pfeil) input.getSpielstein(columns, rows);
 
                     // Richtung der Pfeile folgen, mögliche Sterne setzen
                     switch (currentPfeil.getPfeilrichtung()) {
                         case NORD:
                             for (int curY = rows; curY >= 0; curY--) {
-                                if (!(input.getSpielstein(colums, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(colums,curY, MoeglicherStern.getInstance());
+                                if (!(input.getSpielstein(columns, curY) instanceof Pfeil)) {
+                                    input.setSpielstein(columns, curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
 
                         case NORDOST:
-                            for (int curX = colums, curY = rows; curX < input.getBreite() && curY >= 0; curX++, curY-- ) {
+                            for (int curX = columns, curY = rows; curX < input.getBreite() && curY >= 0; curX++, curY--) {
                                 if (!(input.getSpielstein(curX, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,curY, MoeglicherStern.getInstance());
+                                    input.setSpielstein(curX, curY, MoeglicherStern.getInstance());
                                 }
                             }
 
                             break;
 
                         case OST:
-                            for (int curX = colums; curX < input.getBreite(); curX++) {
-                                if (!(input.getSpielstein(curX,rows) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,rows, MoeglicherStern.getInstance());
+                            for (int curX = columns; curX < input.getBreite(); curX++) {
+                                if (!(input.getSpielstein(curX, rows) instanceof Pfeil)) {
+                                    input.setSpielstein(curX, rows, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
 
                         case SUEDOST:
-                            for (int curX = colums, curY = rows; curX < input.getBreite() && curY < input.getHoehe(); curX++, curY++ ) {
+                            for (int curX = columns, curY = rows; curX < input.getBreite() && curY < input.getHoehe(); curX++, curY++) {
                                 if (!(input.getSpielstein(curX, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,curY, MoeglicherStern.getInstance());
+                                    input.setSpielstein(curX, curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
 
                         case SUED:
                             for (int curY = rows; curY < input.getHoehe(); curY++) {
-                                if (!(input.getSpielstein(colums, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(colums,curY, MoeglicherStern.getInstance());
+                                if (!(input.getSpielstein(columns, curY) instanceof Pfeil)) {
+                                    input.setSpielstein(columns, curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
 
                         case SUEDWEST:
-                            for (int curX = colums, curY = rows; curX >= 0 && curY < input.getHoehe(); curX--, curY++ ) {
+                            for (int curX = columns, curY = rows; curX >= 0 && curY < input.getHoehe(); curX--, curY++) {
                                 if (!(input.getSpielstein(curX, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,curY, MoeglicherStern.getInstance());
+                                    input.setSpielstein(curX, curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
 
                         case WEST:
-                            for (int curX = colums; curX >= 0; curX--) {
-                                if (!(input.getSpielstein(curX,rows) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,rows, MoeglicherStern.getInstance());
+                            for (int curX = columns; curX >= 0; curX--) {
+                                if (!(input.getSpielstein(curX, rows) instanceof Pfeil)) {
+                                    input.setSpielstein(curX, rows, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
 
                         case NORDWEST:
-                            for (int curX = colums, curY = rows; curX >= 0 && curY >= 0; curX--, curY-- ) {
+                            for (int curX = columns, curY = rows; curX >= 0 && curY >= 0; curX--, curY--) {
                                 if (!(input.getSpielstein(curX, curY) instanceof Pfeil)) {
-                                    input.setSpielstein(curX,curY, MoeglicherStern.getInstance());
+                                    input.setSpielstein(curX, curY, MoeglicherStern.getInstance());
                                 }
                             }
                             break;
