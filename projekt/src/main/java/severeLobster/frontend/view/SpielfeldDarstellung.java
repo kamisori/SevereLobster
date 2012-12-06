@@ -301,16 +301,9 @@ public class SpielfeldDarstellung extends JPanel {
                 .toString(neuerWert));
     }
 
-    public void highlightSpielstein(int x, int y) {
+    public void highlightSpielstein(int x, int y, final Color color) {
         this.spielsteinDarstellungen[x][y].setBorder(BorderFactory
-                .createLineBorder(Color.yellow));
-        this.hightlightedSpielsteine.add(new Koordinaten(x, y));
-
-    }
-
-    public void highlightSpielsteinInPfeilrichtung(int x, int y) {
-        this.spielsteinDarstellungen[x][y].setBorder(BorderFactory
-                .createLineBorder(Color.WHITE));
+                .createLineBorder(color));
         this.hightlightedSpielsteine.add(new Koordinaten(x, y));
 
     }

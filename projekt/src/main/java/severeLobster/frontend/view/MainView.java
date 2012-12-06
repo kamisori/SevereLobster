@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -49,7 +50,6 @@ public class MainView extends JPanel {
     private final TrackingControllView trackingView;
     private final SpielinfoView spielInfoView;
     private final EditiermodusView editiermodusView;
-
     private final SternenSpielApplicationBackend backend;
 
     public SternenSpielApplicationBackend getBackend() {
@@ -269,22 +269,41 @@ public class MainView extends JPanel {
         ftpConnector.connect();
 
         if (ftpConnector.isOnline()) {
+            ftpConnector.connect();
+            ftpConnector.connect();
             ftpConnector.updateFiles();
             JPanel jpAuswahl = new JPanel();
             jpAuswahl.setOpaque(false);
             jpAuswahl.setPreferredSize(new Dimension(700, 600));
             jpAuswahl.setMinimumSize(new Dimension(700, 600));
             jpAuswahl.setMaximumSize(new Dimension(700, 600));
-            JPanel jpSpielfeldAuswahl = new JPanel();
-
+          
+    /*
             GridLayout layout = new GridLayout(ftpConnector.files.length, 1);
+              JPanel jpSpielfeldAuswahl = new JPanel();
             jpSpielfeldAuswahl.setLayout(layout);
             jpSpielfeldAuswahl.setOpaque(false);
 
             for (int i = 0; i < ftpConnector.files.length; i++) {
                 jpSpielfeldAuswahl.add(new OnlinePuzzlePreviewView(this,
                         ftpConnector.files[i].getName(), ftpConnector));
-            }
+            }*/
+            
+            
+            // Das JTable initialisieren
+            JPanel oTablepanel = new JPanel();
+            oTablepanel.setBackground(Color.BLACK);
+            oTablepanel.setPreferredSize(new Dimension(700, 400));
+            JPanel oPreviewPanel = new JPanel();
+            oPreviewPanel.setOpaque(false);
+          //  oPreviewPanel.add(new OnlinePuzzlePreviewView(this,"Standardspiel01.puz",ftpConnector));
+            oPreviewPanel.add(new PuzzlePreviewView("Standardspiel01"));
+            oPreviewPanel.setPreferredSize(new Dimension(700, 200));
+            OnlineTableModel model = new OnlineTableModel();
+            JTable table = new OnlineTable( model ,	oPreviewPanel);
+           
+
+
             JPanel jpBottom = new JPanel();
             jpBottom.setOpaque(false);
             jpBottom.setPreferredSize(new Dimension(600, 30));
@@ -302,12 +321,16 @@ public class MainView extends JPanel {
                 }
             });
             jpBottom.add(jbBackToMenu);
+            
             JScrollPane jpScroll = new JScrollPane();
             jpScroll.setOpaque(false);
             jpScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            jpScroll.getViewport().add(jpSpielfeldAuswahl);
-            jpScroll.setPreferredSize(new Dimension(700, 400));
+            jpScroll.getViewport().add(table);
+            jpScroll.setPreferredSize(new Dimension(700, 200));
             jpScroll.getViewport().setOpaque(false);
+            oTablepanel.add(jpScroll,BorderLayout.CENTER);
+            oTablepanel.add(oPreviewPanel,BorderLayout.CENTER);
+            	
             JLabel jlUeberschrift = new JLabel();
             jlUeberschrift.setPreferredSize(new Dimension(700, 50));
             jlUeberschrift.setForeground(Color.YELLOW);
@@ -315,7 +338,7 @@ public class MainView extends JPanel {
             jlUeberschrift.setHorizontalAlignment(JLabel.CENTER);
             jlUeberschrift.setText(resourceManager.getText("online.archive"));
             jpAuswahl.add(jlUeberschrift, BorderLayout.NORTH);
-            jpAuswahl.add(jpScroll, BorderLayout.CENTER);
+            jpAuswahl.add(oTablepanel, BorderLayout.CENTER);
             jpAuswahl.add(jpBottom, BorderLayout.SOUTH);
 
             removeAll();
