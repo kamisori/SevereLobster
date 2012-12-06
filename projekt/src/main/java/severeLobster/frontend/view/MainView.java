@@ -27,7 +27,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -210,8 +209,6 @@ public class MainView extends JPanel {
                     addSpielErstellenPanel();
                 }
             });
-            MainFrame.controlSpielMenue(false);
-            MainFrame.controlEditierMenue(false);
             MenuButton t = new MenuButton(logo, logo, logo);
             jpMenu.add(t);
             jpMenu.add(neuesSpiel);
@@ -219,6 +216,8 @@ public class MainView extends JPanel {
             jpMenu.add(puzzleErstellen);
         }
         add(jpMenu);
+        MainFrame.controlSpielMenue(false);
+        MainFrame.controlEditierMenue(false);
 
         validate();
         repaint();
