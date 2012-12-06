@@ -3,7 +3,7 @@
     <propertyfile>
       <property name="exit.application.beenden.option" value="Beenden"/>
       <property name="hilfe.kontakt" value="Kontakt"/>
-      <property name="check.puzzle" value="Lösungweg prüfen..."/>
+      <property name="check.puzzle" value="Lösungsweg prüfen..."/>
       <property name="load.dialog.extension.description" value="Gespeichertes Spiel (*.sav)"/>
       <property name="win.back.to.main.menu" value="Zurück ins Hauptmenü"/>
       <property name="language.german" value="Deutsch"/>
@@ -62,7 +62,7 @@
       <property name="win.title" value="Herzlichen Glückwunsch!"/>
       <property name="mainFrame.freigabe.speichern.title" value="Puzzle speichern!"/>
       <property name="backend.stern" value="Stern"/>
-      <property name="optionen.fadenkreuz" value="Fadenkreuz ein/ausschalten"/>
+      <property name="optionen.fadenkreuz" value="Fadenkreuz"/>
       <property name="time" value="Zeit:"/>
       <property name="fields" value="Felder:"/>
       <property name="change.language.text" value="Bitte wählen Sie die gewünschte Sprache aus"/>
@@ -132,7 +132,7 @@
     </propertyfile>
     <userpropertyFile>
       <property name="user.language" value="de"/>
-      <property name="user.avatar" value="spielinfo_w3.jpg"/>
+      <property name="user.avatar" value="spielinfo_w1.jpg"/>
     </userpropertyFile>
   </resourceManager>
   <listeners serialization="custom">
@@ -306,7 +306,7 @@
   <anzahlZuege>0</anzahlZuege>
   <spielStoppUhr>
     <summeDerBisherigenMessungen>0</summeDerBisherigenMessungen>
-    <aktuelleMessungAbsoluterStartZeitpunkt>1354516947248</aktuelleMessungAbsoluterStartZeitpunkt>
+    <aktuelleMessungAbsoluterStartZeitpunkt>1354607465869</aktuelleMessungAbsoluterStartZeitpunkt>
     <messungLaeuft>false</messungLaeuft>
   </spielStoppUhr>
   <spielZeit>--</spielZeit>

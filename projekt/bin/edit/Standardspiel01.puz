@@ -3,7 +3,7 @@
     <propertyfile>
       <property name="exit.application.beenden.option" value="Beenden"/>
       <property name="hilfe.kontakt" value="Kontakt"/>
-      <property name="check.puzzle" value="Lösungweg prüfen..."/>
+      <property name="check.puzzle" value="Lösungsweg prüfen..."/>
       <property name="load.dialog.extension.description" value="Gespeichertes Spiel (*.sav)"/>
       <property name="language.german" value="Deutsch"/>
       <property name="win.back.to.main.menu" value="Zurück ins Hauptmenü"/>
@@ -132,7 +132,7 @@
     </propertyfile>
     <userpropertyFile>
       <property name="user.language" value="de"/>
-      <property name="user.avatar" value="spielinfo_m1.jpg"/>
+      <property name="user.avatar" value="spielinfo_w1.jpg"/>
     </userpropertyFile>
   </resourceManager>
   <listeners serialization="custom">

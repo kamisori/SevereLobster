@@ -289,6 +289,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         itemSave.setIcon(resourceManager.getImageIcon("save.png"));
         jm_Spiel.add(itemSaveAs = new JMenuItem(resourceManager
                 .getText("save.as.text")));
+        itemSaveAs.setIcon(resourceManager.getImageIcon("saveas.png"));
         itemSaveAs.setEnabled(false);
         itemSaveAs.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("exit.text")));
@@ -309,6 +310,7 @@ public class MainFrame extends JMenuBar implements Runnable {
         puzzleSave.addActionListener(menuAction);
         jm_Editieren.add(puzzleSaveAs = new JMenuItem(resourceManager
                 .getText("save.as.puzzle")));
+        puzzleSaveAs.setIcon(resourceManager.getImageIcon("saveas.png"));
         puzzleSaveAs.setEnabled(false);
         puzzleSaveAs.addActionListener(menuAction);
         jm_Editieren.add(puzzleFreigeben = new JMenuItem(resourceManager
