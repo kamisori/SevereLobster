@@ -89,13 +89,13 @@ public class StartApplication extends JFrame implements Runnable {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         } catch (InstantiationException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         }
 
         Thread SC_MAIN = null;
@@ -105,7 +105,6 @@ public class StartApplication extends JFrame implements Runnable {
         setVisible(true);
 
         try {
-            // TODO: Bilder & Sonstige Sachen laden
             SC_MAIN = new Thread(new MainFrame(getBackend()));
             MainView.ftpConnector = new FTPConnector("ftp.strato.de",
                     "user@sternenhimmel-deluxe.de", "12YXasdfg", 21);

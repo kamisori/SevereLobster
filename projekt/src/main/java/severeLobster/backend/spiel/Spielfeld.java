@@ -248,8 +248,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     }
 
     public int getHoehe() {
-        return realSteine[0].length; // TODO Das funktioniert erstmal nur fuer
-                                     // rechteckige Spielfelder
+        return realSteine[0].length;
     }
 
     public SpielmodusEnumeration getSpielmodus() {

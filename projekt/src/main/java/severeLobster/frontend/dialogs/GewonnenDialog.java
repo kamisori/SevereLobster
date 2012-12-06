@@ -16,7 +16,6 @@ import java.util.Locale;
  * @author Lars Schlegelmilch
  */
 public class GewonnenDialog extends JOptionPane {
-    // TODO Texte in Properties auslagern
     private static final ResourceManager resourceManager = ResourceManager.get();
 
     public static final String neues_spiel_starten = resourceManager.getText("win.start.new.game");
