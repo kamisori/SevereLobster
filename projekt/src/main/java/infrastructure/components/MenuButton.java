@@ -13,6 +13,7 @@ public class MenuButton extends JButton {
                       final Icon pressedIcon) {
 
         setOpaque(false);
+        setFocusable(false);
         setContentAreaFilled(false);
         setIcon(defaultIcon);
         setRolloverIcon(rolloverIcon);

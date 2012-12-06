@@ -310,9 +310,14 @@ public class SpielfeldDarstellung extends JPanel {
 
     public void unhighlightAll() {
         for (Koordinaten currentKoordinate : this.hightlightedSpielsteine) {
-            this.spielsteinDarstellungen[currentKoordinate.getX()][currentKoordinate
-                    .getY()].setBorder(BorderFactory
-                    .createLineBorder(Color.DARK_GRAY));
+            try {
+                this.spielsteinDarstellungen[currentKoordinate.getX()][currentKoordinate
+                        .getY()].setBorder(BorderFactory
+                        .createLineBorder(Color.DARK_GRAY));
+            } catch(ArrayIndexOutOfBoundsException e) {
+                validate();
+                repaint();
+            }
         }
         this.hightlightedSpielsteine.clear();
     }
