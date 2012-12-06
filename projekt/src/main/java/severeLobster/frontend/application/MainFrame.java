@@ -214,13 +214,18 @@ public class MainFrame extends JMenuBar implements Runnable {
                                                     .getText("mainFrame.freigabe.freigegeben.title"),
                                             JOptionPane.INFORMATION_MESSAGE);
                             if (MainView.ftpConnector.isOnline()) {
-                        int reply = javax.swing.JOptionPane.showConfirmDialog(frame,
-                                resourceManager.getText("mainFrame.upload.body"),
-                                resourceManager.getText("mainFrame.upload.title"),
-                                javax.swing.JOptionPane.YES_NO_OPTION);
-                        if (reply == JOptionPane.YES_OPTION) {
-                            mainPanel.getBackend().uploadPuzzle(savename);
-                        }
+                                int reply = javax.swing.JOptionPane
+                                        .showConfirmDialog(
+                                                frame,
+                                                resourceManager
+                                                        .getText("mainFrame.upload.body"),
+                                                resourceManager
+                                                        .getText("mainFrame.upload.title"),
+                                                javax.swing.JOptionPane.YES_NO_OPTION);
+                                if (reply == JOptionPane.YES_OPTION) {
+                                    mainPanel.getBackend().uploadPuzzle(
+                                            savename);
+                                }
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -247,10 +252,9 @@ public class MainFrame extends JMenuBar implements Runnable {
                 if (event.getActionCommand().equals(
                         resourceManager.getText("optionen.fadenkreuz"))) {
                     if (optionenFadenkreuz.isSelected()) {
-                        //TODO Fadenkreuz anzeigen
-                    }
-                    else {
-                        //TODO Fadenkreuz ausblenden
+                        backend.setFadenkreuzAktiviert(true);
+                    } else {
+                        backend.setFadenkreuzAktiviert(false);
                     }
 
                 }
@@ -326,9 +330,9 @@ public class MainFrame extends JMenuBar implements Runnable {
                 .getText("download.puzzles")));
         item.addActionListener(menuAction);
         item.setIcon(resourceManager.getImageIcon("download.png"));
-        jm_Optionen.add(optionenFadenkreuz = new JCheckBoxMenuItem(resourceManager
-                .getText("optionen.fadenkreuz")));
-        optionenFadenkreuz.setSelected(true);
+        jm_Optionen.add(optionenFadenkreuz = new JCheckBoxMenuItem(
+                resourceManager.getText("optionen.fadenkreuz")));
+        optionenFadenkreuz.setSelected(backend.istFadenkreuzAktiviert());
         optionenFadenkreuz.addActionListener(menuAction);
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.sprache")));
