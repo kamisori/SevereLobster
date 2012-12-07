@@ -295,7 +295,6 @@ public class MainView extends JPanel {
             oTablepanel.setPreferredSize(new Dimension(700, 400));
             JPanel oPreviewPanel = new JPanel();
             oPreviewPanel.setOpaque(false);
-          //  oPreviewPanel.add(new OnlinePuzzlePreviewView(this,"Standardspiel01.puz",ftpConnector));
             oPreviewPanel.add(new PuzzlePreviewView("Standardspiel01"));
             oPreviewPanel.setPreferredSize(new Dimension(700, 200));
             OnlineTableModel model = new OnlineTableModel();

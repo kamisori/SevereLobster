@@ -132,7 +132,7 @@
     </propertyfile>
     <userpropertyFile>
       <property name="user.language" value="de"/>
-      <property name="user.avatar" value="spielinfo_w1.jpg"/>
+      <property name="user.avatar" value="spielinfo_m2.jpg"/>
     </userpropertyFile>
   </resourceManager>
   <listeners serialization="custom">
@@ -311,7 +311,7 @@
   <anzahlZuege>0</anzahlZuege>
   <spielStoppUhr>
     <summeDerBisherigenMessungen>0</summeDerBisherigenMessungen>
-    <aktuelleMessungAbsoluterStartZeitpunkt>1354868055066</aktuelleMessungAbsoluterStartZeitpunkt>
+    <aktuelleMessungAbsoluterStartZeitpunkt>1354885994339</aktuelleMessungAbsoluterStartZeitpunkt>
     <messungLaeuft>false</messungLaeuft>
   </spielStoppUhr>
   <spielZeit>--</spielZeit>
