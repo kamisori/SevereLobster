@@ -1,12 +1,19 @@
 package severeLobster.backend.spiel;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import infrastructure.ResourceManager;
+import infrastructure.components.AudioPlayer;
 import infrastructure.components.StoppUhr;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.exceptions.LoesungswegNichtEindeutigException;
+import severeLobster.frontend.application.MainFrame;
+import severeLobster.frontend.dialogs.GewonnenDialog;
 
+import javax.swing.SwingUtilities;
+import javax.swing.event.EventListenerList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,28 +22,27 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Stack;
 
-import javax.swing.event.EventListenerList;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
 /**
  * Spiel - Besteht aus einem Spielfeld von Spielsteinen. Stellt ein laufendes
  * Spiel dar und beinhaltet einen aktuellen Spielstand, der gespeichert und
  * geladen werden kann. Instanzen dieser Klasse sind in ihrem Zustand komplett
  * unabhaengig voneinander.
- * 
+ *
  * @author Lars Schlegelmilch, Lutz Kleiber, Paul Bruell
  */
 public class Spiel {
     private final ResourceManager resourceManager = ResourceManager.get();
     private final EventListenerList listeners = new EventListenerList();
-    /** Spielfeld wird vom Spiel erstellt oder geladen. */
+    /**
+     * Spielfeld wird vom Spiel erstellt oder geladen.
+     */
     private Spielfeld currentSpielfeld;
     private final ISpielfeldListener innerSpielfeldListener = new InnerSpielfeldListener();
     private String saveName;
 
-    /** Tracking: */
+    /**
+     * Tracking:
+     */
     private ActionHistory spielZuege;
     private Stack<ActionHistoryObject> trackingPunkte;
     private int anzahlZuege = 0;
@@ -47,31 +53,82 @@ public class Spiel {
     /**
      * Spielfeld wird mit Standardfeld initialisiert. Nach der Erstellung ist
      * man im Spielmodus Editieren.
-     * 
-     * @param spielmodus
-     *            Spielmodus des Spiels
+     *
      */
     public Spiel() {
         this.spielStoppUhr = new StoppUhr();
         this.currentSpielfeld = new Spielfeld(10, 10);
         currentSpielfeld.addSpielfeldListener(innerSpielfeldListener);
-        spielZuege = new ActionHistory();
+        if (getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
+            spielZuege = new ActionHistory();
+        }
         trackingPunkte = new Stack<ActionHistoryObject>();
     }
 
     /**
      * Spielstein setzen.
-     * 
-     * @param x
-     *            X-Achsenwert
-     * @param y
-     *            Y-Achsenwert
-     * @param spielstein
-     *            zu setzender Spielstein
+     *
+     * @param x          X-Achsenwert
+     * @param y          Y-Achsenwert
+     * @param spielstein zu setzender Spielstein
      * @return ob spielfeld fehler enthaelt.
      */
     public boolean setSpielstein(int x, int y, Spielstein spielstein) {
         currentSpielfeld.setSpielstein(x, y, spielstein);
+
+        if (isSolved()
+                && getSpielmodus().equals(
+                SpielmodusEnumeration.SPIELEN)) {
+            {
+                try {
+                    setSpielmodus(SpielmodusEnumeration.REPLAY);
+                } catch (LoesungswegNichtEindeutigException e) {
+                    e.printStackTrace(); // TODO ...
+                }
+
+                spielZuege.zeitrafferSetup();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final boolean[] t = {true};
+                        do {
+                            try {
+                                SwingUtilities.invokeLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        t[0] = spielZuege.zeitrafferSchritt();
+                                    }
+                                });
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } while (t[0]);
+                    }
+                }).start();
+
+                try {
+                    AudioPlayer.playWinSound();
+                } catch (Exception e) {
+                    System.out.println("Sound wird überbewertet");
+                }
+                int result = GewonnenDialog.show(null,
+                        getHighscore(), getSpielZeit(),
+                        getAnzahlZuege());
+
+                if (GewonnenDialog.neues_spiel_starten
+                        .equals(GewonnenDialog.options[result])) {
+                    MainFrame.neuesSpielOeffnen();
+                } else if (GewonnenDialog.zurueck_zum_menue
+                        .equals(GewonnenDialog.options[result])) {
+                    MainFrame.mainPanel.addMenuPanel();
+
+                } else if (GewonnenDialog.spiel_beenden
+                        .equals(GewonnenDialog.options[result])) {
+                    System.exit(0);
+                }
+            }
+        }
         return hasErrors();
     }
 
@@ -96,14 +153,13 @@ public class Spiel {
                 e.printStackTrace();
                 throw e;
             }
-
         }
         return spielStoppUhr;
     }
 
     /**
      * Gibt den Schwierigkeitsgrad des Spielfeldes zurueck
-     * 
+     *
      * @return Schwierigkeitsgrad
      */
     public SchwierigkeitsgradEnumeration getSchwierigkeitsgrad() {
@@ -114,14 +170,12 @@ public class Spiel {
         return currentSpielfeld;
     }
 
-    /***
+    /**
      * Setzt ein neues, leeres Spielfeld fuer dieses Spiel. Benachrichtigt
      * listener dieser Instanz ueber spielfeldChanged().
-     * 
-     * @param x
-     *            Laenge der x-Achse
-     * @param y
-     *            Laenge der y-Achse
+     *
+     * @param x Laenge der x-Achse
+     * @param y Laenge der y-Achse
      */
     public void initializeNewSpielfeld(final int x, final int y) {
 
@@ -156,11 +210,11 @@ public class Spiel {
      * Gibt die Highscore anhand der Anzahl der Zuege, der Zeit und des
      * Spielfeldes zurueck Ist der Spieler so schlecht das er keine positive
      * High- score erreicht, so wird eine Score von "1" zurueckgegeben.
-     * 
+     *
      * @return Highscore des Spiels
      */
     public int getHighscore() {
-        if (isSolved() && spielStoppUhr != null) {
+        if (spielStoppUhr != null) {
             int fehlversuche = getAnzahlZuege()
                     - currentSpielfeld.countSterne();
             int groesse = currentSpielfeld.getBreite()
@@ -179,11 +233,9 @@ public class Spiel {
 
     /**
      * Speichert das aktuelle Spiel
-     * 
-     * @param spielname
-     *            Name der Datei (ohne Dateiendung)
-     * @throws IOException
-     *             Exception falls Datei nicht speicherbar
+     *
+     * @param spielname Name der Datei (ohne Dateiendung)
+     * @throws IOException Exception falls Datei nicht speicherbar
      */
     public void saveSpiel(String spielname) throws IOException {
         if (getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
@@ -203,14 +255,12 @@ public class Spiel {
 
     /**
      * Laed ein Spiel aus .sav / .puz - Dateien
-     * 
-     * @param spielname
-     *            Name der Datei (ohne Dateiendung)
-     * @throws IOException
-     *             Exception falls Datei nicht lesbar
+     *
+     * @param spielname Name der Datei (ohne Dateiendung)
+     * @throws IOException Exception falls Datei nicht lesbar
      */
     public static Spiel loadSpiel(String spielname,
-            SpielmodusEnumeration spielmodus) throws IOException {
+                                  SpielmodusEnumeration spielmodus) throws IOException {
         XStream xstream = new XStream(new DomDriver());
         String dateiendung = "." + getDateiendung(spielmodus);
         File verzeichnis = new File(getVerzeichnis(spielmodus), spielname
@@ -226,13 +276,12 @@ public class Spiel {
 
     /**
      * Laed ein erstelles Puzzle und aendert den Modus in den Spielmodus.
-     * 
-     * @param spielname
-     *            Name der Datei (ohne Dateiendung)
+     *
+     * @param spielname Name der Datei (ohne Dateiendung)
      * @return Erstelltes Spiel im Spielmodus
-     * @throws IOException
-     *             Wirft Exception, wenn Datei nicht vorhanden
+     * @throws IOException Wirft Exception, wenn Datei nicht vorhanden
      * @throws LoesungswegNichtEindeutigException
+     *
      */
     public static Spiel newSpiel(String spielname) throws IOException,
             LoesungswegNichtEindeutigException {
@@ -252,7 +301,7 @@ public class Spiel {
 
     /**
      * Ueberprueft ob das Spielfeld geloest wurde (Sieg).
-     * 
+     *
      * @return sieg
      */
     public boolean isSolved() {
@@ -269,7 +318,7 @@ public class Spiel {
     /**
      * Ueberprueft ob Fehler in einem Spielfeld vorhanden sind, d.h. Tipps
      * abgegeben wurden, die nicht der Loesung entsprechen
-     * 
+     *
      * @return fehler vorhanden
      */
     public boolean hasErrors() {
@@ -284,10 +333,10 @@ public class Spiel {
 
     /**
      * Setzt den Spielmodus des aktuellen Spiels
-     * 
-     * @param neuerSpielmodus
-     *            Spielmodus des Spiels
+     *
+     * @param neuerSpielmodus Spielmodus des Spiels
      * @throws LoesungswegNichtEindeutigException
+     *
      */
     public void setSpielmodus(final SpielmodusEnumeration neuerSpielmodus)
             throws LoesungswegNichtEindeutigException {
@@ -295,6 +344,9 @@ public class Spiel {
         /* Aenderung feuert durch Kopplung auch die Listener von Spiel */
         getSpielfeld().setSpielmodus(neuerSpielmodus);
         if (neuerSpielmodus.equals(SpielmodusEnumeration.SPIELEN)) {
+            if (spielZuege == null) {
+                spielZuege = new ActionHistory();
+            }
             /*
              * Uhr wird nur gestartet, wenn auch wirklich auf Spielmodus SPIELEN
              * gesetzt werden kann. Andernfalls wurde die Methode zuvor bereits
@@ -309,7 +361,7 @@ public class Spiel {
     }
 
     private void fireSpielsteinChanged(final Spielfeld spielfeld, final int x,
-            final int y, Spielstein newStein) {
+                                       final int y, Spielstein newStein) {
 
         /** Gibt ein Array zurueck, das nicht null ist */
         final Object[] currentListeners = listeners.getListenerList();
@@ -325,9 +377,8 @@ public class Spiel {
      * Benachrichtigt alle Listener dieses Spiel ueber einen neuen Wert an den
      * uebergeben Koordinaten. Implementation ist glaube ich aus JComponent oder
      * Component kopiert.
-     * 
-     * @param newSpielfeld
-     *            - Der neue Status, der an die Listener mitgeteilt wird.
+     *
+     * @param newSpielfeld - Der neue Status, der an die Listener mitgeteilt wird.
      */
     private void fireSpielfeldChanged(Spielfeld newSpielfeld) {
 
@@ -355,9 +406,8 @@ public class Spiel {
 
     /**
      * Fuegt listener zu der Liste hinzu.
-     * 
-     * @param listener
-     *            ISpielfeldListener
+     *
+     * @param listener ISpielfeldListener
      */
     public void addSpielListener(final ISpielListener listener) {
         listeners.add(ISpielListener.class, listener);
@@ -365,9 +415,8 @@ public class Spiel {
 
     /**
      * Entfernt listener von der Liste.
-     * 
-     * @param listener
-     *            ISpielsteinListener
+     *
+     * @param listener ISpielsteinListener
      */
     public void removeSpielListener(final ISpielListener listener) {
         listeners.remove(ISpielListener.class, listener);
@@ -376,42 +425,40 @@ public class Spiel {
     /**
      * Gibt die Dateiendung eines zu ladenen oder zu sichernden Spiels bzw.
      * Puzzles anhand des Spielmodus zurück
-     * 
-     * @param spielmodus
-     *            Spielmodus des Spiels
+     *
+     * @param spielmodus Spielmodus des Spiels
      * @return Dateiendung (.puz oder .sav)
      */
     private static String getDateiendung(SpielmodusEnumeration spielmodus) {
         // Preconditions.checkNotNull(spielmodus);
         switch (spielmodus) {
-        case SPIELEN:
-            return GlobaleKonstanten.SPIELSTAND_DATEITYP;
-        case EDITIEREN:
-            return GlobaleKonstanten.PUZZLE_DATEITYP;
+            case SPIELEN:
+                return GlobaleKonstanten.SPIELSTAND_DATEITYP;
+            case EDITIEREN:
+                return GlobaleKonstanten.PUZZLE_DATEITYP;
         }
         return null;
     }
 
     /**
      * Gibt das Verzeichnis der puz/sav Dateien je nach Spielmodus zurueck
-     * 
-     * @param spielmodus
-     *            Spielmodus des Spiels
+     *
+     * @param spielmodus Spielmodus des Spiels
      * @return Verzeichnis fuer puz/sav Dateien
      */
     private static File getVerzeichnis(SpielmodusEnumeration spielmodus) {
         switch (spielmodus) {
-        case SPIELEN:
-            return GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR;
-        case EDITIEREN:
-            return GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR;
+            case SPIELEN:
+                return GlobaleKonstanten.DEFAULT_SPIEL_SAVE_DIR;
+            case EDITIEREN:
+                return GlobaleKonstanten.DEFAULT_PUZZLE_SAVE_DIR;
         }
         return null;
     }
 
     /**
      * Gibt den Namen des SaveGames zum Spiel zurueck
-     * 
+     *
      * @return Spielname
      */
     public String getSaveName() {
@@ -420,9 +467,8 @@ public class Spiel {
 
     /**
      * Setzt den Names des SaveGames
-     * 
-     * @param saveName
-     *            Name des SaveGames
+     *
+     * @param saveName Name des SaveGames
      */
     public void setSaveName(String saveName) {
         this.saveName = saveName;
@@ -446,20 +492,20 @@ public class Spiel {
 
         @Override
         public void spielsteinChanged(Spielfeld spielfeld, int x, int y,
-                Spielstein changedStein) {
+                                      Spielstein changedStein) {
             fireSpielsteinChanged(spielfeld, x, y, changedStein);
         }
 
         @Override
         public void spielmodusChanged(Spielfeld spielfeld,
-                SpielmodusEnumeration neuerSpielmodus) {
+                                      SpielmodusEnumeration neuerSpielmodus) {
             fireSpielmodusChanged(neuerSpielmodus);
         }
     }
 
     /**
-     * @author fwenisch
      * @return Die benutzten Versuche
+     * @author fwenisch
      */
     public int getAnzahlZuege() {
         return anzahlZuege;
@@ -467,7 +513,7 @@ public class Spiel {
 
     /**
      * addiert +1 auf den Spielzugcounter des aktuellen Spiels
-     * 
+     *
      * @author fwenisch
      */
     public void addSpielZug() {

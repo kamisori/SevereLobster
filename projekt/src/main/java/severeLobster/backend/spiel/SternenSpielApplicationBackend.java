@@ -1,24 +1,14 @@
 package severeLobster.backend.spiel;
 
-import infrastructure.components.FTPConnector;
-import infrastructure.components.AudioPlayer;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.exceptions.LoesungswegNichtEindeutigException;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.event.EventListenerList;
-
 import severeLobster.backend.command.PrimaerAktion;
-import severeLobster.frontend.application.MainFrame;
-import severeLobster.frontend.dialogs.GewonnenDialog;
 import severeLobster.frontend.view.MainView;
+
+import javax.swing.event.EventListenerList;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Schnittstelle zwischen Backendlogik und Frontenddarstellung. Logik und
@@ -55,6 +45,10 @@ public class SternenSpielApplicationBackend {
 
     public void zeitrafferSetup()
     {
+        try {
+            currentlyPlayedSpiel.setSpielmodus(SpielmodusEnumeration.REPLAY);
+        } catch (LoesungswegNichtEindeutigException e) {
+        }
         currentlyPlayedSpiel.getSpielZuege().zeitrafferSetup();
     }
 
@@ -66,6 +60,11 @@ public class SternenSpielApplicationBackend {
     public void zeitrafferCleanup()
     {
         currentlyPlayedSpiel.getSpielZuege().zeitrafferCleanup();
+        try {
+            currentlyPlayedSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
+        } catch (LoesungswegNichtEindeutigException e) {
+            e.printStackTrace(); // TODO ...
+        }
     }
 
     public void setzeTrackingPunkt() {
@@ -105,9 +104,15 @@ public class SternenSpielApplicationBackend {
     public void setSpielstein(final int x, final int y,
             final Spielstein spielstein) {
         boolean fehler;
+
         PrimaerAktion spielZug = new PrimaerAktion(getSpiel());
+        if (getSpiel().getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
+            currentlyPlayedSpiel.getSpielZuege().neuerSpielzug(spielZug);
+        }
         fehler = spielZug.execute(x, y, spielstein);
-        currentlyPlayedSpiel.getSpielZuege().neuerSpielzug(spielZug, fehler);
+        if (getSpiel().getSpielmodus().equals(SpielmodusEnumeration.SPIELEN)) {
+            currentlyPlayedSpiel.getSpielZuege().setzeFehlerhaft(fehler);
+        }
     }
 
     /***
@@ -295,33 +300,7 @@ public class SternenSpielApplicationBackend {
         public void spielsteinChanged(Spiel spiel, Spielfeld spielfeld, int x,
                 int y, Spielstein newStein) {
             fireSpielsteinChanged(spiel, spielfeld, x, y, newStein);
-            if (spiel.isSolved()
-                    && spiel.getSpielmodus().equals(
-                            SpielmodusEnumeration.SPIELEN)) {
-                {
-                    try {
-                        AudioPlayer.playWinSound();
-                    } catch (Exception e) {
-                        System.out.println("Sound wird überbewertet");
-                        System.out.println(e.toString());
-                    }
-                    int result = GewonnenDialog.show(null,
-                            spiel.getHighscore(), spiel.getSpielZeit(),
-                            spiel.getAnzahlZuege());
 
-                    if (GewonnenDialog.neues_spiel_starten
-                            .equals(GewonnenDialog.options[result])) {
-                        MainFrame.neuesSpielOeffnen();
-                    } else if (GewonnenDialog.zurueck_zum_menue
-                            .equals(GewonnenDialog.options[result])) {
-                        MainFrame.mainPanel.addMenuPanel();
-
-                    } else if (GewonnenDialog.spiel_beenden
-                            .equals(GewonnenDialog.options[result])) {
-                        System.exit(0);
-                    }
-                }
-            }
         }
 
         @Override

@@ -14,6 +14,8 @@ public enum SpielmodusEnumeration {
      */
     SPIELEN,
 
+    REPLAY,
+
     /**
      * Spielmodus: Editieren - Der Benutzer befindet sich im Editiermodus, indem
      * er ein eigenes Puzzle erstellt.

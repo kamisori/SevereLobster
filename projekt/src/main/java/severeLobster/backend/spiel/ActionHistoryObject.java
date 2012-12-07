@@ -1,11 +1,9 @@
 package severeLobster.backend.spiel;
 
+import severeLobster.backend.command.Aktion;
+
 import java.util.LinkedList;
 import java.util.Vector;
-
-import com.thoughtworks.xstream.io.path.Path;
-
-import severeLobster.backend.command.Aktion;
 
 public class ActionHistoryObject {
     public enum PathAndStepStatus {pathValid, stepGotValidPath, pathInvalid}
@@ -18,14 +16,14 @@ public class ActionHistoryObject {
     private boolean istVorTrackingPunkt_;
     private Aktion spielZug_;
 
-    public ActionHistoryObject(Aktion spielZug, boolean verursachtFehler, boolean istVorTrackingPunkt)
+    public ActionHistoryObject(Aktion spielZug, boolean istVorTrackingPunkt)
     {
         path_ = 0;
         step_ = 0;
         zurueck_ = false;
         alternativeSpielzuege_ = new Vector<LinkedList<ActionHistoryObject>>();
         spielZug_ = spielZug;
-        verursachtFehler_ = verursachtFehler;
+        verursachtFehler_ = false;
         istVorTrackingPunkt_ = istVorTrackingPunkt;
     }
 
@@ -42,6 +40,11 @@ public class ActionHistoryObject {
 
     public void setzeTrackingPunktNachDiesemZug(boolean istVorTrackingPunkt) {
         istVorTrackingPunkt_ = istVorTrackingPunkt;
+    }
+
+    public void setzeFehlerhaft(boolean fehler)
+    {
+        verursachtFehler_ = fehler;
     }
 
     public boolean istVorTrackingPunkt() {
@@ -98,7 +101,6 @@ public class ActionHistoryObject {
 
     public PathAndStepStatus traverse(boolean zurueck)
     {
-        System.out.print(" path: " + path_ + " step: " + step_);
         if(!hasAlternativePaths())
         {
             replayMove(zurueck);

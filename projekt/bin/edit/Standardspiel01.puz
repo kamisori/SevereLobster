@@ -132,7 +132,7 @@
     </propertyfile>
     <userpropertyFile>
       <property name="user.language" value="de"/>
-      <property name="user.avatar" value="spielinfo_w1.jpg"/>
+      <property name="user.avatar" value="spielinfo_m2.jpg"/>
     </userpropertyFile>
   </resourceManager>
   <listeners serialization="custom">
@@ -273,15 +273,6 @@
     <spielmodus>EDITIEREN</spielmodus>
   </currentSpielfeld>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
-  <spielZuege>
-    <spielzuege__>
-      <severeLobster.backend.spiel.ActionHistoryObject>
-        <alternativeSpielzuege__/>
-        <verursachtFehler__>false</verursachtFehler__>
-        <istVorTrackingPunkt__>false</istVorTrackingPunkt__>
-      </severeLobster.backend.spiel.ActionHistoryObject>
-    </spielzuege__>
-  </spielZuege>
   <trackingPunkte serialization="custom">
     <unserializable-parents/>
     <vector>
