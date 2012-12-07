@@ -4,6 +4,7 @@ import infrastructure.ResourceManager;
 import infrastructure.components.Koordinaten;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
+import severeLobster.backend.spiel.SolvingStrategy;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
@@ -50,6 +51,16 @@ public class EditiermodusView extends JPanel {
         loesungswegBtn.setOpaque(false);
         loesungswegBtn.setLocation(90, 288);
         loesungswegBtn.setVisible(true);
+
+        loesungswegBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                EditiermodusView.this.backend.getSpiel().getSpielfeld().loesungswegUeberpruefen();
+            }
+        });
+
+
         add(loesungswegLabel);
         add(loesungswegBtn);
 

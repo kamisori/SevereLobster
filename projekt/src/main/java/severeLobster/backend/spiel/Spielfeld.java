@@ -214,6 +214,23 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     }
 
     /**
+     * Zaehlt die Moeglichen Sterne auf dem Spielfeld.
+     *
+     * @return result Die Anzahl der Moeglichen Sterne auf dem Spielfeld.
+     */
+    public int countMoeglicheSterne() {
+        int result = 0;
+        for (Spielstein[] zeile : visibleSteine) {
+            for (Spielstein stein : zeile) {
+                if (stein instanceof MoeglicherStern)
+                    result++;
+            }
+        }
+        return result;
+    }
+
+
+    /**
      * Schaetzt anhand der Groesse des Spielfeldes und den Verhaeltnisen
      * zwischen Pfeilen und Sternen sowie zwischen belegten und unbelegten
      * Spielfeldern einen Schwierigkeitsgrad
@@ -602,7 +619,13 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
     }
 
     public boolean loesungswegUeberpruefen() {
-        return true;
+
+        //TODO: flexibler gestalten, erstmal nur zum ausprobieren!
+        SolvingStrategyStandard strategy = new SolvingStrategyStandard();
+        System.out.println(strategy.isSolvable(this));
+        return strategy.isSolvable(this);
+
+        //return true;
     }
 
     /**
