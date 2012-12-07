@@ -277,10 +277,15 @@
     <spielzuege__>
       <severeLobster.backend.spiel.ActionHistoryObject>
         <alternativeSpielzuege__/>
+        <path__>0</path__>
+        <step__>0</step__>
+        <zurueck__>false</zurueck__>
         <verursachtFehler__>false</verursachtFehler__>
         <istVorTrackingPunkt__>false</istVorTrackingPunkt__>
       </severeLobster.backend.spiel.ActionHistoryObject>
     </spielzuege__>
+    <currentAHO__>1</currentAHO__>
+    <currentVisibleStep__>0</currentVisibleStep__>
   </spielZuege>
   <trackingPunkte serialization="custom">
     <unserializable-parents/>
@@ -306,7 +311,7 @@
   <anzahlZuege>0</anzahlZuege>
   <spielStoppUhr>
     <summeDerBisherigenMessungen>0</summeDerBisherigenMessungen>
-    <aktuelleMessungAbsoluterStartZeitpunkt>1354607465869</aktuelleMessungAbsoluterStartZeitpunkt>
+    <aktuelleMessungAbsoluterStartZeitpunkt>1354868055066</aktuelleMessungAbsoluterStartZeitpunkt>
     <messungLaeuft>false</messungLaeuft>
   </spielStoppUhr>
   <spielZeit>--</spielZeit>
