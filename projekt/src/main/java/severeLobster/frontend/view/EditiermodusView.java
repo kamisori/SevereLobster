@@ -18,13 +18,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
  * View des Editiermodus
- * 
+ *
  * @author Lars Schlegelmilch
  */
 public class EditiermodusView extends JPanel {
@@ -45,9 +46,10 @@ public class EditiermodusView extends JPanel {
         loesungswegLabel.setOpaque(false);
         loesungswegLabel.setLocation(15, 288);
         loesungswegLabel.setVisible(true);
-        JButton loesungswegBtn = new JButton("Check"); // TODO durch Image
-                                                       // ersetzen
-        loesungswegBtn.setSize(70, 50);
+        JButton loesungswegBtn = new JButton(resourceManager.getImageIcon("checkLoesungsweg.png"));
+        loesungswegBtn.setSize(53, 53);
+        loesungswegBtn.setMargin(new Insets(1, 1, 1, 1));
+        loesungswegBtn.setFocusable(false);
         loesungswegBtn.setOpaque(false);
         loesungswegBtn.setLocation(90, 288);
         loesungswegBtn.setVisible(true);
@@ -71,9 +73,11 @@ public class EditiermodusView extends JPanel {
         groesseAendernLabel.setOpaque(false);
         groesseAendernLabel.setLocation(15, 380);
         groesseAendernLabel.setVisible(true);
-        JButton groesseAendernBtn = new JButton("Change"); // TODO durch Image
-                                                           // ersetzen
-        groesseAendernBtn.setSize(70, 50);
+
+        JButton groesseAendernBtn = new JButton(resourceManager.getImageIcon("groesser.png"));
+        groesseAendernBtn.setMargin(new Insets(1, 1, 1, 1));
+        groesseAendernBtn.setFocusable(false);
+        groesseAendernBtn.setSize(53, 53);
         groesseAendernBtn.setOpaque(false);
         groesseAendernBtn.setLocation(90, 380);
         groesseAendernBtn.setVisible(true);
@@ -84,9 +88,10 @@ public class EditiermodusView extends JPanel {
             public void actionPerformed(ActionEvent arg0) {
                 Koordinaten koordinaten = SpielfeldGroessenDialog
                         .show(MainFrame.frame);
-
-                EditiermodusView.this.backend.aendereSpielfeldGroesse(
-                        koordinaten.getX(), koordinaten.getY());
+                if (koordinaten != null) {
+                    EditiermodusView.this.backend.aendereSpielfeldGroesse(
+                            koordinaten.getX(), koordinaten.getY());
+                }
             }
         });
         add(groesseAendernLabel);

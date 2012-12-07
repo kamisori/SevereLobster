@@ -213,13 +213,20 @@ public class MainFrame extends JMenuBar implements Runnable {
                                             resourceManager
                                                     .getText("mainFrame.freigabe.freigegeben.title"),
                                             JOptionPane.INFORMATION_MESSAGE);
-                        int reply = javax.swing.JOptionPane.showConfirmDialog(frame,
-                                resourceManager.getText("mainFrame.upload.body"),
-                                resourceManager.getText("mainFrame.upload.title"),
-                                javax.swing.JOptionPane.YES_NO_OPTION);
-                        if (reply == JOptionPane.YES_OPTION) {
-                            mainPanel.getBackend().uploadPuzzle(savename);
-                        }
+                            if (MainView.ftpConnector.isOnline()) {
+                                int reply = javax.swing.JOptionPane
+                                        .showConfirmDialog(
+                                                frame,
+                                                resourceManager
+                                                        .getText("mainFrame.upload.body"),
+                                                resourceManager
+                                                        .getText("mainFrame.upload.title"),
+                                                javax.swing.JOptionPane.YES_NO_OPTION);
+                                if (reply == JOptionPane.YES_OPTION) {
+                                    mainPanel.getBackend().uploadPuzzle(
+                                            savename);
+                                }
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (LoesungswegNichtEindeutigException e) {
@@ -244,8 +251,12 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("optionen.fadenkreuz"))) {
-                    optionenFadenkreuz.setEnabled(optionenFadenkreuz.isEnabled());
-                    //TODO Fadenkreuz anzeigen
+                    if (optionenFadenkreuz.isSelected()) {
+                        backend.setFadenkreuzAktiviert(true);
+                    } else {
+                        backend.setFadenkreuzAktiviert(false);
+                    }
+
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("optionen.avatar"))) {
@@ -271,63 +282,80 @@ public class MainFrame extends JMenuBar implements Runnable {
         jm_Spiel.add(item = new JMenuItem(resourceManager
                 .getText("neues.spiel.text")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("neu.png"));
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("load.text")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("load.png"));
         jm_Spiel.add(itemSave = new JMenuItem(resourceManager
                 .getText("save.text")));
         itemSave.setEnabled(false);
         itemSave.addActionListener(menuAction);
+        itemSave.setIcon(resourceManager.getImageIcon("save.png"));
         jm_Spiel.add(itemSaveAs = new JMenuItem(resourceManager
                 .getText("save.as.text")));
+        itemSaveAs.setIcon(resourceManager.getImageIcon("saveas.png"));
         itemSaveAs.setEnabled(false);
         itemSaveAs.addActionListener(menuAction);
         jm_Spiel.add(item = new JMenuItem(resourceManager.getText("exit.text")));
         item.addActionListener(menuAction);
-
+        item.setIcon(resourceManager.getImageIcon("ende.png"));
         jm_Editieren.add(item = new JMenuItem(resourceManager
                 .getText("puzzle.erstellen")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("edit.png"));
         jm_Editieren.add(item = new JMenuItem(resourceManager
                 .getText("load.puzzle")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("load.png"));
         jm_Editieren.add(puzzleSave = new JMenuItem(resourceManager
                 .getText("save.puzzle")));
         puzzleSave.setEnabled(false);
+        puzzleSave.setIcon(resourceManager.getImageIcon("save.png"));
         puzzleSave.addActionListener(menuAction);
         jm_Editieren.add(puzzleSaveAs = new JMenuItem(resourceManager
                 .getText("save.as.puzzle")));
+        puzzleSaveAs.setIcon(resourceManager.getImageIcon("saveas.png"));
         puzzleSaveAs.setEnabled(false);
         puzzleSaveAs.addActionListener(menuAction);
         jm_Editieren.add(puzzleFreigeben = new JMenuItem(resourceManager
                 .getText("puzzle.freigeben")));
         puzzleFreigeben.setEnabled(false);
+        puzzleFreigeben.setIcon(resourceManager.getImageIcon("freigeben.png"));
         puzzleFreigeben.addActionListener(menuAction);
         jm_Editieren.add(puzzleCheck = new JMenuItem(resourceManager
                 .getText("check.puzzle")));
         puzzleCheck.setEnabled(false);
+        puzzleCheck.setIcon(resourceManager.getImageIcon("check.png"));
         puzzleCheck.addActionListener(menuAction);
 
         jm_Extras.add(item = new JMenuItem(resourceManager
                 .getText("download.puzzles")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("download.png"));
+        jm_Optionen.add(optionenFadenkreuz = new JCheckBoxMenuItem(
+                resourceManager.getText("optionen.fadenkreuz")));
+        optionenFadenkreuz.setSelected(backend.istFadenkreuzAktiviert());
+        optionenFadenkreuz.addActionListener(menuAction);
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.sprache")));
         item.addActionListener(menuAction);
-        jm_Optionen.add(optionenFadenkreuz = new JCheckBoxMenuItem(resourceManager
-                .getText("optionen.fadenkreuz")));
-        optionenFadenkreuz.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("language.png"));
         jm_Optionen.add(item = new JMenuItem(resourceManager
                 .getText("optionen.avatar")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("avatar.png"));
         jm_Hilfe.add(item = new JMenuItem(resourceManager
                 .getText("hilfe.user.manual")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("docu.png"));
         jm_Hilfe.add(item = new JMenuItem(resourceManager
                 .getText("hilfe.kontakt")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("kontakt.png"));
         jm_Hilfe.add(item = new JMenuItem(resourceManager
                 .getText("hilfe.about")));
         item.addActionListener(menuAction);
+        item.setIcon(resourceManager.getImageIcon("about.png"));
 
         jm_Spiel.insertSeparator(4);
 
@@ -413,7 +441,7 @@ public class MainFrame extends JMenuBar implements Runnable {
     private void anleitungOeffnen() {
         Desktop desktop = Desktop.getDesktop();
         File anleitungFile = new File(GlobaleKonstanten.DEFAULT_DOC_SAVE_DIR,
-                "index.html");
+                "Sternenhimmel DELUXE.html");
         try {
             if (!Desktop.isDesktopSupported()) {
                 throw new IOException();

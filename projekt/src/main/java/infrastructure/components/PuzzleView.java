@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * TODO Beschreibung angeben
+ * Manipulierte View um nicht Verzeichnis zu wechseln
  * 
  * @author Lars Schlegelmilch
  */

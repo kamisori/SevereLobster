@@ -43,7 +43,7 @@ public abstract class GlobaleKonstanten {
     /**
      * Mindestgroesse der Applikation
      */
-    public static final Dimension MINIMUM_APP_SIZE = new Dimension(800, 600);
+    public static final Dimension MINIMUM_APP_SIZE = new Dimension(850, 650);
 
     /**
      * Standardverzeichnis fuer gespeicherte Spiele
@@ -62,6 +62,7 @@ public abstract class GlobaleKonstanten {
      */
     public static final File DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR = getDefaultFreigegebenePuzzleSaveDir();
 
+    public static final String DEFAULT_SOUND_DIR = getDefaultSoundDir();
 
     /**
      * Gibt das Standardverzeichnis fuer gespeicherte Spiele zurueck - wenn es
@@ -156,5 +157,10 @@ public abstract class GlobaleKonstanten {
         } else {
             return spielverzeichnis;
         }
+    }
+    private static String getDefaultSoundDir() {
+     
+            return "./bin/sound";
+        
     }
 }

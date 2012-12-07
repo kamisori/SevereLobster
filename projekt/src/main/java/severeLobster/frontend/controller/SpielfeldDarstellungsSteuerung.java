@@ -14,8 +14,11 @@ import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.view.PopupMenuForSpielsteinChoice;
 import severeLobster.frontend.view.SpielfeldDarstellung;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
+import javax.swing.JLabel;
 
 /**
  * Steuerung fuer SpielfeldView. Verbindet SternenSpielApplicationBackend und
@@ -102,7 +105,20 @@ public class SpielfeldDarstellungsSteuerung {
     }
 
     public void spielSteinEntered(int x, int y, MouseEvent mouseEvent) {
-        spielfeldDarstellung.highlightSpielstein(x, y);
+        highlightSpielsteine(x, y, mouseEvent);
+    }
+
+    public void spielSteinExited(int x, int y, MouseEvent mouseEvent) {
+        spielfeldDarstellung.unhighlightAll();
+    }
+
+    private void highlightSpielsteine(int x, int y, MouseEvent mouseEvent) {
+        final Color cursorCenterColor = Color.white;
+        final Color crosshairCenterColor = Color.red;
+        final Color crosshairCursorColor = Color.white;
+        final Color pfeilrichtungColor = Color.yellow;
+        final Color aufSternZeigenderPfeilColor = Color.green;
+
         /* Wenn Pfeil, Zeigerichtung highlighten */
         final Spielstein stein = backend.getSpielstein(x, y);
         if (stein instanceof Pfeil) {
@@ -122,18 +138,91 @@ public class SpielfeldDarstellungsSteuerung {
                  * keine Pfeile sind.
                  */
                 if (!(backend.getSpielstein(aktK.getX(), aktK.getY()) instanceof Pfeil)) {
-                    spielfeldDarstellung.highlightSpielsteinInPfeilrichtung(
-                            aktK.getX(), aktK.getY());
+                    spielfeldDarstellung.highlightSpielstein(aktK.getX(),
+                            aktK.getY(), pfeilrichtungColor);
 
                 }
                 aktK = aktK.getSummeWith(richtungsVektor);
-
             }
         }
-    }
 
-    public void spielSteinExited(int x, int y, MouseEvent mouseEvent) {
-        spielfeldDarstellung.unhighlightAll();
+        /* Alle Pfeile highlighten, die auf Sterne zeigen */
+        if (stein instanceof Stern) {
+
+            /*
+             * Um jeden Pfeil zu finden, der darauf zeigt, durchlaufe das
+             * Spielfeld von oben links nach unten rechts und tu was bei Treffen
+             * auf einen Pfeil:
+             */
+            Spielstein aktSpielstein;
+            for (int zeilenIndex = 0; zeilenIndex < backend.getSpielfeldHoehe(); zeilenIndex++) {
+
+                for (int spaltenIndex = 0; spaltenIndex < backend
+                        .getSpielfeldBreite(); spaltenIndex++) {
+
+                    aktSpielstein = backend.getSpielstein(spaltenIndex,
+                            zeilenIndex);
+                    /*
+                     * Bei Pfeil, Richtung des Pfeils ablaufen und schauen, ob
+                     * man auf den Stern trifft.
+                     */
+                    if (aktSpielstein instanceof Pfeil) {
+                        final Koordinaten pfeilrichtung = ((Pfeil) aktSpielstein)
+                                .getRichtungsKoordinaten();
+                        final Koordinaten sternPunkt = new Koordinaten(x, y);
+                        Koordinaten punkt = new Koordinaten(spaltenIndex,
+                                zeilenIndex);
+
+                        while (punkt.getX() > -1
+                                && punkt.getY() > -1
+                                && punkt.getX() < spielfeldDarstellung
+                                        .getAngezeigteSpaltenAnzahl()
+                                && punkt.getY() < spielfeldDarstellung
+                                        .getAngezeigteZeilenAnzahl()) {
+                            if (sternPunkt.equals(punkt)) {
+                                spielfeldDarstellung.highlightSpielstein(
+                                        spaltenIndex, zeilenIndex,
+                                        aufSternZeigenderPfeilColor);
+                                break;
+                            }
+                            punkt = punkt.getSummeWith(pfeilrichtung);
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+         * Folgendes ueberdeckt bereits gemachtes highlighting, da es immer
+         * angezeigt werden soll.
+         */
+
+        /* Fadenkreuz zeichnen */
+        if (backend.istFadenkreuzAktiviert()) {
+            /* Von Nord nach sued alles highlighten */
+            for (int zeilenIndex = 0; zeilenIndex < spielfeldDarstellung
+                    .getAngezeigteZeilenAnzahl(); zeilenIndex++) {
+                spielfeldDarstellung.highlightSpielstein(x, zeilenIndex,
+                        crosshairCursorColor);
+            }
+
+            /* Von Ost nach west alles highlighten */
+            for (int spaltenIndex = 0; spaltenIndex < spielfeldDarstellung
+                    .getAngezeigteSpaltenAnzahl(); spaltenIndex++) {
+                spielfeldDarstellung.highlightSpielstein(spaltenIndex, y,
+                        crosshairCursorColor);
+            }
+
+        }
+
+        /* Cursor Zentrum highlighten */
+        if (backend.istFadenkreuzAktiviert()) {
+            spielfeldDarstellung
+                    .highlightSpielstein(x, y, crosshairCenterColor);
+        } else {
+            spielfeldDarstellung.highlightSpielstein(x, y, cursorCenterColor);
+        }
+
     }
 
     private SpielmodusEnumeration getSpielmodus() {

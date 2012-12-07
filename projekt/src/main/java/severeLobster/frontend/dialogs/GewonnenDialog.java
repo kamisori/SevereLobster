@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.Locale;
 
 /**
  * Gewonnen-Dialog der Application
@@ -15,7 +16,6 @@ import java.awt.Component;
  * @author Lars Schlegelmilch
  */
 public class GewonnenDialog extends JOptionPane {
-    // TODO Texte in Properties auslagern
     private static final ResourceManager resourceManager = ResourceManager.get();
 
     public static final String neues_spiel_starten = resourceManager.getText("win.start.new.game");
@@ -28,13 +28,25 @@ public class GewonnenDialog extends JOptionPane {
     public static int show(Component parentComponent, int highscore,
             String spielzeit, int versuche) {
         JLabel title = new JLabel(resourceManager.getText("win.title"));
-        JLabel text = new JLabel(
+        JLabel text;
+        if (resourceManager.getLanguage().equals(Locale.GERMAN)) {
+        text = new JLabel(
                 "<html><body>Sie haben das Puzzle erfolgreich gelöst! <br>"
                         + "Bei einer Spielzeit von " + spielzeit
                         + " Sekunden haben Sie " + versuche
                         + " Versuche benötigt. <br>"
                         + "Ihre Highscore beträgt sagenhafte " + highscore
                         + " Punkte!");
+        }
+        else {
+            text = new JLabel(
+                    "<html><body>The Puzzle were successfully solved! <br>"
+                            + "You have played " + spielzeit
+                            + " Seconds and you needed " + versuche
+                            + " Attempts. <br>"
+                            + "Your Highscore is " + highscore
+                            + " Points!");
+        }
         title.setFont(GlobaleKonstanten.FONT.deriveFont((float) 20));
         title.setVisible(true);
         text.setVisible(true);

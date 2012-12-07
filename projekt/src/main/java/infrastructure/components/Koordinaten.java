@@ -65,4 +65,10 @@ public class Koordinaten {
         return new Koordinaten(summand1.getX() + summand2.getX(),
                 summand1.getY() + summand2.getY());
     }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return (null != obj && obj instanceof Koordinaten
+                && ((Koordinaten) obj).x == this.x && ((Koordinaten) obj).y == this.y);
+    }
 }
