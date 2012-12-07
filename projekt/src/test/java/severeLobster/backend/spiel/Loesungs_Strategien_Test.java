@@ -111,13 +111,13 @@ public class Loesungs_Strategien_Test {
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
         spielfeld.setSpielstein(3, 1, Pfeil.getSuedWestPfeil());
 
-        // Spielmodus auf LOESEN setzen
-        spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
-
         // Sterne setzen
         spielfeld.setSpielstein(2, 0, Stern.getInstance());
         spielfeld.setSpielstein(0, 2, Stern.getInstance());
         spielfeld.setSpielstein(2, 2, Stern.getInstance());
+
+        // Spielmodus auf LOESEN setzen
+        spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
 
         SolvingStep step = new SolvingStepCheckZeroColumns();
         spielfeld = step.execute(spielfeld);
@@ -139,13 +139,13 @@ public class Loesungs_Strategien_Test {
         spielfeld.setSpielstein(0, 1, Pfeil.getSuedPfeil());
         spielfeld.setSpielstein(3, 1, Pfeil.getSuedWestPfeil());
 
-        // Spielmodus auf LOESEN setzen
-        spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
-
         // Sterne setzen
         spielfeld.setSpielstein(2, 0, Stern.getInstance());
         spielfeld.setSpielstein(0, 2, Stern.getInstance());
         spielfeld.setSpielstein(2, 2, Stern.getInstance());
+
+        // Spielmodus auf LOESEN setzen
+        spielfeld.setSpielmodus(SpielmodusEnumeration.LOESEN);
 
         SolvingStep step = new SolvingStepCheckZeroRows();
         spielfeld = step.execute(spielfeld);
@@ -203,5 +203,7 @@ public class Loesungs_Strategien_Test {
         assertEquals(Ausschluss.getInstance(), spielfeld.getSpielstein(0, 0));
 
     }
+
+
 
 }
