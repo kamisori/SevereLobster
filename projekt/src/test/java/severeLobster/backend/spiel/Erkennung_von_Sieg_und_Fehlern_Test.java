@@ -40,25 +40,17 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
         // Stern da, Stern getippt
         switchToEditor();
         spielfeld.setSpielstein(0, 0, Stern.getInstance());
+        // kein Stern, nichts getippt
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
+        // kein Stern, getippt dass dort keiner ist
+        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
+        // Pfeil, Pfeil muss auch angezeigt werden
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
+
         switchToSpielen();
         spielfeld.setSpielstein(0, 0, Stern.getInstance());
-
-        // kein Stern, nichts getippt
-        switchToEditor();
         spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
-        switchToSpielen();
-        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
-
-        // kein Stern, getippt dass dort keiner ist
-        switchToEditor();
-        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
-        switchToSpielen();
         spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
-
-        // Pfeil, Pfeil muss auch angezeigt werden
-        switchToEditor();
-        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
-        switchToSpielen();
         spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
 
         assertTrue(testSpiel.isSolved());
@@ -85,25 +77,20 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
         // Stern da, Stern getippt
         switchToEditor();
         spielfeld.setSpielstein(0, 0, Stern.getInstance());
-        switchToSpielen();
-        spielfeld.setSpielstein(0, 0, Stern.getInstance());
-
         // kein Stern, nichts getippt
         switchToEditor();
         spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
-        switchToSpielen();
-        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
-
         // kein Stern, getippt dass dort keiner ist
         switchToEditor();
         spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
-        switchToSpielen();
-        spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
-
         // Pfeil, Pfeil muss auch angezeigt werden
         switchToEditor();
         spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
+
         switchToSpielen();
+        spielfeld.setSpielstein(0, 0, Stern.getInstance());
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
+        spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
         spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
 
         assertTrue(testSpiel.isSolved());
@@ -123,25 +110,17 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
         // dass hier ein Stern liegt)
         switchToEditor();
         spielfeld.setSpielstein(0, 0, Stern.getInstance());
+        // kein Stern, nichts getippt
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
+        // kein Stern, getippt dass dort keiner ist
+        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
+        // Pfeil, Pfeil muss auch angezeigt werden
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
+
         switchToSpielen();
         spielfeld.setSpielstein(0, 0, KeinStein.getInstance());
-
-        // kein Stern, nichts getippt
-        switchToEditor();
         spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
-        switchToSpielen();
-        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
-
-        // kein Stern, getippt dass dort keiner ist
-        switchToEditor();
-        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
-        switchToSpielen();
         spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
-
-        // Pfeil, Pfeil muss auch angezeigt werden
-        switchToEditor();
-        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
-        switchToSpielen();
         spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
 
         assertFalse(testSpiel.hasErrors());
@@ -158,25 +137,17 @@ public class Erkennung_von_Sieg_und_Fehlern_Test {
         // Stern da, Stern getippt
         switchToEditor();
         spielfeld.setSpielstein(0, 0, Stern.getInstance());
+        // kein Stern, Stern getippt (hier tritt der Fehler auf)
+        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
+        // kein Stern, getippt dass dort keiner ist
+        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
+        // Pfeil, Pfeil muss auch angezeigt werden
+        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
+
         switchToSpielen();
         spielfeld.setSpielstein(0, 0, Stern.getInstance());
-
-        // kein Stern, Stern getippt (hier tritt der Fehler auf)
-        switchToEditor();
-        spielfeld.setSpielstein(0, 1, KeinStein.getInstance());
-        switchToSpielen();
         spielfeld.setSpielstein(0, 1, Stern.getInstance());
-
-        // kein Stern, getippt dass dort keiner ist
-        switchToEditor();
-        spielfeld.setSpielstein(1, 0, KeinStein.getInstance());
-        switchToSpielen();
         spielfeld.setSpielstein(1, 0, Ausschluss.getInstance());
-
-        // Pfeil, Pfeil muss auch angezeigt werden
-        switchToEditor();
-        spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
-        switchToSpielen();
         spielfeld.setSpielstein(1, 1, Pfeil.getNordWestPfeil());
 
         assertTrue(testSpiel.hasErrors());
