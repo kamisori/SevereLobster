@@ -12,14 +12,9 @@ import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.GewonnenDialog;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.EventListenerList;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Stack;
 
 /**
@@ -53,7 +48,6 @@ public class Spiel {
     /**
      * Spielfeld wird mit Standardfeld initialisiert. Nach der Erstellung ist
      * man im Spielmodus Editieren.
-     *
      */
     public Spiel() {
         this.spielStoppUhr = new StoppUhr();
@@ -115,14 +109,14 @@ public class Spiel {
                 int result = GewonnenDialog.show(null,
                         getHighscore(), getSpielZeit(),
                         getAnzahlZuege());
-
-                if (GewonnenDialog.neues_spiel_starten
+                if (result == -1) {
+                    MainFrame.mainPanel.addMenuPanel();
+                } else if (GewonnenDialog.neues_spiel_starten
                         .equals(GewonnenDialog.options[result])) {
                     MainFrame.neuesSpielOeffnen();
                 } else if (GewonnenDialog.zurueck_zum_menue
                         .equals(GewonnenDialog.options[result])) {
                     MainFrame.mainPanel.addMenuPanel();
-
                 } else if (GewonnenDialog.spiel_beenden
                         .equals(GewonnenDialog.options[result])) {
                     System.exit(0);
