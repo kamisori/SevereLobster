@@ -163,6 +163,11 @@ public class SpielfeldDarstellung extends JPanel {
 
         /* Nimm alles bisherige aus dem Panel raus */
         this.removeAll();
+        /*
+         * Bugfix: Damit bei Groessenaenderung nicht mehrere Panels
+         * uebereinander gezeichnet werden
+         */
+        this.updateUI();
 
         /*
          * Intitialisiere Layout immer neu. Zu Spalten- und Zeilenanzahl kommt
@@ -314,7 +319,7 @@ public class SpielfeldDarstellung extends JPanel {
                 this.spielsteinDarstellungen[currentKoordinate.getX()][currentKoordinate
                         .getY()].setBorder(BorderFactory
                         .createLineBorder(Color.DARK_GRAY));
-            } catch(ArrayIndexOutOfBoundsException e) {
+            } catch (ArrayIndexOutOfBoundsException e) {
                 validate();
                 repaint();
             }
