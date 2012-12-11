@@ -54,6 +54,19 @@ public class SolvingStrategyStandard implements SolvingStrategy {
         // Sichtbare Sterne und Ausschluss leeren, damit auf diesem Spielfeld geloest werden kann
         solvedField = clearVisibles(solvedField);
 
+        // DEBUG AUSGABEN
+        /*
+        System.out.println("Vor dem Lösen, aber nach clearVisibles:");
+
+        System.out.println(solvedField.getSpielstein(0,0));
+        System.out.println(solvedField.getSpielstein(1,0));
+        System.out.println(solvedField.getSpielstein(2,0));
+        System.out.println(solvedField.getSpielstein(0,1));
+        System.out.println(solvedField.getSpielstein(1,1));
+        System.out.println(solvedField.getSpielstein(2,1));
+        */
+        // ENDE DEBUG
+
         // Einmal-Schritte ausführen
         SolvingStep[] initialSteps = new SolvingStep[]{
                 new SolvingStepPossibleStars(),
@@ -65,6 +78,24 @@ public class SolvingStrategyStandard implements SolvingStrategy {
             solvedField = currentStep.execute(solvedField);
         }
 
+        int anfangsmoeglich = solvedField.countMoeglicheSterne();
+        System.out.println(anfangsmoeglich+ " mögliche Sterne nach den initialen Schritten");
+
+        // DEBUG AUSGABEN
+        /*
+        System.out.println("Initiale Schritte:");
+
+        System.out.println(solvedField.getSpielstein(0,0));
+        System.out.println(solvedField.getSpielstein(1,0));
+        System.out.println(solvedField.getSpielstein(2,0));
+        System.out.println(solvedField.getSpielstein(0,1));
+        System.out.println(solvedField.getSpielstein(1,1));
+        System.out.println(solvedField.getSpielstein(2,1));
+        int debugCounter = 1;
+        */
+        // ENDE DEBUG
+
+
         // Schritte ausführen die mehrmals aufgerufen werden
         SolvingStep[] stepsPerRound = new SolvingStep[]{
                 new SolvingStepMissingStarsInColumn(),
@@ -74,13 +105,31 @@ public class SolvingStrategyStandard implements SolvingStrategy {
                 new SolvingStepSingleStarBeforeArrow()
         };
 
+        //if (solvedField.isSolved()) System.out.println("isSolved ist true");
+
         boolean abbruch = false;
         while (!solvedField.isSolved() && !abbruch) {
+            // DEBUG AUSGABEN
+
+            //System.out.println("Durchlauf #"+debugCounter);
+            int moeglich = solvedField.countMoeglicheSterne();
+            System.out.println(moeglich+ " mögliche Sterne vor Durchgang");
+            System.out.println(solvedField.getSpielstein(0,0));
+            System.out.println(solvedField.getSpielstein(1,0));
+            System.out.println(solvedField.getSpielstein(2,0));
+            System.out.println(solvedField.getSpielstein(0,1));
+            System.out.println(solvedField.getSpielstein(1,1));
+            System.out.println(solvedField.getSpielstein(2,1));
+            //debugCounter++;
+
+            // ENDE DEBUG
 
             Spielfeld before = new Spielfeld(solvedField);
 
             for (SolvingStep currentStep : stepsPerRound) {
                 solvedField = currentStep.execute(solvedField);
+                moeglich = solvedField.countMoeglicheSterne();
+                System.out.println(moeglich+ " mögliche Sterne nach Schritt");
             }
 
             /**
@@ -95,17 +144,31 @@ public class SolvingStrategyStandard implements SolvingStrategy {
 
         // Das Spielfeld ist nicht, oder nicht eindeutig loesbar
         if (abbruch) {
+            System.out.println("Spiel ist nicht oder nicht eindeutig loesbar");
+            int moeglich = solvedField.countMoeglicheSterne();
+            System.out.println(moeglich+ " mögliche Sterne");
+            ArrayList<Koordinaten> loesungswegEinsprungspunkte = new ArrayList();
 
-            ArrayList loesungswegEinsprungspunkte = new ArrayList();
-
-            for (int i = 1; i <= solvedField.countMoeglicheSterne(); i++) {
+            for (int i = 0; i < moeglich; i++) {
 
                 Spielfeld raten = new Spielfeld(solvedField);
+                try {
+                    raten.setSpielmodus(SpielmodusEnumeration.LOESEN);
+                } catch (LoesungswegNichtEindeutigException e) {
+                    /*
+                    * Try-Catch nur formal. Vorerst wird die Exception nur beim
+                    * Umstellen auf Spielmodus geworfen.
+                    */
+                    e.printStackTrace();
+                }
+
 
                 // einen möglichen Stern setzen
-                Point nextGuess = nextPossibleStar(solvedField, i - 1);
+                Koordinaten nextGuess = nextPossibleStar(raten, i);
+                System.out.println("nextGuess: "+nextGuess);
                 loesungswegEinsprungspunkte.add(nextGuess);
-                raten.setSpielstein(nextGuess.x, nextGuess.y, Stern.getInstance());
+                System.out.println(loesungswegEinsprungspunkte);
+                raten.setSpielstein(nextGuess.getX(), nextGuess.getY(), Stern.getInstance());
 
 
                 // Wieder die Loesungsschritte anwenden
@@ -145,7 +208,7 @@ public class SolvingStrategyStandard implements SolvingStrategy {
      * @param offset die Anzahl der Sterne die übersprungen wird, bevor einer zurueckgegeben wird
      * @return Point mit den Koordinaten des nächstmöglichen Sterns
      */
-    private Point nextPossibleStar(Spielfeld input, int offset) {
+    private Koordinaten nextPossibleStar(Spielfeld input, int offset) {
         // Die Anzahl moeglicher Sterne auf die man beim Durchlaufen trifft
         int metPossibilities = 0;
 
@@ -154,7 +217,7 @@ public class SolvingStrategyStandard implements SolvingStrategy {
                 if (input.getSpielstein(colums, rows) instanceof MoeglicherStern) {
                     // Wurde die gewuenschte Anzahl gefundener Moeglichkeiten uebersprungen, wird die Position zurueckgegeben
                     if (offset == metPossibilities) {
-                        return new Point(colums, rows);
+                        return new Koordinaten(colums, rows);
                     }
                     metPossibilities++;
                 }

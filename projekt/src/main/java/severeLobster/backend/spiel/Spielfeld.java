@@ -576,6 +576,11 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
      * @return sieg
      */
     public boolean isSolved() {
+
+        if (countSterneGetippt() != countSterne()) {
+            return false;
+        }
+
         for (int i = 0; i < this.getBreite(); i++) {
 
             for (int k = 0; k < this.getHoehe(); k++) {
