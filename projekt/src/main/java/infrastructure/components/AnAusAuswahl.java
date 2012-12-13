@@ -1,4 +1,4 @@
-package severeLobster.frontend.view;
+package infrastructure.components;
 
 import infrastructure.ResourceManager;
 import infrastructure.constants.GlobaleKonstanten;

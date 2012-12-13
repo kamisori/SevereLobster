@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * Preview-Anzeige beim starten eines neuen Spiels
+ *
  * @author Lars Schlegelmilch
  */
 public class NewGamePreview extends JPanel implements PropertyChangeListener {
@@ -75,7 +77,6 @@ public class NewGamePreview extends JPanel implements PropertyChangeListener {
                 } catch (IOException e) {
                     System.out.println(resourceManager.getText("load.dialog.invalid.format"));
                 } catch (LoesungswegNichtEindeutigException e) {
-                 // TODO Vernuenftig loesen
                     e.printStackTrace();
                 }
                 if (spiel != null) {
@@ -94,7 +95,7 @@ public class NewGamePreview extends JPanel implements PropertyChangeListener {
 
     /**
      * Gibt das Spiel, aus dem Preview zurueck
-     * 
+     *
      * @return Spiel aus Preview
      */
     public Spiel getSpiel() {

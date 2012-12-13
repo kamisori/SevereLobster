@@ -21,6 +21,11 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Preview-Anzeige beim Laden eines Spiels
+ *
+ * @author Lars Schlegelmilch
+ */
 public class LoadGamePreview extends JPanel implements PropertyChangeListener {
 
     private final ResourceManager resourceManager = ResourceManager.get();

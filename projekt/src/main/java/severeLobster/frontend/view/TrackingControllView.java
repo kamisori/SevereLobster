@@ -1,6 +1,7 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
+import infrastructure.components.AnAusAuswahl;
 import severeLobster.frontend.controller.TrackingControllViewController;
 
 import javax.swing.*;

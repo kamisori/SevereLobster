@@ -9,9 +9,7 @@ import severeLobster.backend.spiel.Spielstein;
  * Primaeraktion - Primaere Aktion die vom Spieler aus gesteuert wird. (Z.B.
  * Mauslinksklick)
  * *************************************************************************
- * TODO: Im Spiel Modus wird ein Stern getoggelt.
  * *************************************************************************
- * TODO: Im Editmodus muss mit uebergeben werden welche Steinart (Stern/Pfeil)
  * gesetzt wird. Um die Richtung zu bestimmen koennte man auch mehrfach angaben
  * verwenden
  *

@@ -235,7 +235,6 @@ public class MainFrame extends JMenuBar implements Runnable {
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (LoesungswegNichtEindeutigException e) {
-                            // TODO Vernuenftig loesen
                             e.printStackTrace();
                         }
                     }

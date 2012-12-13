@@ -13,6 +13,11 @@ import infrastructure.components.Koordinaten;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Dialog zur Groessenaenderung
+ *
+ * @author Lars Schlegelmilch
+ */
 public class SpielfeldGroessenDialog {
 
     private final static ResourceManager resourceManager = ResourceManager.get();

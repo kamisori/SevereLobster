@@ -98,11 +98,12 @@ public class Spiel {
                                         t[0] = spielZuege.zeitrafferSchritt();
                                     }
                                 });
-                                Thread.sleep(500);
+                                Thread.sleep(300);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         } while (t[0]);
+                        spielZuege.zeitrafferCleanup();
                     }
                 }).start();
 

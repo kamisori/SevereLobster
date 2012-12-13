@@ -159,8 +159,6 @@ public abstract class GlobaleKonstanten {
         }
     }
     private static String getDefaultSoundDir() {
-     
             return "./bin/sound";
-        
     }
 }

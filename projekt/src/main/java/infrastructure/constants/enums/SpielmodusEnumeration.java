@@ -14,6 +14,9 @@ public enum SpielmodusEnumeration {
      */
     SPIELEN,
 
+    /**
+     * Spielmodus: Reploay - Das Spiel wird im Zeitraffer wiedergegeben
+     */
     REPLAY,
 
     /**
