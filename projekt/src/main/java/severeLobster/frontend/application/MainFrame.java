@@ -12,6 +12,7 @@ import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.exceptions.LoesungswegNichtEindeutigException;
+import severeLobster.backend.spiel.SolvingStrategy;
 import severeLobster.backend.spiel.Spiel;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.dialogs.AboutDialog;
@@ -205,7 +206,8 @@ public class MainFrame extends JMenuBar implements Runnable {
                         try {
                             mainPanel.getBackend()
                                     .saveCurrentPuzzleTo(savename);
-                            if (mainPanel.getBackend().puzzleFreigeben(savename)) {
+                            SolvingStrategy strategy = mainPanel.getBackend().puzzleFreigeben(savename);
+                            if (strategy.isSolvable() && strategy.isUnique()) {
                             JOptionPane
                                     .showMessageDialog(
                                             frame,
