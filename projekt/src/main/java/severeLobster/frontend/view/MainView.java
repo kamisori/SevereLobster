@@ -59,6 +59,10 @@ public class MainView extends JPanel {
         return spielInfoView;
     }
 
+    public EditiermodusView getEditiermodusView() {
+        return editiermodusView;
+    }
+
     public MainView(final SternenSpielApplicationBackend backend)
             throws IOException {
         this.backend = backend;
@@ -95,9 +99,9 @@ public class MainView extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (LoesungswegNichtEindeutigException e) {
-            // TODO Vernuenftig loesen
             e.printStackTrace();
         }
+        trackingView.aktualisiereTrackingIcons(getCurrentSpiel().getTrackingPunkte().size());
         JPanel spielfeldUndInfoViewPanel = new JPanel();
         spielfeldUndInfoViewPanel.setLayout(new BorderLayout());
         spielfeldUndInfoViewPanel.add(this.spielfeldDarstellung,

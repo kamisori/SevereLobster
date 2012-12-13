@@ -7,6 +7,7 @@
 package severeLobster.frontend.application;
 
 import infrastructure.ResourceManager;
+import infrastructure.components.BalloonTipManager;
 import infrastructure.components.PuzzleView;
 import infrastructure.components.SpielView;
 import infrastructure.constants.GlobaleKonstanten;
@@ -204,7 +205,7 @@ public class MainFrame extends JMenuBar implements Runnable {
                         try {
                             mainPanel.getBackend()
                                     .saveCurrentPuzzleTo(savename);
-                            mainPanel.getBackend().puzzleFreigeben(savename);
+                            if (mainPanel.getBackend().puzzleFreigeben(savename)) {
                             JOptionPane
                                     .showMessageDialog(
                                             frame,
@@ -227,6 +228,10 @@ public class MainFrame extends JMenuBar implements Runnable {
                                             savename);
                                 }
                             }
+                            } else {
+                                JOptionPane.showMessageDialog(MainFrame.frame, resourceManager.getText("mainFrame.freigabe.failed")
+                                        , resourceManager.getText("mainFrame.freigabe.failed.title"), JOptionPane.ERROR_MESSAGE);
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (LoesungswegNichtEindeutigException e) {
@@ -237,7 +242,9 @@ public class MainFrame extends JMenuBar implements Runnable {
                 }
                 if (event.getActionCommand().equals(
                         resourceManager.getText("check.puzzle"))) {
-
+                    new BalloonTipManager(mainPanel.getEditiermodusView().getLoesungswegBtn(),
+                            mainPanel.getBackend().getSpiel().getSpielfeld().loesungswegUeberpruefen())
+                    .showBalloonTip();
                 }
 
                 if (event.getActionCommand().equals(

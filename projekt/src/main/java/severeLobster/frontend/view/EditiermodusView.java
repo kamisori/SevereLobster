@@ -1,10 +1,10 @@
 package severeLobster.frontend.view;
 
 import infrastructure.ResourceManager;
+import infrastructure.components.BalloonTipManager;
 import infrastructure.components.Koordinaten;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
-import severeLobster.backend.spiel.SolvingStrategy;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
@@ -32,6 +32,7 @@ public class EditiermodusView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();
     private final SternenSpielApplicationBackend backend;
+    private final JButton loesungswegBtn;
 
     public EditiermodusView(SternenSpielApplicationBackend backend) {
         setLayout(null);
@@ -46,7 +47,7 @@ public class EditiermodusView extends JPanel {
         loesungswegLabel.setOpaque(false);
         loesungswegLabel.setLocation(15, 288);
         loesungswegLabel.setVisible(true);
-        JButton loesungswegBtn = new JButton(resourceManager.getImageIcon("checkLoesungsweg.png"));
+        loesungswegBtn = new JButton(resourceManager.getImageIcon("checkLoesungsweg.png"));
         loesungswegBtn.setSize(53, 53);
         loesungswegBtn.setMargin(new Insets(1, 1, 1, 1));
         loesungswegBtn.setFocusable(false);
@@ -58,10 +59,11 @@ public class EditiermodusView extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                EditiermodusView.this.backend.getSpiel().getSpielfeld().loesungswegUeberpruefen();
+                new BalloonTipManager(loesungswegBtn,
+                        EditiermodusView.this.backend.getSpiel().getSpielfeld().loesungswegUeberpruefen())
+                        .showBalloonTip();
             }
         });
-
 
         add(loesungswegLabel);
         add(loesungswegBtn);
@@ -97,6 +99,11 @@ public class EditiermodusView extends JPanel {
         add(groesseAendernLabel);
         add(groesseAendernBtn);
     }
+
+    public JButton getLoesungswegBtn() {
+        return loesungswegBtn;
+    }
+
 
     @Override
     public void paintComponent(Graphics g) {
