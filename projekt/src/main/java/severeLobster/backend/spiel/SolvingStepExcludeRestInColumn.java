@@ -29,7 +29,7 @@ public class SolvingStepExcludeRestInColumn implements SolvingStep {
     private int countGetippteSterne(Spielfeld input, int spalte) {
         int anzahl = 0;
         for (int zeile = 0; zeile < input.getHoehe(); zeile++) {
-            if (input.getSpielstein(zeile, spalte).equals(Stern.getInstance())) {
+            if (input.getSpielstein(spalte, zeile).equals(Stern.getInstance())) {
                 anzahl++;
             }
 
