@@ -20,6 +20,9 @@ import java.util.List;
  * @author Lars Schlegelmilch, Lutz Kleiber, Christian Lobach, Paul Bruell
  */
 public class Spielfeld implements Serializable, ISpielfeldReadOnly {
+
+    public SolvingStrategy strategie = new SolvingStrategyStandard();
+
     private final ResourceManager resourceManager = ResourceManager.get();
     /**
      * Liste mit den fuer die Spielfeldinstanz angemeldeten
