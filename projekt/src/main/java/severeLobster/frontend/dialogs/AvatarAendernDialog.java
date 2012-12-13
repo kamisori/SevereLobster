@@ -2,13 +2,19 @@ package severeLobster.frontend.dialogs;
 
 import infrastructure.ResourceManager;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import java.awt.Frame;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Dialog zur Aenderung des Avatars
+ *
+ * @author Lars Schlegelmilch
+ */
 public class AvatarAendernDialog extends JDialog {
 
     private final ResourceManager resourceManager = ResourceManager.get();

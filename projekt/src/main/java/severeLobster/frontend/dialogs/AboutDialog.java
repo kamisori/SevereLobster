@@ -3,14 +3,21 @@ package severeLobster.frontend.dialogs;
 import infrastructure.ResourceManager;
 import infrastructure.constants.GlobaleKonstanten;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
 /**
  * Erste Implementation des About Dialogs
+ *
  * @author Lars Schlegelmilch
  */
 public class AboutDialog extends JDialog {

@@ -5,6 +5,9 @@ import severeLobster.backend.spiel.ActionHistoryObject.PathAndStepStatus;
 
 import java.util.LinkedList;
 
+/**
+ * @author Paul Bruell
+ */
 public class ActionHistory {
     private final LinkedList<ActionHistoryObject> spielzuege_;
     private int currentAHO_;

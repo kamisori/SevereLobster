@@ -14,20 +14,20 @@ import java.util.Map;
 
 /**
  * Graphic Utils
- * 
+ *
+ * @author Lars Schlegelmilch
  */
 public class GraphicUtils {
 
     /**
      * Creates a "screenshot" of the given component.
-     * 
      */
     public static BufferedImage createComponentShot(final Component component) {
         if (component == null) {
             return null;
         }
 
-        if (component.isDisplayable() == false) {
+        if (!component.isDisplayable()) {
             Dimension d = component.getSize();
 
             if (d.width == 0 || d.height == 0) {
@@ -64,7 +64,7 @@ public class GraphicUtils {
      * Get a scaled image for the given size
      */
     public static BufferedImage getScaledIconImage(Image image, int width,
-            int height) {
+                                                   int height) {
         return getScaledIconImage(Collections.singletonList(image), width,
                 height);
     }
@@ -73,7 +73,7 @@ public class GraphicUtils {
      * Get best match image from list for the given size
      */
     public static BufferedImage getScaledIconImage(List<Image> imageList,
-            int width, int height) {
+                                                   int width, int height) {
         if (imageList == null || imageList.size() == 0 || width == 0
                 || height == 0) {
             return null;

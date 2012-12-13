@@ -15,6 +15,11 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.net.URL;
 
+/**
+ * View für die Spielinfo
+ *
+ * @author Jean-Fabian Wenisch, Lars Schlegelmilch
+ */
 public class SpielinfoView extends JPanel {
 
     private final ResourceManager resourceManager = ResourceManager.get();

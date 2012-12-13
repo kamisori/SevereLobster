@@ -63,7 +63,7 @@ public class SternenSpielApplicationBackend {
         try {
             currentlyPlayedSpiel.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         } catch (LoesungswegNichtEindeutigException e) {
-            e.printStackTrace(); // TODO ...
+            e.printStackTrace();
         }
     }
 

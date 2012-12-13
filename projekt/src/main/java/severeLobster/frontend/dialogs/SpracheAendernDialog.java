@@ -9,6 +9,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Dialog zur Sprachenaenderung
+ *
+ * @author Lars Schlegelmilch
+ */
 public class SpracheAendernDialog extends JDialog {
 
     private final ResourceManager resourceManager = ResourceManager.get();

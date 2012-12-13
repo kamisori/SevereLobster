@@ -34,6 +34,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Locale;
 
+/**
+ * MainView der Applikation
+ *
+ * @author Jean-Fabian Wenisch, Lars Schlegelmilch
+ */
 public class MainView extends JPanel {
 
     public static FTPConnector ftpConnector;
