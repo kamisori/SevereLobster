@@ -4,7 +4,6 @@ import infrastructure.components.Koordinaten;
 import infrastructure.constants.enums.SpielmodusEnumeration;
 import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**

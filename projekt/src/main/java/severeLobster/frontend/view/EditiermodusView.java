@@ -5,6 +5,7 @@ import infrastructure.components.BalloonTipManager;
 import infrastructure.components.Koordinaten;
 import infrastructure.constants.GlobaleKonstanten;
 import infrastructure.constants.enums.SchwierigkeitsgradEnumeration;
+import severeLobster.backend.spiel.SolvingStrategy;
 import severeLobster.backend.spiel.SternenSpielApplicationBackend;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.SpielfeldGroessenDialog;
@@ -34,7 +35,7 @@ public class EditiermodusView extends JPanel {
     private final SternenSpielApplicationBackend backend;
     private final JButton loesungswegBtn;
 
-    public EditiermodusView(SternenSpielApplicationBackend backend) {
+    public EditiermodusView(SternenSpielApplicationBackend backend, final SpielfeldDarstellung spielfeldDarstellung) {
         setLayout(null);
         this.backend = backend;
         setOpaque(false);
@@ -59,8 +60,19 @@ public class EditiermodusView extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                new BalloonTipManager(loesungswegBtn,
-                        EditiermodusView.this.backend.getSpiel().getSpielfeld().loesungswegUeberpruefen())
+                SolvingStrategy strategy = EditiermodusView.this.backend.getSpiel().getSpielfeld().loesungswegUeberpruefen();
+                if (strategy.getNotUnique() != null) {
+                    for (Koordinaten koordinaten : strategy.getNotUnique()) {
+                        spielfeldDarstellung.highlightSpielstein(koordinaten.getX(), koordinaten.getY(), Color.RED);
+                    }
+                }
+                if (strategy.getErrors() != null) {
+                    for (Koordinaten koordinaten : strategy.getErrors()) {
+                        spielfeldDarstellung.highlightSpielstein(koordinaten.getX(), koordinaten.getY(), Color.RED);
+                    }
+                }
+                new BalloonTipManager(loesungswegBtn, strategy
+                )
                         .showBalloonTip();
             }
         });

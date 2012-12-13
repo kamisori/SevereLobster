@@ -78,7 +78,7 @@ public class MainView extends JPanel {
         new TrackingControllViewController(trackingView, backend);
 
         this.spielInfoView = new SpielinfoView(this.trackingView, this.backend);
-        this.editiermodusView = new EditiermodusView(this.backend);
+        this.editiermodusView = new EditiermodusView(this.backend, spielfeldDarstellung);
         addMenuPanel();
         setVisible(true);
     }

@@ -6,7 +6,7 @@
     <groupId>SevereLobster</groupId>
     <artifactId>SevereLobster</artifactId>
     <description>SevereLobster ist ein Projekt zur Erstellung eines Sternenhimmel-Puzzzlespiels</description>
-    <version>0.2</version>
+    <version>1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

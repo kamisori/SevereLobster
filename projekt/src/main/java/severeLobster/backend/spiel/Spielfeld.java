@@ -631,8 +631,9 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
 
     public SolvingStrategy loesungswegUeberpruefen() {
 
-        SolvingStrategyStandard strategy = new SolvingStrategyStandard();
+        SolvingStrategy strategy = new SolvingStrategyStandard();
         strategy.solve(this);
+
         return strategy;
     }
 
