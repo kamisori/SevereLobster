@@ -17,11 +17,11 @@ public class SolvingStrategyStandard implements SolvingStrategy {
     public boolean isSolvable(Spielfeld input) {
         //TODO: Rueckgabe von Null soll nur provisorisch sein
         if(solve(input) != null){
-            System.out.println("Spiel ist loesbar");
+            System.out.println("is solvable: Spiel ist loesbar");
 
         }
         else {
-            System.out.println("Spiel ist nicht loesbar!");
+            System.out.println("is solvable: Spiel ist nicht loesbar!");
         }
 
         return solve(input) != null;
@@ -52,90 +52,49 @@ public class SolvingStrategyStandard implements SolvingStrategy {
         }
 
         // Sichtbare Sterne und Ausschluss leeren, damit auf diesem Spielfeld geloest werden kann
-        solvedField = clearVisibles(solvedField);
+        // solvedField = clearVisibles(solvedField);
 
-        // DEBUG AUSGABEN
-        /*
-        System.out.println("Vor dem Lösen, aber nach clearVisibles:");
-
-        System.out.println(solvedField.getSpielstein(0,0));
-        System.out.println(solvedField.getSpielstein(1,0));
-        System.out.println(solvedField.getSpielstein(2,0));
-        System.out.println(solvedField.getSpielstein(0,1));
-        System.out.println(solvedField.getSpielstein(1,1));
-        System.out.println(solvedField.getSpielstein(2,1));
-        */
-        // ENDE DEBUG
-
+/*
         // Einmal-Schritte ausführen
         SolvingStep[] initialSteps = new SolvingStep[]{
                 new SolvingStepPossibleStars(),
                 new SolvingStepExcludeImpossibles(),
                 new SolvingStepCheckZeroColumns(),
-                new SolvingStepCheckZeroRows()};
+                new SolvingStepCheckZeroRows()
+        };
 
         for (SolvingStep currentStep : initialSteps) {
+
             solvedField = currentStep.execute(solvedField);
         }
-
-        int anfangsmoeglich = solvedField.countMoeglicheSterne();
-        System.out.println(anfangsmoeglich+ " mögliche Sterne nach den initialen Schritten");
-
-        // DEBUG AUSGABEN
-        /*
-        System.out.println("Initiale Schritte:");
-
-        System.out.println(solvedField.getSpielstein(0,0));
-        System.out.println(solvedField.getSpielstein(1,0));
-        System.out.println(solvedField.getSpielstein(2,0));
-        System.out.println(solvedField.getSpielstein(0,1));
-        System.out.println(solvedField.getSpielstein(1,1));
-        System.out.println(solvedField.getSpielstein(2,1));
-        int debugCounter = 1;
-        */
-        // ENDE DEBUG
+*/
+        solvedField = new SolvingStepPossibleStars().execute(solvedField);
+        solvedField = new SolvingStepExcludeImpossibles().execute(solvedField);
+        solvedField = new SolvingStepCheckZeroColumns().execute(solvedField);
+        solvedField = new SolvingStepCheckZeroRows().execute(solvedField);
 
 
-        // Schritte ausführen die mehrmals aufgerufen werden
-        SolvingStep[] stepsPerRound = new SolvingStep[]{
-                new SolvingStepMissingStarsInColumn(),
-                new SolvingStepMissingStarsInRow(),
-                new SolvingStepExcludeRestInColumn(),
-                new SolvingStepExcludeRestInRow(),
-                new SolvingStepSingleStarBeforeArrow()
-        };
+
 
         //if (solvedField.isSolved()) System.out.println("isSolved ist true");
 
         boolean abbruch = false;
         while (!solvedField.isSolved() && !abbruch) {
-            // DEBUG AUSGABEN
-
-            //System.out.println("Durchlauf #"+debugCounter);
-            int moeglich = solvedField.countMoeglicheSterne();
-            System.out.println(moeglich+ " mögliche Sterne vor Durchgang");
-            System.out.println(solvedField.getSpielstein(0,0));
-            System.out.println(solvedField.getSpielstein(1,0));
-            System.out.println(solvedField.getSpielstein(2,0));
-            System.out.println(solvedField.getSpielstein(0,1));
-            System.out.println(solvedField.getSpielstein(1,1));
-            System.out.println(solvedField.getSpielstein(2,1));
-            //debugCounter++;
-
-            // ENDE DEBUG
 
             Spielfeld before = new Spielfeld(solvedField);
 
-            for (SolvingStep currentStep : stepsPerRound) {
-                solvedField = currentStep.execute(solvedField);
-                moeglich = solvedField.countMoeglicheSterne();
-                System.out.println(moeglich+ " mögliche Sterne nach Schritt");
-            }
+            // Schritte ausführen die mehrmals aufgerufen werden
+            solvedField = new SolvingStepMissingStarsInColumn().execute(solvedField);
+            solvedField = new SolvingStepMissingStarsInRow().execute(solvedField);
+            solvedField = new SolvingStepExcludeRestInColumn().execute(solvedField);
+            solvedField = new SolvingStepExcludeRestInRow().execute(solvedField);
+            solvedField = new SolvingStepSingleStarBeforeArrow().execute(solvedField);
+
 
             /**
-             * Wenn sich in einem Spielfeld nach einem Durchlauf nichts geaendert hat,
-             * ist das Spiel nicht lösbar
-             */
+            * Wenn sich in einem Spielfeld nach einem Durchlauf nichts geaendert hat,
+            * ist das Spiel nicht lösbar
+            */
             if (solvedField.equals(before)) {
                 abbruch = true;
             }
@@ -146,7 +105,7 @@ public class SolvingStrategyStandard implements SolvingStrategy {
         if (abbruch) {
             System.out.println("Spiel ist nicht oder nicht eindeutig loesbar");
             int moeglich = solvedField.countMoeglicheSterne();
-            System.out.println(moeglich+ " mögliche Sterne");
+            //System.out.println(moeglich+ " mögliche Sterne");
             ArrayList<Koordinaten> loesungswegEinsprungspunkte = new ArrayList();
 
             for (int i = 0; i < moeglich; i++) {
@@ -177,9 +136,13 @@ public class SolvingStrategyStandard implements SolvingStrategy {
 
                     Spielfeld beforeRaten = new Spielfeld(raten);
 
-                    for (SolvingStep currentStep : stepsPerRound) {
-                        raten = currentStep.execute(raten);
-                    }
+                    // Schritte ausführen die mehrmals aufgerufen werden
+                    raten = new SolvingStepMissingStarsInColumn().execute(raten);
+                    raten = new SolvingStepMissingStarsInRow().execute(raten);
+                    raten = new SolvingStepExcludeRestInColumn().execute(raten);
+                    raten = new SolvingStepExcludeRestInRow().execute(raten);
+                    raten = new SolvingStepSingleStarBeforeArrow().execute(raten);
+
                     if (raten.equals(beforeRaten)) ratenAbbruch = true;
                 }
 
