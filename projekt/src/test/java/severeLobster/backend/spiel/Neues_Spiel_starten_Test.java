@@ -25,15 +25,17 @@ public class Neues_Spiel_starten_Test {
 
     private final Spielstein spielsteinStern = Stern.getInstance();
     private final Spielstein spielsteinKeinStern = KeinStein.getInstance();
+    private final Spielstein pfeil = Pfeil.getWestPfeil();
 
     @Before
     public void setUp() throws IOException, LoesungswegNichtEindeutigException {
         erstelles_puzzle = new Spiel();
         erstelles_puzzle.setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-        erstelles_puzzle.initializeNewSpielfeld(10, 9);
+        erstelles_puzzle.initializeNewSpielfeld(2, 2);
         erstelltes_spielfeld = erstelles_puzzle.getSpielfeld();
-        erstelltes_spielfeld.setSpielstein(0, 0, spielsteinStern);
-        erstelltes_spielfeld.setSpielstein(0, 1, spielsteinKeinStern);
+        erstelltes_spielfeld.setSpielstein(0, 1, spielsteinStern);
+        erstelltes_spielfeld.setSpielstein(1, 1, pfeil);
+
         erstelles_puzzle.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         erstelles_puzzle.saveSpiel("neuesTestspiel01");
         erstelles_puzzle.gebeSpielFrei("neuesTestspiel01");
