@@ -127,6 +127,15 @@ public class TrackingControllView extends JPanel {
 
     }
 
+    public void aktualisiereTrackingIcons(int anzahlTrackingPunkte) {
+        anzahlTrackingPunktePanel.removeAll();
+        for (int i = 0; i < anzahlTrackingPunkte; i++) {
+        JLabel trackingIcon = new JLabel(resourceManager
+                .getImageIcon("tracking.png"));
+            anzahlTrackingPunktePanel.add(trackingIcon);
+        }
+    }
+
     /**
      * Wird vom TrackingControllViewController im Konstruktor aufgerufen.
      * 

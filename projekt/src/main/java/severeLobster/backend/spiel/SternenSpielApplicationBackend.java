@@ -151,9 +151,10 @@ public class SternenSpielApplicationBackend {
         setSpiel(newGame);
     }
 
-    public void puzzleFreigeben(String spielname)
+
+    public boolean puzzleFreigeben(String spielname)
             throws LoesungswegNichtEindeutigException, IOException {
-        getSpiel().gebeSpielFrei(spielname);
+        return getSpiel().gebeSpielFrei(spielname);
     }
 
     public void uploadPuzzle(String spielname) {

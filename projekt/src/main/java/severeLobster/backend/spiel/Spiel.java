@@ -12,9 +12,14 @@ import infrastructure.exceptions.LoesungswegNichtEindeutigException;
 import severeLobster.frontend.application.MainFrame;
 import severeLobster.frontend.dialogs.GewonnenDialog;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Stack;
 
 /**
@@ -77,7 +82,7 @@ public class Spiel {
                 try {
                     setSpielmodus(SpielmodusEnumeration.REPLAY);
                 } catch (LoesungswegNichtEindeutigException e) {
-                    e.printStackTrace(); // TODO ...
+                    e.printStackTrace();
                 }
 
                 spielZuege.zeitrafferSetup();
@@ -507,8 +512,6 @@ public class Spiel {
 
     /**
      * addiert +1 auf den Spielzugcounter des aktuellen Spiels
-     *
-     * @author fwenisch
      */
     public void addSpielZug() {
         anzahlZuege++;
@@ -522,18 +525,31 @@ public class Spiel {
         return spielZeit;
     }
 
-    public void gebeSpielFrei(String spielname) throws IOException,
+    /**
+     * Gibt das aktuelle Puzzle zum Spielen frei
+     *
+     * @param spielname Name des freizugebenen Puzzles
+     * @return Erfolgreich freigegeben?
+     * @throws IOException
+     * @throws LoesungswegNichtEindeutigException
+     *
+     */
+    public boolean gebeSpielFrei(String spielname) throws IOException,
             LoesungswegNichtEindeutigException {
+        if (!getSpielfeld().loesungswegUeberpruefen()) {
+            return false;
+        }
         getSpielfeld().setSpielmodus(SpielmodusEnumeration.SPIELEN);
-        XStream xstream = new XStream(new DomDriver());
-        String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
-        File verzeichnis = new File(
-                GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR,
-                spielname + dateiendung);
-        OutputStream outputStream = new FileOutputStream(verzeichnis);
-        xstream.toXML(this, outputStream);
-        outputStream.close();
-        setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+            XStream xstream = new XStream(new DomDriver());
+            String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
+            File verzeichnis = new File(
+                    GlobaleKonstanten.DEFAULT_FREIGEGEBENE_PUZZLE_SAVE_DIR,
+                    spielname + dateiendung);
+            OutputStream outputStream = new FileOutputStream(verzeichnis);
+            xstream.toXML(this, outputStream);
+            outputStream.close();
+            setSpielmodus(SpielmodusEnumeration.EDITIEREN);
+        return true;
     }
 
 }

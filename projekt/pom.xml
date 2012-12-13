@@ -25,6 +25,7 @@
         <junit.version>4.10</junit.version>
         <jgoodies.validation.version>2.0.1</jgoodies.validation.version>
         <hamcrest.version>1.3</hamcrest.version>
+        <java.ballon.tip.version>1.2.1</java.ballon.tip.version>
         <commons.net.version>3.1</commons.net.version>
         <xstream.version>1.2.2</xstream.version>
         <mockito.version>1.8.4</mockito.version>
@@ -122,6 +123,11 @@
             <groupId>com.jgoodies</groupId>
             <artifactId>validation</artifactId>
             <version>${jgoodies.validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.balloontip</groupId>
+            <artifactId>balloontip</artifactId>
+            <version>${java.ballon.tip.version}</version>
         </dependency>
         <!-- test dependencies -->
         <dependency>
