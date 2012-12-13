@@ -52,8 +52,9 @@ public class SolvingStrategyStandard implements SolvingStrategy {
         }
 
         // Sichtbare Sterne und Ausschluss leeren, damit auf diesem Spielfeld geloest werden kann
-        solvedField = clearVisibles(solvedField);
+        // solvedField = clearVisibles(solvedField);
 
+/*
         // Einmal-Schritte ausführen
         SolvingStep[] initialSteps = new SolvingStep[]{
                 new SolvingStepPossibleStars(),
@@ -66,15 +67,14 @@ public class SolvingStrategyStandard implements SolvingStrategy {
 
             solvedField = currentStep.execute(solvedField);
         }
+*/
+        solvedField = new SolvingStepPossibleStars().execute(solvedField);
+        solvedField = new SolvingStepExcludeImpossibles().execute(solvedField);
+        solvedField = new SolvingStepCheckZeroColumns().execute(solvedField);
+        solvedField = new SolvingStepCheckZeroRows().execute(solvedField);
 
-        // Schritte ausführen die mehrmals aufgerufen werden
-        SolvingStep[] stepsPerRound = new SolvingStep[]{
-                new SolvingStepMissingStarsInColumn(),
-                new SolvingStepMissingStarsInRow(),
-                new SolvingStepExcludeRestInColumn(),
-                new SolvingStepExcludeRestInRow(),
-                new SolvingStepSingleStarBeforeArrow()
-        };
+
+
 
         //if (solvedField.isSolved()) System.out.println("isSolved ist true");
 
@@ -83,14 +83,18 @@ public class SolvingStrategyStandard implements SolvingStrategy {
 
             Spielfeld before = new Spielfeld(solvedField);
 
-            for (SolvingStep currentStep : stepsPerRound) {
-                solvedField = currentStep.execute(solvedField);
-            }
+            // Schritte ausführen die mehrmals aufgerufen werden
+            solvedField = new SolvingStepMissingStarsInColumn().execute(solvedField);
+            solvedField = new SolvingStepMissingStarsInRow().execute(solvedField);
+            solvedField = new SolvingStepExcludeRestInColumn().execute(solvedField);
+            solvedField = new SolvingStepExcludeRestInRow().execute(solvedField);
+            solvedField = new SolvingStepSingleStarBeforeArrow().execute(solvedField);
+
 
             /**
-             * Wenn sich in einem Spielfeld nach einem Durchlauf nichts geaendert hat,
-             * ist das Spiel nicht lösbar
-             */
+            * Wenn sich in einem Spielfeld nach einem Durchlauf nichts geaendert hat,
+            * ist das Spiel nicht lösbar
+            */
             if (solvedField.equals(before)) {
                 abbruch = true;
             }
@@ -132,9 +136,13 @@ public class SolvingStrategyStandard implements SolvingStrategy {
 
                     Spielfeld beforeRaten = new Spielfeld(raten);
 
-                    for (SolvingStep currentStep : stepsPerRound) {
-                        raten = currentStep.execute(raten);
-                    }
+                    // Schritte ausführen die mehrmals aufgerufen werden
+                    raten = new SolvingStepMissingStarsInColumn().execute(raten);
+                    raten = new SolvingStepMissingStarsInRow().execute(raten);
+                    raten = new SolvingStepExcludeRestInColumn().execute(raten);
+                    raten = new SolvingStepExcludeRestInRow().execute(raten);
+                    raten = new SolvingStepSingleStarBeforeArrow().execute(raten);
+
                     if (raten.equals(beforeRaten)) ratenAbbruch = true;
                 }
 
