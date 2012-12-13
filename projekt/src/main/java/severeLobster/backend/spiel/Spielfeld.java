@@ -630,12 +630,10 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
 
     public boolean loesungswegUeberpruefen() {
 
-        //TODO: flexibler gestalten, erstmal nur zum ausprobieren!
         SolvingStrategyStandard strategy = new SolvingStrategyStandard();
-        System.out.println(strategy.isSolvable(this));
-        return strategy.isSolvable(this);
+        strategy.solve(this);
+        return strategy.isSolvable();
 
-        //return true;
     }
 
     /**

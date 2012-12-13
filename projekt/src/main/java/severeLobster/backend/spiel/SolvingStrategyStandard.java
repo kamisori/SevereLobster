@@ -12,32 +12,10 @@ import java.util.ArrayList;
  *
  * @author Christian Lobach
  */
-public class SolvingStrategyStandard implements SolvingStrategy {
+public class SolvingStrategyStandard extends SolvingStrategy {
 
-    public boolean isSolvable(Spielfeld input) {
-        //TODO: Rueckgabe von Null soll nur provisorisch sein
-        if(solve(input) != null){
-            System.out.println("is solvable: Spiel ist loesbar");
 
-        }
-        else {
-            System.out.println("is solvable: Spiel ist nicht loesbar!");
-        }
-
-        return solve(input) != null;
-    }
-
-    /**
-     * Gibt die Felder zurueck, die ein SPielfeld nicht eindeutig loesbar machen
-     * @param input Spielfeld
-     * @return Array von Koordinaten der betroffenen Felder
-     */
-    public Koordinaten[] getNotUniques(Spielfeld input){
-
-        return null;
-    }
-
-    public Spielfeld solve(Spielfeld input) {
+    public void solve(Spielfeld input) {
 
         Spielfeld solvedField = new Spielfeld(input);
 
@@ -51,32 +29,14 @@ public class SolvingStrategyStandard implements SolvingStrategy {
             e.printStackTrace();
         }
 
-        // Sichtbare Sterne und Ausschluss leeren, damit auf diesem Spielfeld geloest werden kann
-        // solvedField = clearVisibles(solvedField);
+        // Loesungsschritte die nur einmalig zu Beginn ausgeführt werden;
 
-/*
-        // Einmal-Schritte ausführen
-        SolvingStep[] initialSteps = new SolvingStep[]{
-                new SolvingStepPossibleStars(),
-                new SolvingStepExcludeImpossibles(),
-                new SolvingStepCheckZeroColumns(),
-                new SolvingStepCheckZeroRows()
-        };
 
-        for (SolvingStep currentStep : initialSteps) {
-
-            solvedField = currentStep.execute(solvedField);
-        }
-*/
         solvedField = new SolvingStepPossibleStars().execute(solvedField);
         solvedField = new SolvingStepExcludeImpossibles().execute(solvedField);
         solvedField = new SolvingStepCheckZeroColumns().execute(solvedField);
         solvedField = new SolvingStepCheckZeroRows().execute(solvedField);
 
-
-
-
-        //if (solvedField.isSolved()) System.out.println("isSolved ist true");
 
         boolean abbruch = false;
         while (!solvedField.isSolved() && !abbruch) {
@@ -92,9 +52,9 @@ public class SolvingStrategyStandard implements SolvingStrategy {
 
 
             /**
-            * Wenn sich in einem Spielfeld nach einem Durchlauf nichts geaendert hat,
-            * ist das Spiel nicht lösbar
-            */
+             * Wenn sich in einem Spielfeld nach einem Durchlauf nichts geaendert hat,
+             * ist das Spiel nicht lösbar
+             */
             if (solvedField.equals(before)) {
                 abbruch = true;
             }
@@ -103,10 +63,9 @@ public class SolvingStrategyStandard implements SolvingStrategy {
 
         // Das Spielfeld ist nicht, oder nicht eindeutig loesbar
         if (abbruch) {
-            System.out.println("Spiel ist nicht oder nicht eindeutig loesbar");
             int moeglich = solvedField.countMoeglicheSterne();
             //System.out.println(moeglich+ " mögliche Sterne");
-            ArrayList<Koordinaten> loesungswegEinsprungspunkte = new ArrayList();
+            ArrayList<Koordinaten> loesungswegEinsprungspunkte = new ArrayList<Koordinaten>();
 
             for (int i = 0; i < moeglich; i++) {
 
@@ -124,9 +83,7 @@ public class SolvingStrategyStandard implements SolvingStrategy {
 
                 // einen möglichen Stern setzen
                 Koordinaten nextGuess = nextPossibleStar(raten, i);
-                System.out.println("nextGuess: "+nextGuess);
                 loesungswegEinsprungspunkte.add(nextGuess);
-                System.out.println(loesungswegEinsprungspunkte);
                 raten.setSpielstein(nextGuess.getX(), nextGuess.getY(), Stern.getInstance());
 
 
@@ -153,58 +110,26 @@ public class SolvingStrategyStandard implements SolvingStrategy {
                 }
 
             }
-            // Konnte das Feld trotz ausprobieren der moeglichen Sterne nicht geloest werden, so ist es ueberhaupt nicht loesbar.
 
+            // Spielfeld ist durch raten lösbar
             if (loesungswegEinsprungspunkte.size() > 0) {
-                // Spielfeld ist durch raten lösbar.
-                System.out.println("Spielfeld ist loesbar, aber nicht eindeutig");
-            }
 
-            return null;
-        } else return solvedField;
-
-    }
-
-    /**
-     * gibt den nächstmöglichen Stern zurück
-     *
-     * @param offset die Anzahl der Sterne die übersprungen wird, bevor einer zurueckgegeben wird
-     * @return Point mit den Koordinaten des nächstmöglichen Sterns
-     */
-    private Koordinaten nextPossibleStar(Spielfeld input, int offset) {
-        // Die Anzahl moeglicher Sterne auf die man beim Durchlaufen trifft
-        int metPossibilities = 0;
-
-        for (int colums = 0; colums < input.getBreite(); colums++) {
-            for (int rows = 0; rows < input.getHoehe(); rows++) {
-                if (input.getSpielstein(colums, rows) instanceof MoeglicherStern) {
-                    // Wurde die gewuenschte Anzahl gefundener Moeglichkeiten uebersprungen, wird die Position zurueckgegeben
-                    if (offset == metPossibilities) {
-                        return new Koordinaten(colums, rows);
-                    }
-                    metPossibilities++;
+                _notUnique = new Koordinaten[loesungswegEinsprungspunkte.size()];
+                for (int i = 0; i < loesungswegEinsprungspunkte.size(); i++) {
+                    _notUnique[i] = loesungswegEinsprungspunkte.get(i);
                 }
+                _solvable = true;
+                _unique = false;
+            } else {
+                _solvable = false;
             }
 
+
+        } else {
+            _solvable = true;
+            _unique = true;
         }
-        return null;
-    }
 
-
-    /**
-     * Bekommt ein Spielfeld zurückgegeben und setzt alle Sterne und Ausschluss auf KeinStein
-     * @param input Spielfeld
-     */
-    private Spielfeld clearVisibles(Spielfeld input){
-
-        for (int colums = 0; colums < input.getBreite(); colums++) {
-            for (int rows = 0; rows < input.getHoehe(); rows++) {
-                if (input.getSpielstein(colums, rows) instanceof Stern || input.getSpielstein(colums, rows) instanceof Ausschluss) {
-                    input.setSpielstein(colums,rows,KeinStein.getInstance());
-                }
-            }
-        }
-        return input;
     }
 
 
