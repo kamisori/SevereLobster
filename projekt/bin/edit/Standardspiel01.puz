@@ -46,6 +46,7 @@
       <property name="win.start.new.game" value="Neues Spiel starten..."/>
       <property name="start.new.game" value="Neues Spiel starten"/>
       <property name="back.to.main.menu" value="Zurück zum Hauptmenü"/>
+      <property name="mainFrame.freigabe.failed" value="Puzzle konnte nicht freigegeben werden, da es nicht lösbar ist."/>
       <property name="change.language.warning.text" value="Applkation muss neu gestartet werden, ungesicherte Dateien gehen verloren. Fortfahren?"/>
       <property name="star.count" value="Anzahl Sterne:"/>
       <property name="mainFrame.mail.error" value="Kein E-Mail Client gefunden!"/>
@@ -72,7 +73,9 @@
       <property name="exit.application.question" value="Möchten Sie das Spiel wirklich beenden?"/>
       <property name="puzzle.erstellen" value="Puzzle erstellen..."/>
       <property name="mainFrame.mail.error.title" value="Fehler"/>
+      <property name="puzzle.solvable" value="Das Puzzle ist lösbar!"/>
       <property name="load.dialog.difficulty" value="Schwierigkeitsgrad:"/>
+      <property name="mainFrame.freigabe.failed.title" value="Fehler bei der Freigabe des Puzzles"/>
       <property name="puzzle.freigeben" value="Puzzle freigeben"/>
       <property name="save.dialog.text" value="Speichern"/>
       <property name="exception.size.of.playing.field.invalid" value="Größenangabe des Spielfeldes ist ungültig!"/>
@@ -94,10 +97,13 @@
       <property name="exception.invalid.size.row" value="Zeilenanzahl:"/>
       <property name="online.archive.download.success.title" value="Das Puzzle wurde erfolgreich heruntergeladen!"/>
       <property name="hilfe.menu.text" value="Hilfe"/>
+      <property name="puzzle.not.unique.solvable" value="Das Puzzle ist nicht eindeutig lösbar!"/>
       <property name="online.archive.already.there.title" value="Puzzle bereits vorhanden"/>
       <property name="puzzle.edit.title" value="Puzzle-Editor"/>
+      <property name="mainFrame.freigabe.not.unique.failed" value="Puzzle konnte nicht freigegeben werden, da es nicht eindeutig lösbar ist."/>
       <property name="not.available" value="Nicht verfügbar"/>
       <property name="leicht.difficulty" value="Leicht"/>
+      <property name="puzzle.not.solvable" value="Das Puzzle ist nicht lösbar!"/>
       <property name="create.new.puzzle" value="Neues Puzzel erstellen"/>
       <property name="exit.text" value="Beenden"/>
       <property name="save.as.text" value="Spiel speichern unter..."/>
@@ -118,7 +124,7 @@
       <property name="online.archive.no.connection.body" value="Es konnte keine Verbindung zum Online-Archiv hergestellt werden!"/>
       <property name="win.quit" value="Beenden"/>
       <property name="check.loesungsweg.btn.text" value="&lt;html&gt;&lt;body&gt;Lösungsweg&lt;br&gt;überprüfen&lt;/body&gt;&lt;/html&gt;"/>
-      <property name="backend.moeglicher.stern" value="Mglicher Stern"/>
+      <property name="backend.moeglicher.stern" value="Moeglicher Stern"/>
       <property name="save.text" value="Spiel speichern"/>
       <property name="extras.menu.text" value="Extras"/>
       <property name="exception.cant.delete.gamefile" value="Die Spieldatei konnte nicht gelöscht werden!"/>
