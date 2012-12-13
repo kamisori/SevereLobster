@@ -323,7 +323,7 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
          * Logik hier ersetzt das vorige freigeben in Spiel.
          */
         if (neuerSpielmodus.equals(SpielmodusEnumeration.SPIELEN)
-                && !loesungswegUeberpruefen()) {
+                && !(loesungswegUeberpruefen().isSolvable() && loesungswegUeberpruefen().isUnique())) {
             throw new LoesungswegNichtEindeutigException(
                     "Spielmodus kann nicht auf Spielen geaendert werden, da das Spielfeld nicht eindeutig loesbar ist.");
         }

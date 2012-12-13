@@ -535,11 +535,11 @@ public class Spiel {
      * @throws LoesungswegNichtEindeutigException
      *
      */
-    public boolean gebeSpielFrei(String spielname) throws IOException,
+    public SolvingStrategy gebeSpielFrei(String spielname) throws IOException,
             LoesungswegNichtEindeutigException {
-        if (!getSpielfeld().loesungswegUeberpruefen()) {
-            return false;
-        }
+        SolvingStrategy strategy = getSpielfeld().loesungswegUeberpruefen();
+        if (strategy.isSolvable() && strategy.isUnique()) {
+
         getSpielfeld().setSpielmodus(SpielmodusEnumeration.SPIELEN);
             XStream xstream = new XStream(new DomDriver());
             String dateiendung = "." + GlobaleKonstanten.PUZZLE_DATEITYP;
@@ -550,7 +550,8 @@ public class Spiel {
             xstream.toXML(this, outputStream);
             outputStream.close();
             setSpielmodus(SpielmodusEnumeration.EDITIEREN);
-        return true;
+        }
+        return strategy;
     }
 
 }

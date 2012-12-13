@@ -22,19 +22,25 @@ public class BalloonTipManager {
     /**
      * Erstellt einen BalloonTip
      *
-     * @param successful Negative oder positive Rückmeldung?
+     * @param strategy Objekt zum ueberpruefen, ob Spielfeld eindeutig loesbar ist oder nicht?
      */
-    public BalloonTipManager(JComponent owner, SolvingStrategy strategie) {
-        if (strategie.isSolvable()&& strategie.isUnique()) {
+    public BalloonTipManager(JComponent owner, SolvingStrategy strategy) {
+
+        // Spiel ist loesbar
+        if (strategy.isSolvable() && strategy.isUnique()) {
             balloonTip = new BalloonTip(owner, resourceManager.getText("puzzle.solvable"));
             balloonTip.setStyle(new ModernBalloonStyle(10, 10, Color.WHITE, new Color(153, 255, 153), Color.GREEN));
             balloonTip.setCloseButton(null);
-        } else if (strategie.isSolvable()&& !(strategie.isUnique())) {
-            balloonTip = new BalloonTip(owner, resourceManager.getText("puzzle.not.unique"));
+
+        }
+        // Spiel nicht eindeutig loesbar
+        else if (strategy.isSolvable() && !strategy.isUnique()) {
+            balloonTip  = new BalloonTip(owner, resourceManager.getText("puzzle.not.unique.solvable"));
             balloonTip.setCloseButton(null);
             balloonTip.setStyle(new ModernBalloonStyle(10, 10, Color.WHITE, new Color(255, 99, 71), Color.RED));
-        } else if (!strategie.isSolvable()) {
-            balloonTip = new BalloonTip(owner, resourceManager.getText("puzzle.not.solvable"));
+        }
+        else {
+            balloonTip  = new BalloonTip(owner, resourceManager.getText("puzzle.not.solvable"));
             balloonTip.setCloseButton(null);
             balloonTip.setStyle(new ModernBalloonStyle(10, 10, Color.WHITE, new Color(255, 99, 71), Color.RED));
         }
@@ -44,6 +50,6 @@ public class BalloonTipManager {
      * Zeigt den BalloonTip zeitlich begrenzt an
      */
     public void showBalloonTip() {
-        TimingUtils.showTimedBalloon(balloonTip, 3000);
+        TimingUtils.showTimedBalloon(balloonTip , 3000);
     }
 }

@@ -11,6 +11,7 @@ public class ActionHistoryObject {
     private Vector<LinkedList<ActionHistoryObject>> alternativeSpielzuege_;
     private int path_;
     private int step_;
+    private boolean beenHere_;
     private boolean zurueck_;
     private boolean verursachtFehler_;
     private boolean istVorTrackingPunkt_;
@@ -24,6 +25,7 @@ public class ActionHistoryObject {
         alternativeSpielzuege_ = new Vector<LinkedList<ActionHistoryObject>>();
         spielZug_ = spielZug;
         verursachtFehler_ = false;
+        beenHere_ = false;
         istVorTrackingPunkt_ = istVorTrackingPunkt;
     }
 
@@ -35,6 +37,7 @@ public class ActionHistoryObject {
         alternativeSpielzuege_ = new Vector<LinkedList<ActionHistoryObject>>();
         spielZug_ = null;
         verursachtFehler_ = false;
+        beenHere_ = false;
         istVorTrackingPunkt_ = false;
     }
 
@@ -108,6 +111,13 @@ public class ActionHistoryObject {
         }
         else
         {
+        	if (!beenHere_)
+        	{
+        		beenHere_ = true;
+        		replayMove(zurueck);
+                return PathAndStepStatus.stepGotValidPath;
+        	}
+
             int paths = alternativeSpielzuege_.size();
             if(path_ < paths && path_ >= 0)
             {
