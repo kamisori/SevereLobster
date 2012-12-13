@@ -21,8 +21,6 @@ import java.util.List;
  */
 public class Spielfeld implements Serializable, ISpielfeldReadOnly {
 
-    public SolvingStrategy strategie = new SolvingStrategyStandard();
-
     private final ResourceManager resourceManager = ResourceManager.get();
     /**
      * Liste mit den fuer die Spielfeldinstanz angemeldeten
@@ -631,12 +629,11 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         return false;
     }
 
-    public boolean loesungswegUeberpruefen() {
+    public SolvingStrategy loesungswegUeberpruefen() {
 
         SolvingStrategyStandard strategy = new SolvingStrategyStandard();
         strategy.solve(this);
-        return strategy.isSolvable();
-
+        return strategy;
     }
 
     /**
