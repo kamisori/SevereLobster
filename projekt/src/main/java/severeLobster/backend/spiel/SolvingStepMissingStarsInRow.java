@@ -28,9 +28,9 @@ public class SolvingStepMissingStarsInRow implements SolvingStep {
             }
 
             if (sterne - getippteSterne == nochMoeglich) {
-                for (int h = 0; h < input.getHoehe(); h++) {
-                    if (input.getSpielstein(i, h).equals(MoeglicherStern.getInstance())) {
-                        input.setSpielstein(i, h, Stern.getInstance());
+                for (int b = 0; b < input.getBreite(); b++) {
+                    if (input.getSpielstein(b, i).equals(MoeglicherStern.getInstance())) {
+                        input.setSpielstein(b, i, Stern.getInstance());
                     }
 
                 }

@@ -11,7 +11,7 @@ public class SolvingStepExcludeRestInColumn implements SolvingStep {
 
         for (int i = 0; i < input.getBreite(); i++) {
             // Pruefen, ob alle Sterne getippt wurden, wenn ja setze Rest auf Ausschluss
-            if (input.countPfeileSpalte(i) == countGetippteSterne(input,i))
+            if (input.countSterneSpalte(i) == countGetippteSterne(input,i))
             {
                 for(int h = 0; h < input.getHoehe(); h++)
                 {
