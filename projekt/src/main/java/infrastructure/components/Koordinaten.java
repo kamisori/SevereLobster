@@ -71,4 +71,8 @@ public class Koordinaten {
         return (null != obj && obj instanceof Koordinaten
                 && ((Koordinaten) obj).x == this.x && ((Koordinaten) obj).y == this.y);
     }
+
+    public String toString() {
+        return "X: "+x+", Y: "+y;
+    }
 }
