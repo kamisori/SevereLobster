@@ -12,7 +12,6 @@ public class SolvingStepMissingStarsInRow implements SolvingStep {
 
         for (int i = 0; i < input.getHoehe(); i++) {
 
-
             int sterne = input.countSterneZeile(i);
             int nochMoeglich = 0;
             int getippteSterne = 0;
