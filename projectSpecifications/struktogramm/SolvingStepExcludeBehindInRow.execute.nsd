@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;SolvingStepExcludeBehindInRow.execute(input)&#34;" comment="&#34;&#34;" color="ffffff" type="program" style="nice">
+	<children>
+		<for text="&#34;hoehe = 0; hoehe &#60; input.getHoehe(); hoehe++&#34;" comment="&#34;&#34;" color="ffffff">
+			<qFor>
+				<alternative text="&#34;input.countSterneZeile(hoehe) == 1 &amp;&amp; input.countPfeileHoehe(hoehe) == 1&#34;" comment="&#34;&#34;" color="ffffff">
+					<qTrue>
+						<for text="&#34;breite = 0; breite &#60; input.getBreite(); breite++&#34;" comment="&#34;&#34;" color="ffffff">
+							<qFor>
+								<alternative text="&#34;input.getSpielstein(breite, hoehe) == Pfeil&#34;" comment="" color="ffffff">
+									<qTrue>
+										<instruction text="&#34;currentPfeil := input.getSpielstein(breite, hoehe)&#34;" comment="" color="ffffff" rotated="0"></instruction>
+										<alternative text="&#34;currentPfeil.getPfeilrichtung() == WEST&#34;" comment="&#34;&#34;" color="ffffff">
+											<qTrue>
+												<for text="&#34;x = breite; x &#60; input.getBreite(); x++&#34;" comment="&#34;&#34;" color="ffffff">
+													<qFor>
+														<alternative text="&#34;input.getSpielstein(x,hoehe) == KeinStein&#34;" comment="&#34;&#34;" color="ffffff">
+															<qTrue>
+																<instruction text="&#34;input.setSpielstein(x, hoehe, Ausschluss)&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+															</qTrue>
+															<qFalse>
+															</qFalse>
+														</alternative>
+													</qFor>
+												</for>
+											</qTrue>
+											<qFalse>
+												<alternative text="&#34;currentPfeil.getPfeilrichtung() == OST&#34;" comment="&#34;&#34;" color="ffffff">
+													<qTrue>
+														<for text="&#34;x = breite; x &#62;= 0; x--&#34;" comment="&#34;&#34;" color="ffffff">
+															<qFor>
+																<alternative text="&#34;input.getSpielstein(x,hoehe) == KeinStein&#34;" comment="&#34;&#34;" color="ffffff">
+																	<qTrue>
+																		<instruction text="&#34;input.setSpielstein(x, hoehe, Ausschluss)&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+																	</qTrue>
+																	<qFalse>
+																	</qFalse>
+																</alternative>
+															</qFor>
+														</for>
+													</qTrue>
+													<qFalse>
+													</qFalse>
+												</alternative>
+											</qFalse>
+										</alternative>
+									</qTrue>
+									<qFalse>
+									</qFalse>
+								</alternative>
+							</qFor>
+						</for>
+					</qTrue>
+					<qFalse>
+					</qFalse>
+				</alternative>
+			</qFor>
+		</for>
+		<instruction text="&#34;return input&#34;" comment="" color="ffffff" rotated="0"></instruction>
+	</children>
+</root>
