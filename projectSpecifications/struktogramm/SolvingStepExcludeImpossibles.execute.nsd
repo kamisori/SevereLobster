@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;SolvingStepExcludeImpossibles.execute(input)&#34;" comment="" color="ffffff" type="program" style="nice">
 	<children>
-		<for text="&#34;breite := 0; breite &#60; input.getBreite(); breite++&#34;" comment="&#34;&#34;" color="ffffff">
+		<for text="&#34;breite := 0; breite &#60; input.getBreite(); breite++&#34;" comment="" color="ffffff">
 			<qFor>
-				<for text="&#34;hoehe = 0; hoehe &#60; input.getHoehe(); hoehe++&#34;" comment="&#34;&#34;" color="ffffff">
+				<for text="&#34;hoehe := 0; hoehe &#60; input.getHoehe(); hoehe++&#34;" comment="&#34;&#34;" color="ffffff">
 					<qFor>
-						<alternative text="&#34;input.getSpielstein(breite, hoehe) == KeinStein&#34;" comment="&#34;&#34;" color="ffffff">
+						<alternative text="&#34;input.getSpielstein(breite, hoehe) == KeinStein&#34;" comment="" color="ffffff">
 							<qTrue>
-								<instruction text="&#34;input.setSpielstein(breite, hoehe, Ausschluss)&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+								<instruction text="&#34;input.setSpielstein(breite, hoehe, Ausschluss)&#34;" comment="" color="ffffff" rotated="0"></instruction>
 							</qTrue>
 							<qFalse>
 							</qFalse>
@@ -16,6 +16,6 @@
 				</for>
 			</qFor>
 		</for>
-		<instruction text="&#34;return input&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+		<instruction text="&#34;return input&#34;" comment="" color="ffffff" rotated="0"></instruction>
 	</children>
 </root>
