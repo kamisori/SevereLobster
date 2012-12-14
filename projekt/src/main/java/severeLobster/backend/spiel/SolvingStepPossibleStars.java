@@ -40,10 +40,7 @@ public class SolvingStepPossibleStars implements SolvingStep {
 
                         case OST:
                             for (int curX = columns; curX < input.getBreite(); curX++) {
-                                Spielstein currentSpielstein = input.getSpielstein(curX, rows);
-                                //System.out.println("in possiblestars prüfe X"+curX+" Y"+rows+" : "+input.getSpielstein(curX, rows));
-
-                                if (!(currentSpielstein instanceof Pfeil)) {
+                                if (!(input.getSpielstein(curX, rows) instanceof Pfeil)) {
                                     input.setSpielstein(curX, rows, MoeglicherStern.getInstance());
                                 }
                             }
