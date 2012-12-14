@@ -34,7 +34,7 @@
       <property name="neues.spiel.text" value="Neues Spiel..."/>
       <property name="start.own.game" value="Eigenes Spiel starten"/>
       <property name="change.size.btn.text" value="&lt;html&gt;&lt;body&gt;Größe&lt;br&gt;ändern&lt;/body&gt;&lt;/html&gt;"/>
-      <property name="version" value="1.0"/>
+      <property name="version" value="0.3"/>
       <property name="language.english" value="Englisch"/>
       <property name="editieren.menu.text" value="Editieren"/>
       <property name="new.dialog.title" value="Neues Spiel wählen"/>
@@ -139,8 +139,9 @@
     </propertyfile>
     <userpropertyFile>
       <property name="user.language" value="de"/>
-      <property name="user.avatar" value="spielinfo_w1.jpg"/>
+      <property name="user.avatar" value="spielinfo_m2.jpg"/>
     </userpropertyFile>
+    <language>de</language>
   </resourceManager>
   <listeners serialization="custom">
     <javax.swing.event.EventListenerList>
@@ -162,139 +163,133 @@
     </listeners>
     <realSteine>
       <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.Pfeil>
-          <resourceManager reference="../../../../../resourceManager"/>
-          <pfeilrichtung>OST</pfeilrichtung>
-        </severeLobster.backend.spiel.Pfeil>
-        <severeLobster.backend.spiel.Pfeil reference="../severeLobster.backend.spiel.Pfeil"/>
         <severeLobster.backend.spiel.KeinStein/>
-        <severeLobster.backend.spiel.Pfeil>
-          <resourceManager reference="../../../../../resourceManager"/>
-          <pfeilrichtung>SUED</pfeilrichtung>
-        </severeLobster.backend.spiel.Pfeil>
+        <severeLobster.backend.spiel.KeinStein/>
+        <severeLobster.backend.spiel.KeinStein reference="../severeLobster.backend.spiel.KeinStein[2]"/>
         <severeLobster.backend.spiel.Stern>
           <resourceManager reference="../../../../../resourceManager"/>
         </severeLobster.backend.spiel.Stern>
-        <severeLobster.backend.spiel.KeinStein reference="../severeLobster.backend.spiel.KeinStein"/>
-      </severeLobster.backend.spiel.Spielstein-array>
-      <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
         <severeLobster.backend.spiel.Pfeil>
           <resourceManager reference="../../../../../resourceManager"/>
           <pfeilrichtung>NORDOST</pfeilrichtung>
         </severeLobster.backend.spiel.Pfeil>
+        <severeLobster.backend.spiel.Pfeil reference="../severeLobster.backend.spiel.Pfeil"/>
+        <severeLobster.backend.spiel.KeinStein/>
       </severeLobster.backend.spiel.Spielstein-array>
       <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.Stern>
+          <resourceManager reference="../../../../../resourceManager"/>
+        </severeLobster.backend.spiel.Stern>
         <severeLobster.backend.spiel.Pfeil>
           <resourceManager reference="../../../../../resourceManager"/>
-          <pfeilrichtung>NORDWEST</pfeilrichtung>
+          <pfeilrichtung>SUEDOST</pfeilrichtung>
         </severeLobster.backend.spiel.Pfeil>
-        <severeLobster.backend.spiel.Pfeil reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Pfeil"/>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-      </severeLobster.backend.spiel.Spielstein-array>
-      <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-        <severeLobster.backend.spiel.Pfeil reference="../../severeLobster.backend.spiel.Spielstein-array[3]/severeLobster.backend.spiel.Pfeil"/>
-      </severeLobster.backend.spiel.Spielstein-array>
-      <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.Pfeil reference="../../severeLobster.backend.spiel.Spielstein-array[3]/severeLobster.backend.spiel.Pfeil"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-      </severeLobster.backend.spiel.Spielstein-array>
-      <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.Pfeil reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Pfeil[3]"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
         <severeLobster.backend.spiel.Pfeil>
           <resourceManager reference="../../../../../resourceManager"/>
-          <pfeilrichtung>SUEDWEST</pfeilrichtung>
+          <pfeilrichtung>NORD</pfeilrichtung>
         </severeLobster.backend.spiel.Pfeil>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.Stern reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Stern"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
+      </severeLobster.backend.spiel.Spielstein-array>
+      <severeLobster.backend.spiel.Spielstein-array>
+        <severeLobster.backend.spiel.Pfeil>
+          <resourceManager reference="../../../../../resourceManager"/>
+          <pfeilrichtung>SUED</pfeilrichtung>
+        </severeLobster.backend.spiel.Pfeil>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.Stern>
+          <resourceManager reference="../../../../../resourceManager"/>
+        </severeLobster.backend.spiel.Stern>
+        <severeLobster.backend.spiel.Stern>
+          <resourceManager reference="../../../../../resourceManager"/>
+        </severeLobster.backend.spiel.Stern>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+      </severeLobster.backend.spiel.Spielstein-array>
+      <severeLobster.backend.spiel.Spielstein-array>
+        <severeLobster.backend.spiel.Stern>
+          <resourceManager reference="../../../../../resourceManager"/>
+        </severeLobster.backend.spiel.Stern>
+        <severeLobster.backend.spiel.Pfeil reference="../../severeLobster.backend.spiel.Spielstein-array[2]/severeLobster.backend.spiel.Pfeil[2]"/>
+        <severeLobster.backend.spiel.Stern>
+          <resourceManager reference="../../../../../resourceManager"/>
+        </severeLobster.backend.spiel.Stern>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+      </severeLobster.backend.spiel.Spielstein-array>
+      <severeLobster.backend.spiel.Spielstein-array>
+        <severeLobster.backend.spiel.Stern>
+          <resourceManager reference="../../../../../resourceManager"/>
+        </severeLobster.backend.spiel.Stern>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.Pfeil>
+          <resourceManager reference="../../../../../resourceManager"/>
+          <pfeilrichtung>WEST</pfeilrichtung>
+        </severeLobster.backend.spiel.Pfeil>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.Stern>
+          <resourceManager reference="../../../../../resourceManager"/>
+        </severeLobster.backend.spiel.Stern>
       </severeLobster.backend.spiel.Spielstein-array>
     </realSteine>
     <visibleSteine>
       <severeLobster.backend.spiel.Spielstein-array>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
         <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Pfeil"/>
         <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Pfeil"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Pfeil[3]"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
       </severeLobster.backend.spiel.Spielstein-array>
       <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
         <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array[2]/severeLobster.backend.spiel.Pfeil"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array[2]/severeLobster.backend.spiel.Pfeil[2]"/>
       </severeLobster.backend.spiel.Spielstein-array>
       <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
         <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array[3]/severeLobster.backend.spiel.Pfeil"/>
-        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Pfeil"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
       </severeLobster.backend.spiel.Spielstein-array>
       <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array[3]/severeLobster.backend.spiel.Pfeil"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array[2]/severeLobster.backend.spiel.Pfeil[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
       </severeLobster.backend.spiel.Spielstein-array>
       <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array[3]/severeLobster.backend.spiel.Pfeil"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-      </severeLobster.backend.spiel.Spielstein-array>
-      <severeLobster.backend.spiel.Spielstein-array>
-        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.Pfeil[3]"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array[6]/severeLobster.backend.spiel.Pfeil[2]"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
-        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.Pfeil reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array[5]/severeLobster.backend.spiel.Pfeil"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
+        <severeLobster.backend.spiel.KeinStein reference="../../../realSteine/severeLobster.backend.spiel.Spielstein-array/severeLobster.backend.spiel.KeinStein[2]"/>
       </severeLobster.backend.spiel.Spielstein-array>
     </visibleSteine>
     <spielmodus>SPIELEN</spielmodus>
   </currentSpielfeld>
   <innerSpielfeldListener class="severeLobster.backend.spiel.Spiel$InnerSpielfeldListener" reference="../currentSpielfeld/listeners/javax.swing.event.EventListenerList/severeLobster.backend.spiel.Spiel$InnerSpielfeldListener"/>
-  <spielZuege>
-    <spielzuege__>
-      <severeLobster.backend.spiel.ActionHistoryObject>
-        <alternativeSpielzuege__/>
-        <path__>0</path__>
-        <step__>0</step__>
-        <beenHere__>false</beenHere__>
-        <zurueck__>false</zurueck__>
-        <verursachtFehler__>false</verursachtFehler__>
-        <istVorTrackingPunkt__>false</istVorTrackingPunkt__>
-      </severeLobster.backend.spiel.ActionHistoryObject>
-    </spielzuege__>
-    <currentAHO__>1</currentAHO__>
-    <currentVisibleStep__>0</currentVisibleStep__>
-  </spielZuege>
+  <saveName>Standardspiel02</saveName>
   <trackingPunkte serialization="custom">
     <unserializable-parents/>
     <vector>
@@ -319,7 +314,7 @@
   <anzahlZuege>0</anzahlZuege>
   <spielStoppUhr>
     <summeDerBisherigenMessungen>0</summeDerBisherigenMessungen>
-    <aktuelleMessungAbsoluterStartZeitpunkt>1355476095138</aktuelleMessungAbsoluterStartZeitpunkt>
+    <aktuelleMessungAbsoluterStartZeitpunkt>0</aktuelleMessungAbsoluterStartZeitpunkt>
     <messungLaeuft>false</messungLaeuft>
   </spielStoppUhr>
   <spielZeit>--</spielZeit>
