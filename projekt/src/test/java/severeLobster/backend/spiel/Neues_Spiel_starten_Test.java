@@ -36,7 +36,6 @@ public class Neues_Spiel_starten_Test {
         erstelltes_spielfeld.setSpielstein(0, 1, spielsteinStern);
         erstelltes_spielfeld.setSpielstein(1, 1, pfeil);
 
-        erstelles_puzzle.setSpielmodus(SpielmodusEnumeration.SPIELEN);
         erstelles_puzzle.saveSpiel("neuesTestspiel01");
         erstelles_puzzle.gebeSpielFrei("neuesTestspiel01");
     }
