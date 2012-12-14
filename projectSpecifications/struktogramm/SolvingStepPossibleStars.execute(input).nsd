@@ -3,7 +3,7 @@
 	<children>
 		<for text="&#34;breite := 0; breite &#60; input.getBreite(); breite++&#34;" comment="&#34;&#34;" color="ffffff">
 			<qFor>
-				<for text="&#34;hoehe = 0; hoehe &#60; input.getHoehe(); hoehe++&#34;" comment="" color="ffffff">
+				<for text="&#34;hoehe := 0; hoehe &#60; input.getHoehe(); hoehe++&#34;" comment="&#34;&#34;" color="ffffff">
 					<qFor>
 						<alternative text="&#34;input.getSpielstein(breite, hoehe) == Pfeil&#34;" comment="" color="ffffff">
 							<qTrue>
