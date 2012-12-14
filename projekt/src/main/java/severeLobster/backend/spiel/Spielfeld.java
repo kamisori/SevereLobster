@@ -250,16 +250,31 @@ public class Spielfeld implements Serializable, ISpielfeldReadOnly {
         try {
             float sterne = countSterne();
             float pfeile = countPfeile();
+            double leicht = 80.0;
+            double mittel = 10.0;
             float spielfeldFlaeche = getBreite() * getHoehe();
-
-            double schwierigkeit = pfeile * pfeile;
+            
+            double schwierigkeit = Math.pow(pfeile, 3);
             schwierigkeit += pfeile * sterne;
-            schwierigkeit /= sterne * spielfeldFlaeche * spielfeldFlaeche;
+            schwierigkeit /= sterne * Math.pow(spielfeldFlaeche, 2);
             schwierigkeit *= 100;
-
-            if (schwierigkeit > 70.0)
+            
+            
+            if (spielfeldFlaeche <= 9)
+            {
+                leicht /= 16;
+                mittel /= 16;
+            }
+            else
+            {
+                leicht /= 8;
+                mittel /= 8;
+            }
+            
+            
+            if (schwierigkeit > leicht)
                 return SchwierigkeitsgradEnumeration.LEICHT;
-            else if (schwierigkeit > 25.0)
+            else if (schwierigkeit > mittel)
                 return SchwierigkeitsgradEnumeration.MITTEL;
             else
                 return SchwierigkeitsgradEnumeration.SCHWER;
