@@ -16,11 +16,18 @@ public class SolvingStrategyStandard extends SolvingStrategy {
 
     public void solve(Spielfeld input) {
 
+
         EditCheckOrphanedArrows pfeile = new EditCheckOrphanedArrows();
         _errors = pfeile.execute(input);
         if (_errors.length > 0) {
             _solvable = false;
-        } else {
+        }
+        EditCheckEmptyField leeresFeld = new EditCheckEmptyField();
+        if (leeresFeld.execute(input).length > 0) {
+            _solvable = false;
+        }
+
+        if (_solvable == null) {
 
 
             Spielfeld solvedField = new Spielfeld(input);
